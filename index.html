@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MasterSabba Games Hub</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #121212;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        h1 { margin-bottom: 30px; letter-spacing: 2px; }
+        .container { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+        .card {
+            background: #1e1e1e;
+            border: 2px solid #333;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            width: 250px;
+            transition: transform 0.3s, border-color 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: #007bff;
+            background: #252525;
+        }
+        .card.verbum:hover { border-color: #ff9800; }
+        .btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .btn-uno { background: #007bff; }
+        .btn-verbum { background: #ff9800; }
+    </style>
+</head>
+<body>
+
+    <h1>SCEGLI IL TUO GIOCO</h1>
+
+    <div class="container">
+        <a href="https://mastersabba.github.io/MasterUno/" class="card">
+            <h2>MasterUno</h2>
+            <p>Sfida i tuoi amici a carte!</p>
+            <div class="btn btn-uno">Gioca Ora</div>
+        </a>
+
+        <a href="https://mastersabba.github.io/MasterVerbum/" class="card verbum">
+            <h2>MasterVerbum</h2>
+            <p>Indovina la parola segreta.</p>
+            <div class="btn btn-verbum">Gioca Ora</div>
+        </a>
+    </div>
+
+</body>
+</html>
