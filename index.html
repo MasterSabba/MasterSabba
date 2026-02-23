@@ -3,76 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MasterSabba Games Hub</title>
+    <title>MasterSabba Hub</title>
     
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="icon.png">
     <link rel="manifest" href="manifest.json">
 
     <style>
+        :root {
+            --neon-blue: #00d4ff;
+            --neon-orange: #ff9800;
+            --bg-dark: #0a0a0a;
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #121212;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-dark);
             color: white;
+            margin: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
-            margin: 0;
-            overflow: hidden; /* Evita scroll inutili */
+            min-height: 100vh;
+            overflow: hidden;
         }
-        h1 { margin-bottom: 30px; letter-spacing: 2px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
-        .container { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; padding: 20px; }
-        .card {
-            background: #1e1e1e;
-            border: 2px solid #333;
-            border-radius: 15px;
-            padding: 30px;
+
+        h1 {
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 40px;
             text-align: center;
-            width: 250px;
-            transition: transform 0.3s, border-color 0.3s;
-            cursor: pointer;
+            color: #fff;
+            text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue);
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .card {
+            background: #161616;
+            border: 2px solid #333;
+            border-radius: 20px;
+            padding: 20px;
             text-decoration: none;
             color: white;
-            -webkit-tap-highlight-color: transparent; /* Toglie il flash blu su mobile */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
         }
-        .card:hover {
-            transform: translateY(-10px);
-            border-color: #007bff;
-            background: #252525;
+
+        /* Effetto MasterUno (Blu) */
+        .card.uno:active, .card.uno:hover {
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+            transform: scale(1.02);
         }
-        .card.verbum:hover { border-color: #ff9800; }
+
+        /* Effetto MasterVerbum (Arancio) */
+        .card.verbum:active, .card.verbum:hover {
+            border-color: var(--neon-orange);
+            box-shadow: 0 0 20px rgba(255, 152, 0, 0.4);
+            transform: scale(1.02);
+        }
+
+        .card h2 {
+            margin: 10px 0;
+            font-size: 1.5rem;
+        }
+
+        .card p {
+            font-size: 0.9rem;
+            color: #aaa;
+            margin: 0 0 15px 0;
+        }
+
         .btn {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 10px 20px;
-            border-radius: 5px;
+            padding: 10px 25px;
+            border-radius: 50px;
             font-weight: bold;
+            font-size: 0.8rem;
             text-transform: uppercase;
+            letter-spacing: 1px;
         }
-        .btn-uno { background: #007bff; }
-        .btn-verbum { background: #ff9800; }
+
+        .btn-uno { background: var(--neon-blue); color: #000; box-shadow: 0 0 10px var(--neon-blue); }
+        .btn-verbum { background: var(--neon-orange); color: #000; box-shadow: 0 0 10px var(--neon-orange); }
+
+        /* Badge Punti (come richiesto) */
+        .stats {
+            margin-top: 30px;
+            font-size: 0.8rem;
+            color: #666;
+            border-top: 1px solid #333;
+            padding-top: 15px;
+        }
     </style>
 </head>
 <body>
 
-    <h1>SCEGLI IL TUO GIOCO</h1>
+    <h1>GAMES HUB</h1>
 
     <div class="container">
-        <a href="https://mastersabba.github.io/MasterUno/" target="_self" class="card">
+        <a href="https://mastersabba.github.io/MasterUno/" target="_self" class="card uno">
             <h2>MasterUno</h2>
-            <p>Sfida i tuoi amici a carte!</p>
-            <div class="btn btn-uno">Gioca Ora</div>
+            <p>Il classico gioco di carte</p>
+            <div class="btn btn-uno">Avvia Gioco</div>
         </a>
 
         <a href="https://mastersabba.github.io/MasterVerbum/" target="_self" class="card verbum">
             <h2>MasterVerbum</h2>
-            <p>Indovina la parola segreta.</p>
-            <div class="btn btn-verbum">Gioca Ora</div>
+            <p>Sfida di parole e logica</p>
+            <div class="btn btn-verbum">Avvia Gioco</div>
         </a>
     </div>
 
+    <div class="stats" id="punti-totali">
+        MasterSabba Project © 2026
+    </div>
+
+    <script>
+        // Futura integrazione per mostrare i punti dal local storage
+        console.log("Hub pronto per il caricamento punti.");
+    </script>
 </body>
 </html>
