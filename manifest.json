@@ -1,16 +1,19 @@
 {
-  "name": "MasterSabba Games",
+  "name": "MasterSabba Games Hub",
   "short_name": "MS Games",
+  "description": "L'hub centrale per i giochi di MasterSabba",
   "start_url": "index.html",
   "scope": "https://mastersabba.github.io/",
   "display": "standalone",
-  "background_color": "#121212",
-  "theme_color": "#121212",
+  "background_color": "#0a0a0a",
+  "theme_color": "#00d4ff",
+  "orientation": "portrait",
   "icons": [
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/686/686589.png",
+      "src": "icon.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
