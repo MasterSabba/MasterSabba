@@ -17,120 +17,148 @@
             --neon-orange: #ff9800;
             --neon-green: #39ff14;
             --neon-purple: #bc13fe;
-            --neon-red: #ff073a; /* Colore per MasterMurder */
+            --neon-red: #ff073a;
             --bg-dark: #0a0a0a;
         }
 
         body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', Roboto, sans-serif;
             background-color: var(--bg-dark);
             color: white;
             margin: 0;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            overflow-x: hidden;
         }
 
         h1 {
-            font-size: 2rem;
+            font-size: 1.8rem;
             text-transform: uppercase;
-            letter-spacing: 4px;
-            margin-bottom: 40px;
-            text-align: center;
-            color: #fff;
-            text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue);
+            letter-spacing: 3px;
+            margin: 20px 0;
+            text-shadow: 0 0 10px var(--neon-blue);
         }
 
-        .container {
-            display: flex;
-            flex-direction: row;
-            gap: 20px;
-            padding: 20px;
-            overflow-x: auto;
-            max-width: 100vw;
-            scrollbar-width: none;
-            scroll-snap-type: x mandatory; /* Rende lo scorrimento più fluido su mobile */
+        /* Barra di Ricerca Neon */
+        .search-container {
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 30px;
         }
 
-        .container::-webkit-scrollbar { display: none; }
+        #gameSearch {
+            width: 100%;
+            padding: 12px 20px;
+            background: #1a1a1a;
+            border: 2px solid #333;
+            border-radius: 50px;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.3s;
+            box-sizing: border-box;
+        }
+
+        #gameSearch:focus {
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+        }
+
+        /* Layout a Griglia */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 2 colonne su mobile */
+            gap: 15px;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        @media (min-width: 768px) {
+            .grid-container { grid-template-columns: repeat(3, 1fr); } /* 3 su tablet/pc */
+        }
 
         .card {
             background: #161616;
             border: 2px solid #333;
-            border-radius: 20px;
-            padding: 20px;
+            border-radius: 15px;
+            padding: 15px;
             text-decoration: none;
             color: white;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: space-between;
-            min-width: 170px; /* Ridotto leggermente per farne stare di più */
-            transition: all 0.3s ease;
-            scroll-snap-align: center;
-            -webkit-tap-highlight-color: transparent;
+            transition: 0.3s;
+            text-align: center;
         }
 
-        /* Effetti Neon per ogni gioco */
-        .card.uno:active, .card.uno:hover { border-color: var(--neon-blue); box-shadow: 0 0 20px rgba(0, 212, 255, 0.4); transform: translateY(-5px); }
-        .card.verbum:active, .card.verbum:hover { border-color: var(--neon-orange); box-shadow: 0 0 20px rgba(255, 152, 0, 0.4); transform: translateY(-5px); }
-        .card.key:active, .card.key:hover { border-color: var(--neon-green); box-shadow: 0 0 20px rgba(57, 255, 20, 0.4); transform: translateY(-5px); }
-        .card.tris:active, .card.tris:hover { border-color: var(--neon-purple); box-shadow: 0 0 20px rgba(188, 19, 254, 0.4); transform: translateY(-5px); }
-        .card.murder:active, .card.murder:hover { border-color: var(--neon-red); box-shadow: 0 0 20px rgba(255, 7, 58, 0.4); transform: translateY(-5px); }
+        /* Colori dinamici */
+        .card.uno { border-color: var(--neon-blue); }
+        .card.verbum { border-color: var(--neon-orange); }
+        .card.key { border-color: var(--neon-green); }
+        .card.tris { border-color: var(--neon-purple); }
+        .card.murder { border-color: var(--neon-red); }
 
-        .card h2 { margin: 10px 0; font-size: 1.1rem; }
-        .card p { font-size: 0.8rem; color: #aaa; text-align: center; margin-bottom: 15px; }
+        .card:active { transform: scale(0.95); opacity: 0.8; }
 
-        .btn { padding: 8px 15px; border-radius: 50px; font-weight: bold; font-size: 0.7rem; text-transform: uppercase; }
-        .btn-uno { background: var(--neon-blue); color: #000; }
-        .btn-verbum { background: var(--neon-orange); color: #000; }
-        .btn-key { background: var(--neon-green); color: #000; }
-        .btn-tris { background: var(--neon-purple); color: #000; }
-        .btn-murder { background: var(--neon-red); color: #000; }
+        .card h2 { margin: 10px 0 5px 0; font-size: 1rem; }
+        .card p { font-size: 0.7rem; color: #888; margin: 0; }
 
-        .stats { margin-top: 30px; font-size: 0.8rem; color: #444; }
+        .stats { margin-top: 50px; font-size: 0.7rem; color: #333; }
     </style>
 </head>
 <body>
 
-    <h1>GAMES HUB</h1>
+    <h1>MASTER HUB</h1>
 
-    <div class="container">
-        <a href="https://mastersabba.github.io/MasterUno/" class="card uno">
+    <div class="search-container">
+        <input type="text" id="gameSearch" placeholder="Cerca un gioco..." onkeyup="filterGames()">
+    </div>
+
+    <div class="grid-container" id="gameGrid">
+        <a href="https://mastersabba.github.io/MasterUno/" class="card uno" data-name="MasterUno">
             <h2>MasterUno</h2>
             <p>Carte</p>
-            <div class="btn btn-uno">Gioca</div>
         </a>
 
-        <a href="https://mastersabba.github.io/MasterVerbum/" class="card verbum">
+        <a href="https://mastersabba.github.io/MasterVerbum/" class="card verbum" data-name="MasterVerbum">
             <h2>MasterVerbum</h2>
             <p>Parole</p>
-            <div class="btn btn-verbum">Gioca</div>
         </a>
 
-        <a href="https://mastersabba.github.io/MasterKey/" class="card key">
+        <a href="https://mastersabba.github.io/MasterKey/" class="card key" data-name="MasterKey">
             <h2>MasterKey</h2>
             <p>Logica</p>
-            <div class="btn btn-key">Gioca</div>
         </a>
 
-        <a href="https://mastersabba.github.io/MasterTris/" class="card tris">
+        <a href="https://mastersabba.github.io/MasterTris/" class="card tris" data-name="MasterTris">
             <h2>MasterTris</h2>
             <p>Sfida 1vs1</p>
-            <div class="btn btn-tris">Gioca</div>
         </a>
 
-        <a href="https://mastersabba.github.io/MasterMurder/" class="card murder">
+        <a href="https://mastersabba.github.io/MasterMurder/" class="card murder" data-name="MasterMurder">
             <h2>MasterMurder</h2>
             <p>Mistero</p>
-            <div class="btn btn-murder">Gioca</div>
         </a>
     </div>
 
     <div class="stats">MasterSabba Project © 2026</div>
+
+    <script>
+        function filterGames() {
+            let input = document.getElementById('gameSearch').value.toLowerCase();
+            let cards = document.getElementsByClassName('card');
+
+            for (let i = 0; i < cards.length; i++) {
+                let name = cards[i].getAttribute('data-name').toLowerCase();
+                if (name.includes(input)) {
+                    cards[i].style.display = "flex";
+                } else {
+                    cards[i].style.display = "none";
+                }
+            }
+        }
+    </script>
 
 </body>
 </html>
