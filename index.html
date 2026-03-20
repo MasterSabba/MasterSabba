@@ -5,10 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>MasterSabba Hub</title>
     
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
     <style>
         :root {
             --neon-blue: #00d4ff;
@@ -16,11 +12,12 @@
             --neon-green: #39ff14;
             --neon-purple: #bc13fe;
             --neon-red: #ff073a;
-            --bg-dark: #0a0a0a;
+            --neon-yellow: #ffee00;
+            --bg-dark: #050505;
         }
 
         body {
-            font-family: 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Segoe UI', system-ui, sans-serif;
             background-color: var(--bg-dark);
             color: white;
             margin: 0;
@@ -31,15 +28,14 @@
         }
 
         h1 {
-            font-size: 1.8rem;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin: 20px 0;
-            text-shadow: 0 0 10px var(--neon-blue);
-            text-align: center;
+            font-size: 1.6rem;
+            letter-spacing: 5px;
+            margin: 25px 0;
+            text-shadow: 0 0 15px var(--neon-blue);
+            font-weight: 900;
         }
 
-        .search-container {
+        .search-box {
             width: 100%;
             max-width: 400px;
             margin-bottom: 30px;
@@ -47,111 +43,121 @@
 
         #gameSearch {
             width: 100%;
-            padding: 12px 20px;
-            background: #1a1a1a;
-            border: 2px solid #333;
-            border-radius: 50px;
+            padding: 14px 25px;
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 12px;
             color: white;
-            font-size: 1rem;
             outline: none;
             transition: 0.3s;
-            box-sizing: border-box;
         }
 
-        #gameSearch:focus {
-            border-color: var(--neon-blue);
-            box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
-        }
+        #gameSearch:focus { border-color: var(--neon-blue); box-shadow: 0 0 10px rgba(0,212,255,0.2); }
 
-        /* Griglia corretta: 2 colonne rettangolari */
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr); 
+        .list {
+            display: flex;
+            flex-direction: column;
             gap: 15px;
             width: 100%;
-            max-width: 500px;
+            max-width: 450px;
         }
 
+        /* La Card "Cyber" */
         .card {
-            background: #161616;
-            border: 2px solid #333;
-            border-radius: 15px;
-            padding: 15px;
+            position: relative;
+            background: linear-gradient(90deg, #111 0%, #0a0a0a 100%);
+            border-left: 5px solid #333; /* Il colore cambierà per ogni gioco */
+            border-radius: 8px;
+            padding: 18px;
             text-decoration: none;
             color: white;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            justify-content: center;
             transition: 0.3s;
-            text-align: center;
-            min-height: 100px; /* Altezza fissa per farli rettangolari */
+            overflow: hidden;
         }
 
-        /* Colori */
-        .card.uno { border-color: var(--neon-blue); }
-        .card.verbum { border-color: var(--neon-orange); }
-        .card.key { border-color: var(--neon-green); }
-        .card.tris { border-color: var(--neon-purple); }
-        .card.murder { border-color: var(--neon-red); }
+        /* Sfondo luminoso soffuso */
+        .card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03));
+            pointer-events: none;
+        }
 
-        .card:active { transform: scale(0.95); opacity: 0.8; }
+        /* Colori specifici per il bordo sinistro e bagliore */
+        .uno { border-left-color: var(--neon-blue); }
+        .verbum { border-left-color: var(--neon-orange); }
+        .key { border-left-color: var(--neon-green); }
+        .tris { border-left-color: var(--neon-purple); }
+        .murder { border-left-color: var(--neon-red); }
+        .sudoku { border-left-color: var(--neon-yellow); }
 
-        .card h2 { margin: 0 0 5px 0; font-size: 0.9rem; pointer-events: none; }
-        .card p { font-size: 0.7rem; color: #888; margin: 0; pointer-events: none; }
+        .card:active {
+            transform: scale(0.98);
+            background: #1a1a1a;
+        }
 
-        .stats { margin-top: 50px; font-size: 0.7rem; color: #333; }
+        /* Icona stilizzata (un cerchio colorato a sinistra) */
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 20px;
+            box-shadow: 0 0 10px currentColor;
+        }
+
+        .info h2 { margin: 0; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; }
+        .info p { margin: 2px 0 0 0; font-size: 0.75rem; color: #777; }
+
     </style>
 </head>
 <body>
 
     <h1>MASTER HUB</h1>
 
-    <div class="search-container">
-        <input type="text" id="gameSearch" placeholder="Cerca un gioco..." oninput="filterGames()">
+    <div class="search-box">
+        <input type="text" id="gameSearch" placeholder="CERCA UN GIOCO..." oninput="filter()">
     </div>
 
-    <div class="grid-container" id="gameGrid">
-        <a href="https://mastersabba.github.io/MasterUno/" class="card uno" data-name="masteruno">
-            <h2>MasterUno</h2>
-            <p>Carte</p>
+    <div class="list" id="gameList">
+        <a href="https://mastersabba.github.io/MasterUno/" class="card uno">
+            <div class="dot" style="color: var(--neon-blue); background: var(--neon-blue);"></div>
+            <div class="info"><h2>MasterUno</h2><p>Sfida all'ultima carta</p></div>
         </a>
 
-        <a href="https://mastersabba.github.io/MasterVerbum/" class="card verbum" data-name="masterverbum">
-            <h2>MasterVerbum</h2>
-            <p>Parole</p>
+        <a href="https://mastersabba.github.io/MasterVerbum/" class="card verbum">
+            <div class="dot" style="color: var(--neon-orange); background: var(--neon-orange);"></div>
+            <div class="info"><h2>MasterVerbum</h2><p>Dizionario e velocità</p></div>
         </a>
 
-        <a href="https://mastersabba.github.io/MasterKey/" class="card key" data-name="masterkey">
-            <h2>MasterKey</h2>
-            <p>Logica</p>
+        <a href="https://mastersabba.github.io/MasterKey/" class="card key">
+            <div class="dot" style="color: var(--neon-green); background: var(--neon-green);"></div>
+            <div class="info"><h2>MasterKey</h2><p>Logica e codici segreti</p></div>
         </a>
 
-        <a href="https://mastersabba.github.io/MasterTris/" class="card tris" data-name="mastertris">
-            <h2>MasterTris</h2>
-            <p>Sfida 1vs1</p>
+        <a href="https://mastersabba.github.io/MasterTris/" class="card tris">
+            <div class="dot" style="color: var(--neon-purple); background: var(--neon-purple);"></div>
+            <div class="info"><h2>MasterTris</h2><p>Strategia 1vs1</p></div>
         </a>
 
-        <a href="https://mastersabba.github.io/MasterMurder/" class="card murder" data-name="mastermurder">
-            <h2>MasterMurder</h2>
-            <p>Mistero</p>
+        <a href="https://mastersabba.github.io/MasterMurder/" class="card murder">
+            <div class="dot" style="color: var(--neon-red); background: var(--neon-red);"></div>
+            <div class="info"><h2>MasterMurder</h2><p>Risolvi il caso</p></div>
+        </a>
+
+        <a href="https://mastersabba.github.io/MasterSudoku/" class="card sudoku">
+            <div class="dot" style="color: var(--neon-yellow); background: var(--neon-yellow);"></div>
+            <div class="info"><h2>MasterSudoku</h2><p>Numeri e precisione</p></div>
         </a>
     </div>
-
-    <div class="stats">MasterSabba Project © 2026</div>
 
     <script>
-        function filterGames() {
-            const input = document.getElementById('gameSearch').value.toLowerCase();
-            const cards = document.querySelectorAll('.card');
-
-            cards.forEach(card => {
-                const name = card.getAttribute('data-name');
-                if (name.includes(input)) {
-                    card.style.display = "flex";
-                } else {
-                    card.style.display = "none";
-                }
+        function filter() {
+            let val = document.getElementById('gameSearch').value.toLowerCase();
+            document.querySelectorAll('.card').forEach(c => {
+                c.style.display = c.innerText.toLowerCase().includes(val) ? "flex" : "none";
             });
         }
     </script>
