@@ -1,6 +1,6 @@
 {
   "name": "MasterSabba Games Hub",
-  "short_name": "MS Games",
+  "short_name": "Master Games",
   "description": "L'hub centrale per i giochi di MasterSabba",
   "start_url": "index.html",
   "scope": "https://mastersabba.github.io/",
