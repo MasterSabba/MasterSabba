@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <meta name="google-site-verification" content="bSyuxHebRemnINvhMQQhHxEVCsQ-AE-t-AH00CiJEXo" />
+
     <title>MasterSabba Hub</title>
     
     <link rel="manifest" href="manifest.json">
@@ -94,7 +97,6 @@
             user-select: none;
         }
 
-        /* Border Colors ordinati cromaticamente */
         .murder { border-left-color: var(--neon-red); }
         .verbum { border-left-color: var(--neon-orange); }
         .sudoku { border-left-color: var(--neon-yellow); }
@@ -120,24 +122,73 @@
         .info h2 { margin: 0; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; }
         .info p { margin: 2px 0 0 0; font-size: 0.75rem; color: #777; }
 
-        /* --- CHAT WIDGET --- */
         #chat-widget { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
+
         .chat-button {
-            width: 60px; height: 60px; background: #111; border: 2px solid var(--neon-blue);
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            cursor: pointer; box-shadow: 0 0 15px var(--neon-blue); transition: 0.3s;
+            width: 60px;
+            height: 60px;
+            background: #111;
+            border: 2px solid var(--neon-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 0 15px var(--neon-blue);
+            transition: 0.3s;
         }
+
         .chat-window {
-            display: none; position: absolute; bottom: 75px; right: 0; width: 300px;
-            background: #111; border: 1px solid var(--neon-blue); border-radius: 15px;
-            flex-direction: column; overflow: hidden;
+            display: none;
+            position: absolute;
+            bottom: 75px;
+            right: 0;
+            width: 300px;
+            background: #111;
+            border: 1px solid var(--neon-blue);
+            border-radius: 15px;
+            flex-direction: column;
+            overflow: hidden;
         }
-        .chat-header { background: var(--neon-blue); color: black; padding: 15px; font-weight: bold; display: flex; justify-content: space-between; }
-        .chat-form { padding: 15px; display: flex; flex-direction: column; gap: 10px; }
-        .chat-form input, .chat-form textarea, .chat-form select { background: #050505; border: 1px solid #333; color: white; padding: 10px; border-radius: 5px; outline: none; }
-        .chat-form button { background: var(--neon-blue); border: none; padding: 10px; font-weight: bold; cursor: pointer; border-radius: 5px; }
+
+        .chat-header {
+            background: var(--neon-blue);
+            color: black;
+            padding: 15px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .chat-form {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .chat-form input,
+        .chat-form textarea,
+        .chat-form select {
+            background: #050505;
+            border: 1px solid #333;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        .chat-form button {
+            background: var(--neon-blue);
+            border: none;
+            padding: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+        }
     </style>
 </head>
+
 <body>
 
     <h1>MASTER HUB</h1>
@@ -147,85 +198,62 @@
     </div>
 
     <div class="list" id="gameList">
-        <!-- ROSSO -->
+
         <a href="https://mastersabba.github.io/MasterMurder/" class="card murder">
             <div class="dot" style="color: var(--neon-red); background: var(--neon-red);"></div>
             <div class="info"><h2>MasterMurder</h2><p>Risolvi il caso</p></div>
         </a>
 
-        <!-- ARANCIONE -->
         <a href="https://mastersabba.github.io/MasterVerbum/" class="card verbum">
             <div class="dot" style="color: var(--neon-orange); background: var(--neon-orange);"></div>
             <div class="info"><h2>MasterVerbum</h2><p>Dizionario e velocità</p></div>
         </a>
 
-        <!-- GIALLO -->
         <a href="https://mastersabba.github.io/MasterSudoku/" class="card sudoku">
             <div class="dot" style="color: var(--neon-yellow); background: var(--neon-yellow);"></div>
             <div class="info"><h2>MasterSudoku</h2><p>Numeri e precisione</p></div>
         </a>
 
-        <!-- VERDE -->
         <a href="https://mastersabba.github.io/MasterKey/" class="card key">
             <div class="dot" style="color: var(--neon-green); background: var(--neon-green);"></div>
             <div class="info"><h2>MasterKey</h2><p>Logica e codici segreti</p></div>
         </a>
 
-        <!-- VERDE SMERALDO -->
         <a href="https://mastersabba.github.io/MasterWordle/" class="card wordle">
             <div class="dot" style="color: var(--neon-emerald); background: var(--neon-emerald);"></div>
             <div class="info"><h2>MasterWordle</h2><p>Indovina la parola</p></div>
         </a>
 
-        <!-- CELESTE / CYAN -->
         <a href="https://mastersabba.github.io/MasterKittens/" class="card kittens">
             <div class="dot" style="color: var(--neon-cyan); background: var(--neon-cyan);"></div>
             <div class="info"><h2>MasterKittens</h2><p>Exploding Kittens</p></div>
         </a>
 
-        <!-- BLU SHOCK -->
         <a href="https://mastersabba.github.io/MasterUno/" class="card uno">
             <div class="dot" style="color: var(--neon-blue); background: var(--neon-blue);"></div>
             <div class="info"><h2>MasterUno</h2><p>Sfida all'ultima carta</p></div>
         </a>
 
-        <!-- BLU BLOCK -->
         <a href="https://mastersabba.github.io/MasterBlock/" class="card block">
             <div class="dot" style="color: var(--neon-blue-block); background: var(--neon-blue-block);"></div>
             <div class="info"><h2>MasterBlock</h2><p>Incastra i blocchi</p></div>
         </a>
 
-        <!-- VIOLA -->
         <a href="https://mastersabba.github.io/MasterTris/" class="card tris">
             <div class="dot" style="color: var(--neon-purple); background: var(--neon-purple);"></div>
             <div class="info"><h2>MasterTris</h2><p>Strategia 1vs1</p></div>
         </a>
 
-        <!-- ARGENTO -->
         <a href="https://mastersabba.github.io/MasterPassword/" class="card password">
             <div class="dot" style="color: var(--neon-silver); background: var(--neon-silver);"></div>
             <div class="info"><h2>MasterPassword</h2><p>Sicurezza e Crittografia</p></div>
         </a>
 
-        <!-- BIANCO -->
         <a href="https://mastersabba.github.io/MasterChess/" class="card chess">
             <div class="dot" style="color: var(--neon-white); background: var(--neon-white);"></div>
             <div class="info"><h2>MasterChess</h2><p>Strategia e Scacchi</p></div>
         </a>
-    </div>
 
-    <div id="chat-widget">
-        <div class="chat-window" id="chatWin">
-            <div class="chat-header"><span>MASTER BOT</span><span onclick="toggleChat()" style="cursor:pointer">×</span></div>
-            <form class="chat-form" id="masterForm">
-                <input type="email" name="email" placeholder="Email" required>
-                <textarea name="message" rows="3" placeholder="Come posso aiutarti?" required></textarea>
-                <button type="submit">INVIA</button>
-            </form>
-        </div>
-        <div class="chat-button" onclick="toggleChat()">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="var(--neon-blue)"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
-        </div>
     </div>
 
     <script>
@@ -235,10 +263,7 @@
                 c.style.display = c.innerText.toLowerCase().includes(val) ? "flex" : "none";
             });
         }
-        function toggleChat() {
-            const win = document.getElementById('chatWin');
-            win.style.display = (win.style.display === 'flex') ? 'none' : 'flex';
-        }
     </script>
+
 </body>
 </html>
