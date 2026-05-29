@@ -122,6 +122,7 @@
         .info h2 { margin: 0; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; }
         .info p { margin: 2px 0 0 0; font-size: 0.75rem; color: #777; }
 
+        /* --- CHAT WIDGET STYLES --- */
         #chat-widget { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
 
         .chat-button {
@@ -136,6 +137,7 @@
             cursor: pointer;
             box-shadow: 0 0 15px var(--neon-blue);
             transition: 0.3s;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .chat-window {
@@ -185,6 +187,7 @@
             font-weight: bold;
             cursor: pointer;
             border-radius: 5px;
+            color: black;
         }
     </style>
 </head>
@@ -256,13 +259,70 @@
 
     </div>
 
+    <div id="chat-widget">
+        <div class="chat-window" id="chatWin">
+            <div class="chat-header"><span>MASTER BOT</span><span onclick="toggleChat()" style="cursor:pointer">×</span></div>
+            <form class="chat-form" id="masterForm">
+                <input type="email" name="email" placeholder="Email" required>
+                <textarea name="message" rows="3" placeholder="Come posso aiutarti?" required></textarea>
+                <button type="submit">INVIA</button>
+            </form>
+        </div>
+        <div class="chat-button" onclick="toggleChat()">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="var(--neon-blue)"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+        </div>
+    </div>
+
     <script>
+        // Funzione per filtrare i giochi nella barra di ricerca
         function filter() {
             let val = document.getElementById('gameSearch').value.toLowerCase();
             document.querySelectorAll('.card').forEach(c => {
                 c.style.display = c.innerText.toLowerCase().includes(val) ? "flex" : "none";
             });
         }
+
+        // Funzione per mostrare/nascondere la finestra del MasterBot
+        function toggleChat() {
+            const win = document.getElementById('chatWin');
+            win.style.display = (win.style.display === 'flex') ? 'none' : 'flex';
+        }
+
+        // Logica per gestire l'invio asincrono del modulo su Formspree
+        document.getElementById('masterForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const form = this;
+            const button = form.querySelector('button');
+            const originalText = button.textContent;
+            
+            button.textContent = 'INVIANDO...';
+            button.disabled = true;
+
+            fetch('https://formspree.io/f/xbdzvell', {
+                method: 'POST',
+                body: new FormData(form),
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Messaggio inviato con successo!');
+                    form.reset();
+                    toggleChat();
+                } else {
+                    alert('Si è verificato un errore. Riprova più tardi.');
+                }
+            })
+            .catch(error => {
+                alert('Errore di connessione. Controlla la tua rete.');
+            })
+            .finally(() => {
+                button.textContent = originalText;
+                button.disabled = false;
+            });
+        });
     </script>
 
 </body>
