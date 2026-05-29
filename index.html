@@ -122,8 +122,13 @@
         .info h2 { margin: 0; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; }
         .info p { margin: 2px 0 0 0; font-size: 0.75rem; color: #777; }
 
-        /* --- CHAT WIDGET STYLES --- */
-        #chat-widget { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
+        /* --- INTERFACCIA MASTERBOT AVANZATA --- */
+        #chat-widget { 
+            position: fixed; 
+            bottom: 20px; 
+            right: 20px; 
+            z-index: 1000; 
+        }
 
         .chat-button {
             width: 60px;
@@ -136,21 +141,58 @@
             justify-content: center;
             cursor: pointer;
             box-shadow: 0 0 15px var(--neon-blue);
-            transition: 0.3s;
+            transition: 0.3s ease;
+            position: relative;
             -webkit-tap-highlight-color: transparent;
         }
 
+        .chat-button:active { transform: scale(0.9); }
+
+        /* Pallino di Notifica Pulsante */
+        .chat-badge {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 14px;
+            height: 14px;
+            background: var(--neon-red);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--neon-red);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.9); opacity: 0.8; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(0.9); opacity: 0.8; }
+        }
+
+        /* Finestra Chat con Animazione Fluida */
         .chat-window {
-            display: none;
+            display: flex;
             position: absolute;
             bottom: 75px;
             right: 0;
-            width: 300px;
+            width: 320px;
             background: #111;
             border: 1px solid var(--neon-blue);
             border-radius: 15px;
             flex-direction: column;
             overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            
+            /* Stato Iniziale Chiuso */
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+            pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        /* Stato Aperto attivato da JS */
+        .chat-window.open {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
         }
 
         .chat-header {
@@ -160,34 +202,100 @@
             font-weight: bold;
             display: flex;
             justify-content: space-between;
+            align-items: center;
         }
 
-        .chat-form {
+        .chat-body {
             padding: 15px;
             display: flex;
             flex-direction: column;
+            gap: 12px;
+            max-height: 380px;
+            overflow-y: auto;
+        }
+
+        /* Stile messaggio stile Messaggistica */
+        .bot-msg {
+            background: #1e293b;
+            color: white;
+            padding: 10px 14px;
+            border-radius: 12px 12px 12px 0;
+            font-size: 0.9rem;
+            align-self: flex-start;
+            max-width: 90%;
+            border-left: 3px solid var(--neon-blue);
+            line-height: 1.4;
+        }
+
+        /* Pulsanti di scelta rapida */
+        .options-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 4px;
+        }
+
+        .opt-btn {
+            background: #050505;
+            border: 1px solid #333;
+            color: #ccc;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            cursor: pointer;
+            transition: 0.2s;
+            font-weight: 500;
+        }
+
+        .opt-btn:active {
+            border-color: var(--neon-blue);
+            color: white;
+            background: #111;
+        }
+
+        .chat-form {
+            display: flex;
+            flex-direction: column;
             gap: 10px;
+            margin-top: 5px;
         }
 
         .chat-form input,
-        .chat-form textarea,
-        .chat-form select {
+        .chat-form textarea {
             background: #050505;
             border: 1px solid #333;
             color: white;
             padding: 10px;
-            border-radius: 5px;
+            border-radius: 8px;
             outline: none;
+            font-family: inherit;
+            font-size: 0.85rem;
+            transition: 0.2s;
+        }
+
+        .chat-form input:focus, 
+        .chat-form textarea:focus {
+            border-color: var(--neon-blue);
         }
 
         .chat-form button {
             background: var(--neon-blue);
             border: none;
-            padding: 10px;
+            padding: 11px;
             font-weight: bold;
             cursor: pointer;
-            border-radius: 5px;
+            border-radius: 8px;
             color: black;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85rem;
+            transition: 0.2s;
+        }
+        
+        .chat-form button:disabled {
+            background: #334155;
+            color: #64748b;
+            cursor: not-allowed;
         }
     </style>
 </head>
@@ -261,20 +369,45 @@
 
     <div id="chat-widget">
         <div class="chat-window" id="chatWin">
-            <div class="chat-header"><span>MASTER BOT</span><span onclick="toggleChat()" style="cursor:pointer">×</span></div>
-            <form class="chat-form" id="masterForm">
-                <input type="email" name="email" placeholder="Email" required>
-                <textarea name="message" rows="3" placeholder="Come posso aiutarti?" required></textarea>
-                <button type="submit">INVIA</button>
-            </form>
+            <div class="chat-header">
+                <span>🤖 MASTER BOT</span>
+                <span onclick="toggleChat()" style="cursor:pointer; font-size: 1.4rem;">×</span>
+            </div>
+            
+            <div class="chat-body" id="chatBody">
+                <div class="bot-msg" id="welcomeMsg">
+                    Ciao! Sono l'assistente di Master Games. Come posso aiutarti oggi? Scegli un'opzione rapida o scrivi direttamente sotto!
+                    <div class="options-container">
+                        <button class="opt-btn" onclick="selectOption('🐛 [BUG] ')">Segnala un Bug</button>
+                        <button class="opt-btn" onclick="selectOption('💡 [IDEA] ')">Proponi un Gioco</button>
+                        <button class="opt-btn" onclick="selectOption('💬 [FEEDBACK] ')">Altro / Feedback</button>
+                    </div>
+                </div>
+
+                <form class="chat-form" id="masterForm">
+                    <input type="email" id="chatEmail" name="email" placeholder="La tua Email" required>
+                    <textarea id="chatMessage" name="message" rows="3" placeholder="Scrivi il tuo messaggio..." required></textarea>
+                    <button type="submit" id="submitBtn">INVIA MESSAGGIO</button>
+                </form>
+            </div>
         </div>
+        
         <div class="chat-button" onclick="toggleChat()">
+            <div class="chat-badge" id="chatBadge"></div>
             <svg width="28" height="28" viewBox="0 0 24 24" fill="var(--neon-blue)"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
         </div>
     </div>
 
     <script>
-        // Funzione per filtrare i giochi nella barra di ricerca
+        // Carica l'email salvata precedentemente in locale, se esiste
+        document.addEventListener("DOMContentLoaded", () => {
+            const savedEmail = localStorage.getItem("masterbot_user_email");
+            if (savedEmail) {
+                document.getElementById("chatEmail").value = savedEmail;
+            }
+        });
+
+        // Funzione di filtraggio per la barra di ricerca dei giochi
         function filter() {
             let val = document.getElementById('gameSearch').value.toLowerCase();
             document.querySelectorAll('.card').forEach(c => {
@@ -282,22 +415,40 @@
             });
         }
 
-        // Funzione per mostrare/nascondere la finestra del MasterBot
+        // Gestione apertura e chiusura fluida della chat tramite classe CSS
         function toggleChat() {
             const win = document.getElementById('chatWin');
-            win.style.display = (win.style.display === 'flex') ? 'none' : 'flex';
+            win.classList.toggle('open');
+            
+            // Nasconde definitivamente il badge di notifica non appena si apre la chat la prima volta
+            const badge = document.getElementById('chatBadge');
+            if (badge) badge.style.display = 'none';
         }
 
-        // Logica per gestire l'invio asincrono del modulo su Formspree
+        // Funzione per i pulsanti di scelta rapida dell'interfaccia bot
+        function selectOption(tag) {
+            const textInput = document.getElementById('chatMessage');
+            // Aggiunge il tag all'inizio evitando duplicati
+            if (!textInput.value.includes(tag)) {
+                textInput.value = tag + textInput.value;
+            }
+            textInput.focus();
+        }
+
+        // Logica asincrona avanzata per l'invio dati a Formspree
         document.getElementById('masterForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
             const form = this;
-            const button = form.querySelector('button');
-            const originalText = button.textContent;
+            const emailInput = document.getElementById('chatEmail').value;
+            const button = document.getElementById('submitBtn');
+            const chatBody = document.getElementById('chatBody');
             
             button.textContent = 'INVIANDO...';
             button.disabled = true;
+
+            localStorage.setItem("masterbot_user_email", emailInput);
+
 
             fetch('https://formspree.io/f/xbdzvell', {
                 method: 'POST',
@@ -308,18 +459,24 @@
             })
             .then(response => {
                 if (response.ok) {
-                    alert('Messaggio inviato con successo!');
-                    form.reset();
-                    toggleChat();
+                    chatBody.innerHTML = `
+                        <div class="bot-msg" style="border-left-color: var(--neon-green); margin-top: 20px;">
+                            Grazie! Il tuo messaggio è stato recapitato direttamente a MasterSabba. 🚀<br><br>
+                            Ti risponderò il prima possibile ! 
+                        </div>
+                    `;
+                    setTimeout(() => {
+                        toggleChat();
+                    }, 3000);
                 } else {
-                    alert('Si è verificato un errore. Riprova più tardi.');
+                    alert('Si è verificato un imprevisto nell\'invio del modulo. Riprova più tardi.');
+                    button.textContent = 'INVIA MESSAGGIO';
+                    button.disabled = false;
                 }
             })
             .catch(error => {
-                alert('Errore di connessione. Controlla la tua rete.');
-            })
-            .finally(() => {
-                button.textContent = originalText;
+                alert('Errore di connessione di rete. Verifica la tua linea.');
+                button.textContent = 'INVIA MESSAGGIO';
                 button.disabled = false;
             });
         });
