@@ -45,12 +45,31 @@
         h1 {
             font-size: 1.6rem;
             letter-spacing: 5px;
-            margin: 25px 0;
+            margin: 25px 0 5px 0;
             text-shadow: 0 0 15px var(--neon-blue);
             font-weight: 900;
             text-align: center;
             cursor: pointer;
             user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* --- NUOVA FIRMA D'AUTORE VISIBILE E IDENTIFICATIVA --- */
+        .author-credits {
+            font-size: 0.7rem;
+            letter-spacing: 4px;
+            color: #666;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s ease;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .author-credits:hover {
+            color: var(--neon-purple);
+            text-shadow: 0 0 10px var(--neon-purple);
         }
 
         .search-box {
@@ -296,7 +315,7 @@
             cursor: not-allowed;
         }
 
-        /* --- POP-UP VALUTAZIONE STELLE (FUNZIONAMENTO AD ALTA COMPATIBILITÀ) --- */
+        /* --- POP-UP VALUTAZIONE STELLE --- */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85);
             z-index: 2000; display: flex; align-items: center; justify-content: center;
@@ -312,13 +331,12 @@
         .rating-box h3 { margin: 0 0 10px 0; font-size: 1.3rem; letter-spacing: 1px; color: var(--neon-yellow); }
         .rating-box p { font-size: 0.85rem; color: #aaa; margin: 0 0 25px 0; line-height: 1.4; }
         
-        /* Sistema di puntamento ottimizzato senza radio button fisici */
         .stars { display: flex; justify-content: center; gap: 8px; margin-bottom: 25px; flex-direction: row-reverse; }
         .stars label { font-size: 2.6rem; color: #222; cursor: pointer; transition: 0.2s; -webkit-tap-highlight-color: transparent; user-select: none; }
         .stars label:hover, .stars label:hover ~ label { color: var(--neon-yellow); text-shadow: 0 0 10px rgba(255,238,0,0.6); }
         .close-rating { font-size: 0.8rem; color: #555; cursor: pointer; text-decoration: underline; background: none; border: none; }
 
-        /* --- RIQUADRO NASCOSTO RE-STYLING (CYBERPUNK BLUE) --- */
+        /* --- RIQUADRO RE-STYLING (CYBERPUNK BLUE) --- */
         .secret-panel {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5,5,5,0.96);
             z-index: 3000; display: flex; align-items: center; justify-content: center;
@@ -340,6 +358,7 @@
 <body>
 
     <h1 id="hubTitle">MASTER GAMES</h1>
+    <div class="author-credits" onclick="toggleSecretPanel()">BY MASTERSABBA</div>
 
     <div class="search-box">
         <input type="text" id="gameSearch" placeholder="CERCA UN GIOCO..." oninput="filter()">
@@ -404,7 +423,6 @@
 
     </div>
 
-    <!-- POP-UP VALUTAZIONE 5 STELLE (PULITO ED ERGONOMICO) -->
     <div class="modal-overlay" id="ratingModal">
         <div class="rating-box" id="ratingBox">
             <h3>TI PIACCIONO I GIOCHI?</h3>
@@ -420,7 +438,6 @@
         </div>
     </div>
 
-    <!-- EASTER EGG INFO - RE-STYLED BLUE NEON -->
     <div class="secret-panel" id="secretPanel">
         <div class="terminal">
             <button class="close-terminal" onclick="toggleSecretPanel()">×</button>
@@ -435,7 +452,6 @@
         </div>
     </div>
 
-    <!-- CHAT WIDGET MASTERBOT -->
     <div id="chat-widget">
         <div class="chat-window" id="chatWin">
             <div class="chat-header">
@@ -561,6 +577,7 @@
             setTimeout(() => { titleClicks = 0; }, 1200);
         });
 
+        // Questa funzione ora gestisce l'apertura/chiusura sia da clic singolo (firma) che da triplo clic (titolo)
         function toggleSecretPanel() {
             document.getElementById('secretPanel').classList.toggle('active');
         }
