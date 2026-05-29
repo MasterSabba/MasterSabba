@@ -54,7 +54,6 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* --- NUOVA FIRMA D'AUTORE VISIBILE E IDENTIFICATIVA --- */
         .author-credits {
             font-size: 0.7rem;
             letter-spacing: 4px;
@@ -315,7 +314,7 @@
             cursor: not-allowed;
         }
 
-        /* --- POP-UP VALUTAZIONE STELLE --- */
+        /* --- POP-UP VALUTAZIONE STELLE (CORRETTO CORREZIONE CONTRASTO) --- */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85);
             z-index: 2000; display: flex; align-items: center; justify-content: center;
@@ -332,7 +331,8 @@
         .rating-box p { font-size: 0.85rem; color: #aaa; margin: 0 0 25px 0; line-height: 1.4; }
         
         .stars { display: flex; justify-content: center; gap: 8px; margin-bottom: 25px; flex-direction: row-reverse; }
-        .stars label { font-size: 2.6rem; color: #222; cursor: pointer; transition: 0.2s; -webkit-tap-highlight-color: transparent; user-select: none; }
+        /* CORRETTO: Ora il grigio di base è perfettamente visibile ma spento */
+        .stars label { font-size: 2.6rem; color: rgba(255, 255, 255, 0.15); cursor: pointer; transition: 0.2s; -webkit-tap-highlight-color: transparent; user-select: none; }
         .stars label:hover, .stars label:hover ~ label { color: var(--neon-yellow); text-shadow: 0 0 10px rgba(255,238,0,0.6); }
         .close-rating { font-size: 0.8rem; color: #555; cursor: pointer; text-decoration: underline; background: none; border: none; }
 
@@ -423,6 +423,7 @@
 
     </div>
 
+    <!-- POP-UP VALUTAZIONE 5 STELLE -->
     <div class="modal-overlay" id="ratingModal">
         <div class="rating-box" id="ratingBox">
             <h3>TI PIACCIONO I GIOCHI?</h3>
@@ -438,6 +439,7 @@
         </div>
     </div>
 
+    <!-- EASTER EGG INFO - RE-STYLED BLUE NEON -->
     <div class="secret-panel" id="secretPanel">
         <div class="terminal">
             <button class="close-terminal" onclick="toggleSecretPanel()">×</button>
@@ -452,6 +454,7 @@
         </div>
     </div>
 
+    <!-- CHAT WIDGET MASTERBOT -->
     <div id="chat-widget">
         <div class="chat-window" id="chatWin">
             <div class="chat-header">
@@ -577,7 +580,6 @@
             setTimeout(() => { titleClicks = 0; }, 1200);
         });
 
-        // Questa funzione ora gestisce l'apertura/chiusura sia da clic singolo (firma) che da triplo clic (titolo)
         function toggleSecretPanel() {
             document.getElementById('secretPanel').classList.toggle('active');
         }
