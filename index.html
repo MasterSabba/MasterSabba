@@ -49,6 +49,8 @@
             text-shadow: 0 0 15px var(--neon-blue);
             font-weight: 900;
             text-align: center;
+            cursor: pointer;
+            user-select: none;
         }
 
         .search-box {
@@ -148,7 +150,6 @@
 
         .chat-button:active { transform: scale(0.9); }
 
-        /* Pallino di Notifica Pulsante */
         .chat-badge {
             position: absolute;
             top: -2px;
@@ -167,7 +168,6 @@
             100% { transform: scale(0.9); opacity: 0.8; }
         }
 
-        /* Finestra Chat con Animazione Fluida */
         .chat-window {
             display: flex;
             position: absolute;
@@ -180,15 +180,12 @@
             flex-direction: column;
             overflow: hidden;
             box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            
-            /* Stato Iniziale Chiuso */
             opacity: 0;
             transform: translateY(20px) scale(0.95);
             pointer-events: none;
             transition: opacity 0.3s ease, transform 0.3s ease;
         }
 
-        /* Stato Aperto attivato da JS */
         .chat-window.open {
             opacity: 1;
             transform: translateY(0) scale(1);
@@ -214,7 +211,6 @@
             overflow-y: auto;
         }
 
-        /* Stile messaggio stile Messaggistica */
         .bot-msg {
             background: #1e293b;
             color: white;
@@ -227,7 +223,6 @@
             line-height: 1.4;
         }
 
-        /* Pulsanti di scelta rapida */
         .options-container {
             display: flex;
             flex-wrap: wrap;
@@ -273,6 +268,10 @@
             transition: 0.2s;
         }
 
+        /* Validazione Grafica Mail */
+        .chat-form input.invalid-email { border-color: var(--neon-red) !important; box-shadow: 0 0 5px rgba(255,7,58,0.3); }
+        .chat-form input.valid-email { border-color: var(--neon-green) !important; box-shadow: 0 0 5px rgba(57,255,20,0.3); }
+
         .chat-form input:focus, 
         .chat-form textarea:focus {
             border-color: var(--neon-blue);
@@ -297,12 +296,51 @@
             color: #64748b;
             cursor: not-allowed;
         }
+
+        /* --- POP-UP STRUTTURA VALUTAZIONE STELLE --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85);
+            z-index: 2000; display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: 0.3s ease;
+        }
+        .modal-overlay.show { opacity: 1; pointer-events: auto; }
+        .rating-box {
+            background: #111; border: 2px solid var(--neon-yellow); border-radius: 16px;
+            padding: 35px 25px; width: 90%; max-width: 350px; text-align: center;
+            box-shadow: 0 0 25px rgba(255, 238, 0, 0.2); transform: scale(0.8); transition: 0.3s ease;
+        }
+        .modal-overlay.show .rating-box { transform: scale(1); }
+        .rating-box h3 { margin: 0 0 10px 0; font-size: 1.3rem; letter-spacing: 1px; color: var(--neon-yellow); }
+        .rating-box p { font-size: 0.85rem; color: #aaa; margin: 0 0 25px 0; line-height: 1.4; }
+        .stars { display: flex; justify-content: center; gap: 8px; margin-bottom: 25px; direction: row-reverse; }
+        .stars input { display: none; }
+        .stars label { font-size: 2.6rem; color: #222; cursor: pointer; transition: 0.2s; }
+        .stars label:hover, .stars label:hover ~ label,
+        .stars input:checked ~ label { color: var(--neon-yellow); text-shadow: 0 0 10px rgba(255,238,0,0.6); }
+        .close-rating { font-size: 0.8rem; color: #555; cursor: pointer; text-decoration: underline; background: none; border: none; }
+
+        /* --- RIQUADRO NASCOSTO (EASTER EGG INFO) --- */
+        .secret-panel {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5,5,5,0.96);
+            z-index: 3000; display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: 0.4s ease; font-family: 'Courier New', Courier, monospace;
+        }
+        .secret-panel.active { opacity: 1; pointer-events: auto; }
+        .terminal {
+            width: 90%; max-width: 420px; background: #000; border: 1px solid var(--neon-green);
+            border-radius: 8px; padding: 25px; box-shadow: 0 0 20px rgba(57,255,20,0.15); position: relative;
+        }
+        .terminal-header { color: var(--neon-green); border-bottom: 1px solid #222; padding-bottom: 8px; margin-bottom: 15px; font-weight: bold; font-size: 0.9rem; }
+        .terminal-body p { margin: 10px 0; font-size: 0.85rem; color: #00ff00; line-height: 1.5; }
+        .terminal-body a { color: white; background: #111; padding: 3px 8px; border-radius: 4px; text-decoration: none; font-weight: bold; border: 1px solid var(--neon-green); transition: 0.2s; }
+        .terminal-body a:hover { background: var(--neon-green); color: black; }
+        .close-terminal { position: absolute; top: 15px; right: 15px; background: none; border: none; color: var(--neon-red); font-size: 1.4rem; cursor: pointer; }
     </style>
 </head>
 
 <body>
 
-    <h1>MASTER GAMES</h1>
+    <h1 id="hubTitle">MASTER GAMES</h1>
 
     <div class="search-box">
         <input type="text" id="gameSearch" placeholder="CERCA UN GIOCO..." oninput="filter()">
@@ -310,61 +348,90 @@
 
     <div class="list" id="gameList">
 
-        <a href="https://mastersabba.github.io/MasterMurder/" class="card murder">
+        <a href="https://mastersabba.github.io/MasterMurder/" target="_blank" class="card murder">
             <div class="dot" style="color: var(--neon-red); background: var(--neon-red);"></div>
             <div class="info"><h2>MasterMurder</h2><p>Risolvi il caso</p></div>
         </a>
 
-        <a href="https://mastersabba.github.io/MasterVerbum/" class="card verbum">
+        <a href="https://mastersabba.github.io/MasterVerbum/" target="_blank" class="card verbum">
             <div class="dot" style="color: var(--neon-orange); background: var(--neon-orange);"></div>
             <div class="info"><h2>MasterVerbum</h2><p>Dizionario e velocità</p></div>
         </a>
 
-        <a href="https://mastersabba.github.io/MasterSudoku/" class="card sudoku">
+        <a href="https://mastersabba.github.io/MasterSudoku/" target="_blank" class="card sudoku">
             <div class="dot" style="color: var(--neon-yellow); background: var(--neon-yellow);"></div>
             <div class="info"><h2>MasterSudoku</h2><p>Numeri e precisione</p></div>
         </a>
 
-        <a href="https://mastersabba.github.io/MasterKey/" class="card key">
+        <a href="https://mastersabba.github.io/MasterKey/" target="_blank" class="card key">
             <div class="dot" style="color: var(--neon-green); background: var(--neon-green);"></div>
             <div class="info"><h2>MasterKey</h2><p>Logica e codici segreti</p></div>
         </a>
 
-        <a href="https://mastersabba.github.io/MasterWordle/" class="card wordle">
+        <a href="https://mastersabba.github.io/MasterWordle/" target="_blank" class="card wordle">
             <div class="dot" style="color: var(--neon-emerald); background: var(--neon-emerald);"></div>
             <div class="info"><h2>MasterWordle</h2><p>Indovina la parola</p></div>
         </a>
 
-        <a href="https://mastersabba.github.io/MasterKittens/" class="card kittens">
+        <a href="https://mastersabba.github.io/MasterKittens/" target="_blank" class="card kittens">
             <div class="dot" style="color: var(--neon-cyan); background: var(--neon-cyan);"></div>
             <div class="info"><h2>MasterKittens</h2><p>Exploding Kittens</p></div>
         </a>
 
-        <a href="https://mastersabba.github.io/MasterUno/" class="card uno">
+        <a href="https://mastersabba.github.io/MasterUno/" target="_blank" class="card uno">
             <div class="dot" style="color: var(--neon-blue); background: var(--neon-blue);"></div>
             <div class="info"><h2>MasterUno</h2><p>Sfida all'ultima carta</p></div>
         </a>
 
-        <a href="https://mastersabba.github.io/MasterBlock/" class="card block">
+        <a href="https://mastersabba.github.io/MasterBlock/" target="_blank" class="card block">
             <div class="dot" style="color: var(--neon-blue-block); background: var(--neon-blue-block);"></div>
             <div class="info"><h2>MasterBlock</h2><p>Incastra i blocchi</p></div>
         </a>
 
-        <a href="https://mastersabba.github.io/MasterTris/" class="card tris">
+        <a href="https://mastersabba.github.io/MasterTris/" target="_blank" class="card tris">
             <div class="dot" style="color: var(--neon-purple); background: var(--neon-purple);"></div>
             <div class="info"><h2>MasterTris</h2><p>Strategia 1vs1</p></div>
         </a>
 
-        <a href="https://mastersabba.github.io/MasterPassword/" class="card password">
+        <a href="https://mastersabba.github.io/MasterPassword/" target="_blank" class="card password">
             <div class="dot" style="color: var(--neon-silver); background: var(--neon-silver);"></div>
             <div class="info"><h2>MasterPassword</h2><p>Sicurezza e Crittografia</p></div>
         </a>
 
-        <a href="https://mastersabba.github.io/MasterChess/" class="card chess">
+        <a href="https://mastersabba.github.io/MasterChess/" target="_blank" class="card chess">
             <div class="dot" style="color: var(--neon-white); background: var(--neon-white);"></div>
             <div class="info"><h2>MasterChess</h2><p>Strategia e Scacchi</p></div>
         </a>
 
+    </div>
+
+    <div class="modal-overlay" id="ratingModal">
+        <div class="rating-box" id="ratingBox">
+            <h3>TI PIACCIONO I GIOCHI?</h3>
+            <p>Visto che stai provando l'ecosistema, lascia una valutazione a 5 stelle per supportare i progetti!</p>
+            <div class="stars">
+                <input type="radio" id="star5" name="rating" value="5" onclick="submitRating(5)"><label for="star5">★</label>
+                <input type="radio" id="star4" name="rating" value="4" onclick="submitRating(4)"><label for="star4">★</label>
+                <input type="radio" id="star3" name="rating" value="3" onclick="submitRating(3)"><label for="star3">★</label>
+                <input type="radio" id="star2" name="rating" value="2" onclick="submitRating(2)"><label for="star2">★</label>
+                <input type="radio" id="star1" name="rating" value="1" onclick="submitRating(1)"><label for="star1">★</label>
+            </div>
+            <button class="close-rating" onclick="closeRatingModal()">Magari più tardi</button>
+        </div>
+    </div>
+
+    <div class="secret-panel" id="secretPanel">
+        <div class="terminal">
+            <button class="close-terminal" onclick="toggleSecretPanel()">×</button>
+            <div class="terminal-header">CONSOLE://MASTERSABBA_CORE.SYS</div>
+            <div class="terminal-body">
+                <p>> DIRETTORE DI PROGETTO: MasterSabba</p>
+                <p>> STATO SISTEMA: Operativo</p>
+                <p>> SVILUPPO: HTML5 / CSS Neon / Vanilla JS</p>
+                <p>> SITO WEB: <a href="https://mastersabba.github.io/MasterSabba/" target="_blank">MasterSabba Hub</a></p>
+                <p style="color: #444; margin-top: 15px; font-size: 0.75rem;">> Premere la '×' in alto per chiudere la console dev.</p>
+            </div>
+        </div>
     </div>
 
     <div id="chat-widget">
@@ -375,20 +442,24 @@
             </div>
             
             <div class="chat-body" id="chatBody">
-                <div class="bot-msg" id="welcomeMsg">
-                    Ciao! Sono l'assistente di Master Games. Come posso aiutarti oggi? Scegli un'opzione rapida o scrivi direttamente sotto!
-                    <div class="options-container">
-                        <button class="opt-btn" onclick="selectOption('🐛 [BUG] ')">Segnala un Bug</button>
-                        <button class="opt-btn" onclick="selectOption('💡 [IDEA] ')">Proponi un Gioco</button>
-                        <button class="opt-btn" onclick="selectOption('💬 [FEEDBACK] ')">Altro / Feedback</button>
-                    </div>
-                </div>
+                <div id="chatSuccess" class="bot-msg" style="display: none; border-left-color: var(--neon-green); width:90%;"></div>
 
-                <form class="chat-form" id="masterForm">
-                    <input type="email" id="chatEmail" name="email" placeholder="La tua Email" required>
-                    <textarea id="chatMessage" name="message" rows="3" placeholder="Scrivi il tuo messaggio..." required></textarea>
-                    <button type="submit" id="submitBtn">INVIA MESSAGGIO</button>
-                </form>
+                <div id="mainChatContent" style="display: flex; flex-direction: column; gap: 12px;">
+                    <div class="bot-msg" id="welcomeMsg">
+                        Ciao! Sono l'assistente di Master Games. Come posso aiutarti oggi? Scegli un'opzione rapida o scrivi direttamente sotto!
+                        <div class="options-container">
+                            <button class="opt-btn" onclick="selectOption('🐛 [BUG] ')">Segnala un Bug</button>
+                            <button class="opt-btn" onclick="selectOption('💡 [IDEA] ')">Proponi un Gioco</button>
+                            <button class="opt-btn" onclick="selectOption('💬 [FEEDBACK] ')">Altro / Feedback</button>
+                        </div>
+                    </div>
+
+                    <form class="chat-form" id="masterForm">
+                        <input type="email" id="chatEmail" name="email" placeholder="La tua Email" required oninput="validateEmailRealTime(this)">
+                        <textarea id="chatMessage" name="message" rows="3" placeholder="Scrivi il tuo messaggio..." required></textarea>
+                        <button type="submit" id="submitBtn">INVIA MESSAGGIO</button>
+                    </form>
+                </div>
             </div>
         </div>
         
@@ -399,15 +470,88 @@
     </div>
 
     <script>
-        // Carica l'email salvata precedentemente in locale, se esiste
         document.addEventListener("DOMContentLoaded", () => {
             const savedEmail = localStorage.getItem("masterbot_user_email");
             if (savedEmail) {
-                document.getElementById("chatEmail").value = savedEmail;
+                const emailInput = document.getElementById("chatEmail");
+                emailInput.value = savedEmail;
+                validateEmailRealTime(emailInput);
             }
+
+            // TRIGGER POP-UP STELLE INTELLIGENTE
+            // Intercettiamo quando l'utente clicca su una scheda gioco per provarla
+            document.querySelectorAll('.card').forEach(card => {
+                card.addEventListener('click', () => {
+                    // Controlla se l'utente non ha già votato in passato
+                    if (!localStorage.getItem("hub_game_rated")) {
+                        // Facciamo apparire il pop-up dopo 4 secondi da quando ha cliccato sul gioco
+                        setTimeout(() => {
+                            document.getElementById('ratingModal').classList.add('show');
+                        }, 4000);
+                    }
+                });
+            });
         });
 
-        // Funzione di filtraggio per la barra di ricerca dei giochi
+        // Verificatore Sintassi E-mail Real-Time (Regex)
+        function validateEmailRealTime(input) {
+            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            const btn = document.getElementById('submitBtn');
+            
+            if (input.value.trim() === "") {
+                input.classList.remove('valid-email', 'invalid-email');
+                btn.disabled = false;
+                return false;
+            }
+            if (emailRegex.test(input.value)) {
+                input.classList.remove('invalid-email');
+                input.classList.add('valid-email');
+                btn.disabled = false;
+                return true;
+            } else {
+                input.classList.remove('valid-email');
+                input.classList.add('invalid-email');
+                btn.disabled = true; // Impedisce l'invio se errata
+                return false;
+            }
+        }
+
+        // Invio Voto Stelle a Formspree
+        function submitRating(stars) {
+            localStorage.setItem("hub_game_rated", stars);
+            
+            fetch('https://formspree.io/f/xbdzvell', {
+                method: 'POST',
+                body: JSON.stringify({ ValutazioneStelle: stars + " su 5 Stelle" }),
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
+            });
+
+            const box = document.getElementById('ratingBox');
+            box.innerHTML = `<h3 style="color:var(--neon-green)">GRAZIE MILLE! ⭐ ${stars}/5</h3><p>Il tuo feedback aiuta a migliorare l'Hub.</p>`;
+            
+            setTimeout(() => { closeRatingModal(); }, 2500);
+        }
+
+        function closeRatingModal() {
+            document.getElementById('ratingModal').classList.remove('show');
+        }
+
+        // Easter Egg: 3 Click sul titolo per vedere il riquadro nascosto info
+        let titleClicks = 0;
+        document.getElementById('hubTitle').addEventListener('click', () => {
+            titleClicks++;
+            if (titleClicks === 3) {
+                toggleSecretPanel();
+                titleClicks = 0;
+            }
+            setTimeout(() => { titleClicks = 0; }, 1200);
+        });
+
+        function toggleSecretPanel() {
+            document.getElementById('secretPanel').classList.toggle('active');
+        }
+
+        // Funzioni standard Hub e Filtro
         function filter() {
             let val = document.getElementById('gameSearch').value.toLowerCase();
             document.querySelectorAll('.card').forEach(c => {
@@ -415,67 +559,79 @@
             });
         }
 
-        // Gestione apertura e chiusura fluida della chat tramite classe CSS
         function toggleChat() {
             const win = document.getElementById('chatWin');
             win.classList.toggle('open');
-            
-            // Nasconde definitivamente il badge di notifica non appena si apre la chat la prima volta
             const badge = document.getElementById('chatBadge');
             if (badge) badge.style.display = 'none';
         }
 
-        // Funzione per i pulsanti di scelta rapida dell'interfaccia bot
         function selectOption(tag) {
             const textInput = document.getElementById('chatMessage');
-            // Aggiunge il tag all'inizio evitando duplicati
             if (!textInput.value.includes(tag)) {
                 textInput.value = tag + textInput.value;
             }
             textInput.focus();
         }
 
-        // Logica asincrona avanzata per l'invio dati a Formspree
+        // Gestione Invio Avanzata (Senza rompere la chat per i futuri utilizzi)
         document.getElementById('masterForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
             const form = this;
-            const emailInput = document.getElementById('chatEmail').value;
+            const emailInput = document.getElementById('chatEmail');
             const button = document.getElementById('submitBtn');
-            const chatBody = document.getElementById('chatBody');
+            const chatSuccess = document.getElementById('chatSuccess');
+            const mainChatContent = document.getElementById('mainChatContent');
             
+            if (!validateEmailRealTime(emailInput)) {
+                alert("Sintassi e-mail non valida.");
+                return;
+            }
+
             button.textContent = 'INVIANDO...';
             button.disabled = true;
 
-            localStorage.setItem("masterbot_user_email", emailInput);
-
+            localStorage.setItem("masterbot_user_email", emailInput.value);
 
             fetch('https://formspree.io/f/xbdzvell', {
                 method: 'POST',
                 body: new FormData(form),
-                headers: {
-                    'Accept': 'application/json'
-                }
+                headers: { 'Accept': 'application/json' }
             })
             .then(response => {
                 if (response.ok) {
-                    chatBody.innerHTML = `
-                        <div class="bot-msg" style="border-left-color: var(--neon-green); margin-top: 20px;">
-                            Grazie! Il tuo messaggio è stato recapitato direttamente a MasterSabba. 🚀<br><br>
-                            Ti risponderò il prima possibile ! 
-                        </div>
-                    `;
+                    // Nasconde il contenuto principale della chat e mostra la notifica pulita
+                    mainChatContent.style.display = 'none';
+                    chatSuccess.style.display = 'block';
+                    chatSuccess.innerHTML = `Grazie! Il tuo messaggio è stato recapitato a MasterSabba. 🚀<br><br>Ti risponderò presto!`;
+                    
+                    // Chiude la chat dopo 3 secondi e ripristina la struttura per i prossimi messaggi
                     setTimeout(() => {
                         toggleChat();
+                        
+                        // RESET INTELLIGENTE: Pulisce il form, lo mostra di nuovo e svuota il messaggio di successo
+                        form.reset();
+                        const savedEmail = localStorage.getItem("masterbot_user_email");
+                        if (savedEmail) {
+                            emailInput.value = savedEmail;
+                            validateEmailRealTime(emailInput);
+                        }
+                        
+                        button.textContent = 'INVIA MESSAGGIO';
+                        button.disabled = false;
+                        chatSuccess.style.display = 'none';
+                        mainChatContent.style.display = 'flex';
                     }, 3000);
+                    
                 } else {
-                    alert('Si è verificato un imprevisto nell\'invio del modulo. Riprova più tardi.');
+                    alert('Errore nell\'invio. Riprova più tardi.');
                     button.textContent = 'INVIA MESSAGGIO';
                     button.disabled = false;
                 }
             })
             .catch(error => {
-                alert('Errore di connessione di rete. Verifica la tua linea.');
+                alert('Errore di connessione.');
                 button.textContent = 'INVIA MESSAGGIO';
                 button.disabled = false;
             });
