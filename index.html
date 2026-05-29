@@ -296,7 +296,7 @@
             cursor: not-allowed;
         }
 
-        /* --- POP-UP VALUTAZIONE STELLE (ORDINATE DA SX A DX) --- */
+        /* --- POP-UP VALUTAZIONE STELLE (FUNZIONAMENTO AD ALTA COMPATIBILITÀ) --- */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85);
             z-index: 2000; display: flex; align-items: center; justify-content: center;
@@ -312,12 +312,10 @@
         .rating-box h3 { margin: 0 0 10px 0; font-size: 1.3rem; letter-spacing: 1px; color: var(--neon-yellow); }
         .rating-box p { font-size: 0.85rem; color: #aaa; margin: 0 0 25px 0; line-height: 1.4; }
         
-        /* Correzione flusso riempimento stelle da sinistra a destra */
+        /* Sistema di puntamento ottimizzato senza radio button fisici */
         .stars { display: flex; justify-content: center; gap: 8px; margin-bottom: 25px; flex-direction: row-reverse; }
-        .stars input { display: none; }
-        .stars label { font-size: 2.6rem; color: #222; cursor: pointer; transition: 0.2s; }
-        .stars label:hover, .stars label:hover ~ label,
-        .stars input:checked ~ label { color: var(--neon-yellow); text-shadow: 0 0 10px rgba(255,238,0,0.6); }
+        .stars label { font-size: 2.6rem; color: #222; cursor: pointer; transition: 0.2s; -webkit-tap-highlight-color: transparent; user-select: none; }
+        .stars label:hover, .stars label:hover ~ label { color: var(--neon-yellow); text-shadow: 0 0 10px rgba(255,238,0,0.6); }
         .close-rating { font-size: 0.8rem; color: #555; cursor: pointer; text-decoration: underline; background: none; border: none; }
 
         /* --- RIQUADRO NASCOSTO RE-STYLING (CYBERPUNK BLUE) --- */
@@ -406,21 +404,23 @@
 
     </div>
 
+    <!-- POP-UP VALUTAZIONE 5 STELLE (PULITO ED ERGONOMICO) -->
     <div class="modal-overlay" id="ratingModal">
         <div class="rating-box" id="ratingBox">
             <h3>TI PIACCIONO I GIOCHI?</h3>
             <p>Visto che stai provando l'ecosistema, lascia una valutazione a 5 stelle per supportare i progetti!</p>
             <div class="stars">
-                <input type="radio" id="star5" name="rating" value="5" onclick="submitRating(5)"><label for="star5">★</label>
-                <input type="radio" id="star4" name="rating" value="4" onclick="submitRating(4)"><label for="star4">★</label>
-                <input type="radio" id="star3" name="rating" value="3" onclick="submitRating(3)"><label for="star3">★</label>
-                <input type="radio" id="star2" name="rating" value="2" onclick="submitRating(2)"><label for="star2">★</label>
-                <input type="radio" id="star1" name="rating" value="1" onclick="submitRating(1)"><label for="star1">★</label>
+                <label onclick="submitRating(5)">★</label>
+                <label onclick="submitRating(4)">★</label>
+                <label onclick="submitRating(3)">★</label>
+                <label onclick="submitRating(2)">★</label>
+                <label onclick="submitRating(1)">★</label>
             </div>
             <button class="close-rating" onclick="closeRatingModal()">Magari più tardi</button>
         </div>
     </div>
 
+    <!-- EASTER EGG INFO - RE-STYLED BLUE NEON -->
     <div class="secret-panel" id="secretPanel">
         <div class="terminal">
             <button class="close-terminal" onclick="toggleSecretPanel()">×</button>
@@ -435,6 +435,7 @@
         </div>
     </div>
 
+    <!-- CHAT WIDGET MASTERBOT -->
     <div id="chat-widget">
         <div class="chat-window" id="chatWin">
             <div class="chat-header">
@@ -479,10 +480,8 @@
                 validateEmailRealTime(emailInput);
             }
 
-            // Controllo iniziale all'apertura/refresh dell'Hub
             checkAndShowRating();
 
-            // Quando l'utente preme su una scheda gioco, prepariamo il flag
             document.querySelectorAll('.card').forEach(card => {
                 card.addEventListener('click', () => {
                     if (!localStorage.getItem("hub_game_rated")) {
@@ -492,14 +491,12 @@
             });
         });
 
-        // Controlla se la pagina torna visibile (es. utente chiude la tab del gioco e torna alla vecchia tab dell'Hub)
         document.addEventListener("visibilitychange", () => {
             if (document.visibilityState === "visible") {
                 checkAndShowRating();
             }
         });
 
-        // Gestore per mostrare il pop-up delle stelle in modo pulito ed affidabile
         function checkAndShowRating() {
             if (localStorage.getItem("pending_rating") && !localStorage.getItem("hub_game_rated")) {
                 setTimeout(() => {
@@ -507,7 +504,7 @@
                         document.getElementById('ratingModal').classList.add('show');
                         localStorage.removeItem("pending_rating");
                     }
-                }, 2000); // 2 secondi dopo essere rientrati: tempo ideale
+                }, 2000);
             }
         }
 
