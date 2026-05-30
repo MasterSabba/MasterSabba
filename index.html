@@ -439,8 +439,7 @@
     <footer><span onclick="togglePanel('privacyPanel')">PRIVACY POLICY </span></footer>
 
     
-    
-<script>
+ <script>
     // Dati locali di fallback (fanno funzionare la classifica anche senza Firebase)
     window.globalRivals = {
         "MasterMurder": [{n: "CyberGhost", s: 15}, {n: "SabbaFan99", s: 10}, {n: "Rex_Logic", s: 5}],
@@ -687,7 +686,8 @@
         onAuthStateChanged,
         updateProfile 
     } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
-    import { doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+    // IMPORT UNIFICATO E CORRETTO (Tutti gli strumenti in alto)
+    import { doc, setDoc, getDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
 
     // Se arriviamo qui, il file firebase.js è corretto! Sovrascriviamo le funzioni di Login/Registrazione
     window.handleHubAuth = async function(mode) {
@@ -749,7 +749,7 @@
                 if (userDoc.exists() && userDoc.data().scores) {
                     window.hubCachedScores = userDoc.data().scores;
                 }
-                syncLocalPointsToProfile(user.uid);
+                await syncLocalPointsToProfile(user.uid);
             } catch(e) { console.error("Errore Caricamento Profili Cloud:", e); }
         } else {
             window.hubCurrentUser = null;
@@ -759,7 +759,54 @@
             if (document.getElementById("auth-logged-out")) document.getElementById("auth-logged-out").style.display = "block";
             if (document.getElementById("auth-logged-in")) document.getElementById("auth-logged-in").style.display = "none";
         }
+
+        // SCARICAMENTO CLASSIFICA ATTIVATO: Parte in automatico ogni volta che l'autenticazione ha finito i controlli
+        fetchGlobalLeaderboards();
     });
+
+    // Scarica i punteggi reali di tutti i giocatori registrati da Firestore
+    async function fetchGlobalLeaderboards() {
+        try {
+            const querySnapshot = await getDocs(collection(db, "users"));
+            let updatedRivals = {
+                "MasterMurder": [], "MasterVerbum": [], "MasterSudoku": [], "MasterKey": [],
+                "MasterWordle": [], "MasterKittens": [], "MasterUno": [], "MasterBlock": [],
+                "MasterTris": [], "MasterPassword": [], "MasterChess": []
+            };
+
+            querySnapshot.forEach((doc) => {
+                const data = doc.data();
+                const username = data.username;
+                const scores = data.scores || {};
+
+                if (username) {
+                    Object.keys(updatedRivals).forEach(game => {
+                        if (scores[game] !== undefined && scores[game] > 0) {
+                            updatedRivals[game].push({ n: username, s: scores[game] });
+                        }
+                    });
+                }
+            });
+
+            Object.keys(updatedRivals).forEach(game => {
+                updatedRivals[game].sort((a, b) => b.s - a.s);
+                const fallbacks = window.globalRivals[game] || [];
+                if (updatedRivals[game].length < 3) {
+                    fallbacks.forEach(bot => {
+                        if (!updatedRivals[game].some(p => p.n.toLowerCase() === bot.n.toLowerCase())) {
+                            updatedRivals[game].push(bot);
+                        }
+                    });
+                    updatedRivals[game].sort((a, b) => b.s - a.s);
+                }
+            });
+
+            window.globalRivals = updatedRivals;
+            if (window.buildLeaderboards) window.buildLeaderboards();
+        } catch (e) {
+            console.error("Errore caricamento classifica globale:", e);
+        }
+    }
 
     // PWA Installer Engine
     let installPromptEvent;
