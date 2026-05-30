@@ -531,11 +531,11 @@
         setTimeout(() => { window.closeRatingModal(); }, 2000);
     };
 
-    // Fallback moduli Cloud offline
-    window.handleHubAuth = function(mode) {
+   // Fallback protetti: si attivano SOLO se firebase.js non è stato ancora caricato
+    window.handleHubAuth = window.handleHubAuth || function(mode) {
         alert("⚠️ Modulo Cloud non attivo in questo ambiente locale.\n\nPer abilitare Registrazione e Accesso è necessario che il file 'firebase.js' sia presente e configurato.");
     };
-    window.handleHubLogout = function() {
+    window.handleHubLogout = window.handleHubLogout || function() {
         alert("⚠️ Nessuna sessione cloud attiva.");
     };
 
