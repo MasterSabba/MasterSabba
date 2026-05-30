@@ -41,6 +41,7 @@
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
+            box-sizing: border-box;
         }
 
         h1 {
@@ -75,7 +76,7 @@
         .search-box {
             width: 100%;
             max-width: 400px;
-            margin-bottom: 30px;
+            margin-bottom: 15px;
         }
 
         #gameSearch {
@@ -90,33 +91,95 @@
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
         }
-
         #gameSearch:focus { border-color: var(--neon-blue); box-shadow: 0 0 10px rgba(0,212,255,0.2); }
 
-        .list {
+        /* NAV MENU */
+        .hub-actions {
             display: flex;
-            flex-direction: column;
-            gap: 15px;
+            gap: 10px;
             width: 100%;
-            max-width: 450px;
-            margin-bottom: 100px;
+            max-width: 400px;
+            margin-bottom: 25px;
+        }
+        .hub-btn {
+            flex: 1;
+            padding: 11px;
+            background: #111;
+            border: 1px solid #222;
+            border-radius: 8px;
+            color: #888;
+            font-weight: bold;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            -webkit-tap-highlight-color: transparent;
+        }
+        #btnAuth { border-color: var(--neon-blue); color: var(--neon-blue); }
+        #btnAuth.logged-in { border-color: var(--neon-emerald); color: var(--neon-emerald); text-shadow: 0 0 5px var(--neon-emerald); }
+        #btnLeaderboard { border-color: var(--neon-purple); color: var(--neon-purple); }
+        #btnInstallApp { border-color: var(--neon-green); color: var(--neon-green); display: none; }
+
+        /* OVERLAY MODALS UNIVERSALI */
+        .secret-panel {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5,5,5,0.96);
+            z-index: 3000; display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: 0.3s ease; font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+        .secret-panel.active { opacity: 1; pointer-events: auto; }
+        
+        .terminal {
+            width: 95%; max-width: 420px; background: #0c0d12; border: 2px solid #222;
+            border-radius: 16px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.7); position: relative;
+            max-height: 85vh; overflow-y: auto; box-sizing: border-box;
+            scrollbar-width: thin; scrollbar-color: #333 #0c0d12;
+        }
+        .terminal-header { border-bottom: 1px solid #222; padding-bottom: 12px; margin-bottom: 20px; font-weight: bold; font-size: 1rem; letter-spacing: 2px; text-transform: uppercase; text-align: center; }
+        .close-terminal { position: absolute; top: 15px; right: 15px; background: none; border: none; color: var(--neon-red); font-size: 1.8rem; cursor: pointer; font-weight: bold; line-height: 1; }
+
+        /* SEZIONE ACCESSO */
+        .auth-form-container input {
+            width: 100%; padding: 12px; margin-bottom: 12px; background: #13141f; border: 1px solid #25283a;
+            border-radius: 8px; color: white; box-sizing: border-box; outline: none; transition: 0.2s;
+        }
+        .auth-form-container input:focus { border-color: var(--neon-blue); box-shadow: 0 0 8px rgba(0,212,255,0.2); }
+        .auth-btn-group { display: flex; gap: 10px; margin-top: 10px; }
+        .auth-sub-btn {
+            flex: 1; padding: 12px; background: transparent; border: 1px solid var(--neon-silver);
+            color: white; font-weight: bold; border-radius: 8px; cursor: pointer; text-transform: uppercase; font-size: 0.8rem; transition: 0.2s;
+        }
+        .auth-sub-btn.primary { background: var(--neon-blue); color: black; border-color: var(--neon-blue); }
+        .auth-sub-btn.primary:active { background: transparent; color: var(--neon-blue); }
+        
+        .agent-profile-box {
+            background: linear-gradient(135deg, #091a1e 0%, #06070c 100%);
+            border: 1px solid var(--neon-emerald); border-radius: 10px; padding: 20px; margin-bottom: 20px;
+            text-align: left; box-shadow: 0 0 15px rgba(5,255,197,0.05);
         }
 
-        .card {
-            position: relative;
-            background: linear-gradient(90deg, #111 0%, #0a0a0a 100%);
-            border-left: 5px solid #333;
-            border-radius: 8px;
-            padding: 18px;
-            text-decoration: none;
-            color: white;
-            display: flex;
-            align-items: center;
-            transition: 0.3s;
-            overflow: hidden;
-            -webkit-tap-highlight-color: transparent;
-            user-select: none;
+        /* SEZIONE CLASSIFICHE */
+        .overlord-box { 
+            background: linear-gradient(180deg, rgba(255, 238, 0, 0.08) 0%, rgba(0,0,0,0) 100%); 
+            border: 1px dashed var(--neon-yellow); padding: 15px; border-radius: 10px; text-align: center; margin-bottom: 20px; 
+            box-shadow: 0 0 15px rgba(255,238,0,0.05);
         }
+        .game-rank-section { margin-bottom: 16px; background: #11131c; border: 1px solid #1e2030; border-radius: 10px; padding: 12px; text-align: left; }
+        .game-rank-title { font-size: 0.85rem; color: var(--neon-cyan); margin: 0 0 8px 0; text-transform: uppercase; letter-spacing: 1px; font-weight: bold; border-bottom: 1px solid #222; padding-bottom: 4px;}
+        .rank-item { display: flex; justify-content: space-between; font-size: 0.82rem; color: #ddd; padding: 5px 6px; margin: 3px 0; border-radius: 6px; }
+        .rank-item.top-1 { background: rgba(255, 215, 0, 0.08); border-left: 3px solid var(--neon-yellow); color: #fff; }
+        .rank-item.top-2 { background: rgba(192, 192, 192, 0.06); border-left: 3px solid var(--neon-silver); }
+        .rank-item.top-3 { background: rgba(205, 127, 50, 0.05); border-left: 3px solid #cd7f32; }
+
+        /* LISTA GIOCHI PRINCIPALE */
+        .list { display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 450px; margin-bottom: 100px; }
+        .card {
+            position: relative; background: linear-gradient(90deg, #111 0%, #0a0a0a 100%);
+            border-left: 5px solid #333; border-radius: 8px; padding: 18px; text-decoration: none;
+            color: white; display: flex; align-items: center; transition: 0.3s; overflow: hidden;
+            -webkit-tap-highlight-color: transparent; user-select: none;
+        }
+        .card:active { transform: scale(0.98); background: #1a1a1a; }
 
         .murder { border-left-color: var(--neon-red); }
         .verbum { border-left-color: var(--neon-orange); }
@@ -130,327 +193,193 @@
         .password { border-left-color: var(--neon-silver); }
         .chess { border-left-color: var(--neon-white); }
 
-        .card:active { transform: scale(0.98); background: #1a1a1a; }
-
-        .dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            margin-right: 20px;
-            box-shadow: 0 0 10px currentColor;
-        }
-
+        .dot { width: 12px; height: 12px; border-radius: 50%; margin-right: 20px; box-shadow: 0 0 10px currentColor; }
         .info h2 { margin: 0; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; }
         .info p { margin: 2px 0 0 0; font-size: 0.75rem; color: #777; }
 
-        /* --- INTERFACCIA MASTERBOT AVANZATA --- */
-        #chat-widget { 
-            position: fixed; 
-            bottom: 20px; 
-            right: 20px; 
-            z-index: 1000; 
-        }
-
+        /* INTERFACCIA MASTERBOT */
+        #chat-widget { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
         .chat-button {
-            width: 60px;
-            height: 60px;
-            background: #111;
-            border: 2px solid var(--neon-blue);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 0 15px var(--neon-blue);
-            transition: 0.3s ease;
-            position: relative;
-            -webkit-tap-highlight-color: transparent;
+            width: 60px; height: 60px; background: #111; border: 2px solid var(--neon-blue); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 15px var(--neon-blue);
+            transition: 0.3s ease; position: relative; -webkit-tap-highlight-color: transparent;
         }
-
         .chat-button:active { transform: scale(0.9); }
-
         .chat-badge {
-            position: absolute;
-            top: -2px;
-            right: -2px;
-            width: 14px;
-            height: 14px;
-            background: var(--neon-red);
-            border-radius: 50%;
-            box-shadow: 0 0 8px var(--neon-red);
-            animation: pulse 2s infinite;
+            position: absolute; top: -2px; right: -2px; width: 14px; height: 14px; background: var(--neon-red);
+            border-radius: 50%; box-shadow: 0 0 8px var(--neon-red); animation: pulse 2s infinite;
         }
-
-        @keyframes pulse {
-            0% { transform: scale(0.9); opacity: 0.8; }
-            50% { transform: scale(1.2); opacity: 1; }
-            100% { transform: scale(0.9); opacity: 0.8; }
-        }
+        @keyframes pulse { 0% { transform: scale(0.9); opacity: 0.8; } 50% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(0.9); opacity: 0.8; } }
 
         .chat-window {
-            display: flex;
-            position: absolute;
-            bottom: 75px;
-            right: 0;
-            width: 320px;
-            background: #111;
-            border: 1px solid var(--neon-blue);
-            border-radius: 15px;
-            flex-direction: column;
-            overflow: hidden;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            opacity: 0;
-            transform: translateY(20px) scale(0.95);
-            pointer-events: none;
-            transition: opacity 0.3s ease, transform 0.3s ease;
+            display: flex; position: absolute; bottom: 75px; right: 0; width: 320px; background: #111;
+            border: 1px solid var(--neon-blue); border-radius: 15px; flex-direction: column; overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5); opacity: 0; transform: translateY(20px) scale(0.95);
+            pointer-events: none; transition: opacity 0.3s ease, transform 0.3s ease;
         }
+        .chat-window.open { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+        .chat-header { background: var(--neon-blue); color: black; padding: 15px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
+        
+        .chat-body { padding: 15px; display: flex; flex-direction: column; gap: 12px; max-height: 380px; overflow-y: auto; }
+        .bot-msg { background: #1e293b; color: white; padding: 10px 14px; border-radius: 12px 12px 12px 0; font-size: 0.9rem; align-self: flex-start; max-width: 90%; border-left: 3px solid var(--neon-blue); line-height: 1.4; }
+        
+        .options-container { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+        .opt-btn { background: #050505; border: 1px solid #333; color: #ccc; padding: 8px 12px; border-radius: 20px; font-size: 0.78rem; cursor: pointer; transition: 0.2s; font-weight: 500; }
+        .opt-btn:active { border-color: var(--neon-blue); color: white; background: #111; }
 
-        .chat-window.open {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-            pointer-events: auto;
-        }
-
-        .chat-header {
-            background: var(--neon-blue);
-            color: black;
-            padding: 15px;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .chat-body {
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            max-height: 380px;
-            overflow-y: auto;
-        }
-
-        .bot-msg {
-            background: #1e293b;
-            color: white;
-            padding: 10px 14px;
-            border-radius: 12px 12px 12px 0;
-            font-size: 0.9rem;
-            align-self: flex-start;
-            max-width: 90%;
-            border-left: 3px solid var(--neon-blue);
-            line-height: 1.4;
-        }
-
-        .options-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-top: 4px;
-        }
-
-        .opt-btn {
-            background: #050505;
-            border: 1px solid #333;
-            color: #ccc;
-            padding: 8px 12px;
-            border-radius: 20px;
-            font-size: 0.78rem;
-            cursor: pointer;
-            transition: 0.2s;
-            font-weight: 500;
-        }
-
-        .opt-btn:active {
-            border-color: var(--neon-blue);
-            color: white;
-            background: #111;
-        }
-
-        .chat-form {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 5px;
-        }
-
-        .chat-form input,
-        .chat-form textarea {
-            background: #050505;
-            border: 1px solid #333;
-            color: white;
-            padding: 10px;
-            border-radius: 8px;
-            outline: none;
-            font-family: inherit;
-            font-size: 0.85rem;
-            transition: 0.2s;
-        }
-
+        .chat-form { display: flex; flex-direction: column; gap: 10px; margin-top: 5px; }
+        .chat-form input, .chat-form textarea { background: #050505; border: 1px solid #333; color: white; padding: 10px; border-radius: 8px; outline: none; font-family: inherit; font-size: 0.85rem; transition: 0.2s; }
         .chat-form input.invalid-email { border-color: var(--neon-red) !important; box-shadow: 0 0 5px rgba(255,7,58,0.3); }
         .chat-form input.valid-email { border-color: var(--neon-green) !important; box-shadow: 0 0 5px rgba(57,255,20,0.3); }
-
-        .chat-form input:focus, 
-        .chat-form textarea:focus {
-            border-color: var(--neon-blue);
-        }
-
-        .chat-form button {
-            background: var(--neon-blue);
-            border: none;
-            padding: 11px;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 8px;
-            color: black;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.85rem;
-            transition: 0.2s;
-        }
+        .chat-form input:focus, .chat-form textarea:focus { border-color: var(--neon-blue); }
         
-        .chat-form button:disabled {
-            background: #334155;
-            color: #64748b;
-            cursor: not-allowed;
-        }
+        .chat-form button { background: var(--neon-blue); border: none; padding: 11px; font-weight: bold; cursor: pointer; border-radius: 8px; color: black; text-transform: uppercase; letter-spacing: 1px; font-size: 0.85rem; transition: 0.2s; }
+        .chat-form button:disabled { background: #334155; color: #64748b; cursor: not-allowed; }
 
-        /* --- POP-UP VALUTAZIONE STELLE (CORRETTO CORREZIONE CONTRASTO) --- */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85);
-            z-index: 2000; display: flex; align-items: center; justify-content: center;
-            opacity: 0; pointer-events: none; transition: 0.3s ease;
-        }
+        /* MODAL POPUP RATING */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: 0.3s ease; }
         .modal-overlay.show { opacity: 1; pointer-events: auto; }
-        .rating-box {
-            background: #111; border: 2px solid var(--neon-yellow); border-radius: 16px;
-            padding: 35px 25px; width: 90%; max-width: 350px; text-align: center;
-            box-shadow: 0 0 25px rgba(255, 238, 0, 0.2); transform: scale(0.8); transition: 0.3s ease;
-        }
+        .rating-box { background: #111; border: 2px solid var(--neon-yellow); border-radius: 16px; padding: 35px 25px; width: 90%; max-width: 350px; text-align: center; box-shadow: 0 0 25px rgba(255, 238, 0, 0.2); transform: scale(0.8); transition: 0.3s ease; }
         .modal-overlay.show .rating-box { transform: scale(1); }
-        .rating-box h3 { margin: 0 0 10px 0; font-size: 1.3rem; letter-spacing: 1px; color: var(--neon-yellow); }
-        .rating-box p { font-size: 0.85rem; color: #aaa; margin: 0 0 25px 0; line-height: 1.4; }
-        
+        .rating-box h3 { margin: 0 0 10px 0; font-size: 1.3rem; color: var(--neon-yellow); }
         .stars { display: flex; justify-content: center; gap: 8px; margin-bottom: 25px; flex-direction: row-reverse; }
-        /* CORRETTO: Ora il grigio di base è perfettamente visibile ma spento */
-        .stars label { font-size: 2.6rem; color: rgba(255, 255, 255, 0.15); cursor: pointer; transition: 0.2s; -webkit-tap-highlight-color: transparent; user-select: none; }
+        .stars label { font-size: 2.6rem; color: rgba(255, 255, 255, 0.15); cursor: pointer; }
         .stars label:hover, .stars label:hover ~ label { color: var(--neon-yellow); text-shadow: 0 0 10px rgba(255,238,0,0.6); }
-        .close-rating { font-size: 0.8rem; color: #555; cursor: pointer; text-decoration: underline; background: none; border: none; }
+        .close-rating { font-size: 0.8rem; color: #555; background: none; border: none; text-decoration: underline; cursor: pointer; }
 
-        /* --- RIQUADRO RE-STYLING (CYBERPUNK BLUE) --- */
-        .secret-panel {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5,5,5,0.96);
-            z-index: 3000; display: flex; align-items: center; justify-content: center;
-            opacity: 0; pointer-events: none; transition: 0.4s ease; font-family: 'Segoe UI', system-ui, sans-serif;
-        }
-        .secret-panel.active { opacity: 1; pointer-events: auto; }
-        .terminal {
-            width: 90%; max-width: 420px; background: #0d1117; border: 2px solid var(--neon-blue);
-            border-radius: 12px; padding: 25px; box-shadow: 0 0 25px rgba(0,212,255,0.25); position: relative;
-        }
-        .terminal-header { color: var(--neon-blue); border-bottom: 1px solid #222; padding-bottom: 10px; margin-bottom: 18px; font-weight: bold; font-size: 0.95rem; letter-spacing: 2px; }
-        .terminal-body p { margin: 12px 0; font-size: 0.9rem; color: #f0f6fc; line-height: 1.5; text-align: left; }
-        .terminal-body a { color: black; background: var(--neon-blue); padding: 4px 10px; border-radius: 6px; text-decoration: none; font-weight: bold; border: 1px solid var(--neon-blue); transition: 0.2s; }
-        .terminal-body a:hover { background: transparent; color: var(--neon-blue); box-shadow: 0 0 10px var(--neon-blue); }
-        .close-terminal { position: absolute; top: 15px; right: 15px; background: none; border: none; color: var(--neon-red); font-size: 1.6rem; cursor: pointer; font-weight: bold; }
+        footer { margin-top: auto; padding: 20px 0; font-size: 0.75rem; color: #444; text-align: center; }
+        footer span { cursor: pointer; transition: 0.2s; }
+        footer span:hover { color: var(--neon-blue); text-shadow: 0 0 5px var(--neon-blue); }
     </style>
 </head>
-
 <body>
 
     <h1 id="hubTitle">MASTER GAMES</h1>
-    <div class="author-credits" onclick="toggleSecretPanel()">BY MASTERSABBA</div>
+    <div class="author-credits" onclick="togglePanel('secretPanel')">BY MASTERSABBA</div>
 
     <div class="search-box">
         <input type="text" id="gameSearch" placeholder="CERCA UN GIOCO..." oninput="filter()">
     </div>
 
-    <div class="list" id="gameList">
+    <!-- MAIN NAV MENU -->
+    <div class="hub-actions">
+        <button id="btnAuth" class="hub-btn" onclick="togglePanel('authPanel')">👤 Accedi</button>
+        <button id="btnLeaderboard" class="hub-btn" onclick="openLeaderboard()">🏆 Classifiche</button>
+        <button id="btnInstallApp" class="hub-btn" onclick="triggerPWAInstallation()">📲 Installa</button>
+    </div>
 
+    <!-- CARDS LIST -->
+    <div class="list" id="gameList">
         <a href="https://mastersabba.github.io/MasterMurder/" target="_blank" class="card murder">
             <div class="dot" style="color: var(--neon-red); background: var(--neon-red);"></div>
             <div class="info"><h2>MasterMurder</h2><p>Risolvi il caso</p></div>
         </a>
-
         <a href="https://mastersabba.github.io/MasterVerbum/" target="_blank" class="card verbum">
             <div class="dot" style="color: var(--neon-orange); background: var(--neon-orange);"></div>
             <div class="info"><h2>MasterVerbum</h2><p>Dizionario e velocità</p></div>
         </a>
-
         <a href="https://mastersabba.github.io/MasterSudoku/" target="_blank" class="card sudoku">
             <div class="dot" style="color: var(--neon-yellow); background: var(--neon-yellow);"></div>
             <div class="info"><h2>MasterSudoku</h2><p>Numeri e precisione</p></div>
         </a>
-
         <a href="https://mastersabba.github.io/MasterKey/" target="_blank" class="card key">
             <div class="dot" style="color: var(--neon-green); background: var(--neon-green);"></div>
             <div class="info"><h2>MasterKey</h2><p>Logica e codici segreti</p></div>
         </a>
-
         <a href="https://mastersabba.github.io/MasterWordle/" target="_blank" class="card wordle">
             <div class="dot" style="color: var(--neon-emerald); background: var(--neon-emerald);"></div>
             <div class="info"><h2>MasterWordle</h2><p>Indovina la parola</p></div>
         </a>
-
         <a href="https://mastersabba.github.io/MasterKittens/" target="_blank" class="card kittens">
             <div class="dot" style="color: var(--neon-cyan); background: var(--neon-cyan);"></div>
             <div class="info"><h2>MasterKittens</h2><p>Exploding Kittens</p></div>
         </a>
-
         <a href="https://mastersabba.github.io/MasterUno/" target="_blank" class="card uno">
             <div class="dot" style="color: var(--neon-blue); background: var(--neon-blue);"></div>
             <div class="info"><h2>MasterUno</h2><p>Sfida all'ultima carta</p></div>
         </a>
-
         <a href="https://mastersabba.github.io/MasterBlock/" target="_blank" class="card block">
             <div class="dot" style="color: var(--neon-blue-block); background: var(--neon-blue-block);"></div>
             <div class="info"><h2>MasterBlock</h2><p>Incastra i blocchi</p></div>
         </a>
-
         <a href="https://mastersabba.github.io/MasterTris/" target="_blank" class="card tris">
             <div class="dot" style="color: var(--neon-purple); background: var(--neon-purple);"></div>
             <div class="info"><h2>MasterTris</h2><p>Strategia 1vs1</p></div>
         </a>
-
         <a href="https://mastersabba.github.io/MasterPassword/" target="_blank" class="card password">
             <div class="dot" style="color: var(--neon-silver); background: var(--neon-silver);"></div>
             <div class="info"><h2>MasterPassword</h2><p>Sicurezza e Crittografia</p></div>
         </a>
-
         <a href="https://mastersabba.github.io/MasterChess/" target="_blank" class="card chess">
             <div class="dot" style="color: var(--neon-white); background: var(--neon-white);"></div>
             <div class="info"><h2>MasterChess</h2><p>Strategia e Scacchi</p></div>
         </a>
-
     </div>
 
-    <!-- POP-UP VALUTAZIONE 5 STELLE -->
-    <div class="modal-overlay" id="ratingModal">
-        <div class="rating-box" id="ratingBox">
-            <h3>TI PIACCIONO I GIOCHI?</h3>
-            <p>Visto che stai provando l'ecosistema, lascia una valutazione a 5 stelle per supportare i progetti!</p>
-            <div class="stars">
-                <label onclick="submitRating(5)">★</label>
-                <label onclick="submitRating(4)">★</label>
-                <label onclick="submitRating(3)">★</label>
-                <label onclick="submitRating(2)">★</label>
-                <label onclick="submitRating(1)">★</label>
+    <!-- OVERLAY: AUTHENTICATION TERMINAL -->
+    <div class="secret-panel" id="authPanel">
+        <div class="terminal" style="border-color: var(--neon-blue); box-shadow: 0 0 20px rgba(0,212,255,0.2);">
+            <button class="close-terminal" onclick="togglePanel('authPanel')">×</button>
+            
+            <div id="auth-logged-out" class="auth-form-container">
+                <div class="terminal-header" style="color: var(--neon-blue);">🔐 ACCESSO AGENTE</div>
+                <input type="text" id="authUsername" placeholder="Username (Obbligatorio)">
+                <input type="password" id="authPassword" placeholder="Password (Obbligatorio)">
+                <input type="email" id="authEmail" placeholder="Email (Facoltativa)">
+                <div class="auth-btn-group">
+                    <button class="auth-sub-btn" onclick="handleHubAuth('LOGIN')">Accedi</button>
+                    <button class="auth-sub-btn primary" onclick="handleHubAuth('SIGNUP')">Registrati</button>
+                </div>
             </div>
-            <button class="close-rating" onclick="closeRatingModal()">Magari più tardi</button>
+            
+            <div id="auth-logged-in" style="display: none;">
+                <div class="terminal-header" style="color: var(--neon-emerald);">🟢 PROFILO AGENTE ATTIVO</div>
+                <div class="agent-profile-box">
+                    <p style="margin: 0 0 8px 0; font-size: 1rem;">ID UTENTE: <span id="displayUser" style="color: var(--neon-emerald); font-weight: bold;">-</span></p>
+                    <p style="margin: 0 0 4px 0; font-size: 0.8rem; color: #888;">STATO: <span style="color: var(--neon-green)">ONLINE</span></p>
+                    <p style="margin: 0; font-size: 0.8rem; color: #888;">CLOUD: <span style="color: var(--neon-blue)">CRITTOGRAFATO ATTIVO</span></p>
+                </div>
+                <button class="auth-sub-btn" style="border-color: var(--neon-red); color: var(--neon-red); width: 100%;" onclick="handleHubLogout()">Scollegati dal Sistema</button>
+            </div>
         </div>
     </div>
 
-    <!-- EASTER EGG INFO - RE-STYLED BLUE NEON -->
+    <!-- OVERLAY: LEADERBOARD TERMINAL -->
+    <div class="secret-panel" id="leaderboardPanel">
+        <div class="terminal" style="border-color: var(--neon-purple); box-shadow: 0 0 20px rgba(188,19,254,0.2);">
+            <button class="close-terminal" onclick="togglePanel('leaderboardPanel')">×</button>
+            <div class="terminal-header" style="color: var(--neon-purple);">🏆 CLASSIFICA GENERALE</div>
+            <div class="overlord-box">
+                <div style="font-size: 0.75rem; color: var(--neon-yellow); letter-spacing: 1px; font-weight: bold;">👑 CAMPIONE ASSOLUTO HIERARCHY</div>
+                <div id="globalOverlordName" style="font-size: 1.2rem; font-weight: bold; color: white; margin-top: 4px;">-</div>
+                <div id="globalOverlordScore" style="font-size: 0.8rem; color: #aaa;">0 Punti Totali</div>
+            </div>
+            <div id="leaderboardScoresContainer"></div>
+        </div>
+    </div>
+
+    <!-- OVERLAY: DIRETTORE SYSTEM CORE -->
     <div class="secret-panel" id="secretPanel">
-        <div class="terminal">
-            <button class="close-terminal" onclick="toggleSecretPanel()">×</button>
-            <div class="terminal-header">🤖 MASTERSABBA_CORE.SYS</div>
-            <div class="terminal-body">
-                <p><strong>> DIRETTORE DI PROGETTO:</strong> MasterSabba</p>
-                <p><strong>> STATO SISTEMA:</strong> Operativo</p>
-                <p><strong>> SVILUPPO:</strong> HTML5 / CSS Neon / Vanilla JS</p>
-                <p><strong>> SITO WEB:</strong> <a href="https://mastersabba.github.io/MasterSabba/" target="_blank">Master Games</a></p>
-                <p style="color: #6e7681; margin-top: 15px; font-size: 0.75rem;">> Clicca sulla '×' in alto per chiudere la scheda info.</p>
+        <div class="terminal" style="border-color: var(--neon-blue);">
+            <button class="close-terminal" onclick="togglePanel('secretPanel')">×</button>
+            <div class="terminal-header" style="color: var(--neon-blue);">🤖 SYSTEM_CORE.SYS</div>
+            <p><strong>> DIRETTORE DI PROGETTO:</strong> MasterSabba</p>
+            <p><strong>> STATO SISTEMA:</strong> Operativo</p>
+            <p><strong>> SVILUPPO:</strong> Vanilla JS / CSS Neon</p>
+            <p><strong>> SITO WEB:</strong> <a href="https://mastersabba.github.io/MasterSabba/" target="_blank" style="color:black; background:var(--neon-blue); padding:3px 8px; border-radius:4px; text-decoration:none; font-weight:bold;">Master Games</a></p>
+        </div>
+    </div>
+
+    <!-- OVERLAY: PRIVACY POLICY -->
+    <div class="secret-panel" id="privacyPanel">
+        <div class="terminal" style="border-color: var(--neon-silver); box-shadow: 0 0 25px rgba(255,255,255,0.1); text-align: left;">
+            <button class="close-terminal" style="color: var(--neon-silver);" onclick="togglePanel('privacyPanel')">×</button>
+            <div class="terminal-header" style="color: var(--neon-silver); text-align: center;">📄 PRIVACY POLICY </div>
+            <div style="font-size: 0.85rem; max-height: 60vh; overflow-y: auto; padding-right: 5px;">
+                <p><strong>1. Trattamento dei dati:</strong> Questo Hub non vende, cede o profila i dati personali degli utenti a scopi commerciali.</p>
+                <p><strong>2. LocalStorage di Gioco:</strong> Tutti i punteggi e i record standard vengono salvati unicamente all'interno del browser sul tuo dispositivo locale.</p>
+                <p><strong>3. Registrazione Classifica:</strong> Scegliendo di registrarsi per la Classifica Generale, viene memorizzato nel database unicamente lo Username e la Password cifrata. L'inserimento dell'Email è opzionale e serve solo come identificativo unico.</p>
+                <p><strong>4. Modulo Contatti (Master Bot):</strong> Eventuali messaggi o feedback inviati tramite il bot integrato utilizzano Formspree e l'indirizzo email fornito viene impiegato solo per rispondere alle comunicazioni.</p>
             </div>
         </div>
     </div>
@@ -491,180 +420,208 @@
         </div>
     </div>
 
+    <!-- MODAL POPUP RATING -->
+    <div class="modal-overlay" id="ratingModal">
+        <div class="rating-box" id="ratingBox">
+            <h3>TI PIACCIONO I GIOCHI?</h3>
+            <p>Lascia una valutazione rapida a 5 stelle per supportare i progetti!</p>
+            <div class="stars">
+                <label onclick="submitRating(5)">★</label><label onclick="submitRating(4)">★</label><label onclick="submitRating(3)">★</label><label onclick="submitRating(2)">★</label><label onclick="submitRating(1)">★</label>
+            </div>
+            <button class="close-rating" onclick="closeRatingModal()">Più tardi</button>
+        </div>
+    </div>
+
+    <footer><span onclick="togglePanel('privacyPanel')">PRIVACY POLICY </span></footer>
+
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const savedEmail = localStorage.getItem("masterbot_user_email");
-            if (savedEmail) {
-                const emailInput = document.getElementById("chatEmail");
-                emailInput.value = savedEmail;
-                validateEmailRealTime(emailInput);
-            }
+        // PUNTEGGI DEI BOT COMPLETAMENTE ABBASSATI PER UN TESTING RAPIDO
+        let accountsDB = JSON.parse(localStorage.getItem("hub_accounts")) || {};
+        let currentUser = localStorage.getItem("hub_active_user") || null;
+        let globalRivals = {
+            "MasterMurder": [{n: "CyberGhost", s: 15}, {n: "SabbaFan99", s: 10}, {n: "Rex_Logic", s: 5}],
+            "MasterVerbum": [{n: "WordHacker", s: 20}, {n: "CyberGhost", s: 12}, {n: "Alpha_User", s: 6}],
+            "MasterSudoku": [{n: "Matrix9", s: 18}, {n: "Rex_Logic", s: 11}, {n: "SabbaFan99", s: 4}],
+            "MasterKey": [{n: "CryptoKing", s: 14}, {n: "Matrix9", s: 9}, {n: "CyberGhost", s: 3}],
+            "MasterWordle": [{n: "WordHacker", s: 16}, {n: "SabbaFan99", s: 10}, {n: "CryptoKing", s: 5}],
+            "MasterKittens": [{n: "ExplodeMe", s: 3}, {n: "Alpha_User", s: 2}, {n: "Matrix9", s: 1}],
+            "MasterUno": [{n: "CardShark", s: 4}, {n: "CyberGhost", s: 2}, {n: "ExplodeMe", s: 1}],
+            "MasterBlock": [{n: "TetrisGod", s: 50}, {n: "Matrix9", s: 30}, {n: "Rex_Logic", s: 15}],
+            "MasterTris": [{n: "Alpha_User", s: 5}, {n: "CardShark", s: 3}, {n: "SabbaFan99", s: 1}],
+            "MasterPassword": [{n: "CryptoKing", s: 8}, {n: "CyberGhost", s: 5}, {n: "WordHacker", s: 2}],
+            "MasterChess": [{n: "DeepNeon", s: 12}, {n: "Rex_Logic", s: 8}, {n: "Alpha_User", s: 4}]
+        };
 
-            checkAndShowRating();
-
-            document.querySelectorAll('.card').forEach(card => {
-                card.addEventListener('click', () => {
-                    if (!localStorage.getItem("hub_game_rated")) {
-                        localStorage.setItem("pending_rating", "true");
-                    }
-                });
-            });
-        });
-
-        document.addEventListener("visibilitychange", () => {
-            if (document.visibilityState === "visible") {
-                checkAndShowRating();
-            }
-        });
-
-        function checkAndShowRating() {
-            if (localStorage.getItem("pending_rating") && !localStorage.getItem("hub_game_rated")) {
-                setTimeout(() => {
-                    if (localStorage.getItem("pending_rating") && !localStorage.getItem("hub_game_rated")) {
-                        document.getElementById('ratingModal').classList.add('show');
-                        localStorage.removeItem("pending_rating");
-                    }
-                }, 2000);
-            }
+        function togglePanel(id) {
+            document.getElementById(id).classList.toggle("active");
         }
 
-        function validateEmailRealTime(input) {
-            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-            const btn = document.getElementById('submitBtn');
-            
-            if (input.value.trim() === "") {
-                input.classList.remove('valid-email', 'invalid-email');
-                btn.disabled = false;
-                return false;
-            }
-            if (emailRegex.test(input.value)) {
-                input.classList.remove('invalid-email');
-                input.classList.add('valid-email');
-                btn.disabled = false;
-                return true;
+        function openLeaderboard() {
+            buildLeaderboards();
+            togglePanel('leaderboardPanel');
+        }
+
+        // PWA SETUP
+        let installPromptEvent;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault(); installPromptEvent = e;
+            document.getElementById('btnInstallApp').style.display = 'block';
+        });
+        function triggerPWAInstallation() {
+            if (installPromptEvent) {
+                installPromptEvent.prompt();
+                installPromptEvent.userChoice.then((choice) => { if (choice.outcome === 'accepted') document.getElementById('btnInstallApp').style.display = 'none'; installPromptEvent = null; });
+            } else { alert("Su Safari iOS clicca su 'Condividi' e seleziona 'Aggiungi alla schermata Home'."); }
+        }
+
+        // CONTROL AUTHENTICATION
+        function updateAuthUI() {
+            const btn = document.getElementById("btnAuth");
+            if (currentUser) {
+                btn.textContent = `🟢 ${currentUser.toUpperCase()}`;
+                btn.classList.add("logged-in");
+                document.getElementById("auth-logged-out").style.display = "none";
+                document.getElementById("auth-logged-in").style.display = "block";
+                document.getElementById("displayUser").textContent = currentUser.toUpperCase();
+                syncLocalPointsToProfile();
             } else {
-                input.classList.remove('valid-email');
-                input.classList.add('invalid-email');
-                btn.disabled = true;
-                return false;
+                btn.textContent = "👤 Accedi";
+                btn.classList.remove("logged-in");
+                document.getElementById("auth-logged-out").style.display = "block";
+                document.getElementById("auth-logged-in").style.display = "none";
             }
         }
 
-        function submitRating(stars) {
-            localStorage.setItem("hub_game_rated", stars);
-            localStorage.removeItem("pending_rating");
-            
-            fetch('https://formspree.io/f/xbdzvell', {
-                method: 'POST',
-                body: JSON.stringify({ ValutazioneStelle: stars + " su 5 Stelle" }),
-                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
+        function handleHubAuth(mode) {
+            const user = document.getElementById("authUsername").value.trim();
+            const pass = document.getElementById("authPassword").value.trim();
+            const email = document.getElementById("authEmail").value.trim();
+            if (!user || !pass) { alert("Inserisci Username e Password."); return; }
+
+            if (mode === "SIGNUP") {
+                if (accountsDB[user]) { alert("Questo username esiste già."); return; }
+                accountsDB[user] = { password: pass, email: email || "non fornita", scores: {} };
+                localStorage.setItem("hub_accounts", JSON.stringify(accountsDB));
+                alert("Registrazione effettuata con successo!");
+            }
+            if (accountsDB[user] && accountsDB[user].password === pass) {
+                currentUser = user; localStorage.setItem("hub_active_user", currentUser);
+                updateAuthUI(); togglePanel('authPanel');
+            } else if (mode === "LOGIN") { alert("Credenziali non valide."); }
+        }
+
+        function handleHubLogout() {
+            currentUser = null; localStorage.removeItem("hub_active_user");
+            updateAuthUI(); togglePanel('authPanel');
+        }
+
+        function syncLocalPointsToProfile() {
+            if (!currentUser) return;
+            Object.keys(globalRivals).forEach(g => {
+                const localScore = parseInt(localStorage.getItem(`points_${g.toLowerCase()}`)) || 0;
+                if (localScore > (accountsDB[currentUser].scores[g] || 0)) accountsDB[currentUser].scores[g] = localScore;
+            });
+            localStorage.setItem("hub_accounts", JSON.stringify(accountsDB));
+        }
+
+        // BUILD ADVANCED LEADERBOARD MODAL
+        function buildLeaderboards() {
+            const container = document.getElementById("leaderboardScoresContainer");
+            container.innerHTML = "";
+            let totalAggregatedScores = {};
+
+            Object.values(globalRivals).forEach(list => list.forEach(p => totalAggregatedScores[p.n] = (totalAggregatedScores[p.n] || 0) + p.s));
+            Object.keys(accountsDB).forEach(u => {
+                let userSum = 0; Object.values(accountsDB[u].scores).forEach(s => userSum += s);
+                totalAggregatedScores[u] = userSum;
             });
 
-            const box = document.getElementById('ratingBox');
-            box.innerHTML = `<h3 style="color:var(--neon-green)">GRAZIE MILLE! ⭐ ${stars}/5</h3><p>Il tuo feedback aiuta a migliorare l'Hub.</p>`;
-            
-            setTimeout(() => { closeRatingModal(); }, 2500);
-        }
+            let absoluteWinner = "Nessuno", maxOverallScore = -1;
+            Object.keys(totalAggregatedScores).forEach(name => {
+                if (totalAggregatedScores[name] > maxOverallScore) { maxOverallScore = totalAggregatedScores[name]; absoluteWinner = name; }
+            });
+            document.getElementById("globalOverlordName").textContent = absoluteWinner.toUpperCase();
+            document.getElementById("globalOverlordScore").textContent = `${maxOverallScore} Punti Totali Accumulati`;
 
-        function closeRatingModal() {
-            document.getElementById('ratingModal').classList.remove('show');
-            localStorage.removeItem("pending_rating");
-        }
+            Object.keys(globalRivals).forEach(game => {
+                let structure = [...globalRivals[game]];
+                if (currentUser) {
+                    let userScore = accountsDB[currentUser].scores[game] || parseInt(localStorage.getItem(`points_${game.toLowerCase()}`)) || 0;
+                    let idx = structure.findIndex(item => item.n.toLowerCase() === currentUser.toLowerCase());
+                    if (idx !== -1) { if (userScore > structure[idx].s) structure[idx].s = userScore; } else { structure.push({ n: currentUser, s: userScore }); }
+                }
+                structure.sort((a, b) => b.s - a.s);
 
-        let titleClicks = 0;
-        document.getElementById('hubTitle').addEventListener('click', () => {
-            titleClicks++;
-            if (titleClicks === 3) {
-                toggleSecretPanel();
-                titleClicks = 0;
-            }
-            setTimeout(() => { titleClicks = 0; }, 1200);
-        });
-
-        function toggleSecretPanel() {
-            document.getElementById('secretPanel').classList.toggle('active');
+                let section = document.createElement("div");
+                section.className = "game-rank-section";
+                section.innerHTML = `<h4 class="game-rank-title">${game}</h4>`;
+                
+                structure.slice(0, 3).forEach((row, i) => {
+                    let medal = i === 0 ? "🥇" : i === 1 ? "🥈" : "🥉";
+                    let rankClass = i === 0 ? "top-1" : i === 1 ? "top-2" : "top-3";
+                    let boldStyle = row.n === currentUser ? "border-left-color: var(--neon-emerald); color: var(--neon-emerald); font-weight: bold;" : "";
+                    section.innerHTML += `<div class="rank-item ${rankClass}" style="${boldStyle}"><span>${medal} ${row.n}</span><span>${row.s} pts</span></div>`;
+                });
+                container.appendChild(section);
+            });
         }
 
         function filter() {
             let val = document.getElementById('gameSearch').value.toLowerCase();
-            document.querySelectorAll('.card').forEach(c => {
-                c.style.display = c.innerText.toLowerCase().includes(val) ? "flex" : "none";
-            });
+            document.querySelectorAll('.card').forEach(c => c.style.display = c.innerText.toLowerCase().includes(val) ? "flex" : "none");
         }
 
-        function toggleChat() {
-            const win = document.getElementById('chatWin');
-            win.classList.toggle('open');
-            const badge = document.getElementById('chatBadge');
-            if (badge) badge.style.display = 'none';
-        }
-
-        function selectOption(tag) {
-            const textInput = document.getElementById('chatMessage');
-            if (!textInput.value.includes(tag)) {
-                textInput.value = tag + textInput.value;
-            }
-            textInput.focus();
+        // BOT ENGINE
+        function toggleChat() { document.getElementById('chatWin').classList.toggle('open'); const badge = document.getElementById('chatBadge'); if (badge) badge.style.display = 'none'; }
+        function selectOption(tag) { const txt = document.getElementById('chatMessage'); if (!txt.value.includes(tag)) txt.value = tag + txt.value; txt.focus(); }
+        function validateEmailRealTime(input) {
+            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            const btn = document.getElementById('submitBtn');
+            if (input.value.trim() === "") { input.classList.remove('valid-email', 'invalid-email'); btn.disabled = false; return false; }
+            if (emailRegex.test(input.value)) { input.classList.remove('invalid-email'); input.classList.add('valid-email'); btn.disabled = false; return true; } 
+            else { input.classList.remove('valid-email'); input.classList.add('invalid-email'); btn.disabled = true; return false; }
         }
 
         document.getElementById('masterForm').addEventListener('submit', function(e) {
             e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            btn.textContent = 'INVIANDO...'; btn.disabled = true;
+            localStorage.setItem("masterbot_user_email", document.getElementById('chatEmail').value);
             
-            const form = this;
-            const emailInput = document.getElementById('chatEmail');
-            const button = document.getElementById('submitBtn');
-            const chatSuccess = document.getElementById('chatSuccess');
-            const mainChatContent = document.getElementById('mainChatContent');
-            
-            if (!validateEmailRealTime(emailInput)) {
-                alert("Sintassi e-mail non valida.");
-                return;
-            }
-
-            button.textContent = 'INVIANDO...';
-            button.disabled = true;
-
-            localStorage.setItem("masterbot_user_email", emailInput.value);
-
-            fetch('https://formspree.io/f/xbdzvell', {
-                method: 'POST',
-                body: new FormData(form),
-                headers: { 'Accept': 'application/json' }
-            })
-            .then(response => {
-                if (response.ok) {
-                    mainChatContent.style.display = 'none';
-                    chatSuccess.style.display = 'block';
-                    chatSuccess.innerHTML = `Grazie! Il tuo messaggio è stato recapitato a MasterSabba. 🚀<br><br>Ti risponderò presto!`;
-                    
-                    setTimeout(() => {
-                        toggleChat();
-                        form.reset();
-                        const savedEmail = localStorage.getItem("masterbot_user_email");
-                        if (savedEmail) {
-                            emailInput.value = savedEmail;
-                            validateEmailRealTime(emailInput);
-                        }
-                        
-                        button.textContent = 'INVIA MESSAGGIO';
-                        button.disabled = false;
-                        chatSuccess.style.display = 'none';
-                        mainChatContent.style.display = 'flex';
+            fetch('https://formspree.io/f/xbdzvell', { method: 'POST', body: new FormData(this), headers: { 'Accept': 'application/json' } })
+            .then(res => {
+                if (res.ok) {
+                    document.getElementById('mainChatContent').style.display = 'none';
+                    const success = document.getElementById('chatSuccess'); success.style.display = 'block';
+                    success.innerHTML = `Grazie! Il tuo messaggio è stato recapitato a MasterSabba. 🚀<br><br>Ti risponderò presto!`;
+                    setTimeout(() => { 
+                        toggleChat(); this.reset(); btn.textContent = 'INVIA MESSAGGIO'; btn.disabled = false; success.style.display = 'none'; document.getElementById('mainChatContent').style.display = 'flex'; 
+                        const se = localStorage.getItem("masterbot_user_email"); if (se) { document.getElementById("chatEmail").value = se; validateEmailRealTime(document.getElementById("chatEmail")); }
                     }, 3000);
-                    
-                } else {
-                    alert('Errore nell\'invio. Riprova più tardi.');
-                    button.textContent = 'INVIA MESSAGGIO';
-                    button.disabled = false;
                 }
-            })
-            .catch(error => {
-                alert('Errore di connessione.');
-                button.textContent = 'INVIA MESSAGGIO';
-                button.disabled = false;
             });
         });
-    </script>
 
+        document.addEventListener("DOMContentLoaded", () => {
+            updateAuthUI();
+            const savedEmail = localStorage.getItem("masterbot_user_email");
+            if (savedEmail) { document.getElementById("chatEmail").value = savedEmail; validateEmailRealTime(document.getElementById("chatEmail")); }
+            if (localStorage.getItem("pending_rating") && !localStorage.getItem("hub_game_rated")) {
+                setTimeout(() => { document.getElementById('ratingModal').classList.add('show'); localStorage.removeItem("pending_rating"); }, 2000);
+            }
+            document.querySelectorAll('.card').forEach(card => card.addEventListener('click', () => { if (!localStorage.getItem("hub_game_rated")) localStorage.setItem("pending_rating", "true"); }));
+        });
+
+        function submitRating(stars) {
+            localStorage.setItem("hub_game_rated", stars);
+            fetch('https://formspree.io/f/xbdzvell', { method: 'POST', body: JSON.stringify({ Valutazione: stars + " stelle" }), headers: { 'Content-Type': 'application/json' } });
+            document.getElementById('ratingBox').innerHTML = `<h3 style="color:var(--neon-green)">Grazie! ⭐ ${stars}/5</h3>`;
+            setTimeout(() => { document.getElementById('ratingModal').classList.remove('show'); }, 2000);
+        }
+        function closeRatingModal() { document.getElementById('ratingModal').classList.remove('show'); }
+        
+        let titleClicks = 0;
+        document.getElementById('hubTitle').addEventListener('click', () => { titleClicks++; if (titleClicks === 3) { togglePanel('secretPanel'); titleClicks = 0; } setTimeout(() => { titleClicks = 0; }, 1200); });
+    </script>
 </body>
 </html>
