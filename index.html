@@ -43,6 +43,7 @@
             min-height: 100vh;
             box-sizing: border-box;
         }
+        
 
         h1 {
             font-size: 1.6rem;
@@ -434,194 +435,389 @@
 
     <footer><span onclick="togglePanel('privacyPanel')">PRIVACY POLICY </span></footer>
 
-    <script>
-        // PUNTEGGI DEI BOT COMPLETAMENTE ABBASSATI PER UN TESTING RAPIDO
-        let accountsDB = JSON.parse(localStorage.getItem("hub_accounts")) || {};
-        let currentUser = localStorage.getItem("hub_active_user") || null;
-        let globalRivals = {
-            "MasterMurder": [{n: "CyberGhost", s: 15}, {n: "SabbaFan99", s: 10}, {n: "Rex_Logic", s: 5}],
-            "MasterVerbum": [{n: "WordHacker", s: 20}, {n: "CyberGhost", s: 12}, {n: "Alpha_User", s: 6}],
-            "MasterSudoku": [{n: "Matrix9", s: 18}, {n: "Rex_Logic", s: 11}, {n: "SabbaFan99", s: 4}],
-            "MasterKey": [{n: "CryptoKing", s: 14}, {n: "Matrix9", s: 9}, {n: "CyberGhost", s: 3}],
-            "MasterWordle": [{n: "WordHacker", s: 16}, {n: "SabbaFan99", s: 10}, {n: "CryptoKing", s: 5}],
-            "MasterKittens": [{n: "ExplodeMe", s: 3}, {n: "Alpha_User", s: 2}, {n: "Matrix9", s: 1}],
-            "MasterUno": [{n: "CardShark", s: 4}, {n: "CyberGhost", s: 2}, {n: "ExplodeMe", s: 1}],
-            "MasterBlock": [{n: "TetrisGod", s: 50}, {n: "Matrix9", s: 30}, {n: "Rex_Logic", s: 15}],
-            "MasterTris": [{n: "Alpha_User", s: 5}, {n: "CardShark", s: 3}, {n: "SabbaFan99", s: 1}],
-            "MasterPassword": [{n: "CryptoKing", s: 8}, {n: "CyberGhost", s: 5}, {n: "WordHacker", s: 2}],
-            "MasterChess": [{n: "DeepNeon", s: 12}, {n: "Rex_Logic", s: 8}, {n: "Alpha_User", s: 4}]
-        };
+    
+    
+<script>
+    // Dati locali di fallback (fanno funzionare la classifica anche senza Firebase)
+    window.globalRivals = {
+        "MasterMurder": [{n: "CyberGhost", s: 15}, {n: "SabbaFan99", s: 10}, {n: "Rex_Logic", s: 5}],
+        "MasterVerbum": [{n: "WordHacker", s: 20}, {n: "CyberGhost", s: 12}, {n: "Alpha_User", s: 6}],
+        "MasterSudoku": [{n: "Matrix9", s: 18}, {n: "Rex_Logic", s: 11}, {n: "SabbaFan99", s: 4}],
+        "MasterKey": [{n: "CryptoKing", s: 14}, {n: "Matrix9", s: 9}, {n: "CyberGhost", s: 3}],
+        "MasterWordle": [{n: "WordHacker", s: 16}, {n: "SabbaFan99", s: 10}, {n: "CryptoKing", s: 5}],
+        "MasterKittens": [{n: "ExplodeMe", s: 3}, {n: "Alpha_User", s: 2}, {n: "Matrix9", s: 1}],
+        "MasterUno": [{n: "CardShark", s: 4}, {n: "CyberGhost", s: 2}, {n: "ExplodeMe", s: 1}],
+        "MasterBlock": [{n: "TetrisGod", s: 50}, {n: "Matrix9", s: 30}, {n: "Rex_Logic", s: 15}],
+        "MasterTris": [{n: "Alpha_User", s: 5}, {n: "CardShark", s: 3}, {n: "SabbaFan99", s: 1}],
+        "MasterPassword": [{n: "CryptoKing", s: 8}, {n: "CyberGhost", s: 5}, {n: "WordHacker", s: 2}],
+        "MasterChess": [{n: "DeepNeon", s: 12}, {n: "Rex_Logic", s: 8}, {n: "Alpha_User", s: 4}]
+    };
+    window.hubCurrentUser = null;
+    window.hubCachedScores = {};
 
-        function togglePanel(id) {
-            document.getElementById(id).classList.toggle("active");
-        }
+    // Gestione Apertura Pannelli Generica (Leaderboard, Auth, Secret)
+    window.togglePanel = (id) => {
+        const el = document.getElementById(id);
+        if (el) el.classList.toggle("active");
+    };
 
-        function openLeaderboard() {
-            buildLeaderboards();
-            togglePanel('leaderboardPanel');
-        }
-
-        // PWA SETUP
-        let installPromptEvent;
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault(); installPromptEvent = e;
-            document.getElementById('btnInstallApp').style.display = 'block';
+    // Filtro Ricerca Giochi
+    window.filter = () => {
+        const val = document.getElementById('gameSearch').value.toLowerCase();
+        document.querySelectorAll('.card').forEach(c => {
+            c.style.display = c.innerText.toLowerCase().includes(val) ? "flex" : "none";
         });
-        function triggerPWAInstallation() {
-            if (installPromptEvent) {
-                installPromptEvent.prompt();
-                installPromptEvent.userChoice.then((choice) => { if (choice.outcome === 'accepted') document.getElementById('btnInstallApp').style.display = 'none'; installPromptEvent = null; });
-            } else { alert("Su Safari iOS clicca su 'Condividi' e seleziona 'Aggiungi alla schermata Home'."); }
-        }
+    };
 
-        // CONTROL AUTHENTICATION
-        function updateAuthUI() {
-            const btn = document.getElementById("btnAuth");
-            if (currentUser) {
-                btn.textContent = `🟢 ${currentUser.toUpperCase()}`;
-                btn.classList.add("logged-in");
-                document.getElementById("auth-logged-out").style.display = "none";
-                document.getElementById("auth-logged-in").style.display = "block";
-                document.getElementById("displayUser").textContent = currentUser.toUpperCase();
-                syncLocalPointsToProfile();
-            } else {
-                btn.textContent = "👤 Accedi";
-                btn.classList.remove("logged-in");
-                document.getElementById("auth-logged-out").style.display = "block";
-                document.getElementById("auth-logged-in").style.display = "none";
-            }
-        }
-
-        function handleHubAuth(mode) {
-            const user = document.getElementById("authUsername").value.trim();
-            const pass = document.getElementById("authPassword").value.trim();
-            const email = document.getElementById("authEmail").value.trim();
-            if (!user || !pass) { alert("Inserisci Username e Password."); return; }
-
-            if (mode === "SIGNUP") {
-                if (accountsDB[user]) { alert("Questo username esiste già."); return; }
-                accountsDB[user] = { password: pass, email: email || "non fornita", scores: {} };
-                localStorage.setItem("hub_accounts", JSON.stringify(accountsDB));
-                alert("Registrazione effettuata con successo!");
-            }
-            if (accountsDB[user] && accountsDB[user].password === pass) {
-                currentUser = user; localStorage.setItem("hub_active_user", currentUser);
-                updateAuthUI(); togglePanel('authPanel');
-            } else if (mode === "LOGIN") { alert("Credenziali non valide."); }
-        }
-
-        function handleHubLogout() {
-            currentUser = null; localStorage.removeItem("hub_active_user");
-            updateAuthUI(); togglePanel('authPanel');
-        }
-
-        function syncLocalPointsToProfile() {
-            if (!currentUser) return;
-            Object.keys(globalRivals).forEach(g => {
-                const localScore = parseInt(localStorage.getItem(`points_${g.toLowerCase()}`)) || 0;
-                if (localScore > (accountsDB[currentUser].scores[g] || 0)) accountsDB[currentUser].scores[g] = localScore;
-            });
-            localStorage.setItem("hub_accounts", JSON.stringify(accountsDB));
-        }
-
-        // BUILD ADVANCED LEADERBOARD MODAL
-        function buildLeaderboards() {
-            const container = document.getElementById("leaderboardScoresContainer");
-            container.innerHTML = "";
-            let totalAggregatedScores = {};
-
-            Object.values(globalRivals).forEach(list => list.forEach(p => totalAggregatedScores[p.n] = (totalAggregatedScores[p.n] || 0) + p.s));
-            Object.keys(accountsDB).forEach(u => {
-                let userSum = 0; Object.values(accountsDB[u].scores).forEach(s => userSum += s);
-                totalAggregatedScores[u] = userSum;
-            });
-
-            let absoluteWinner = "Nessuno", maxOverallScore = -1;
-            Object.keys(totalAggregatedScores).forEach(name => {
-                if (totalAggregatedScores[name] > maxOverallScore) { maxOverallScore = totalAggregatedScores[name]; absoluteWinner = name; }
-            });
-            document.getElementById("globalOverlordName").textContent = absoluteWinner.toUpperCase();
-            document.getElementById("globalOverlordScore").textContent = `${maxOverallScore} Punti Totali Accumulati`;
-
-            Object.keys(globalRivals).forEach(game => {
-                let structure = [...globalRivals[game]];
-                if (currentUser) {
-                    let userScore = accountsDB[currentUser].scores[game] || parseInt(localStorage.getItem(`points_${game.toLowerCase()}`)) || 0;
-                    let idx = structure.findIndex(item => item.n.toLowerCase() === currentUser.toLowerCase());
-                    if (idx !== -1) { if (userScore > structure[idx].s) structure[idx].s = userScore; } else { structure.push({ n: currentUser, s: userScore }); }
-                }
-                structure.sort((a, b) => b.s - a.s);
-
-                let section = document.createElement("div");
-                section.className = "game-rank-section";
-                section.innerHTML = `<h4 class="game-rank-title">${game}</h4>`;
-                
-                structure.slice(0, 3).forEach((row, i) => {
-                    let medal = i === 0 ? "🥇" : i === 1 ? "🥈" : "🥉";
-                    let rankClass = i === 0 ? "top-1" : i === 1 ? "top-2" : "top-3";
-                    let boldStyle = row.n === currentUser ? "border-left-color: var(--neon-emerald); color: var(--neon-emerald); font-weight: bold;" : "";
-                    section.innerHTML += `<div class="rank-item ${rankClass}" style="${boldStyle}"><span>${medal} ${row.n}</span><span>${row.s} pts</span></div>`;
-                });
-                container.appendChild(section);
-            });
-        }
-
-        function filter() {
-            let val = document.getElementById('gameSearch').value.toLowerCase();
-            document.querySelectorAll('.card').forEach(c => c.style.display = c.innerText.toLowerCase().includes(val) ? "flex" : "none");
-        }
-
-        // BOT ENGINE
-        function toggleChat() { document.getElementById('chatWin').classList.toggle('open'); const badge = document.getElementById('chatBadge'); if (badge) badge.style.display = 'none'; }
-        function selectOption(tag) { const txt = document.getElementById('chatMessage'); if (!txt.value.includes(tag)) txt.value = tag + txt.value; txt.focus(); }
-        function validateEmailRealTime(input) {
-            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-            const btn = document.getElementById('submitBtn');
-            if (input.value.trim() === "") { input.classList.remove('valid-email', 'invalid-email'); btn.disabled = false; return false; }
-            if (emailRegex.test(input.value)) { input.classList.remove('invalid-email'); input.classList.add('valid-email'); btn.disabled = false; return true; } 
-            else { input.classList.remove('valid-email'); input.classList.add('invalid-email'); btn.disabled = true; return false; }
-        }
-
-        document.getElementById('masterForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const btn = document.getElementById('submitBtn');
-            btn.textContent = 'INVIANDO...'; btn.disabled = true;
-            localStorage.setItem("masterbot_user_email", document.getElementById('chatEmail').value);
-            
-            fetch('https://formspree.io/f/xbdzvell', { method: 'POST', body: new FormData(this), headers: { 'Accept': 'application/json' } })
-            .then(res => {
-                if (res.ok) {
-                    document.getElementById('mainChatContent').style.display = 'none';
-                    const success = document.getElementById('chatSuccess'); success.style.display = 'block';
-                    success.innerHTML = `Grazie! Il tuo messaggio è stato recapitato a MasterSabba. 🚀<br><br>Ti risponderò presto!`;
-                    setTimeout(() => { 
-                        toggleChat(); this.reset(); btn.textContent = 'INVIA MESSAGGIO'; btn.disabled = false; success.style.display = 'none'; document.getElementById('mainChatContent').style.display = 'flex'; 
-                        const se = localStorage.getItem("masterbot_user_email"); if (se) { document.getElementById("chatEmail").value = se; validateEmailRealTime(document.getElementById("chatEmail")); }
-                    }, 3000);
-                }
-            });
-        });
-
-        document.addEventListener("DOMContentLoaded", () => {
-            updateAuthUI();
-            const savedEmail = localStorage.getItem("masterbot_user_email");
-            if (savedEmail) { document.getElementById("chatEmail").value = savedEmail; validateEmailRealTime(document.getElementById("chatEmail")); }
-            if (localStorage.getItem("pending_rating") && !localStorage.getItem("hub_game_rated")) {
-                setTimeout(() => { document.getElementById('ratingModal').classList.add('show'); localStorage.removeItem("pending_rating"); }, 2000);
-            }
-            document.querySelectorAll('.card').forEach(card => card.addEventListener('click', () => { if (!localStorage.getItem("hub_game_rated")) localStorage.setItem("pending_rating", "true"); }));
-        });
-
-        function submitRating(stars) {
-            localStorage.setItem("hub_game_rated", stars);
-            fetch('https://formspree.io/f/xbdzvell', { method: 'POST', body: JSON.stringify({ Valutazione: stars + " stelle" }), headers: { 'Content-Type': 'application/json' } });
-            document.getElementById('ratingBox').innerHTML = `<h3 style="color:var(--neon-green)">Grazie! ⭐ ${stars}/5</h3>`;
-            setTimeout(() => { document.getElementById('ratingModal').classList.remove('show'); }, 2000);
-        }
-        function closeRatingModal() { document.getElementById('ratingModal').classList.remove('show'); }
+    // BOT ENGINE (Con memoria di lettura per il Pallino Rosso)
+    window.toggleChat = function() { 
+        const chatWin = document.getElementById('chatWin');
+        if (chatWin) chatWin.classList.toggle('open'); 
         
+        // Salva nel browser che l'utente ha aperto la chat almeno una volta
+        localStorage.setItem("masterbot_badge_hidden", "true");
+
+        // Nasconde il pallino rosso sul momento (intercettando ogni ID possibile)
+        const badge = document.getElementById('chatBadge') || 
+                      document.getElementById('chatNotification') || 
+                      document.getElementById('chatDot');
+        if (badge) {
+            badge.style.display = 'none';
+            badge.style.opacity = '0';
+            badge.classList.remove('show');
+        }
+    };
+
+    window.selectOption = function(tag) { 
+        const txt = document.getElementById('chatMessage'); 
+        if (txt) {
+            if (!txt.value.includes(tag)) txt.value = tag + txt.value; 
+            txt.focus(); 
+        }
+    };
+
+    window.validateEmailRealTime = function(input) {
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        const btn = document.getElementById('submitBtn');
+        if (!btn) return false;
+        if (input.value.trim() === "") { input.classList.remove('valid-email', 'invalid-email'); btn.disabled = false; return false; }
+        if (emailRegex.test(input.value)) { input.classList.remove('invalid-email'); input.classList.add('valid-email'); btn.disabled = false; return true; } 
+        else { input.classList.remove('valid-email'); input.classList.add('invalid-email'); btn.disabled = true; return false; }
+    };
+
+    // VALUTAZIONE STELLE
+    window.closeRatingModal = function() { 
+        const rm = document.getElementById('ratingModal');
+        if (rm) rm.classList.remove('show'); 
+    };
+
+    window.submitRating = function(stars) {
+        localStorage.setItem("hub_game_rated", stars);
+        
+        fetch('https://formspree.io/f/xbdzvell', { 
+            method: 'POST', 
+            body: JSON.stringify({ Valutazione: stars + " stelle" }), 
+            headers: { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            } 
+        });
+
+        const rb = document.getElementById('ratingBox');
+        if (rb) rb.innerHTML = `<h3 style="color:var(--neon-green)">Grazie! ⭐ ${stars}/5</h3>`;
+        setTimeout(() => { window.closeRatingModal(); }, 2000);
+    };
+
+    // Fallback moduli Cloud offline
+    window.handleHubAuth = function(mode) {
+        alert("⚠️ Modulo Cloud non attivo in questo ambiente locale.\n\nPer abilitare Registrazione e Accesso è necessario che il file 'firebase.js' sia presente e configurato.");
+    };
+    window.handleHubLogout = function() {
+        alert("⚠️ Nessuna sessione cloud attiva.");
+    };
+
+    // Costruzione dinamica della Classifica
+    window.buildLeaderboards = function() {
+        const container = document.getElementById("leaderboardScoresContainer");
+        if (!container) return;
+        container.innerHTML = "";
+        let totalAggregatedScores = {};
+
+        Object.values(window.globalRivals).forEach(list => list.forEach(p => totalAggregatedScores[p.n] = (totalAggregatedScores[p.n] || 0) + p.s));
+        
+        if (window.hubCurrentUser) {
+            let userSum = 0;
+            Object.values(window.hubCachedScores).forEach(s => userSum += s);
+            if(userSum > 0) totalAggregatedScores[window.hubCurrentUser] = userSum;
+        }
+
+        let absoluteWinner = "Nessuno", maxOverallScore = -1;
+        Object.keys(totalAggregatedScores).forEach(name => {
+            if (totalAggregatedScores[name] > maxOverallScore) { maxOverallScore = totalAggregatedScores[name]; absoluteWinner = name; }
+        });
+        if(document.getElementById("globalOverlordName")) document.getElementById("globalOverlordName").textContent = absoluteWinner.toUpperCase();
+        if(document.getElementById("globalOverlordScore")) document.getElementById("globalOverlordScore").textContent = `${maxOverallScore} Punti Totali`;
+
+        Object.keys(window.globalRivals).forEach(game => {
+            let structure = [...window.globalRivals[game]];
+            let userScore = window.hubCachedScores[game] || parseInt(localStorage.getItem(`points_${game.toLowerCase()}`)) || 0;
+            
+            if (window.hubCurrentUser) {
+                let idx = structure.findIndex(item => item.n.toLowerCase() === window.hubCurrentUser.toLowerCase());
+                if (idx !== -1) { 
+                    if (userScore > structure[idx].s) structure[idx].s = userScore; 
+                } else if (userScore > 0) { 
+                    structure.push({ n: window.hubCurrentUser, s: userScore }); 
+                }
+            }
+            structure.sort((a, b) => b.s - a.s);
+
+            let section = document.createElement("div");
+            section.className = "game-rank-section";
+            section.style = "margin-bottom: 15px; background: #11131c; border: 1px solid #1e2030; padding: 10px; border-radius: 8px;";
+            section.innerHTML = `<h4 style="font-size:0.85rem; color:#00ffff; margin:0 0 5px 0; text-transform:uppercase;">${game}</h4>`;
+            
+            structure.slice(0, 3).forEach((row, i) => {
+                let medal = i === 0 ? "🥇" : i === 1 ? "🥈" : "🥉";
+                let boldStyle = row.n === window.hubCurrentUser ? "color: #39ff14; font-weight: bold;" : "color: #ddd;";
+                section.innerHTML += `<div style="display:flex; justify-content:space-between; font-size:0.8rem; padding:3px 0; ${boldStyle}"><span>${medal} ${row.n}</span><span>${row.s} pts</span></div>`;
+            });
+            container.appendChild(section);
+        });
+    };
+
+    window.openLeaderboard = () => { window.buildLeaderboards(); window.togglePanel('leaderboardPanel'); };
+
+    // Inizializzazione Listener al boot della pagina
+    document.addEventListener("DOMContentLoaded", () => {
+        if (window.updateAuthUI) { window.updateAuthUI(); }
+
+        // CONTROLLO PERSISTENZA PALLINO ROSSO: Se è già stato letto in passato, nascondilo subito
+        if (localStorage.getItem("masterbot_badge_hidden") === "true") {
+            const badge = document.getElementById('chatBadge') || 
+                          document.getElementById('chatNotification') || 
+                          document.getElementById('chatDot');
+            if (badge) {
+                badge.style.display = 'none';
+                badge.style.opacity = '0';
+                badge.classList.remove('show');
+            }
+        }
+
+        // Ripristino email salvata
+        const savedEmail = localStorage.getItem("masterbot_user_email");
+        const emailInput = document.getElementById("chatEmail");
+        if (savedEmail && emailInput) { 
+            emailInput.value = savedEmail; 
+            window.validateEmailRealTime(emailInput); 
+        }
+        
+        // Trigger automatico modale recensioni
+        if (localStorage.getItem("pending_rating") && !localStorage.getItem("hub_game_rated")) {
+            setTimeout(() => { 
+                const rm = document.getElementById('ratingModal');
+                if (rm) rm.classList.add('show'); 
+                localStorage.removeItem("pending_rating"); 
+            }, 2000);
+        }
+        document.querySelectorAll('.card').forEach(card => card.addEventListener('click', () => { if (!localStorage.getItem("hub_game_rated")) localStorage.setItem("pending_rating", "true"); }));
+
+        // Click Segreto sul Titolo
         let titleClicks = 0;
-        document.getElementById('hubTitle').addEventListener('click', () => { titleClicks++; if (titleClicks === 3) { togglePanel('secretPanel'); titleClicks = 0; } setTimeout(() => { titleClicks = 0; }, 1200); });
-    </script>
+        const titleEl = document.getElementById('hubTitle');
+        if (titleEl) {
+            titleEl.addEventListener('click', () => { 
+                titleClicks++; 
+                if (titleClicks === 3) { window.togglePanel('secretPanel'); titleClicks = 0; } 
+                setTimeout(() => { titleClicks = 0; }, 1200); 
+            });
+        }
+
+        // Invio Form di contatto Formspree Chat
+        const mf = document.getElementById('masterForm');
+        if (mf) {
+            mf.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const btn = document.getElementById('submitBtn');
+                if (btn) { btn.textContent = 'INVIANDO...'; btn.disabled = true; }
+                
+                const chatEmail = document.getElementById('chatEmail');
+                if (chatEmail) localStorage.setItem("masterbot_user_email", chatEmail.value);
+                
+                fetch('https://formspree.io/f/xbdzvell', { method: 'POST', body: new FormData(this), headers: { 'Accept': 'application/json' } })
+                .then(res => {
+                    if (res.ok) {
+                        const mcc = document.getElementById('mainChatContent');
+                        if (mcc) mcc.style.display = 'none';
+                        const success = document.getElementById('chatSuccess'); 
+                        if (success) {
+                            success.style.display = 'block';
+                            success.innerHTML = `Grazie! Il tuo messaggio è stato recapitato a MasterSabba. 🚀<br><br>Ti risponderò presto!`;
+                        }
+                        setTimeout(() => { 
+                            window.toggleChat(); 
+                            this.reset(); 
+                            if (btn) { btn.textContent = 'INVIA MESSAGGIO'; btn.disabled = false; }
+                            if (success) success.style.display = 'none'; 
+                            if (mcc) mcc.style.display = 'flex'; 
+                            
+                            const se = localStorage.getItem("masterbot_user_email"); 
+                            if (se && chatEmail) { 
+                                chatEmail.value = se; 
+                                window.validateEmailRealTime(chatEmail); 
+                            }
+                        }, 3000);
+                    }
+                });
+            });
+        }
+    });
+</script>
+
+
+<script type="module">
+    import { auth, db } from "./firebase.js";
+    import { 
+        createUserWithEmailAndPassword, 
+        signInWithEmailAndPassword, 
+        signOut, 
+        onAuthStateChanged,
+        updateProfile 
+    } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+    import { doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+
+    // Se arriviamo qui, il file firebase.js è corretto! Sovrascriviamo le funzioni di Login/Registrazione
+    window.handleHubAuth = async function(mode) {
+        const userEl = document.getElementById("authUsername");
+        const passEl = document.getElementById("authPassword");
+        if(!userEl || !passEl) return;
+        
+        const user = userEl.value.trim();
+        const pass = passEl.value.trim();
+        const emailInput = document.getElementById("authEmail") ? document.getElementById("authEmail").value.trim() : "";
+        const email = emailInput || `${user.toLowerCase()}@masterhub.local`;
+        
+        if (!user || !pass) { alert("Inserisci Username e Password."); return; }
+
+        try {
+            if (mode === "SIGNUP") {
+                const cred = await createUserWithEmailAndPassword(auth, email, pass);
+                await updateProfile(cred.user, { displayName: user });
+                await setDoc(doc(db, "users", cred.user.uid), { username: user, scores: {} });
+                alert("Registrazione completata!");
+            } else {
+                await signInWithEmailAndPassword(auth, email, pass);
+            }
+            if (window.togglePanel) window.togglePanel('authPanel');
+        } catch (e) { alert("Errore Account: " + e.message); }
+    };
+
+    window.handleHubLogout = () => signOut(auth);
+
+    // Sincronizzazione punti automatici LocalStorage -> Cloud Firestore
+    async function syncLocalPointsToProfile(uid) {
+        let updated = false;
+        Object.keys(window.globalRivals).forEach(g => {
+            const localScore = parseInt(localStorage.getItem(`points_${g.toLowerCase()}`)) || 0;
+            if (localScore > (window.hubCachedScores[g] || 0)) {
+                window.hubCachedScores[g] = localScore;
+                updated = true;
+            }
+        });
+        if (updated && uid) {
+            try { await setDoc(doc(db, "users", uid), { scores: window.hubCachedScores }, { merge: true }); } catch(e) { console.error(e); }
+        }
+    }
+
+    // Ascolto stato utente Firebase in tempo reale
+    onAuthStateChanged(auth, async (user) => {
+        const btn = document.getElementById("btnAuth");
+        if (!btn) return;
+        if (user) {
+            window.hubCurrentUser = user.displayName || "Agente Anonimo";
+            btn.textContent = `🟢 ${window.hubCurrentUser.toUpperCase()}`;
+            btn.classList.add("logged-in");
+            if (document.getElementById("auth-logged-out")) document.getElementById("auth-logged-out").style.display = "none";
+            if (document.getElementById("auth-logged-in")) document.getElementById("auth-logged-in").style.display = "block";
+            if (document.getElementById("displayUser")) document.getElementById("displayUser").textContent = window.hubCurrentUser.toUpperCase();
+            
+            try {
+                const userDoc = await getDoc(doc(db, "users", user.uid));
+                if (userDoc.exists() && userDoc.data().scores) {
+                    window.hubCachedScores = userDoc.data().scores;
+                }
+                syncLocalPointsToProfile(user.uid);
+            } catch(e) { console.error("Errore Caricamento Profili Cloud:", e); }
+        } else {
+            window.hubCurrentUser = null;
+            window.hubCachedScores = {};
+            btn.textContent = "👤 Accedi";
+            btn.classList.remove("logged-in");
+            if (document.getElementById("auth-logged-out")) document.getElementById("auth-logged-out").style.display = "block";
+            if (document.getElementById("auth-logged-in")) document.getElementById("auth-logged-in").style.display = "none";
+        }
+    });
+
+    // PWA Installer Engine
+    let installPromptEvent;
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault(); installPromptEvent = e;
+        if(document.getElementById('btnInstallApp')) document.getElementById('btnInstallApp').style.display = 'block';
+    });
+    window.triggerPWAInstallation = () => {
+        if (installPromptEvent) {
+            installPromptEvent.prompt();
+            installPromptEvent.userChoice.then((choice) => { if (choice.outcome === 'accepted' && document.getElementById('btnInstallApp')) document.getElementById('btnInstallApp').style.display = 'none'; installPromptEvent = null; });
+        } else { alert("Su iOS clicca su 'Condividi' -> 'Aggiungi alla schermata Home'."); }
+    };
+</script>
+
+
+
+    <!-- CHAT WIDGET: MASTERBOT -->
+<div id="chat-widget" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
+    <div class="chat-button" onclick="toggleChat()" style="width: 60px; height: 60px; background: #111; border: 2px solid #00d4ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 15px #00d4ff;">
+        <span style="font-size: 1.8rem;">🤖</span>
+        <div class="chat-badge" id="chatBadge" style="position: absolute; top: -2px; right: -2px; width: 14px; height: 14px; background: #ff073a; border-radius: 50%;"></div>
+    </div>
+    <div class="chat-window" id="chatWin" style="display: none; position: absolute; bottom: 75px; right: 0; width: 320px; background: #111; border: 1px solid #00d4ff; border-radius: 15px; flex-direction: column; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
+        <div class="chat-header" style="background: #00d4ff; color: black; padding: 15px; font-weight: bold; display: flex; justify-content: space-between; align-items: center;">
+            <span>🤖 MASTER BOT</span>
+            <button onclick="toggleChat()" style="background:none; border:none; font-size:1.4rem; cursor:pointer; font-weight:bold;">×</button>
+        </div>
+        <div class="chat-body" style="padding: 15px; display: flex; flex-direction: column; gap: 12px; max-height: 380px; overflow-y: auto;">
+            <div id="mainChatContent" style="display: flex; flex-direction: column; gap: 12px;">
+                <div class="bot-msg" style="background: #1e293b; color: white; padding: 10px 14px; border-radius: 12px 12px 12px 0; font-size: 0.9rem; border-left: 3px solid #00d4ff;">Ciao! Sono il MasterBot. Vuoi segnalare un bug o lasciare un feedback a MasterSabba?</div>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                    <button type="button" style="background:#050505; border:1px solid #333; color:#ccc; padding:6px 10px; border-radius:20px; font-size:0.75rem; cursor:pointer;" onclick="selectOption('[BUG] ')">🐛 Bug</button>
+                    <button type="button" style="background:#050505; border:1px solid #333; color:#ccc; padding:6px 10px; border-radius:20px; font-size:0.75rem; cursor:pointer;" onclick="selectOption('[FEEDBACK] ')">💡 Idea</button>
+                    <button type="button" style="background:#050505; border:1px solid #333; color:#ccc; padding:6px 10px; border-radius:20px; font-size:0.75rem; cursor:pointer;" onclick="selectOption('[AIUTO] ')">❓ Login</button>
+                </div>
+                <form id="masterForm" style="display: flex; flex-direction: column; gap: 10px;">
+                    <input type="email" id="chatEmail" name="Email" placeholder="La tua email" required style="background:#050505; border:1px solid #333; color:white; padding:10px; border-radius:8px;">
+                    <textarea id="chatMessage" name="Messaggio" rows="3" placeholder="Scrivi qui..." required style="background:#050505; border:1px solid #333; color:white; padding:10px; border-radius:8px; font-family:inherit;"></textarea>
+                    <button type="submit" id="submitBtn" style="background:#00d4ff; border:none; padding:11px; font-weight:bold; cursor:pointer; border-radius:8px; color:black;">Invia</button>
+                </form>
+            </div>
+            <div id="chatSuccess" style="display: none; background: #1e293b; color: white; padding: 10px 14px; border-radius: 12px; font-size: 0.9rem; border-left: 3px solid #39ff14;"></div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL POPUP: VALUTAZIONE STELLE -->
+<div id="ratingModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; display: none; align-items: center; justify-content: center;">
+    <div id="ratingBox" style="background: #111; border: 2px solid #ffee00; border-radius: 16px; padding: 30px 20px; width: 90%; max-width: 320px; text-align: center; box-shadow: 0 0 25px rgba(255, 238, 0, 0.2);">
+        <h3 style="margin: 0 0 10px 0; color: #ffee00;">Ti piace l'Hub?</h3>
+        <p style="font-size:0.85rem; color:#777; margin:0 0 20px 0;">Lascia una valutazione rapida per supportare il progetto!</p>
+        <div style="display: flex; justify-content: center; gap: 8px; margin-bottom: 25px; flex-direction: row-reverse;">
+            <span style="font-size:2.3rem; cursor:pointer; color:rgba(255,255,255,0.2);" onclick="submitRating(5)" onmouseover="this.style.color='#ffee00'" onmouseout="this.style.color=''">⭐</span>
+            <span style="font-size:2.3rem; cursor:pointer; color:rgba(255,255,255,0.2);" onclick="submitRating(4)" onmouseover="this.style.color='#ffee00'" onmouseout="this.style.color=''">⭐</span>
+            <span style="font-size:2.3rem; cursor:pointer; color:rgba(255,255,255,0.2);" onclick="submitRating(3)" onmouseover="this.style.color='#ffee00'" onmouseout="this.style.color=''">⭐</span>
+            <span style="font-size:2.3rem; cursor:pointer; color:rgba(255,255,255,0.2);" onclick="submitRating(2)" onmouseover="this.style.color='#ffee00'" onmouseout="this.style.color=''">⭐</span>
+            <span style="font-size:2.3rem; cursor:pointer; color:rgba(255,255,255,0.2);" onclick="submitRating(1)" onmouseover="this.style.color='#ffee00'" onmouseout="this.style.color=''">⭐</span>
+        </div>
+        <button type="button" style="font-size: 0.8rem; color: #555; background: none; border: none; text-decoration: underline; cursor: pointer;" onclick="closeRatingModal()">Magari più tardi</button>
+    </div>
+</div>
 </body>
 </html>
