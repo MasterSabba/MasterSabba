@@ -1,4 +1,4 @@
-# MasterGames
+# Master Games
 
 MasterGames è una raccolta di mini-giochi web in stile arcade neon, tutti accessibili da un’unica piattaforma.
 
