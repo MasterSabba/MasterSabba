@@ -530,10 +530,37 @@
         setTimeout(() => { window.closeRatingModal(); }, 2000);
     };
 
-   // Fallback protetti: si attivano SOLO se firebase.js non è stato ancora caricato
-    window.handleHubAuth = window.handleHubAuth || function(mode) {
-        alert("⚠️ Modulo Cloud non attivo in questo ambiente locale.\n\nPer abilitare Registrazione e Accesso è necessario che il file 'firebase.js' sia presente e configurato.");
-    };
+ window.handleHubAuth = async function(mode) {
+    const userEl = document.getElementById("authUsername");
+    const passEl = document.getElementById("authPassword");
+    if(!userEl || !passEl) return;
+    
+    const user = userEl.value.trim();
+    const pass = passEl.value.trim();
+    const emailInput = document.getElementById("authEmail") ? document.getElementById("authEmail").value.trim() : "";
+    const email = emailInput || `${user.toLowerCase()}@masterhub.local`;
+    
+    if (!user || !pass) { alert("Inserisci Username e Password."); return; }
+
+    try {
+        if (mode === "SIGNUP") {
+            const cred = await createUserWithEmailAndPassword(auth, email, pass);
+            // 1. Aggiorna immediatamente il profilo Firebase con l'username
+            await updateProfile(cred.user, { displayName: user });
+            // 2. Salva l'utente su Firestore
+            await setDoc(doc(db, "users", cred.user.uid), { username: user, scores: {} });
+            
+            // 3. TRUCCO CRUCIALE: Forza l'applicazione a riconoscere subito l'username locale
+            window.hubCurrentUser = user; 
+            
+            alert("Registrazione completata!");
+        } else {
+            await signInWithEmailAndPassword(auth, email, pass);
+        }
+        if (window.togglePanel) window.togglePanel('authPanel');
+    } catch (e) { alert("Errore Account: " + e.message); }
+};
+     
     window.handleHubLogout = window.handleHubLogout || function() {
         alert("⚠️ Nessuna sessione cloud attiva.");
     };
@@ -732,38 +759,49 @@
         }
     }
 
-    // Ascolto stato utente Firebase in tempo reale
-    onAuthStateChanged(auth, async (user) => {
-        const btn = document.getElementById("btnAuth");
-        if (!btn) return;
-        if (user) {
-            window.hubCurrentUser = user.displayName || "Agente Anonimo";
-            btn.textContent = `🟢 ${window.hubCurrentUser.toUpperCase()}`;
-            btn.classList.add("logged-in");
-            if (document.getElementById("auth-logged-out")) document.getElementById("auth-logged-out").style.display = "none";
-            if (document.getElementById("auth-logged-in")) document.getElementById("auth-logged-in").style.display = "block";
-            if (document.getElementById("displayUser")) document.getElementById("displayUser").textContent = window.hubCurrentUser.toUpperCase();
-            
-            try {
-                const userDoc = await getDoc(doc(db, "users", user.uid));
-                if (userDoc.exists() && userDoc.data().scores) {
-                    window.hubCachedScores = userDoc.data().scores;
-                }
-                await syncLocalPointsToProfile(user.uid);
-            } catch(e) { console.error("Errore Caricamento Profili Cloud:", e); }
-        } else {
-            window.hubCurrentUser = null;
-            window.hubCachedScores = {};
-            btn.textContent = "👤 Accedi";
-            btn.classList.remove("logged-in");
-            if (document.getElementById("auth-logged-out")) document.getElementById("auth-logged-out").style.display = "block";
-            if (document.getElementById("auth-logged-in")) document.getElementById("auth-logged-in").style.display = "none";
+   onAuthStateChanged(auth, async (user) => {
+    const btn = document.getElementById("btnAuth");
+    if (!btn) return;
+    if (user) {
+        // Se il displayName non è ancora pronto, facciamo un reload asincrono del profilo cloud
+        if (!user.displayName) {
+            try { await user.reload(); } catch (e) { console.error(e); }
         }
 
-        // SCARICAMENTO CLASSIFICA ATTIVATO: Parte in automatico ogni volta che l'autenticazione ha finito i controlli
-        fetchGlobalLeaderboards();
-    });
+        // Recuperiamo i dati da Firestore
+        let dbUsername = null;
+        try {
+            const userDoc = await getDoc(doc(db, "users", user.uid));
+            if (userDoc.exists()) {
+                const data = userDoc.data();
+                if (data.scores) window.hubCachedScores = data.scores;
+                if (data.username) dbUsername = data.username; // Prende il nome salvato su database
+            }
+            await syncLocalPointsToProfile(user.uid);
+        } catch(e) { console.error("Errore Caricamento Profili Cloud:", e); }
 
+        // PRIORITÀ DEL NOME: 1. DisplayName aggiornato, 2. Nome da Database, 3. Fallback finale
+        window.hubCurrentUser = user.displayName || dbUsername || "Agente Anonimo";
+        
+        // Aggiorna la UI
+        btn.textContent = `🟢 ${window.hubCurrentUser.toUpperCase()}`;
+        btn.classList.add("logged-in");
+        if (document.getElementById("auth-logged-out")) document.getElementById("auth-logged-out").style.display = "none";
+        if (document.getElementById("auth-logged-in")) document.getElementById("auth-logged-in").style.display = "block";
+        if (document.getElementById("displayUser")) document.getElementById("displayUser").textContent = window.hubCurrentUser.toUpperCase();
+        
+    } else {
+        window.hubCurrentUser = null;
+        window.hubCachedScores = {};
+        btn.textContent = "👤 Accedi";
+        btn.classList.remove("logged-in");
+        if (document.getElementById("auth-logged-out")) document.getElementById("auth-logged-out").style.display = "block";
+        if (document.getElementById("auth-logged-in")) document.getElementById("auth-logged-in").style.display = "none";
+    }
+
+    // Aggiorna le classifiche con i nuovi dati corretti
+    fetchGlobalLeaderboards();
+});
     // Scarica i punteggi reali di tutti i giocatori registrati da Firestore
     async function fetchGlobalLeaderboards() {
         try {
