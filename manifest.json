@@ -1,19 +1,15 @@
 {
-  "name": "MasterSabba Games",
-  "short_name": "MasterSabba Games",
-  "description": "L'hub centrale per i giochi di MasterSabba",
-  "start_url": "index.html",
-  "scope": "https://mastersabba.github.io/",
+  "name": "MasterSabba Arcade",
+  "short_name": "MasterSabba Arcade",
+  "start_url": "./",
   "display": "standalone",
-  "background_color": "#0a0a0a",
-  "theme_color": "#00d4ff",
-  "orientation": "portrait",
+  "background_color": "#06080e",
+  "theme_color": "#06080e",
   "icons": [
     {
-      "src": "icon.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "src": "MasterSabba Games.png",
+      "sizes": "192x192 512x512",
+      "type": "image/png"
     }
   ]
 }
