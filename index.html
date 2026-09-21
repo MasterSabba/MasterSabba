@@ -2,910 +2,1683 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-    <meta name="google-site-verification" content="bSyuxHebRemnINvhMQQhHxEVCsQ-AE-t-AH00CiJEXo" />
-
-    <title>MasterSabba Games</title>
-    <meta name="description" content="Gioca gratis online a sfide di logica, strategia e intuito. Batti record e conquista le classifiche di MasterSabba Games.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
+    <title>MasterSabba Arcade</title>
+    <meta name="description" content="Esplora la collezione arcade di MasterSabba: giochi di carte, puzzle, logica e investigazione, accumula XP e scala la classifica globale.">
+    <meta name="keywords" content="MasterSabba, Arcade, Web Games, PWA, Giochi online, Mini giochi, MasterLab">
+    <meta name="author" content="MasterSabba">
+
     <link rel="manifest" href="manifest.json">
-    <link rel="icon" type="image/png" href="MasterSabba Games.png">
-    <link rel="apple-touch-icon" href="MasterSabba Games.png">
+    <meta name="theme-color" content="#06080e">
+    <meta name="mobile-web-app-capable" content="yes">
+    
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Sabba Arcade">
+    <link rel="apple-touch-icon" href="MasterSabba Games.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
     <style>
         :root {
-            --neon-red: #ff073a;
-            --neon-orange: #ff9800;
-            --neon-yellow: #ffee00;
-            --neon-green: #39ff14;
-            --neon-emerald: #05ffc5;
-            --neon-cyan: #00ffff;
-            --neon-blue: #00d4ff;
-            --neon-blue-block: #3b82f6; 
-            --neon-purple: #bc13fe;
-            --neon-silver: #e0e0e0;
-            --neon-white: #ffffff;
-            --bg-dark: #050505;
+            --bg-dark: #06080e;
+            --bg-card: rgba(18, 24, 38, 0.75);
+            --bg-card-hover: rgba(26, 35, 56, 0.9);
+            --neon-cyan: #00f3ff;
+            --neon-purple: #a811ff;
+            --neon-pink: #ff0055;
+            --neon-green: #00ff66;
+            --neon-yellow: #ffb700;
+            --text-primary: #f0f4f8;
+            --text-secondary: #94a3b8;
+            --text-dim: #475569;
+            --font-heading: 'Orbitron', sans-serif;
+            --font-body: 'Rajdhani', sans-serif;
+            --border-glass: 1px solid rgba(255, 255, 255, 0.1);
+            --shadow-neon: 0 0 25px rgba(0, 243, 255, 0.2);
         }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
             background-color: var(--bg-dark);
-            color: white;
-            margin: 0;
-            padding: 20px;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(168, 17, 255, 0.15) 0%, transparent 45%),
+                radial-gradient(circle at 85% 85%, rgba(0, 243, 255, 0.15) 0%, transparent 45%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            font-size: 18px;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
             align-items: center;
-            min-height: 100vh;
-            box-sizing: border-box;
+            padding: 0.9rem 2rem;
+            background: rgba(6, 8, 14, 0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: var(--border-glass);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
-        
 
-        h1 {
-            font-size: 1.6rem;
-            letter-spacing: 5px;
-            margin: 25px 0 5px 0;
-            text-shadow: 0 0 15px var(--neon-blue);
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-family: var(--font-heading);
             font-weight: 900;
-            text-align: center;
+            font-size: 1.2rem;
             cursor: pointer;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
         }
 
-        .author-credits {
-            font-size: 0.7rem;
-            letter-spacing: 4px;
-            color: #666;
-            margin-bottom: 25px;
-            text-transform: uppercase;
+        .nav-logo-icon {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+            border-radius: 6px;
+        }
+
+        .highlight { color: var(--neon-cyan); text-shadow: 0 0 10px rgba(0, 243, 255, 0.6); }
+
+        .hub-actions { display: flex; gap: 0.6rem; align-items: center; }
+
+        .hub-btn, .btn-play, .tab-btn {
+            font-family: var(--font-heading);
             font-weight: 700;
+            text-transform: uppercase;
+            border: none;
             cursor: pointer;
-            transition: 0.3s ease;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .author-credits:hover {
-            color: var(--neon-purple);
-            text-shadow: 0 0 10px var(--neon-purple);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            position: relative;
         }
 
+        .hub-btn {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: var(--border-glass);
+            padding: 0.5rem 0.9rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+        }
+
+        .hub-btn:hover { border-color: var(--neon-cyan); color: var(--neon-cyan); box-shadow: 0 0 12px rgba(0, 243, 255, 0.3); }
+
+        .btn-install {
+            background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan));
+            color: #fff;
+            border: none;
+            box-shadow: 0 0 10px rgba(168, 17, 255, 0.4);
+        }
+        .btn-install:hover {
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.7);
+            transform: translateY(-1px);
+        }
+
+        .notification-badge {
+            display: none;
+            position: absolute;
+            top: -3px;
+            right: -3px;
+            width: 12px;
+            height: 12px;
+            background-color: var(--neon-pink);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--neon-pink);
+            border: 2px solid var(--bg-dark);
+            animation: pulse-red 1.5s infinite;
+        }
+
+        @keyframes pulse-red {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 0, 85, 0.7); }
+            70% { transform: scale(1.15); box-shadow: 0 0 0 8px rgba(255, 0, 85, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 0, 85, 0); }
+        }
+
+        .btn-claim {
+            background: linear-gradient(135deg, var(--neon-green), #00b341);
+            color: #000;
+            font-weight: 900;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            box-shadow: 0 0 10px rgba(0, 255, 102, 0.4);
+            cursor: pointer;
+            border: none;
+        }
+        .btn-claim:hover { transform: scale(1.05); box-shadow: 0 0 15px rgba(0, 255, 102, 0.8); }
+        .btn-claim:disabled { background: rgba(255,255,255,0.1); color: var(--text-dim); box-shadow: none; cursor: not-allowed; }
+
+        .btn-play {
+            background: linear-gradient(135deg, var(--neon-cyan), #0066ff);
+            color: #fff;
+            padding: 0.5rem 1.1rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            box-shadow: 0 4px 15px rgba(0, 243, 255, 0.3);
+        }
+
+        .btn-play:hover { transform: translateY(-2px); box-shadow: 0 0 20px rgba(0, 243, 255, 0.6); }
+
+        .hero-section { text-align: center; padding: 2.5rem 1.5rem 1rem; }
+        .hero-title {
+          font-family: var(--font-heading);
+          font-size: 2.4rem;
+          font-weight: 900;
+          color: var(--text-primary);
+          text-transform: uppercase;
+          letter-spacing: 2px;
+        }
+        .hero-title .highlight {
+          color: var(--neon-cyan);
+          text-shadow: 0 0 12px rgba(0, 243, 255, 0.6);
+        }
+        .hero-subtitle { color: var(--text-secondary); font-size: 1rem; margin-bottom: 1.5rem; }
+
+        .search-container { max-width: 500px; margin: 0 auto 1.2rem; }
         .search-box {
             width: 100%;
-            max-width: 400px;
-            margin-bottom: 15px;
-        }
-
-        #gameSearch {
-            width: 100%;
-            padding: 14px 25px;
-            background: #111;
-            border: 1px solid #333;
+            padding: 0.8rem 1.2rem;
+            background: var(--bg-card);
+            border: var(--border-glass);
             border-radius: 12px;
-            color: white;
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            font-size: 1rem;
             outline: none;
-            transition: 0.3s;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
         }
-        #gameSearch:focus { border-color: var(--neon-blue); box-shadow: 0 0 10px rgba(0,212,255,0.2); }
+        .search-box:focus { border-color: var(--neon-cyan); box-shadow: var(--shadow-neon); }
 
-        /* NAV MENU */
-        .hub-actions {
+        .category-tabs { display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2rem; }
+
+        .tab-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: var(--border-glass);
+            color: var(--text-secondary);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+        }
+
+        .tab-btn:hover, .tab-btn.active {
+            background: rgba(0, 243, 255, 0.15);
+            border-color: var(--neon-cyan);
+            color: var(--neon-cyan);
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
+        }
+
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: 1.2rem;
+            margin: 1rem auto 1.2rem;
+            max-width: 1200px;
+            padding: 0 1.5rem;
+            color: var(--neon-cyan);
+            border-left: 4px solid var(--neon-cyan);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(3, 5, 10, 0.85);
+            backdrop-filter: blur(12px);
+            z-index: 200;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .modal-card {
+            background: rgba(16, 22, 36, 0.95);
+            border: var(--border-glass);
+            padding: 1.8rem;
+            border-radius: 16px;
+            max-width: 520px;
+            width: 100%;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), var(--shadow-neon);
+            position: relative;
+            animation: modalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: scale(0.92) translateY(10px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.2rem;
+            border-bottom: var(--border-glass);
+            padding-bottom: 0.6rem;
+        }
+
+        .modal-header h3 { font-family: var(--font-heading); color: var(--neon-cyan); font-size: 1.2rem; }
+        .modal-close { background: none; border: none; color: var(--text-dim); font-size: 1.4rem; cursor: pointer; }
+        .modal-close:hover { color: var(--neon-pink); }
+
+        .profile-input-group { margin-bottom: 1.2rem; text-align: center; }
+        .profile-label { font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.4rem; display: block; }
+        .profile-input {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(0,0,0,0.4);
+            border: var(--border-glass);
+            border-radius: 10px;
+            color: #fff;
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            text-align: center;
+            outline: none;
+        }
+        .profile-input:focus { border-color: var(--neon-cyan); }
+
+        .profile-avatar-selector { display: flex; gap: 0.6rem; justify-content: center; margin-bottom: 1.2rem; }
+        .avatar-opt {
+            font-size: 1.8rem;
+            padding: 0.4rem 0.8rem;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .avatar-opt:hover, .avatar-opt.selected { border-color: var(--neon-cyan); background: rgba(0, 243, 255, 0.15); }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; margin: 1rem 0; text-align: center; }
+        .stat-card { background: rgba(255,255,255,0.03); padding: 0.6rem; border-radius: 8px; border: var(--border-glass); }
+        .stat-card .val { font-family: var(--font-heading); color: var(--neon-cyan); font-weight: bold; font-size: 1.1rem; }
+        .stat-card .lbl { font-size: 0.75rem; color: var(--text-secondary); }
+
+        .xp-bar-container { width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; margin: 0.5rem 0; }
+        .xp-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--neon-purple), var(--neon-cyan)); transition: width 0.4s ease; }
+
+        .achievements-list { display: flex; flex-wrap: wrap; gap: 0.4rem; justify-content: center; margin-bottom: 1rem; }
+        .badge {
+            font-size: 0.75rem; padding: 0.3rem 0.6rem; border-radius: 20px;
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: var(--text-dim);
+        }
+        .badge.unlocked { background: rgba(0, 243, 255, 0.15); border-color: var(--neon-cyan); color: var(--neon-cyan); }
+
+        .lb-nav-tabs {
             display: flex;
             gap: 10px;
-            width: 100%;
-            max-width: 400px;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 10px;
         }
-        .hub-btn {
+        .lb-tab-btn {
             flex: 1;
-            padding: 11px;
-            background: #111;
-            border: 1px solid #222;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-secondary);
+            padding: 8px;
             border-radius: 8px;
-            color: #888;
-            font-weight: bold;
-            font-size: 0.75rem;
-            letter-spacing: 1px;
+            font-family: var(--font-heading);
+            font-size: 0.8rem;
             cursor: pointer;
-            transition: 0.3s;
-            text-transform: uppercase;
-            -webkit-tap-highlight-color: transparent;
+            transition: all 0.2s;
         }
-        #btnAuth { border-color: var(--neon-blue); color: var(--neon-blue); }
-        #btnAuth.logged-in { border-color: var(--neon-emerald); color: var(--neon-emerald); text-shadow: 0 0 5px var(--neon-emerald); }
-        #btnLeaderboard { border-color: var(--neon-purple); color: var(--neon-purple); }
-        #btnInstallApp { border-color: var(--neon-green); color: var(--neon-green); display: none; }
+        .lb-tab-btn.active {
+            background: rgba(0, 243, 255, 0.15);
+            border-color: var(--neon-cyan);
+            color: var(--neon-cyan);
+            font-weight: bold;
+        }
+        .lb-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 12px;
+            margin-bottom: 6px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            font-size: 0.85rem;
+        }
+        .lb-row.me {
+            border-color: var(--neon-green);
+            background: rgba(0, 255, 102, 0.1);
+        }
+        .lb-rank {
+            font-family: var(--font-heading);
+            font-weight: bold;
+            width: 30px;
+            color: var(--neon-yellow);
+        }
+        .lb-user {
+            flex: 1;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .lb-score {
+            font-family: var(--font-heading);
+            color: var(--neon-cyan);
+            font-weight: bold;
+        }
 
-        /* OVERLAY MODALS UNIVERSALI */
-        .secret-panel {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5,5,5,0.96);
-            z-index: 3000; display: flex; align-items: center; justify-content: center;
-            opacity: 0; pointer-events: none; transition: 0.3s ease; font-family: 'Segoe UI', system-ui, sans-serif;
+        .overlord-box {
+            background: rgba(168, 17, 255, 0.15);
+            border: 1px solid var(--neon-purple);
+            padding: 12px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 15px;
+            box-shadow: 0 0 15px rgba(168, 17, 255, 0.2);
         }
-        .secret-panel.active { opacity: 1; pointer-events: auto; }
+
+        .quest-timer-badge {
+            background: rgba(0, 243, 255, 0.1);
+            border: 1px solid var(--neon-cyan);
+            color: var(--neon-cyan);
+            font-family: var(--font-heading);
+            font-size: 0.75rem;
+            padding: 0.3rem 0.6rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            text-align: center;
+            display: block;
+        }
+
+        .quest-item {
+            background: rgba(255,255,255,0.03);
+            border: var(--border-glass);
+            border-radius: 10px;
+            padding: 0.8rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.6rem;
+        }
+        .quest-item.completed { border-color: rgba(0, 255, 102, 0.3); }
+        .quest-info h4 { font-size: 0.95rem; color: #fff; }
+        .quest-info p { font-size: 0.75rem; color: var(--neon-cyan); }
+
+        .main-container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem 2.5rem; flex: 1; width: 100%; }
+        .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 1.5rem; }
+
+        .game-card {
+            background: var(--bg-card);
+            border: var(--border-glass);
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(12px);
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .game-card:hover {
+            transform: translateY(-6px) scale(1.02);
+            border-color: var(--neon-cyan);
+            box-shadow: 0 12px 30px rgba(0, 243, 255, 0.25);
+            background: var(--bg-card-hover);
+        }
+
+        .card-media { height: 110px; display: flex; align-items: center; justify-content: center; font-size: 2.4rem; }
         
-        .terminal {
-            width: 95%; max-width: 420px; background: #0c0d12; border: 2px solid #222;
-            border-radius: 16px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.7); position: relative;
-            max-height: 85vh; overflow-y: auto; box-sizing: border-box;
-            scrollbar-width: thin; scrollbar-color: #333 #0c0d12;
-        }
-        .terminal-header { border-bottom: 1px solid #222; padding-bottom: 12px; margin-bottom: 20px; font-weight: bold; font-size: 1rem; letter-spacing: 2px; text-transform: uppercase; text-align: center; }
-        .close-terminal { position: absolute; top: 15px; right: 15px; background: none; border: none; color: var(--neon-red); font-size: 1.8rem; cursor: pointer; font-weight: bold; line-height: 1; }
+        .uno-bg { background: linear-gradient(135deg, #ff0055, #7a00ff); }
+        .kittens-bg { background: linear-gradient(135deg, #ff9900, #ff0055); }
+        .wordle-bg { background: linear-gradient(135deg, #00f3ff, #0051ff); }
+        .murder-bg { background: linear-gradient(135deg, #2a0845, #ff0055); }
+        .verbum-bg { background: linear-gradient(135deg, #f0932b, #ffbe76); }
+        .sudoku-bg { background: linear-gradient(135deg, #ffb700, #ff8800); }
+        .key-bg { background: linear-gradient(135deg, #0d3200, #00ff66); }
+        .block-bg { background: linear-gradient(135deg, #e056fd, #686de0); }
+        .tris-bg { background: linear-gradient(135deg, #00ff66, #00a2ff); }
+        .password-bg { background: linear-gradient(135deg, #485563, #29323c); }
+        .chess-bg { background: linear-gradient(135deg, #8e9eab, #eef2f3); }
+        .lab-bg { background: linear-gradient(135deg, #9d00ff, #00f3ff); }
 
-        /* SEZIONE ACCESSO */
-        .auth-form-container input {
-            width: 100%; padding: 12px; margin-bottom: 12px; background: #13141f; border: 1px solid #25283a;
-            border-radius: 8px; color: white; box-sizing: border-box; outline: none; transition: 0.2s;
+        .card-content { padding: 1.2rem; display: flex; flex-direction: column; flex: 1; }
+        .card-content h3 { font-family: var(--font-heading); font-size: 1.15rem; margin-bottom: 0.2rem; }
+        .card-content p { color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 0.8rem; flex: 1; line-height: 1.3; }
+
+        .star-rating { display: flex; gap: 4px; margin-bottom: 0.8rem; cursor: pointer; }
+        .star { font-size: 1.1rem; color: var(--text-dim); }
+        .star.active { color: var(--neon-yellow); text-shadow: 0 0 8px rgba(255, 183, 0, 0.5); }
+
+        .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
+        .tag { font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; font-family: var(--font-heading); }
+
+        .chatbot-container { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
+        .chatbot-toggle {
+            background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan));
+            color: #fff; border: none; width: 55px; height: 55px; border-radius: 50%;
+            font-size: 1.5rem; cursor: pointer; box-shadow: 0 0 20px rgba(157, 0, 255, 0.4);
+            display: flex; align-items: center; justify-content: center;
         }
-        .auth-form-container input:focus { border-color: var(--neon-blue); box-shadow: 0 0 8px rgba(0,212,255,0.2); }
-        .auth-btn-group { display: flex; gap: 10px; margin-top: 10px; }
-        .auth-sub-btn {
-            flex: 1; padding: 12px; background: transparent; border: 1px solid var(--neon-silver);
-            color: white; font-weight: bold; border-radius: 8px; cursor: pointer; text-transform: uppercase; font-size: 0.8rem; transition: 0.2s;
+        .chatbot-window {
+            display: none; position: absolute; bottom: 70px; right: 0; width: 340px; height: 450px;
+            background: rgba(16, 22, 36, 0.95); border: var(--border-glass); border-radius: 16px;
+            flex-direction: column; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+            backdrop-filter: blur(16px);
         }
-        .auth-sub-btn.primary { background: var(--neon-blue); color: black; border-color: var(--neon-blue); }
-        .auth-sub-btn.primary:active { background: transparent; color: var(--neon-blue); }
+        .chat-header {
+            background: rgba(168, 17, 255, 0.2); padding: 0.8rem 1rem; font-family: var(--font-heading);
+            font-size: 0.85rem; display: flex; justify-content: space-between; align-items: center; border-bottom: var(--border-glass);
+        }
+        .chat-messages { flex: 1; padding: 0.8rem; overflow-y: auto; display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.85rem; }
+        .msg { padding: 0.5rem 0.8rem; border-radius: 8px; max-width: 85%; line-height: 1.3; }
+        .msg.bot { background: rgba(0, 243, 255, 0.1); border: 1px solid rgba(0, 243, 255, 0.2); align-self: flex-start; }
+        .msg.user { background: rgba(168, 17, 255, 0.2); border: 1px solid rgba(168, 17, 255, 0.3); align-self: flex-end; }
         
-        .agent-profile-box {
-            background: linear-gradient(135deg, #091a1e 0%, #06070c 100%);
-            border: 1px solid var(--neon-emerald); border-radius: 10px; padding: 20px; margin-bottom: 20px;
-            text-align: left; box-shadow: 0 0 15px rgba(5,255,197,0.05);
+        .chat-quick-actions { display: flex; gap: 0.3rem; padding: 0.4rem 0.6rem; overflow-x: auto; background: rgba(0,0,0,0.2); border-top: var(--border-glass); }
+        .chip-btn {
+            background: rgba(255,255,255,0.05); border: var(--border-glass); color: var(--neon-cyan);
+            padding: 0.2rem 0.5rem; border-radius: 12px; font-size: 0.7rem; white-space: nowrap; cursor: pointer;
+        }
+        .chip-btn:hover { background: rgba(0, 243, 255, 0.2); }
+
+        .chat-input-area { display: flex; padding: 0.6rem; background: rgba(0,0,0,0.3); border-top: var(--border-glass); }
+        .chat-input-area input { flex: 1; background: transparent; border: none; color: var(--text-primary); padding: 0.4rem; outline: none; font-family: var(--font-body); }
+        .chat-input-area button { background: var(--neon-cyan); border: none; padding: 0.4rem 0.8rem; border-radius: 6px; font-weight: bold; cursor: pointer; }
+
+        .footer { text-align: center; padding: 2rem; border-top: var(--border-glass); color: var(--text-dim); font-size: 0.85rem; margin-top: auto; }
+
+        .ios-install-guide { text-align: center; padding: 1rem 0; }
+        .ios-step {
+            display: flex; align-items: center; gap: 1rem; margin: 1.2rem 0; text-align: left;
+            background: rgba(255, 255, 255, 0.05); padding: 0.8rem 1rem; border-radius: 10px; border: var(--border-glass);
+        }
+        .ios-step-num {
+            background: var(--neon-cyan); color: #000; font-family: var(--font-heading); font-weight: bold;
+            width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
         }
 
-        /* SEZIONE CLASSIFICHE */
-        .overlord-box { 
-            background: linear-gradient(180deg, rgba(255, 238, 0, 0.08) 0%, rgba(0,0,0,0) 100%); 
-            border: 1px dashed var(--neon-yellow); padding: 15px; border-radius: 10px; text-align: center; margin-bottom: 20px; 
-            box-shadow: 0 0 15px rgba(255,238,0,0.05);
+        @media (max-width: 600px) {
+            .navbar { padding: 0.6rem 0.8rem; }
+            .logo-container { font-size: 0.95rem; }
+            .logo-container span { display: flex; gap: 2px; }
+            .hub-actions { gap: 0.3rem; }
+            .hub-btn { padding: 0.4rem 0.6rem; font-size: 0.85rem; }
+            .btn-text { display: none; }
+            .hero-title { font-size: 1.6rem; }
+            .hero-subtitle { font-size: 0.85rem; }
+            .games-grid { grid-template-columns: 1fr; gap: 1rem; }
+            .main-container { padding: 0 0.8rem 2rem; }
+            .modal-card { padding: 1.2rem; }
         }
-        .game-rank-section { margin-bottom: 16px; background: #11131c; border: 1px solid #1e2030; border-radius: 10px; padding: 12px; text-align: left; }
-        .game-rank-title { font-size: 0.85rem; color: var(--neon-cyan); margin: 0 0 8px 0; text-transform: uppercase; letter-spacing: 1px; font-weight: bold; border-bottom: 1px solid #222; padding-bottom: 4px;}
-        .rank-item { display: flex; justify-content: space-between; font-size: 0.82rem; color: #ddd; padding: 5px 6px; margin: 3px 0; border-radius: 6px; }
-        .rank-item.top-1 { background: rgba(255, 215, 0, 0.08); border-left: 3px solid var(--neon-yellow); color: #fff; }
-        .rank-item.top-2 { background: rgba(192, 192, 192, 0.06); border-left: 3px solid var(--neon-silver); }
-        .rank-item.top-3 { background: rgba(205, 127, 50, 0.05); border-left: 3px solid #cd7f32; }
-
-        /* LISTA GIOCHI PRINCIPALE */
-        .list { display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 450px; margin-bottom: 100px; }
-        .card {
-            position: relative; background: linear-gradient(90deg, #111 0%, #0a0a0a 100%);
-            border-left: 5px solid #333; border-radius: 8px; padding: 18px; text-decoration: none;
-            color: white; display: flex; align-items: center; transition: 0.3s; overflow: hidden;
-            -webkit-tap-highlight-color: transparent; user-select: none;
-        }
-        .card:active { transform: scale(0.98); background: #1a1a1a; }
-
-        .murder { border-left-color: var(--neon-red); }
-        .verbum { border-left-color: var(--neon-orange); }
-        .sudoku { border-left-color: var(--neon-yellow); }
-        .key { border-left-color: var(--neon-green); }
-        .wordle { border-left-color: var(--neon-emerald); }
-        .kittens { border-left-color: var(--neon-cyan); }
-        .uno { border-left-color: var(--neon-blue); }
-        .block { border-left-color: var(--neon-blue-block); }
-        .tris { border-left-color: var(--neon-purple); }
-        .password { border-left-color: var(--neon-silver); }
-        .chess { border-left-color: var(--neon-white); }
-
-        .dot { width: 12px; height: 12px; border-radius: 50%; margin-right: 20px; box-shadow: 0 0 10px currentColor; }
-        .info h2 { margin: 0; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; }
-        .info p { margin: 2px 0 0 0; font-size: 0.75rem; color: #777; }
-
-        /* INTERFACCIA MASTERBOT */
-        #chat-widget { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
-        .chat-button {
-            width: 60px; height: 60px; background: #111; border: 2px solid var(--neon-blue); border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 15px var(--neon-blue);
-            transition: 0.3s ease; position: relative; -webkit-tap-highlight-color: transparent;
-        }
-        .chat-button:active { transform: scale(0.9); }
-        .chat-badge {
-            position: absolute; top: -2px; right: -2px; width: 14px; height: 14px; background: var(--neon-red);
-            border-radius: 50%; box-shadow: 0 0 8px var(--neon-red); animation: pulse 2s infinite;
-        }
-        @keyframes pulse { 0% { transform: scale(0.9); opacity: 0.8; } 50% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(0.9); opacity: 0.8; } }
-
-        .chat-window {
-            display: flex; position: absolute; bottom: 75px; right: 0; width: 320px; background: #111;
-            border: 1px solid var(--neon-blue); border-radius: 15px; flex-direction: column; overflow: hidden;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5); opacity: 0; transform: translateY(20px) scale(0.95);
-            pointer-events: none; transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-        .chat-window.open { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
-        .chat-header { background: var(--neon-blue); color: black; padding: 15px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
-        
-        .chat-body { padding: 15px; display: flex; flex-direction: column; gap: 12px; max-height: 380px; overflow-y: auto; }
-        .bot-msg { background: #1e293b; color: white; padding: 10px 14px; border-radius: 12px 12px 12px 0; font-size: 0.9rem; align-self: flex-start; max-width: 90%; border-left: 3px solid var(--neon-blue); line-height: 1.4; }
-        
-        .options-container { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-        .opt-btn { background: #050505; border: 1px solid #333; color: #ccc; padding: 8px 12px; border-radius: 20px; font-size: 0.78rem; cursor: pointer; transition: 0.2s; font-weight: 500; }
-        .opt-btn:active { border-color: var(--neon-blue); color: white; background: #111; }
-
-        .chat-form { display: flex; flex-direction: column; gap: 10px; margin-top: 5px; }
-        .chat-form input, .chat-form textarea { background: #050505; border: 1px solid #333; color: white; padding: 10px; border-radius: 8px; outline: none; font-family: inherit; font-size: 0.85rem; transition: 0.2s; }
-        .chat-form input.invalid-email { border-color: var(--neon-red) !important; box-shadow: 0 0 5px rgba(255,7,58,0.3); }
-        .chat-form input.valid-email { border-color: var(--neon-green) !important; box-shadow: 0 0 5px rgba(57,255,20,0.3); }
-        .chat-form input:focus, .chat-form textarea:focus { border-color: var(--neon-blue); }
-        
-        .chat-form button { background: var(--neon-blue); border: none; padding: 11px; font-weight: bold; cursor: pointer; border-radius: 8px; color: black; text-transform: uppercase; letter-spacing: 1px; font-size: 0.85rem; transition: 0.2s; }
-        .chat-form button:disabled { background: #334155; color: #64748b; cursor: not-allowed; }
-
-        /* MODAL POPUP RATING */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: 0.3s ease; }
-        .modal-overlay.show { opacity: 1; pointer-events: auto; }
-        .rating-box { background: #111; border: 2px solid var(--neon-yellow); border-radius: 16px; padding: 35px 25px; width: 90%; max-width: 350px; text-align: center; box-shadow: 0 0 25px rgba(255, 238, 0, 0.2); transform: scale(0.8); transition: 0.3s ease; }
-        .modal-overlay.show .rating-box { transform: scale(1); }
-        .rating-box h3 { margin: 0 0 10px 0; font-size: 1.3rem; color: var(--neon-yellow); }
-        .stars { display: flex; justify-content: center; gap: 8px; margin-bottom: 25px; flex-direction: row-reverse; }
-        .stars label { font-size: 2.6rem; color: rgba(255, 255, 255, 0.15); cursor: pointer; }
-        .stars label:hover, .stars label:hover ~ label { color: var(--neon-yellow); text-shadow: 0 0 10px rgba(255,238,0,0.6); }
-        .close-rating { font-size: 0.8rem; color: #555; background: none; border: none; text-decoration: underline; cursor: pointer; }
-
-        footer { margin-top: auto; padding: 20px 0; font-size: 0.75rem; color: #444; text-align: center; }
-        footer span { cursor: pointer; transition: 0.2s; }
-        footer span:hover { color: var(--neon-blue); text-shadow: 0 0 5px var(--neon-blue); }
     </style>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
 
-    <h1 id="hubTitle">MASTER GAMES</h1>
-    <div class="author-credits" onclick="togglePanel('secretPanel')">BY MASTERSABBA</div>
+    <header class="navbar">
+        <div class="logo-container" onclick="openModal('infoModal')">
+            <img src="MasterSabba Games.png" class="nav-logo-icon" alt="Logo">
+            <span>MASTER<span class="highlight">SABBA</span></span>
+        </div>
+        <div class="hub-actions">
+            <button class="hub-btn btn-install" onclick="triggerAppInstall()">
+                <span>📲</span> <span class="btn-text">SCARICA APP</span>
+            </button>
+            <button class="hub-btn" onclick="openModal('profileModal')">
+                <span id="navAvatar">⚡</span> <span id="navUsername" class="btn-text">Profilo</span>
+            </button>
+            <button class="hub-btn" onclick="openLeaderboard()">
+                <span>🏆</span> <span class="btn-text">Classifica</span>
+            </button>
+            <button class="hub-btn" onclick="openModal('questModal')">
+                <span>🎯</span> <span class="btn-text">Sfide</span>
+                <span id="questNotificationDot" class="notification-badge"></span>
+            </button>
+        </div>
+    </header>
 
-    <div class="search-box">
-        <input type="text" id="gameSearch" placeholder="CERCA UN GIOCO..." oninput="filter()">
-    </div>
+    <section class="hero-section">
+        <h1 class="hero-title">MASTER<span class="highlight">SABBA</span> ARCADE</h1>
+        <p class="hero-subtitle">Seleziona un titolo, accumula XP e scala la classifica globale.</p>
+        
+        <div class="search-container">
+            <input type="text" id="gameSearch" class="search-box" autocomplete="off" placeholder="Cerca un titolo..." oninput="filterGames()">
+        </div>
 
-    <!-- MAIN NAV MENU -->
-    <div class="hub-actions">
-        <button id="btnAuth" class="hub-btn" onclick="togglePanel('authPanel')">👤 Accedi</button>
-        <button id="btnLeaderboard" class="hub-btn" onclick="openLeaderboard()">🏆 Classifiche</button>
-        <button id="btnInstallApp" class="hub-btn" onclick="triggerPWAInstallation()">📲 Installa</button>
-    </div>
+        <div class="category-tabs">
+            <button class="tab-btn active" onclick="filterCategory('all', this)">Tutti</button>
+            <button class="tab-btn" onclick="filterCategory('carte', this)">Carte</button>
+            <button class="tab-btn" onclick="filterCategory('puzzle', this)">Puzzle</button>
+            <button class="tab-btn" onclick="filterCategory('investigazione', this)">Investigazione</button>
+            <button class="tab-btn" onclick="filterCategory('reflex', this)">Reflex</button>
+            <button class="tab-btn" onclick="filterCategory('lab', this)">Lab</button>
+        </div>
+    </section>
 
-    <!-- CARDS LIST -->
-    <div class="list" id="gameList">
-        <a href="https://mastersabba.github.io/MasterMurder/" target="_blank" class="card murder">
-            <div class="dot" style="color: var(--neon-red); background: var(--neon-red);"></div>
-            <div class="info"><h2>MasterMurder</h2><p>Risolvi il caso</p></div>
-        </a>
-        <a href="https://mastersabba.github.io/MasterVerbum/" target="_blank" class="card verbum">
-            <div class="dot" style="color: var(--neon-orange); background: var(--neon-orange);"></div>
-            <div class="info"><h2>MasterVerbum</h2><p>Dizionario e velocità</p></div>
-        </a>
-        <a href="https://mastersabba.github.io/MasterSudoku/" target="_blank" class="card sudoku">
-            <div class="dot" style="color: var(--neon-yellow); background: var(--neon-yellow);"></div>
-            <div class="info"><h2>MasterSudoku</h2><p>Numeri e precisione</p></div>
-        </a>
-        <a href="https://mastersabba.github.io/MasterKey/" target="_blank" class="card key">
-            <div class="dot" style="color: var(--neon-green); background: var(--neon-green);"></div>
-            <div class="info"><h2>MasterKey</h2><p>Logica e codici segreti</p></div>
-        </a>
-        <a href="https://mastersabba.github.io/MasterWordle/" target="_blank" class="card wordle">
-            <div class="dot" style="color: var(--neon-emerald); background: var(--neon-emerald);"></div>
-            <div class="info"><h2>MasterWordle</h2><p>Indovina la parola</p></div>
-        </a>
-        <a href="https://mastersabba.github.io/MasterKittens/" target="_blank" class="card kittens">
-            <div class="dot" style="color: var(--neon-cyan); background: var(--neon-cyan);"></div>
-            <div class="info"><h2>MasterKittens</h2><p>Exploding Kittens</p></div>
-        </a>
-        <a href="https://mastersabba.github.io/MasterUno/" target="_blank" class="card uno">
-            <div class="dot" style="color: var(--neon-blue); background: var(--neon-blue);"></div>
-            <div class="info"><h2>MasterUno</h2><p>Sfida all'ultima carta</p></div>
-        </a>
-        <a href="https://mastersabba.github.io/MasterBlock/" target="_blank" class="card block">
-            <div class="dot" style="color: var(--neon-blue-block); background: var(--neon-blue-block);"></div>
-            <div class="info"><h2>MasterBlock</h2><p>Incastra i blocchi</p></div>
-        </a>
-        <a href="https://mastersabba.github.io/MasterTris/" target="_blank" class="card tris">
-            <div class="dot" style="color: var(--neon-purple); background: var(--neon-purple);"></div>
-            <div class="info"><h2>MasterTris</h2><p>Strategia 1vs1</p></div>
-        </a>
-        <a href="https://mastersabba.github.io/MasterPassword/" target="_blank" class="card password">
-            <div class="dot" style="color: var(--neon-silver); background: var(--neon-silver);"></div>
-            <div class="info"><h2>MasterPassword</h2><p>Sicurezza e Crittografia</p></div>
-        </a>
-        <a href="https://mastersabba.github.io/MasterChess/" target="_blank" class="card chess">
-            <div class="dot" style="color: var(--neon-white); background: var(--neon-white);"></div>
-            <div class="info"><h2>MasterChess</h2><p>Strategia e Scacchi</p></div>
-        </a>
-    </div>
-
-    <!-- OVERLAY: AUTHENTICATION TERMINAL -->
-    <div class="secret-panel" id="authPanel">
-        <div class="terminal" style="border-color: var(--neon-blue); box-shadow: 0 0 20px rgba(0,212,255,0.2);">
-            <button class="close-terminal" onclick="togglePanel('authPanel')">×</button>
-            
-            <div id="auth-logged-out" class="auth-form-container">
-                <div class="terminal-header" style="color: var(--neon-blue);">🔐 ACCESSO AGENTE</div>
-                <input type="text" id="authUsername" placeholder="Username (Obbligatorio)">
-                <input type="password" id="authPassword" placeholder="Password (Obbligatorio)">
-                <input type="email" id="authEmail" placeholder="Email (Facoltativa)">
-                <div class="auth-btn-group">
-                    <button class="auth-sub-btn" onclick="handleHubAuth('LOGIN')">Accedi</button>
-                    <button class="auth-sub-btn primary" onclick="handleHubAuth('SIGNUP')">Registrati</button>
+    <main class="main-container">
+        <h2 class="section-title">🕹️ Arcade Collection</h2>
+        <div class="games-grid" id="gameList">
+            <article class="game-card" data-id="color-clash" data-category="carte" data-name="color storm color clash masteruno uno carte" onclick="openGamePreview('color-clash')">
+                <div class="card-media uno-bg">🎴</div>
+                <div class="card-content">
+                    <h3>Color Storm</h3>
+                    <p>Sfidalo a colpi di combinazioni cromatiche e riflessi fulminei in questo card game.</p>
+                    <div class="star-rating" onclick="rateGame(event, 'color-clash')">
+                        <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
+                    </div>
+                    <div class="card-footer">
+                        <span class="tag">Carte</span>
+                        <a href="https://mastersabba.github.io/MasterUno/" target="_blank" class="btn-play" onclick="registerPlay(event, 'color-clash')">GIOCA</a>
+                    </div>
                 </div>
+            </article>
+            <article class="game-card" data-id="last-spark" data-category="puzzle" data-name="spark bombs last spark masterkittens exploding kittens" onclick="openGamePreview('last-spark')">
+                <div class="card-media kittens-bg">💥</div>
+                <div class="card-content">
+                    <h3>Spark Bombs</h3>
+                    <p>Un party game a turni ad alta tensione in cui ogni mossa può scatenare l'esplosione finale.</p>
+                    <div class="star-rating" onclick="rateGame(event, 'last-spark')">
+                        <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
+                    </div>
+                    <div class="card-footer">
+                        <span class="tag">Puzzle</span>
+                        <a href="https://mastersabba.github.io/MasterKittens/" target="_blank" class="btn-play" onclick="registerPlay(event, 'last-spark')">GIOCA</a>
+                    </div>
+                </div>
+            </article>
+            <article class="game-card" data-id="master-wordle" data-category="puzzle" data-name="word rush masterwordle wordle parole wordrush" onclick="openGamePreview('master-wordle')">
+                <div class="card-media wordle-bg">🔤</div>
+                <div class="card-content">
+                    <h3>Word Rush</h3>
+                    <p>Metti alla prova il tuo vocabolario decifrando la parola nascosta in soli sei tentativi.</p>
+                    <div class="star-rating" onclick="rateGame(event, 'master-wordle')">
+                        <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
+                    </div>
+                    <div class="card-footer">
+                        <span class="tag">Parole</span>
+                        <a href="https://mastersabba.github.io/MasterWordle/" target="_blank" class="btn-play" onclick="registerPlay(event, 'master-wordle')">GIOCA</a>
+                    </div>
+                </div>
+            </article>
+            <article class="game-card" data-id="master-murder" data-category="investigazione" data-name="cyber crime mastermurder murder caso investigazione case zero" onclick="openGamePreview('master-murder')">
+                <div class="card-media murder-bg">🔍</div>
+                <div class="card-content">
+                    <h3>Cyber Crime</h3>
+                    <p>Vesti i panni del detective cibernetico analizzando indizi digitali e interrogando i sospettati.</p>
+                    <div class="star-rating" onclick="rateGame(event, 'master-murder')">
+                        <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
+                    </div>
+                    <div class="card-footer">
+                        <span class="tag">Investigazione</span>
+                        <a href="https://mastersabba.github.io/MasterMurder/" target="_blank" class="btn-play" onclick="registerPlay(event, 'master-murder')">GIOCA</a>
+                    </div>
+                </div>
+            </article>
+            <article class="game-card" data-id="master-verbum" data-category="puzzle" data-name="word duel masterverbum verbum dizionario parole velocità" onclick="openGamePreview('master-verbum')">
+                <div class="card-media verbum-bg">📚</div>
+                <div class="card-content">
+                    <h3>Word Duel</h3>
+                    <p>Scontro verbale testa a testa per testare velocità di digitazione e dizionario.</p>
+                    <div class="star-rating" onclick="rateGame(event, 'master-verbum')">
+                        <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
+                    </div>
+                    <div class="card-footer">
+                        <span class="tag">Parole</span>
+                        <a href="https://mastersabba.github.io/MasterVerbum/" target="_blank" class="btn-play" onclick="registerPlay(event, 'master-verbum')">GIOCA</a>
+                    </div>
+                </div>
+            </article>
+            <article class="game-card" data-id="master-sudoku" data-category="puzzle" data-name="digit logic mastersudoku sudoku numeri precisione rush" onclick="openGamePreview('master-sudoku')">
+                <div class="card-media sudoku-bg">🔢</div>
+                <div class="card-content">
+                    <h3>Digit Logic</h3>
+                    <p>Rompicapo numerico basato su deduzione logica e schemi di calcolo.</p>
+                    <div class="star-rating" onclick="rateGame(event, 'master-sudoku')">
+                        <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
+                    </div>
+                    <div class="card-footer">
+                        <span class="tag">Puzzle</span>
+                        <a href="https://mastersabba.github.io/MasterSudoku/" target="_blank" class="btn-play" onclick="registerPlay(event, 'master-sudoku')">GIOCA</a>
+                    </div>
+                </div>
+            </article>
+            <article class="game-card" data-id="master-key" data-category="reflex" data-name="key speed masterkey key logica codici segreti cyberkey" onclick="openGamePreview('master-key')">
+                <div class="card-media key-bg">⌨️</div>
+                <div class="card-content">
+                    <h3>Key Speed</h3>
+                    <p>Test di digitazione e riflessi estremi per hackerare i nodi critici della rete.</p>
+                    <div class="star-rating" onclick="rateGame(event, 'master-key')">
+                        <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
+                    </div>
+                    <div class="card-footer">
+                        <span class="tag">Reflex</span>
+                        <a href="https://mastersabba.github.io/MasterKey/" target="_blank" class="btn-play" onclick="registerPlay(event, 'master-key')">GIOCA</a>
+                    </div>
+                </div>
+            </article>
+            <article class="game-card" data-id="master-block" data-category="puzzle" data-name="tetra block masterblock block blocchi matrix tetris" onclick="openGamePreview('master-block')">
+                <div class="card-media block-bg">🧩</div>
+                <div class="card-content">
+                    <h3>Tetra Block</h3>
+                    <p>Incastra forme geometriche in caduta libera per svuotare la griglia.</p>
+                    <div class="star-rating" onclick="rateGame(event, 'master-block')">
+                        <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
+                    </div>
+                    <div class="card-footer">
+                        <span class="tag">Puzzle</span>
+                        <a href="https://mastersabba.github.io/MasterBlock/" target="_blank" class="btn-play" onclick="registerPlay(event, 'master-block')">GIOCA</a>
+                    </div>
+                </div>
+            </article>
+            <article class="game-card" data-id="master-tris" data-category="puzzle" data-name="tris battle mastertris tris strategia 1vs1 gridfall" onclick="openGamePreview('master-tris')">
+                <div class="card-media tris-bg">📐</div>
+                <div class="card-content">
+                    <h3>Tris Battle</h3>
+                    <p>Scontri tattici rapidi e dinamici sul classico schema del tris.</p>
+                    <div class="star-rating" onclick="rateGame(event, 'master-tris')">
+                        <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
+                    </div>
+                    <div class="card-footer">
+                        <span class="tag">Strategia</span>
+                        <a href="https://mastersabba.github.io/MasterTris/" target="_blank" class="btn-play" onclick="registerPlay(event, 'master-tris')">GIOCA</a>
+                    </div>
+                </div>
+            </article>
+            <article class="game-card" data-id="master-password" data-category="investigazione" data-name="code breaker masterpassword password sicurezza crittografia codebreaker" onclick="openGamePreview('master-password')">
+                <div class="card-media password-bg">🔐</div>
+                <div class="card-content">
+                    <h3>Code Breaker</h3>
+                    <p>Rompi i sistemi di sicurezza violando codici criptati attraverso deduzioni logiche.</p>
+                    <div class="star-rating" onclick="rateGame(event, 'master-password')">
+                        <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
+                    </div>
+                    <div class="card-footer">
+                        <span class="tag">Cyber</span>
+                        <a href="https://mastersabba.github.io/MasterPassword/" target="_blank" class="btn-play" onclick="registerPlay(event, 'master-password')">GIOCA</a>
+                    </div>
+                </div>
+            </article>
+            <article class="game-card" data-id="master-chess" data-category="puzzle" data-name="royal chess masterchess chess scacchi strategia" onclick="openGamePreview('master-chess')">
+                <div class="card-media chess-bg">♟️</div>
+                <div class="card-content">
+                    <h3>Royal Chess</h3>
+                    <p>Duelli intellettuali sulla scacchiera virtuale contro un'intelligenza artificiale.</p>
+                    <div class="star-rating" onclick="rateGame(event, 'master-chess')">
+                        <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
+                    </div>
+                    <div class="card-footer">
+                        <span class="tag">Scacchi</span>
+                        <a href="https://mastersabba.github.io/MasterChess/" target="_blank" class="btn-play" onclick="registerPlay(event, 'master-chess')">GIOCA</a>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <h2 class="section-title" style="margin-top: 2rem;">🚧 MasterLab (Sperimentale)</h2>
+        <div class="games-grid">
+            <article class="game-card" data-id="master-blackjack" data-category="lab" data-name="cyber deck masterblackjack blackjack lab prototipo" onclick="openGamePreview('master-blackjack')">
+                <div class="card-media lab-bg">🃏</div>
+                <div class="card-content">
+                    <h3>Cyber Deck</h3>
+                    <p>Tavolo da gioco sperimentale nel MasterLab con chip animate e sfide di carte.</p>
+                    <div class="star-rating" onclick="rateGame(event, 'master-blackjack')">
+                        <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
+                    </div>
+                    <div class="card-footer">
+                        <span class="tag">Lab / Beta</span>
+                        <button class="btn-play" onclick="registerPlay(event, 'master-blackjack')">TEST LAB</button>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <div id="profileModal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 id="profileModalTitle">👤 Profilo Utente</h3>
+                <button class="modal-close" onclick="closeModal('profileModal')">✕</button>
             </div>
             
-            <div id="auth-logged-in" style="display: none;">
-                <div class="terminal-header" style="color: var(--neon-emerald);">🟢 PROFILO AGENTE ATTIVO</div>
-                <div class="agent-profile-box">
-                    <p style="margin: 0 0 8px 0; font-size: 1rem;">ID UTENTE: <span id="displayUser" style="color: var(--neon-emerald); font-weight: bold;">-</span></p>
-                    <p style="margin: 0 0 4px 0; font-size: 0.8rem; color: #888;">STATO: <span style="color: var(--neon-green)">ONLINE</span></p>
-                    <p style="margin: 0; font-size: 0.8rem; color: #888;">CLOUD: <span style="color: var(--neon-blue)">CRITTOGRAFATO ATTIVO</span></p>
+            <div id="profiloContent">
+                <div id="authSection">
+                    <input type="email" id="email" placeholder="Email" style="width: 100%; padding: 10px; background: rgba(0,0,0,0.4); border: var(--border-glass); border-radius: 8px; color: #fff; margin-bottom: 10px; outline: none;">
+                    <input type="password" id="password" placeholder="Password" style="width: 100%; padding: 10px; background: rgba(0,0,0,0.4); border: var(--border-glass); border-radius: 8px; color: #fff; margin-bottom: 10px; outline: none;">
+                    <input type="text" id="username" placeholder="Nome Utente (GamerTag)" style="width: 100%; padding: 10px; background: rgba(0,0,0,0.4); border: var(--border-glass); border-radius: 8px; color: #fff; margin-bottom: 10px; display: none; outline: none;">
+                    
+                    <div id="authError" style="color: var(--neon-pink); font-size: 0.9em; margin-bottom: 10px; min-height: 20px;"></div>
+                    
+                    <button id="btnSubmit" onclick="handleAuthAction()" style="width: 100%; padding: 10px; margin-bottom: 10px; background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan)); color: #fff; border: none; border-radius: 8px; font-family: var(--font-heading); font-weight: bold; cursor: pointer;">Accedi</button>
+                    <p style="text-align: center; font-size: 0.9em; color: var(--text-secondary);">
+                        <span id="toggleText">Non hai un account?</span> 
+                        <span id="toggleActionText" onclick="toggleAuthMode()" style="color: var(--neon-cyan); cursor: pointer; text-decoration: underline;">Registrati</span>
+                    </p>
                 </div>
-                <button class="auth-sub-btn" style="border-color: var(--neon-red); color: var(--neon-red); width: 100%;" onclick="handleHubLogout()">Scollegati dal Sistema</button>
+
+                <div id="userSection" style="display: none;">
+                    <div class="profile-input-group">
+                        <span class="profile-label">Nome Utente</span>
+                        <input type="text" id="usernameInput" class="profile-input" value="RookieSabba" placeholder="Inserisci il tuo Nome" onchange="updateUsername()">
+                    </div>
+
+                    <span class="profile-label" style="text-align: center;">Scegli Avatar</span>
+                    <div class="profile-avatar-selector">
+                        <span class="avatar-opt" onclick="setAvatar('⚡')">⚡</span>
+                        <span class="avatar-opt" onclick="setAvatar('🤖')">🤖</span>
+                        <span class="avatar-opt" onclick="setAvatar('👾')">👾</span>
+                        <span class="avatar-opt" onclick="setAvatar('🐱')">🐱</span>
+                        <span class="avatar-opt" onclick="setAvatar('🔥')">🔥</span>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="val" id="userLevel">1</div>
+                            <div class="lbl">Livello</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="val" id="userXP">0</div>
+                            <div class="lbl">XP Totali</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="val" id="gamesPlayedCount">0</div>
+                            <div class="lbl">Partite</div>
+                        </div>
+                    </div>
+
+                    <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.3rem; text-align: center;">Rango: <strong id="userRank" style="color:var(--neon-cyan)">Rookie</strong></p>
+                    <div class="xp-bar-container">
+                        <div class="xp-bar-fill" id="xpBarFill"></div>
+                    </div>
+
+                    <h4 style="font-family: var(--font-heading); font-size: 0.85rem; margin: 1rem 0 0.5rem; color: var(--neon-cyan); text-align: center;">Badge Sbloccati</h4>
+                    <div class="achievements-list">
+                        <span class="badge" id="badge-first-vote">⭐ Primo Voto</span>
+                        <span class="badge" id="badge-first-play">🎮 Primo Avvio</span>
+                        <span class="badge" id="badge-lab-tester">🧪 Tester Lab</span>
+                        <span class="badge" id="badge-custom-profile">🎨 Style Master</span>
+                    </div>
+
+                    <div style="display: flex; gap: 0.6rem; margin-top: 1rem;">
+                        <button class="hub-btn" style="flex: 1; color: var(--neon-pink);" onclick="handleLogout()">Disconnetti</button>
+                        <button class="hub-btn" style="flex: 1;" onclick="resetStats()">Azzera Locale</button>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
 
-    <!-- OVERLAY: LEADERBOARD TERMINAL -->
-    <div class="secret-panel" id="leaderboardPanel">
-        <div class="terminal" style="border-color: var(--neon-purple); box-shadow: 0 0 20px rgba(188,19,254,0.2);">
-            <button class="close-terminal" onclick="togglePanel('leaderboardPanel')">×</button>
-            <div class="terminal-header" style="color: var(--neon-purple);">🏆 CLASSIFICA GENERALE</div>
+    <!-- MODALE CLASSIFICA -->
+    <div id="leaderboardModal" class="modal-overlay">
+        <div class="modal-card" style="max-height: 85vh; overflow-y: auto;">
+            <div class="modal-header">
+                <h3 style="color: var(--neon-purple);">🏆 CLASSIFICA GENERALE</h3>
+                <button class="modal-close" onclick="closeModal('leaderboardModal')">✕</button>
+            </div>
+            
             <div class="overlord-box">
                 <div style="font-size: 0.75rem; color: var(--neon-yellow); letter-spacing: 1px; font-weight: bold;">👑 CAMPIONE ASSOLUTO HIERARCHY</div>
                 <div id="globalOverlordName" style="font-size: 1.2rem; font-weight: bold; color: white; margin-top: 4px;">-</div>
-                <div id="globalOverlordScore" style="font-size: 0.8rem; color: #aaa;">0 Punti Totali</div>
+                <div id="globalOverlordScore" style="font-size: 0.8rem; color: #aaa;">0 XP Totali</div>
             </div>
+
+            <div class="lb-nav-tabs">
+                <button class="lb-tab-btn active" id="lbTabGlobal" onclick="switchLbView('global')">🌐 Generale (XP)</button>
+                <button class="lb-tab-btn" id="lbTabGames" onclick="switchLbView('games')">🕹️ Per Gioco (prossimamente!)</button>
+            </div>
+
             <div id="leaderboardScoresContainer"></div>
         </div>
     </div>
 
-    <!-- OVERLAY: DIRETTORE SYSTEM CORE -->
-    <div class="secret-panel" id="secretPanel">
-        <div class="terminal" style="border-color: var(--neon-blue);">
-            <button class="close-terminal" onclick="togglePanel('secretPanel')">×</button>
-            <div class="terminal-header" style="color: var(--neon-blue);">🤖 SYSTEM_CORE.SYS</div>
-            <p><strong>> DIRETTORE DI PROGETTO:</strong> MasterSabba</p>
-            <p><strong>> STATO SISTEMA:</strong> Operativo</p>
-            <p><strong>> SVILUPPO:</strong> Vanilla JS / CSS Neon</p>
-            <p><strong>> SITO WEB:</strong> <a href="https://mastersabba.github.io/MasterSabba/" target="_blank" style="color:black; background:var(--neon-blue); padding:3px 8px; border-radius:4px; text-decoration:none; font-weight:bold;">Master Games</a></p>
+    <div id="questModal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>🎯 Sfide & Ricompense</h3>
+                <button class="modal-close" onclick="closeModal('questModal')">✕</button>
+            </div>
+            <span id="quest-timer" class="quest-timer-badge">Nuove sfide tra: --:--:--</span>
+            <div id="questContainer"></div>
         </div>
     </div>
 
-    <!-- OVERLAY: PRIVACY POLICY -->
-    <div class="secret-panel" id="privacyPanel">
-        <div class="terminal" style="border-color: var(--neon-silver); box-shadow: 0 0 25px rgba(255,255,255,0.1); text-align: left;">
-            <button class="close-terminal" style="color: var(--neon-silver);" onclick="togglePanel('privacyPanel')">×</button>
-            <div class="terminal-header" style="color: var(--neon-silver); text-align: center;">📄 PRIVACY POLICY </div>
-            <div style="font-size: 0.85rem; max-height: 60vh; overflow-y: auto; padding-right: 5px;">
-                <p><strong>1. Trattamento dei dati:</strong> Questo Hub non vende, cede o profila i dati personali degli utenti a scopi commerciali.</p>
-                <p><strong>2. LocalStorage di Gioco:</strong> Tutti i punteggi e i record standard vengono salvati unicamente all'interno del browser sul tuo dispositivo locale.</p>
-                <p><strong>3. Registrazione Classifica:</strong> Scegliendo di registrarsi per la Classifica Generale, viene memorizzato nel database unicamente lo Username e la Password cifrata. L'inserimento dell'Email è opzionale e serve solo come identificativo unico.</p>
-                <p><strong>4. Modulo Contatti (Master Bot):</strong> Eventuali messaggi o feedback inviati tramite il bot integrato utilizzano Formspree e l'indirizzo email fornito viene impiegato solo per rispondere alle comunicazioni.</p>
+    <div id="previewModal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 id="prevTitle">Titolo Gioco</h3>
+                <button class="modal-close" onclick="closeModal('previewModal')">✕</button>
+            </div>
+            <p id="prevDesc" style="color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.95rem;"></p>
+            <div style="background: rgba(0,0,0,0.3); padding: 0.8rem; border-radius: 8px; border: var(--border-glass); margin-bottom: 1.2rem; font-size: 0.85rem;">
+                <strong style="color: var(--neon-cyan);">Istruzioni & Comandi:</strong>
+                <p id="prevControls" style="color: var(--text-secondary); margin-top: 0.3rem;"></p>
+            </div>
+            <div style="display: flex; gap: 0.8rem; justify-content: flex-end;">
+                <button class="hub-btn" onclick="closeModal('previewModal')">Chiudi</button>
+                <a id="prevPlayBtn" href="#" target="_blank" class="btn-play">AVVIA ORA</a>
             </div>
         </div>
     </div>
 
-    <!-- CHAT WIDGET MASTERBOT -->
-    <div id="chat-widget">
-        <div class="chat-window" id="chatWin">
+    <div id="infoModal" class="modal-overlay">
+        <div class="modal-card" style="text-align: center;">
+            <div class="modal-header">
+                <h3>Informazioni sul Progetto</h3>
+                <button class="modal-close" onclick="closeModal('infoModal')">✕</button>
+            </div>
+            <p style="color: var(--text-secondary); margin-bottom: 1rem;">La tua piattaforma di gioco personale e interattiva, sempre pronta e sincronizzata su tutti i tuoi dispositivi.</p>
+            <button class="hub-btn" onclick="closeModal('infoModal')">Chiudi</button>
+        </div>
+    </div>
+
+    <div id="installAppModal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>📱 Installa MasterSabba Arcade</h3>
+                <button class="modal-close" onclick="closeModal('installAppModal')">✕</button>
+            </div>
+            <div id="installModalContent" class="ios-install-guide"></div>
+            <div style="text-align: center; margin-top: 1.2rem;">
+                <button class="hub-btn" onclick="closeModal('installAppModal')">Capito!</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="chatbot-container">
+        <button class="chatbot-toggle" onclick="toggleChat()">💬</button>
+        <div class="chatbot-window" id="chatWindow">
             <div class="chat-header">
-                <span>🤖 MASTER BOT</span>
-                <span onclick="toggleChat()" style="cursor:pointer; font-size: 1.4rem;">×</span>
+                <span>MasterBot Assistant</span>
+                <span style="cursor:pointer;" onclick="toggleChat()">✕</span>
             </div>
-            
-            <div class="chat-body" id="chatBody">
-                <div id="chatSuccess" class="bot-msg" style="display: none; border-left-color: var(--neon-green); width:90%;"></div>
-
-                <div id="mainChatContent" style="display: flex; flex-direction: column; gap: 12px;">
-                    <div class="bot-msg" id="welcomeMsg">
-                        Ciao! Sono l'assistente di Master Games. Come posso aiutarti oggi? Scegli un'opzione rapida o scrivi direttamente sotto!
-                        <div class="options-container">
-                            <button class="opt-btn" onclick="selectOption('🐛 [BUG] ')">Segnala un Bug</button>
-                            <button class="opt-btn" onclick="selectOption('💡 [IDEA] ')">Proponi un Gioco</button>
-                            <button class="opt-btn" onclick="selectOption('💬 [FEEDBACK] ')">Altro / Feedback</button>
-                        </div>
-                    </div>
-
-                    <form class="chat-form" id="masterForm">
-                        <input type="email" id="chatEmail" name="email" placeholder="La tua Email" required oninput="validateEmailRealTime(this)">
-                        <textarea id="chatMessage" name="message" rows="3" placeholder="Scrivi il tuo messaggio..." required></textarea>
-                        <button type="submit" id="submitBtn">INVIA MESSAGGIO</button>
-                    </form>
-                </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="msg bot">Ciao! Sono l'assistente Cyber. Seleziona una scorciatoia o chiedimi qualcosa sui giochi!</div>
             </div>
-        </div>
-        
-        <div class="chat-button" onclick="toggleChat()">
-            <div class="chat-badge" id="chatBadge"></div>
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="var(--neon-blue)"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+            <div class="chat-quick-actions">
+                <button class="chip-btn" onclick="sendQuickMsg('Come accumulo XP?')">⭐ Come accumulo XP?</button>
+                <button class="chip-btn" onclick="sendQuickMsg('Consigliami un gioco')">🎲 Consiglio Gioco</button>
+                <button class="chip-btn" onclick="sendQuickMsg('Miei progressi')">📊 Miei Progressi</button>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="chatInput" placeholder="Chiedi qualcosa..." onkeypress="handleChatKey(event)">
+                <button onclick="sendChatMessage()">Invia</button>
+            </div>
         </div>
     </div>
 
-    <!-- MODAL POPUP RATING -->
-    <div class="modal-overlay" id="ratingModal">
-        <div class="rating-box" id="ratingBox">
-            <h3>TI PIACCIONO I GIOCHI?</h3>
-            <p>Lascia una valutazione rapida a 5 stelle per supportare i progetti!</p>
-            <div class="stars">
-                <label onclick="submitRating(5)">★</label><label onclick="submitRating(4)">★</label><label onclick="submitRating(3)">★</label><label onclick="submitRating(2)">★</label><label onclick="submitRating(1)">★</label>
-            </div>
-            <button class="close-rating" onclick="closeRatingModal()">Più tardi</button>
-        </div>
-    </div>
+    <footer class="footer">
+        <p>&copy; 2026 MasterSabba Arcade — Sviluppato da MasterSabba.</p>
+    </footer>
 
-    <footer><span onclick="togglePanel('privacyPanel')">PRIVACY POLICY </span></footer>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBxZQF5OO5-znaipaPYeFcjOARjFXO1_gc",
+            authDomain: "mastersabba-games.firebaseapp.com",
+            databaseURL: "https://mastersabba-games-default-rtdb.firebaseio.com",
+            projectId: "mastersabba-games",
+            storageBucket: "mastersabba-games.firebasestorage.app",
+            messagingSenderId: "254141019232",
+            appId: "1:254141019232:web:29702c03b91f8a76677f05",
+        };
 
-    
- <script>
-    // Dati locali di fallback (fanno funzionare la classifica anche senza Firebase)
-    window.globalRivals = {
-        "MasterMurder": [{n: "CyberGhost", s: 15}, {n: "SabbaFan99", s: 10}, {n: "Rex_Logic", s: 5}],
-        "MasterVerbum": [{n: "WordHacker", s: 20}, {n: "CyberGhost", s: 12}, {n: "Alpha_User", s: 6}],
-        "MasterSudoku": [{n: "Matrix9", s: 18}, {n: "Rex_Logic", s: 11}, {n: "SabbaFan99", s: 4}],
-        "MasterKey": [{n: "CryptoKing", s: 14}, {n: "Matrix9", s: 9}, {n: "CyberGhost", s: 3}],
-        "MasterWordle": [{n: "WordHacker", s: 16}, {n: "SabbaFan99", s: 10}, {n: "CryptoKing", s: 5}],
-        "MasterKittens": [{n: "ExplodeMe", s: 3}, {n: "Alpha_User", s: 2}, {n: "Matrix9", s: 1}],
-        "MasterUno": [{n: "CardShark", s: 4}, {n: "CyberGhost", s: 2}, {n: "ExplodeMe", s: 1}],
-        "MasterBlock": [{n: "TetrisGod", s: 50}, {n: "Matrix9", s: 30}, {n: "Rex_Logic", s: 15}],
-        "MasterTris": [{n: "Alpha_User", s: 5}, {n: "CardShark", s: 3}, {n: "SabbaFan99", s: 1}],
-        "MasterPassword": [{n: "CryptoKing", s: 8}, {n: "CyberGhost", s: 5}, {n: "WordHacker", s: 2}],
-        "MasterChess": [{n: "DeepNeon", s: 12}, {n: "Rex_Logic", s: 8}, {n: "Alpha_User", s: 4}]
-    };
-    window.hubCurrentUser = null;
-    window.hubCachedScores = {};
+        let db = null;
+        let auth = null;
+        let currentUser = null;
+        let isFirebaseActive = false;
+        let isRegistering = false;
+        let currentLbView = 'global';
 
-    // Gestione Apertura Pannelli Generica (Leaderboard, Auth, Secret)
-    window.togglePanel = (id) => {
-        const el = document.getElementById(id);
-        if (el) el.classList.toggle("active");
-    };
-
-    // Filtro Ricerca Giochi
-    window.filter = () => {
-        const val = document.getElementById('gameSearch').value.toLowerCase();
-        document.querySelectorAll('.card').forEach(c => {
-            c.style.display = c.innerText.toLowerCase().includes(val) ? "flex" : "none";
-        });
-    };
-
-    // BOT ENGINE (Con memoria di lettura per il Pallino Rosso)
-    window.toggleChat = function() { 
-        const chatWin = document.getElementById('chatWin');
-        if (chatWin) chatWin.classList.toggle('open'); 
-        
-        // Salva nel browser che l'utente ha aperto la chat almeno una volta
-        localStorage.setItem("masterbot_badge_hidden", "true");
-
-        // Nasconde il pallino rosso sul momento (intercettando ogni ID possibile)
-        const badge = document.getElementById('chatBadge') || 
-                      document.getElementById('chatNotification') || 
-                      document.getElementById('chatDot');
-        if (badge) {
-            badge.style.display = 'none';
-            badge.style.opacity = '0';
-            badge.classList.remove('show');
-        }
-    };
-
-    window.selectOption = function(tag) { 
-        const txt = document.getElementById('chatMessage'); 
-        if (txt) {
-            if (!txt.value.includes(tag)) txt.value = tag + txt.value; 
-            txt.focus(); 
-        }
-    };
-
-    window.validateEmailRealTime = function(input) {
-        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        const btn = document.getElementById('submitBtn');
-        if (!btn) return false;
-        if (input.value.trim() === "") { input.classList.remove('valid-email', 'invalid-email'); btn.disabled = false; return false; }
-        if (emailRegex.test(input.value)) { input.classList.remove('invalid-email'); input.classList.add('valid-email'); btn.disabled = false; return true; } 
-        else { input.classList.remove('valid-email'); input.classList.add('invalid-email'); btn.disabled = true; return false; }
-    };
-
-    // VALUTAZIONE STELLE
-    window.closeRatingModal = function() { 
-        const rm = document.getElementById('ratingModal');
-        if (rm) rm.classList.remove('show'); 
-    };
-
-    window.submitRating = function(stars) {
-        localStorage.setItem("hub_game_rated", stars);
-        
-        fetch('https://formspree.io/f/xbdzvell', { 
-            method: 'POST', 
-            body: JSON.stringify({ Valutazione: stars + " stelle" }), 
-            headers: { 
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            } 
+        let deferredPrompt = null;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
         });
 
-        const rb = document.getElementById('ratingBox');
-        if (rb) rb.innerHTML = `<h3 style="color:var(--neon-green)">Grazie! ⭐ ${stars}/5</h3>`;
-        setTimeout(() => { window.closeRatingModal(); }, 2000);
-    };
+        function triggerAppInstall() {
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
 
- window.handleHubAuth = async function(mode) {
-    const userEl = document.getElementById("authUsername");
-    const passEl = document.getElementById("authPassword");
-    if(!userEl || !passEl) return;
-    
-    const user = userEl.value.trim();
-    const pass = passEl.value.trim();
-    const emailInput = document.getElementById("authEmail") ? document.getElementById("authEmail").value.trim() : "";
-    const email = emailInput || `${user.toLowerCase()}@masterhub.local`;
-    
-    if (!user || !pass) { alert("Inserisci Username e Password."); return; }
+            if (isStandalone) {
+                alert("L'applicazione è già installata sul tuo dispositivo!");
+                return;
+            }
 
-    try {
-        if (mode === "SIGNUP") {
-            const cred = await createUserWithEmailAndPassword(auth, email, pass);
-            // 1. Aggiorna immediatamente il profilo Firebase con l'username
-            await updateProfile(cred.user, { displayName: user });
-            // 2. Salva l'utente su Firestore
-            await setDoc(doc(db, "users", cred.user.uid), { username: user, scores: {} });
-            
-            // 3. TRUCCO CRUCIALE: Forza l'applicazione a riconoscere subito l'username locale
-            window.hubCurrentUser = user; 
-            
-            alert("Registrazione completata!");
-        } else {
-            await signInWithEmailAndPassword(auth, email, pass);
-        }
-        if (window.togglePanel) window.togglePanel('authPanel');
-    } catch (e) { alert("Errore Account: " + e.message); }
-};
-     
-    window.handleHubLogout = window.handleHubLogout || function() {
-        alert("⚠️ Nessuna sessione cloud attiva.");
-    };
-
-    // Costruzione dinamica della Classifica
-    window.buildLeaderboards = function() {
-        const container = document.getElementById("leaderboardScoresContainer");
-        if (!container) return;
-        container.innerHTML = "";
-        let totalAggregatedScores = {};
-
-        Object.values(window.globalRivals).forEach(list => list.forEach(p => totalAggregatedScores[p.n] = (totalAggregatedScores[p.n] || 0) + p.s));
-        
-        if (window.hubCurrentUser) {
-            let userSum = 0;
-            Object.values(window.hubCachedScores).forEach(s => userSum += s);
-            if(userSum > 0) totalAggregatedScores[window.hubCurrentUser] = userSum;
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the install prompt');
+                    }
+                    deferredPrompt = null;
+                });
+            } else if (isIOS) {
+                const content = document.getElementById('installModalContent');
+                content.innerHTML = `
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">Per installare l'app sul tuo iPhone o iPad:</p>
+                    <div class="ios-step"><div class="ios-step-num">1</div><div>Tocca il pulsante <strong>Condividi</strong> ⎋ / ⍞ in Safari.</div></div>
+                    <div class="ios-step"><div class="ios-step-num">2</div><div>Scorri e seleziona <strong>"Aggiungi alla schermata Home"</strong> ➕.</div></div>
+                    <div class="ios-step"><div class="ios-step-num">3</div><div>Conferma premendo <strong>Aggiungi</strong> in alto a destra.</div></div>
+                `;
+                openModal('installAppModal');
+            } else {
+                const content = document.getElementById('installModalContent');
+                content.innerHTML = `
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">Installa MasterSabba Arcade come app sul tuo computer o telefono:</p>
+                    <div class="ios-step"><div class="ios-step-num">1</div><div>Se usi un computer: Clicca in alto a destra sui tre puntini, <strong>Salva e Condividi</strong> 💻 / ➕ e installa pagina come app.</div></div>
+                    <div class="ios-step"><div class="ios-step-num">2</div><div>Se usi il browser da telefono: Apri il menu condividi e clicca visualizza altro, poi <strong>"Aggiungi alla schermata Home"</strong>.</div></div>
+                `;
+                openModal('installAppModal');
+            }
         }
 
-        let absoluteWinner = "Nessuno", maxOverallScore = -1;
-        Object.keys(totalAggregatedScores).forEach(name => {
-            if (totalAggregatedScores[name] > maxOverallScore) { maxOverallScore = totalAggregatedScores[name]; absoluteWinner = name; }
-        });
-        if(document.getElementById("globalOverlordName")) document.getElementById("globalOverlordName").textContent = absoluteWinner.toUpperCase();
-        if(document.getElementById("globalOverlordScore")) document.getElementById("globalOverlordScore").textContent = `${maxOverallScore} Punti Totali`;
+        try {
+            if (firebaseConfig.apiKey && firebaseConfig.apiKey !== "AIzaSy_YOUR_API_KEY") {
+                if (!firebase.apps.length) {
+                    firebase.initializeApp(firebaseConfig);
+                }
+                db = firebase.database();
+                auth = firebase.auth();
+                isFirebaseActive = true;
+            }
+        } catch(e) { console.warn("Firebase non ancora attivato, uso localStorage.", e); }
 
-        Object.keys(window.globalRivals).forEach(game => {
-            let structure = [...window.globalRivals[game]];
-            let userScore = window.hubCachedScores[game] || parseInt(localStorage.getItem(`points_${game.toLowerCase()}`)) || 0;
+        const gameDataMap = {
+            'color-clash': { title: 'Color Storm', desc: 'Sfidalo a colpi di combinazioni cromatiche e riflessi fulminei in questo card game.', controls: 'Click o Touch sulle carte compatibili.', url: 'https://mastersabba.github.io/MasterUno/' },
+            'last-spark': { title: 'Spark Bombs', desc: 'Un party game a turni ad alta tensione in cui ogni mossa può scatenare l\'esplosione finale.', controls: 'Click sul mazzo per pescare o usare azioni.', url: 'https://mastersabba.github.io/MasterKittens/' },
+            'master-wordle': { title: 'Word Rush', desc: 'Metti alla prova il tuo vocabolario decifrando la parola nascosta in soli sei tentativi.', controls: 'Tastiera fisica o touch.', url: 'https://mastersabba.github.io/MasterWordle/' },
+            'master-murder': { title: 'Cyber Crime', desc: 'Vesti i panni del detective cibernetico analizzando indizi digitali e interrogando i sospettati.', controls: 'Click su oggetti ed elementi di dialogo.', url: 'https://mastersabba.github.io/MasterMurder/' },
+            'master-verbum': { title: 'Word Duel', desc: 'Scontro verbale testa a testa per testare velocità di digitazione e dizionario.', controls: 'Digitazione da tastiera.', url: 'https://mastersabba.github.io/MasterVerbum/' },
+            'master-sudoku': { title: 'Digit Logic', desc: 'Rompicapo numerico basato su deduzione logica e schemi di calcolo.', controls: 'Selezione casella e tasti 1-9.', url: 'https://mastersabba.github.io/MasterSudoku/' },
+            'master-key': { title: 'Key Speed', desc: 'Test di digitazione e riflessi estremi per hackerare i nodi critici della rete.', controls: 'Digita i tasti visualizzati a schermo.', url: 'https://mastersabba.github.io/MasterKey/' },
+            'master-block': { title: 'Tetra Block', desc: 'Incastra forme geometriche in caduta libera per svuotare la griglia.', controls: 'Trascina e rilascia nella griglia.', url: 'https://mastersabba.github.io/MasterBlock/' },
+            'master-tris': { title: 'Tris Battle', desc: 'Scontri tattici rapidi e dinamici sul classico schema del tris.', controls: 'Click per posizionare il simbolo.', url: 'https://mastersabba.github.io/MasterTris/' },
+            'master-password': { title: 'Code Breaker', desc: 'Rompi i sistemi di sicurezza violando codici criptati attraverso deduzioni logiche.', controls: 'Inserimento cifre e verifica feedback.', url: 'https://mastersabba.github.io/MasterPassword/' },
+            'master-chess': { title: 'Royal Chess', desc: 'Duelli intellettuali sulla scacchiera virtuale contro un\'intelligenza artificiale.', controls: 'Trascina i pezzi sulla scacchiera.', url: 'https://mastersabba.github.io/MasterChess/' },
+            'master-blackjack': { title: 'Cyber Deck', desc: 'Tavolo da gioco sperimentale nel MasterLab con chip animate e sfide di carte.', controls: 'Tasti Carta, Stai, Puntata.', url: '#' }
+        };
+
+        window.globalRivals = {
+            "Cyber Crime": [{n: "CyberGhost", s: 15}, {n: "SabbaFan99", s: 10}, {n: "Rex_Logic", s: 5}],
+            "Word Duel": [{n: "WordHacker", s: 20}, {n: "CyberGhost", s: 12}, {n: "Alpha_User", s: 6}],
+            "Digit Logic": [{n: "Matrix9", s: 18}, {n: "Rex_Logic", s: 11}, {n: "SabbaFan99", s: 4}],
+            "Key Speed": [{n: "CryptoKing", s: 14}, {n: "Matrix9", s: 9}, {n: "CyberGhost", s: 3}],
+            "Word Rush": [{n: "WordHacker", s: 16}, {n: "SabbaFan99", s: 10}, {n: "CryptoKing", s: 5}],
+            "Spark Bombs": [{n: "ExplodeMe", s: 3}, {n: "Alpha_User", s: 2}, {n: "Matrix9", s: 1}],
+            "Color Storm": [{n: "CardShark", s: 4}, {n: "CyberGhost", s: 2}, {n: "ExplodeMe", s: 1}],
+            "Tetra Block": [{n: "TetrisGod", s: 50}, {n: "Matrix9", s: 30}, {n: "Rex_Logic", s: 15}],
+            "Tris Battle": [{n: "Alpha_User", s: 5}, {n: "CardShark", s: 3}, {n: "SabbaFan99", s: 1}],
+            "Code Breaker": [{n: "CryptoKing", s: 8}, {n: "CyberGhost", s: 5}, {n: "WordHacker", s: 2}],
+            "Royal Chess": [{n: "DeepNeon", s: 12}, {n: "Rex_Logic", s: 8}, {n: "Alpha_User", s: 4}],
+            "Cyber Deck": [{n: "DealerPro", s: 25}, {n: "LuckySabba", s: 15}, {n: "AceHigh", s: 10}]
+        };
+
+        window.hubCurrentUser = null;
+
+        const defaultState = {
+            username: "Ospite",
+            avatar: "⚡",
+            xp: 0,
+            gamesPlayed: 0,
+            ratings: {},
+            achievements: { firstVote: false, firstPlay: false, labTester: false, customProfile: false },
+            claimedQuests: {},
+            winsPerGame: {}
+        };
+
+        let userState = JSON.parse(localStorage.getItem('mastersabba_arcade_v2')) || defaultState;
+
+        function generateProceduralQuests(currentState) {
+            const lvl = Math.floor((currentState.xp || 0) / 300) + 1;
+            const targetWins = Math.max(1, lvl);
+            const targetVotes = Math.max(1, Math.min(5, Math.floor(lvl / 2)));
+            const targetXP = (lvl * 300);
+
+            return [
+                { id: `q_win_lvl_${lvl}`, title: `🏆 Trionfo Arcade: Ottieni ${targetWins} vittorie`, reward: 50 * lvl, target: targetWins },
+                { id: `q_vote_lvl_${lvl}`, title: `⭐ Critico Arcade: Vota ${targetVotes} giochi`, reward: 50 * lvl, target: targetVotes },
+                { id: `q_xp_lvl_${lvl}`, title: `⚡ Traguardo XP: Raggiungi ${targetXP} XP totali`, reward: 60 * lvl, target: targetXP },
+                { id: `q_lab_lvl_${lvl}`, title: `🧪 Innovatore: Prova il MasterLab`, reward: 80 * lvl, target: 1 }
+            ];
+        }
+
+        function registerWin(gameKey, pointsAwarded = 50) {
+            if (!userState.winsPerGame) userState.winsPerGame = {};
+            userState.winsPerGame[gameKey] = (userState.winsPerGame[gameKey] || 0) + 1;
             
-            if (window.hubCurrentUser) {
-                let idx = structure.findIndex(item => item.n.toLowerCase() === window.hubCurrentUser.toLowerCase());
-                if (idx !== -1) { 
-                    if (userScore > structure[idx].s) structure[idx].s = userScore; 
-                } else if (userScore > 0) { 
-                    structure.push({ n: window.hubCurrentUser, s: userScore }); 
+            userState.xp += pointsAwarded;
+            saveState();
+            buildLeaderboards();
+        }
+
+        const STORAGE_KEY_QUESTS = 'mastersabba_quests_data';
+
+        function getOrUpdateDailyQuests(currentState) {
+            const now = Date.now();
+            const ONE_DAY_MS = 24 * 60 * 60 * 1000;
+            let savedData = JSON.parse(localStorage.getItem(STORAGE_KEY_QUESTS)) || null;
+
+            if (!savedData || (now - savedData.lastResetTimestamp) >= ONE_DAY_MS) {
+                savedData = {
+                    lastResetTimestamp: now,
+                    quests: generateProceduralQuests(currentState),
+                    completedIds: []
+                };
+                localStorage.setItem(STORAGE_KEY_QUESTS, JSON.stringify(savedData));
+            }
+            return savedData;
+        }
+
+        function getTimeUntilReset(lastResetTimestamp) {
+            const ONE_DAY_MS = 24 * 60 * 60 * 1000;
+            const nextReset = lastResetTimestamp + ONE_DAY_MS;
+            const diff = Math.max(0, nextReset - Date.now());
+
+            const hours = Math.floor(diff / (1000 * 60 * 60)).toString().padStart(2, '0');
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000).toString().padStart(2, '0');
+
+            return `${hours}:${minutes}:${seconds}`;
+        }
+
+        let resetTimerInterval = null;
+        function startResetCountdown(lastResetTimestamp) {
+            if (resetTimerInterval) clearInterval(resetTimerInterval);
+            
+            const display = document.getElementById('quest-timer');
+            const updateTimer = () => {
+                const timeRemaining = getTimeUntilReset(lastResetTimestamp);
+                if (display) display.innerText = `Nuove sfide tra: ${timeRemaining}`;
+                if (timeRemaining === "00:00:00") {
+                    clearInterval(resetTimerInterval);
+                    localStorage.removeItem(STORAGE_KEY_QUESTS);
+                    updateUI();
+                }
+            };
+            updateTimer();
+            resetTimerInterval = setInterval(updateTimer, 1000);
+        }
+
+        function claimQuestReward(questId) {
+            let savedData = JSON.parse(localStorage.getItem(STORAGE_KEY_QUESTS));
+            if (!savedData) return;
+
+            const quest = savedData.quests.find(q => q.id === questId);
+            if (quest && !savedData.completedIds.includes(questId)) {
+                userState.xp += quest.reward;
+                savedData.completedIds.push(questId);
+                localStorage.setItem(STORAGE_KEY_QUESTS, JSON.stringify(savedData));
+                
+                if (!userState.claimedQuests) userState.claimedQuests = {};
+                userState.claimedQuests[questId] = true;
+                saveState();
+
+                renderQuests();
+            }
+        }
+
+        function toggleAuthMode() {
+            isRegistering = !isRegistering;
+            const usernameInput = document.getElementById('username');
+            usernameInput.style.display = isRegistering ? 'block' : 'none';
+            
+            document.getElementById('profileModalTitle').textContent = isRegistering ? "📝 Registrati" : "🔐 Accedi";
+            document.getElementById('btnSubmit').innerText = isRegistering ? "Registrati" : "Accedi";
+            document.getElementById('toggleText').textContent = isRegistering ? "Hai già un account?" : "Non hai un account?";
+            document.getElementById('toggleActionText').textContent = isRegistering ? "Accedi" : "Registrati";
+            document.getElementById('authError').innerText = "";
+        }
+
+        function showAuthUI(isLoggedIn) {
+            document.getElementById('authSection').style.display = isLoggedIn ? 'none' : 'block';
+            document.getElementById('userSection').style.display = isLoggedIn ? 'block' : 'none';
+            
+            if (isLoggedIn) {
+                document.getElementById('profileModalTitle').textContent = "👤 Profilo Utente";
+            } else {
+                document.getElementById('profileModalTitle').textContent = "🔐 Accedi";
+            }
+        }
+
+        function handleAuthAction() {
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const username = document.getElementById('username').value.trim();
+            const errorDiv = document.getElementById('authError');
+
+            errorDiv.innerText = "";
+
+            if (!email || !password) {
+                errorDiv.innerText = "Inserisci email e password.";
+                return;
+            }
+            if (isRegistering && !username) {
+                errorDiv.innerText = "Inserisci un nome utente per registrarti.";
+                return;
+            }
+
+            if (typeof isFirebaseActive !== 'undefined' && isFirebaseActive) {
+                if (isRegistering) {
+                    auth.createUserWithEmailAndPassword(email, password)
+                        .then(cred => {
+                            currentUser = cred.user;
+                            userState.username = username;
+                            window.hubCurrentUser = username;
+                            localStorage.setItem('masterhub_logged_user', cred.user.uid);
+                            db.ref('users/' + cred.user.uid).set(userState);
+                            showAuthUI(true);
+                            updateUI();
+                        })
+                        .catch(err => errorDiv.innerText = "Errore: " + err.message);
+                } else {
+                    auth.signInWithEmailAndPassword(email, password)
+                        .then(cred => {
+                            currentUser = cred.user;
+                            localStorage.setItem('masterhub_logged_user', cred.user.uid);
+                            loadUserData(cred.user.uid);
+                        })
+                        .catch(err => errorDiv.innerText = "Credenziali errate o errore di login.");
+                }
+            } else {
+                let localAccounts = JSON.parse(localStorage.getItem('mockAccounts')) || {};
+                
+                if (isRegistering) {
+                    if (localAccounts[email]) {
+                        errorDiv.innerText = "Account già esistente. Accedi.";
+                    } else {
+                        localAccounts[email] = { 
+                            password: password, 
+                            username: username, 
+                            xp: userState.xp || 0,
+                            gamesPlayed: userState.gamesPlayed || 0,
+                            winsPerGame: userState.winsPerGame || {}
+                        };
+                        localStorage.setItem('mockAccounts', JSON.stringify(localAccounts));
+                        startLocalSession(email, localAccounts[email]);
+                    }
+                } else {
+                    const acc = localAccounts[email];
+                    if (acc && acc.password === password) {
+                        startLocalSession(email, acc);
+                    } else {
+                        errorDiv.innerText = "Email o Password errata o account non registrato in locale.";
+                    }
                 }
             }
-            structure.sort((a, b) => b.s - a.s);
+        }
 
-            let section = document.createElement("div");
-            section.className = "game-rank-section";
-            section.style = "margin-bottom: 15px; background: #11131c; border: 1px solid #1e2030; padding: 10px; border-radius: 8px;";
-            section.innerHTML = `<h4 style="font-size:0.85rem; color:#00ffff; margin:0 0 5px 0; text-transform:uppercase;">${game}</h4>`;
-            
-            structure.slice(0, 3).forEach((row, i) => {
-                let medal = i === 0 ? "🥇" : i === 1 ? "🥈" : "🥉";
-                let boldStyle = row.n === window.hubCurrentUser ? "color: #39ff14; font-weight: bold;" : "color: #ddd;";
-                section.innerHTML += `<div style="display:flex; justify-content:space-between; font-size:0.8rem; padding:3px 0; ${boldStyle}"><span>${medal} ${row.n}</span><span>${row.s} pts</span></div>`;
+        function handleLogout() {
+            if (isFirebaseActive && auth) {
+                auth.signOut();
+            }
+            currentUser = null;
+            window.hubCurrentUser = null;
+            localStorage.removeItem('currentSession');
+            localStorage.removeItem('masterhub_logged_user');
+            userState = {...defaultState};
+            localStorage.removeItem('mastersabba_arcade_v2');
+            localStorage.removeItem(STORAGE_KEY_QUESTS);
+            showAuthUI(false);
+            updateUI();
+        }
+
+        function loadUserData(uid) {
+            if (!db) return;
+            localStorage.setItem('masterhub_logged_user', uid);
+            db.ref('users/' + uid).once('value').then((snapshot) => {
+                if (snapshot.exists()) {
+                    let remoteData = snapshot.val();
+                    userState = { 
+                        ...defaultState, 
+                        ...remoteData,
+                        xp: Math.max(userState.xp || 0, remoteData.xp || 0),
+                        gamesPlayed: Math.max(userState.gamesPlayed || 0, remoteData.gamesPlayed || 0),
+                        winsPerGame: { ...(remoteData.winsPerGame || {}), ...(userState.winsPerGame || {}) }
+                    };
+                    window.hubCurrentUser = userState.username;
+                    saveUserData(uid);
+                } else {
+                    saveUserData(uid);
+                }
+                showAuthUI(true);
+                updateUI();
             });
-            container.appendChild(section);
-        });
-    };
+        }
 
-    window.openLeaderboard = () => { window.buildLeaderboards(); window.togglePanel('leaderboardPanel'); };
-
-    // Inizializzazione Listener al boot della pagina
-    document.addEventListener("DOMContentLoaded", () => {
-        if (window.updateAuthUI) { window.updateAuthUI(); }
-
-        // CONTROLLO PERSISTENZA PALLINO ROSSO: Se è già stato letto in passato, nascondilo subito
-        if (localStorage.getItem("masterbot_badge_hidden") === "true") {
-            const badge = document.getElementById('chatBadge') || 
-                          document.getElementById('chatNotification') || 
-                          document.getElementById('chatDot');
-            if (badge) {
-                badge.style.display = 'none';
-                badge.style.opacity = '0';
-                badge.classList.remove('show');
+        function saveUserData(uid) {
+            if (db && uid) {
+                db.ref('users/' + uid).set(userState);
             }
         }
 
-        // Ripristino email salvata
-        const savedEmail = localStorage.getItem("masterbot_user_email");
-        const emailInput = document.getElementById("chatEmail");
-        if (savedEmail && emailInput) { 
-            emailInput.value = savedEmail; 
-            window.validateEmailRealTime(emailInput); 
-        }
-        
-        // Trigger automatico modale recensioni
-        if (localStorage.getItem("pending_rating") && !localStorage.getItem("hub_game_rated")) {
-            setTimeout(() => { 
-                const rm = document.getElementById('ratingModal');
-                if (rm) rm.classList.add('show'); 
-                localStorage.removeItem("pending_rating"); 
-            }, 2000);
-        }
-        document.querySelectorAll('.card').forEach(card => card.addEventListener('click', () => { if (!localStorage.getItem("hub_game_rated")) localStorage.setItem("pending_rating", "true"); }));
+        function startLocalSession(email, accountData) {
+            localStorage.setItem('currentSession', email);
+            localStorage.setItem('masterhub_logged_user', email);
+            
+            userState.username = accountData.username || email.split('@')[0];
+            userState.xp = Math.max(userState.xp || 0, accountData.xp || 0);
+            userState.gamesPlayed = Math.max(userState.gamesPlayed || 0, accountData.gamesPlayed || 0);
+            userState.winsPerGame = { ...(accountData.winsPerGame || {}), ...(userState.winsPerGame || {}) };
+            
+            accountData.xp = userState.xp;
+            accountData.gamesPlayed = userState.gamesPlayed;
+            accountData.winsPerGame = userState.winsPerGame;
+            
+            let localAccounts = JSON.parse(localStorage.getItem('mockAccounts')) || {};
+            localAccounts[email] = accountData;
+            localStorage.setItem('mockAccounts', JSON.stringify(localAccounts));
 
-        // Click Segreto sul Titolo
-        let titleClicks = 0;
-        const titleEl = document.getElementById('hubTitle');
-        if (titleEl) {
-            titleEl.addEventListener('click', () => { 
-                titleClicks++; 
-                if (titleClicks === 3) { window.togglePanel('secretPanel'); titleClicks = 0; } 
-                setTimeout(() => { titleClicks = 0; }, 1200); 
+            window.hubCurrentUser = userState.username;
+            document.getElementById('authError').innerText = "";
+            showAuthUI(true);
+            saveState();
+        }
+
+        function checkLocalSession() {
+            const sessionEmail = localStorage.getItem('currentSession');
+            if (sessionEmail) {
+                const localAccounts = JSON.parse(localStorage.getItem('mockAccounts'));
+                if (localAccounts && localAccounts[sessionEmail]) {
+                    startLocalSession(sessionEmail, localAccounts[sessionEmail]);
+                } else {
+                    showAuthUI(false);
+                }
+            } else {
+                showAuthUI(false);
+            }
+        }
+
+        function saveState() {
+            const storageKey = currentUser ? `arcade_v2_${currentUser.uid}` : 'mastersabba_arcade_v2';
+            localStorage.setItem('mastersabba_arcade_v2', JSON.stringify(userState));
+            localStorage.setItem(storageKey, JSON.stringify(userState));
+
+            if (isFirebaseActive && currentUser) {
+                saveUserData(currentUser.uid);
+            }
+            updateUI();
+        }
+
+        function updateUI() {
+            document.getElementById('navUsername').textContent = userState.username;
+            document.getElementById('navAvatar').textContent = userState.avatar;
+            document.getElementById('usernameInput').value = userState.username;
+            window.hubCurrentUser = userState.username;
+
+            document.querySelectorAll('.avatar-opt').forEach(opt => {
+                opt.classList.toggle('selected', opt.textContent === userState.avatar);
             });
+
+            const xp = userState.xp || 0;
+            const level = Math.floor(xp / 300) + 1;
+            const currentLevelXP = xp % 300;
+            const fillPct = (currentLevelXP / 300) * 100;
+
+            let rank = "Rookie";
+            if (level >= 3) rank = "Arcade Player";
+            if (level >= 5) rank = "Cyber Master";
+            if (level >= 10) rank = "Legendary Sabba";
+
+            document.getElementById('userLevel').textContent = level;
+            document.getElementById('userRank').textContent = rank;
+            document.getElementById('userXP').textContent = xp;
+            document.getElementById('gamesPlayedCount').textContent = userState.gamesPlayed || 0;
+            document.getElementById('xpBarFill').style.width = fillPct + '%';
+
+            if (userState.achievements?.firstVote) document.getElementById('badge-first-vote').classList.add('unlocked');
+            if (userState.achievements?.firstPlay) document.getElementById('badge-first-play').classList.add('unlocked');
+            if (userState.achievements?.labTester) document.getElementById('badge-lab-tester').classList.add('unlocked');
+            if (userState.achievements?.customProfile) document.getElementById('badge-custom-profile').classList.add('unlocked');
+
+            Object.keys(userState.ratings || {}).forEach(gameId => {
+                const val = userState.ratings[gameId];
+                const card = document.querySelector(`.game-card[data-id="${gameId}"]`);
+                if (card) {
+                    card.querySelectorAll('.star').forEach((s, idx) => s.classList.toggle('active', idx < val));
+                }
+            });
+
+            renderQuests();
+            buildLeaderboards();
         }
 
-        // Invio Form di contatto Formspree Chat
-        const mf = document.getElementById('masterForm');
-        if (mf) {
-            mf.addEventListener('submit', function(e) {
-                e.preventDefault();
-                const btn = document.getElementById('submitBtn');
-                if (btn) { btn.textContent = 'INVIANDO...'; btn.disabled = true; }
+        function renderQuests() {
+            const container = document.getElementById('questContainer');
+            if (!container) return;
+
+            const questData = getOrUpdateDailyQuests(userState);
+            const { quests, completedIds, lastResetTimestamp } = questData;
+
+            startResetCountdown(lastResetTimestamp);
+
+            let hasClaimableQuests = false;
+            container.innerHTML = '';
+
+            quests.forEach(q => {
+                const isCompleted = completedIds.includes(q.id) || (userState.claimedQuests && userState.claimedQuests[q.id]);
                 
-                const chatEmail = document.getElementById('chatEmail');
-                if (chatEmail) localStorage.setItem("masterbot_user_email", chatEmail.value);
-                
-                fetch('https://formspree.io/f/xbdzvell', { method: 'POST', body: new FormData(this), headers: { 'Accept': 'application/json' } })
-                .then(res => {
-                    if (res.ok) {
-                        const mcc = document.getElementById('mainChatContent');
-                        if (mcc) mcc.style.display = 'none';
-                        const success = document.getElementById('chatSuccess'); 
-                        if (success) {
-                            success.style.display = 'block';
-                            success.innerHTML = `Grazie! Il tuo messaggio è stato recapitato a MasterSabba. 🚀<br><br>Ti risponderò presto!`;
-                        }
-                        setTimeout(() => { 
-                            window.toggleChat(); 
-                            this.reset(); 
-                            if (btn) { btn.textContent = 'INVIA MESSAGGIO'; btn.disabled = false; }
-                            if (success) success.style.display = 'none'; 
-                            if (mcc) mcc.style.display = 'flex'; 
-                            
-                            const se = localStorage.getItem("masterbot_user_email"); 
-                            if (se && chatEmail) { 
-                                chatEmail.value = se; 
-                                window.validateEmailRealTime(chatEmail); 
-                            }
-                        }, 3000);
-                    }
+                let isConditionMet = false;
+                const titleLower = q.title.toLowerCase();
+
+                if (titleLower.includes('vittorie') || titleLower.includes('vittoria')) {
+                    let totalWins = Object.values(userState.winsPerGame || {}).reduce((a, b) => a + b, 0);
+                    isConditionMet = totalWins >= (q.target || 1);
+                } else if (titleLower.includes('vota') || titleLower.includes('giochi')) {
+                    let totalVotes = Object.keys(userState.ratings || {}).length;
+                    isConditionMet = totalVotes >= (q.target || 1);
+                } else if (titleLower.includes('xp') || titleLower.includes('traguardo')) {
+                    const xp = userState.xp || 0;
+                    isConditionMet = xp >= (q.target || 300);
+                } else if (titleLower.includes('masterlab') || titleLower.includes('lab') || titleLower.includes('prova')) {
+                    isConditionMet = !!(userState.achievements && userState.achievements.labTester);
+                }
+                    
+                const canClaim = isConditionMet && !isCompleted;
+
+                if (canClaim) hasClaimableQuests = true;
+
+                const div = document.createElement('div');
+                div.className = `quest-item ${isCompleted ? 'completed' : ''}`;
+                div.innerHTML = `
+                    <div class="quest-info">
+                        <h4>${q.title}</h4>
+                        <p>Premio: <strong>+${q.reward} XP</strong></p>
+                    </div>
+                    <button class="btn-claim" ${!canClaim ? 'disabled' : ''} onclick="claimQuestReward('${q.id}')">
+                        ${isCompleted ? 'Completata' : (canClaim ? 'RISCATTA' : 'In corso')}
+                    </button>
+                `;
+                container.appendChild(div);
+            });
+
+            const dot = document.getElementById('questNotificationDot');
+            if (dot) dot.style.display = hasClaimableQuests ? 'block' : 'none';
+        }
+
+        function switchLbView(view) {
+            currentLbView = view;
+            document.getElementById('lbTabGlobal').classList.toggle('active', view === 'global');
+            document.getElementById('lbTabGames').classList.toggle('active', view === 'games');
+            buildLeaderboards();
+        }
+
+        window.buildLeaderboards = function() {
+            const container = document.getElementById("leaderboardScoresContainer");
+            if (!container) return;
+            container.innerHTML = "";
+
+            let globalPlayers = {};
+
+            Object.values(window.globalRivals).forEach(list => {
+                list.forEach(p => {
+                    globalPlayers[p.n] = (globalPlayers[p.n] || 0) + (p.s * 10);
                 });
             });
-        }
-    });
-</script>
 
-
-<script type="module">
-    import { auth, db } from "./firebase.js";
-    import { 
-        createUserWithEmailAndPassword, 
-        signInWithEmailAndPassword, 
-        signOut, 
-        onAuthStateChanged,
-        updateProfile 
-    } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
-    // IMPORT UNIFICATO E CORRETTO (Tutti gli strumenti in alto)
-    import { doc, setDoc, getDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
-
-    // Se arriviamo qui, il file firebase.js è corretto! Sovrascriviamo le funzioni di Login/Registrazione
-    window.handleHubAuth = async function(mode) {
-        const userEl = document.getElementById("authUsername");
-        const passEl = document.getElementById("authPassword");
-        if(!userEl || !passEl) return;
-        
-        const user = userEl.value.trim();
-        const pass = passEl.value.trim();
-        const emailInput = document.getElementById("authEmail") ? document.getElementById("authEmail").value.trim() : "";
-        const email = emailInput || `${user.toLowerCase()}@masterhub.local`;
-        
-        if (!user || !pass) { alert("Inserisci Username e Password."); return; }
-
-        try {
-            if (mode === "SIGNUP") {
-                const cred = await createUserWithEmailAndPassword(auth, email, pass);
-                await updateProfile(cred.user, { displayName: user });
-                await setDoc(doc(db, "users", cred.user.uid), { username: user, scores: {} });
-                alert("Registrazione completata!");
-            } else {
-                await signInWithEmailAndPassword(auth, email, pass);
+            if (userState.username && userState.username !== "Ospite") {
+                globalPlayers[userState.username] = userState.xp || 0;
             }
-            if (window.togglePanel) window.togglePanel('authPanel');
-        } catch (e) { alert("Errore Account: " + e.message); }
+
+            let absoluteWinner = "Nessuno", maxOverallScore = -1;
+            Object.keys(globalPlayers).forEach(name => {
+                if (globalPlayers[name] > maxOverallScore) { 
+                    maxOverallScore = globalPlayers[name]; 
+                    absoluteWinner = name; 
+                }
+            });
+            
+            const overlordNameEl = document.getElementById("globalOverlordName");
+            const overlordScoreEl = document.getElementById("globalOverlordScore");
+            if(overlordNameEl) overlordNameEl.textContent = absoluteWinner.toUpperCase();
+            if(overlordScoreEl) overlordScoreEl.textContent = `${maxOverallScore} XP Totali`;
+
+            if (currentLbView === 'global') {
+                let sortedList = Object.keys(globalPlayers).map(name => ({
+                    n: name,
+                    s: globalPlayers[name]
+                })).sort((a, b) => b.s - a.s);
+
+                sortedList.forEach((row, i) => {
+                    let isMe = userState.username && row.n.toLowerCase() === userState.username.toLowerCase();
+                    let medal = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `#${i + 1}`;
+                    
+                    let div = document.createElement("div");
+                    div.className = `lb-row ${isMe ? 'me' : ''}`;
+                    div.innerHTML = `
+                        <div class="lb-rank">${medal}</div>
+                        <div class="lb-user">${row.n} ${isMe ? '(Tu)' : ''}</div>
+                        <div class="lb-score">${row.s} XP</div>
+                    `;
+                    container.appendChild(div);
+                });
+            } else {
+                Object.keys(window.globalRivals).forEach(game => {
+                    let structure = JSON.parse(JSON.stringify(window.globalRivals[game]));
+                    let userGameWins = userState.winsPerGame?.[game] || 0;
+                    let userScore = userGameWins * 10;
+
+                    if (userState.username && userState.username !== "Ospite") {
+                        let idx = structure.findIndex(item => item.n.toLowerCase() === userState.username.toLowerCase());
+                        if (idx !== -1) { 
+                            if (userScore > structure[idx].s) structure[idx].s = userScore; 
+                        } else if (userScore > 0) { 
+                            structure.push({ n: userState.username, s: userScore }); 
+                        }
+                    }
+                    structure.sort((a, b) => b.s - a.s);
+
+                    let section = document.createElement("div");
+                    section.className = "game-rank-section";
+                    section.style = "margin-bottom: 15px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08); padding: 10px; border-radius: 10px;";
+                    section.innerHTML = `<h4 style="font-size:0.85rem; color:var(--neon-cyan); margin:0 0 8px 0; text-transform:uppercase;">${game}</h4>`;
+                    
+                    structure.slice(0, 3).forEach((row, i) => {
+                        let medal = i === 0 ? "🥇" : i === 1 ? "🥈" : "🥉";
+                        let isMe = userState.username && row.n.toLowerCase() === userState.username.toLowerCase();
+                        let boldStyle = isMe ? "color: var(--neon-green); font-weight: bold;" : "color: #ddd;";
+                        section.innerHTML += `<div style="display:flex; justify-content:space-between; font-size:0.8rem; padding:4px 0; ${boldStyle}"><span>${medal} ${row.n}</span><span>${row.s} pts</span></div>`;
+                    });
+                    container.appendChild(section);
+                });
+            }
+        };
+
+        window.openLeaderboard = () => { 
+            openModal('leaderboardModal'); 
+        };
+
+        function setAvatar(emoji) {
+            userState.avatar = emoji;
+            userState.achievements.customProfile = true;
+            saveState();
+        }
+
+        function updateUsername() {
+            const inputVal = document.getElementById('usernameInput').value.trim();
+            if (inputVal) {
+                userState.username = inputVal;
+                window.hubCurrentUser = inputVal;
+                userState.achievements.customProfile = true;
+                saveState();
+            }
+        }
+
+        // --- RISOLTO: AZZERAMENTO LOCALE REALE ED EFFICACE ---
+        function resetStats() {
+            if (confirm("Sei sicuro di voler azzerare TUTTI i dati locali e resettare i punteggi?")) {
+                localStorage.clear();
+                sessionStorage.clear();
+                userState = {...defaultState};
+                window.hubCurrentUser = null;
+                location.reload();
+            }
+        }
+
+        function openGamePreview(gameId) {
+            const data = gameDataMap[gameId];
+            if (!data) return;
+            document.getElementById('prevTitle').textContent = data.title;
+            document.getElementById('prevDesc').textContent = data.desc;
+            document.getElementById('prevControls').textContent = data.controls;
+            
+            const playBtn = document.getElementById('prevPlayBtn');
+            const currentUid = currentUser ? currentUser.uid : 'guest';
+            
+            localStorage.setItem('masterhub_logged_user', currentUid);
+
+            let finalUrl = data.url;
+            if (userState.username && userState.username !== "Ospite") {
+                const separator = finalUrl.includes('?') ? '&' : '?';
+                finalUrl += `${separator}player=${encodeURIComponent(userState.username)}&userId=${encodeURIComponent(currentUid)}`;
+            }
+            
+            playBtn.href = finalUrl;
+            playBtn.onclick = (e) => registerPlay(e, gameId);
+            openModal('previewModal');
+        }
+
+
+function registerPlay(event, gameId) {
+    event.stopPropagation();
+    userState.gamesPlayed = (userState.gamesPlayed || 0) + 1;
+    userState.achievements.firstPlay = true;
+    if (gameId === 'master-blackjack') userState.achievements.labTester = true;
+    saveState();
+
+    // Reindirizza al link del gioco con i parametri utente se cliccato direttamente
+    const cardData = gameDataMap[gameId];
+    if (cardData && cardData.url && cardData.url !== '#') {
+        const launchUrl = getGameLaunchUrl(cardData.url);
+        window.open(launchUrl, '_blank');
+    }
+}
+
+// Ascoltatore universale Ponteggio per i punti/vittorie dai giochi
+window.addEventListener('message', (event) => {
+    const { gameKey, points, gameId, score } = event.data || {};
+    const finalPoints = points || score || 50;
+    const targetKey = gameKey || gameId;
+
+    if (!targetKey) return;
+
+    let gameNameMap = {
+        'color-clash': 'Color Storm',
+        'last-spark': 'Spark Bombs',
+        'master-wordle': 'Word Rush',
+        'master-murder': 'Cyber Crime',
+        'master-verbum': 'Word Duel',
+        'master-sudoku': 'Digit Logic',
+        'master-key': 'Key Speed',
+        'master-block': 'Tetra Block',
+        'master-tris': 'Tris Battle',
+        'master-password': 'Code Breaker',
+        'master-chess': 'Royal Chess',
+        'master-blackjack': 'Cyber Deck'
     };
 
-    window.handleHubLogout = () => signOut(auth);
+    let mappedName = gameNameMap[targetKey] || targetKey;
+    registerWin(mappedName, finalPoints);
+});
 
-    // Sincronizzazione punti automatici LocalStorage -> Cloud Firestore
-    async function syncLocalPointsToProfile(uid) {
-        let updated = false;
-        Object.keys(window.globalRivals).forEach(g => {
-            const localScore = parseInt(localStorage.getItem(`points_${g.toLowerCase()}`)) || 0;
-            if (localScore > (window.hubCachedScores[g] || 0)) {
-                window.hubCachedScores[g] = localScore;
-                updated = true;
+        function rateGame(event, gameId) {
+            event.stopPropagation();
+            if (event.target.classList.contains('star')) {
+                const val = parseInt(event.target.getAttribute('data-value'));
+                if (!userState.ratings[gameId]) userState.xp += 50;
+                userState.ratings[gameId] = val;
+                userState.achievements.firstVote = true;
+                
+                saveState();
+            }
+        }
+
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+        function filterGames() {
+            const input = document.getElementById("gameSearch").value.toLowerCase();
+            document.querySelectorAll("#gameList .game-card").forEach(card => {
+                const text = card.getAttribute("data-name") || card.textContent.toLowerCase();
+                card.style.display = text.includes(input) ? "flex" : "none";
+            });
+        }
+
+        function filterCategory(cat, btn) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+            document.querySelectorAll("#gameList .game-card").forEach(card => {
+                card.style.display = (cat === 'all' || card.getAttribute("data-category") === cat) ? "flex" : "none";
+            });
+        }
+
+        function toggleChat() {
+            const chat = document.getElementById('chatWindow');
+            chat.style.display = chat.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function sendQuickMsg(text) {
+            document.getElementById('chatInput').value = text;
+            sendChatMessage();
+        }
+
+        function handleChatKey(e) { if (e.key === 'Enter') sendChatMessage(); }
+
+        function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const messages = document.getElementById('chatMessages');
+            messages.innerHTML += `<div class="msg user">${text}</div>`;
+            input.value = '';
+            messages.scrollTop = messages.scrollHeight;
+
+            setTimeout(() => {
+                let reply = "Vinci le partite per accumulare punti in classifica e sbloccare ricompense!";
+                const lower = text.toLowerCase();
+
+                if (lower.includes('progressi') || lower.includes('livello')) {
+                    reply = `Sei al Livello ${Math.floor(userState.xp/300)+1} con ${userState.xp} XP e ${userState.gamesPlayed} partite giocate!`;
+                } else if (lower.includes('xp') || lower.includes('accumulo')) {
+                    reply = "I punti vengono assegnati in caso di vittoria nei giochi, votando le stelle, testando il MasterLab e riscattando le Sfide!";
+                } else if (lower.includes('consiglio') || lower.includes('gioco')) {
+                    const games = ['Color Storm', 'Spark Bombs', 'Word Rush', 'Cyber Crime', 'Royal Chess'];
+                    reply = `Ti consiglio di provare subito **${games[Math.floor(Math.random()*games.length)]}** e conquistar la vittoria!`;
+                }
+
+                messages.innerHTML += `<div class="msg bot">${reply}</div>`;
+                messages.scrollTop = messages.scrollHeight;
+            }, 350);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (isFirebaseActive && auth) {
+                auth.onAuthStateChanged((user) => {
+                    if (user) {
+                        currentUser = user;
+                        localStorage.setItem('masterhub_logged_user', user.uid);
+                        loadUserData(user.uid);
+                    } else {
+                        showAuthUI(false);
+                    }
+                });
+            } else {
+                checkLocalSession();
             }
         });
-        if (updated && uid) {
-            try { await setDoc(doc(db, "users", uid), { scores: window.hubCachedScores }, { merge: true }); } catch(e) { console.error(e); }
-        }
-    }
-
-   onAuthStateChanged(auth, async (user) => {
-    const btn = document.getElementById("btnAuth");
-    if (!btn) return;
-    if (user) {
-        // Se il displayName non è ancora pronto, facciamo un reload asincrono del profilo cloud
-        if (!user.displayName) {
-            try { await user.reload(); } catch (e) { console.error(e); }
-        }
-
-        // Recuperiamo i dati da Firestore
-        let dbUsername = null;
-        try {
-            const userDoc = await getDoc(doc(db, "users", user.uid));
-            if (userDoc.exists()) {
-                const data = userDoc.data();
-                if (data.scores) window.hubCachedScores = data.scores;
-                if (data.username) dbUsername = data.username; // Prende il nome salvato su database
-            }
-            await syncLocalPointsToProfile(user.uid);
-        } catch(e) { console.error("Errore Caricamento Profili Cloud:", e); }
-
-        // PRIORITÀ DEL NOME: 1. DisplayName aggiornato, 2. Nome da Database, 3. Fallback finale
-        window.hubCurrentUser = user.displayName || dbUsername || "Agente Anonimo";
-        
-        // Aggiorna la UI
-        btn.textContent = `🟢 ${window.hubCurrentUser.toUpperCase()}`;
-        btn.classList.add("logged-in");
-        if (document.getElementById("auth-logged-out")) document.getElementById("auth-logged-out").style.display = "none";
-        if (document.getElementById("auth-logged-in")) document.getElementById("auth-logged-in").style.display = "block";
-        if (document.getElementById("displayUser")) document.getElementById("displayUser").textContent = window.hubCurrentUser.toUpperCase();
-        
-    } else {
-        window.hubCurrentUser = null;
-        window.hubCachedScores = {};
-        btn.textContent = "👤 Accedi";
-        btn.classList.remove("logged-in");
-        if (document.getElementById("auth-logged-out")) document.getElementById("auth-logged-out").style.display = "block";
-        if (document.getElementById("auth-logged-in")) document.getElementById("auth-logged-in").style.display = "none";
-    }
-
-    // Aggiorna le classifiche con i nuovi dati corretti
-    fetchGlobalLeaderboards();
-});
-    // Scarica i punteggi reali di tutti i giocatori registrati da Firestore
-    async function fetchGlobalLeaderboards() {
-        try {
-            const querySnapshot = await getDocs(collection(db, "users"));
-            let updatedRivals = {
-                "MasterMurder": [], "MasterVerbum": [], "MasterSudoku": [], "MasterKey": [],
-                "MasterWordle": [], "MasterKittens": [], "MasterUno": [], "MasterBlock": [],
-                "MasterTris": [], "MasterPassword": [], "MasterChess": []
-            };
-
-            querySnapshot.forEach((doc) => {
-                const data = doc.data();
-                const username = data.username;
-                const scores = data.scores || {};
-
-                if (username) {
-                    Object.keys(updatedRivals).forEach(game => {
-                        if (scores[game] !== undefined && scores[game] > 0) {
-                            updatedRivals[game].push({ n: username, s: scores[game] });
-                        }
-                    });
-                }
-            });
-
-            Object.keys(updatedRivals).forEach(game => {
-                updatedRivals[game].sort((a, b) => b.s - a.s);
-                const fallbacks = window.globalRivals[game] || [];
-                if (updatedRivals[game].length < 3) {
-                    fallbacks.forEach(bot => {
-                        if (!updatedRivals[game].some(p => p.n.toLowerCase() === bot.n.toLowerCase())) {
-                            updatedRivals[game].push(bot);
-                        }
-                    });
-                    updatedRivals[game].sort((a, b) => b.s - a.s);
-                }
-            });
-
-            window.globalRivals = updatedRivals;
-            if (window.buildLeaderboards) window.buildLeaderboards();
-        } catch (e) {
-            console.error("Errore caricamento classifica globale:", e);
-        }
-    }
-
-    // PWA Installer Engine
-    let installPromptEvent;
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault(); installPromptEvent = e;
-        if(document.getElementById('btnInstallApp')) document.getElementById('btnInstallApp').style.display = 'block';
-    });
-    window.triggerPWAInstallation = () => {
-        if (installPromptEvent) {
-            installPromptEvent.prompt();
-            installPromptEvent.userChoice.then((choice) => { if (choice.outcome === 'accepted' && document.getElementById('btnInstallApp')) document.getElementById('btnInstallApp').style.display = 'none'; installPromptEvent = null; });
-        } else { alert("Su iOS clicca su 'Condividi' -> 'Aggiungi alla schermata Home'."); }
-    };
-</script>
-
-
-
-    <!-- CHAT WIDGET: MASTERBOT -->
-<div id="chat-widget" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
-    <div class="chat-button" onclick="toggleChat()" style="width: 60px; height: 60px; background: #111; border: 2px solid #00d4ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 15px #00d4ff;">
-        <span style="font-size: 1.8rem;">🤖</span>
-        <div class="chat-badge" id="chatBadge" style="position: absolute; top: -2px; right: -2px; width: 14px; height: 14px; background: #ff073a; border-radius: 50%;"></div>
-    </div>
-    <div class="chat-window" id="chatWin" style="display: none; position: absolute; bottom: 75px; right: 0; width: 320px; background: #111; border: 1px solid #00d4ff; border-radius: 15px; flex-direction: column; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
-        <div class="chat-header" style="background: #00d4ff; color: black; padding: 15px; font-weight: bold; display: flex; justify-content: space-between; align-items: center;">
-            <span>🤖 MASTER BOT</span>
-            <button onclick="toggleChat()" style="background:none; border:none; font-size:1.4rem; cursor:pointer; font-weight:bold;">×</button>
-        </div>
-        <div class="chat-body" style="padding: 15px; display: flex; flex-direction: column; gap: 12px; max-height: 380px; overflow-y: auto;">
-            <div id="mainChatContent" style="display: flex; flex-direction: column; gap: 12px;">
-                <div class="bot-msg" style="background: #1e293b; color: white; padding: 10px 14px; border-radius: 12px 12px 12px 0; font-size: 0.9rem; border-left: 3px solid #00d4ff;">Ciao! Sono il MasterBot. Vuoi segnalare un bug o lasciare un feedback a MasterSabba?</div>
-                <div style="display: flex; flex-wrap: wrap; gap: 6px;">
-                    <button type="button" style="background:#050505; border:1px solid #333; color:#ccc; padding:6px 10px; border-radius:20px; font-size:0.75rem; cursor:pointer;" onclick="selectOption('[BUG] ')">🐛 Bug</button>
-                    <button type="button" style="background:#050505; border:1px solid #333; color:#ccc; padding:6px 10px; border-radius:20px; font-size:0.75rem; cursor:pointer;" onclick="selectOption('[FEEDBACK] ')">💡 Idea</button>
-                    <button type="button" style="background:#050505; border:1px solid #333; color:#ccc; padding:6px 10px; border-radius:20px; font-size:0.75rem; cursor:pointer;" onclick="selectOption('[AIUTO] ')">❓ Login</button>
-                </div>
-                <form id="masterForm" style="display: flex; flex-direction: column; gap: 10px;">
-                    <input type="email" id="chatEmail" name="Email" placeholder="La tua email" required style="background:#050505; border:1px solid #333; color:white; padding:10px; border-radius:8px;">
-                    <textarea id="chatMessage" name="Messaggio" rows="3" placeholder="Scrivi qui..." required style="background:#050505; border:1px solid #333; color:white; padding:10px; border-radius:8px; font-family:inherit;"></textarea>
-                    <button type="submit" id="submitBtn" style="background:#00d4ff; border:none; padding:11px; font-weight:bold; cursor:pointer; border-radius:8px; color:black;">Invia</button>
-                </form>
-            </div>
-            <div id="chatSuccess" style="display: none; background: #1e293b; color: white; padding: 10px 14px; border-radius: 12px; font-size: 0.9rem; border-left: 3px solid #39ff14;"></div>
-        </div>
-    </div>
-</div>
-
-<!-- MODAL POPUP: VALUTAZIONE STELLE -->
-<div id="ratingModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; display: none; align-items: center; justify-content: center;">
-    <div id="ratingBox" style="background: #111; border: 2px solid #ffee00; border-radius: 16px; padding: 30px 20px; width: 90%; max-width: 320px; text-align: center; box-shadow: 0 0 25px rgba(255, 238, 0, 0.2);">
-        <h3 style="margin: 0 0 10px 0; color: #ffee00;">Ti piace l'Hub?</h3>
-        <p style="font-size:0.85rem; color:#777; margin:0 0 20px 0;">Lascia una valutazione rapida per supportare il progetto!</p>
-        <div style="display: flex; justify-content: center; gap: 8px; margin-bottom: 25px; flex-direction: row-reverse;">
-            <span style="font-size:2.3rem; cursor:pointer; color:rgba(255,255,255,0.2);" onclick="submitRating(5)" onmouseover="this.style.color='#ffee00'" onmouseout="this.style.color=''">⭐</span>
-            <span style="font-size:2.3rem; cursor:pointer; color:rgba(255,255,255,0.2);" onclick="submitRating(4)" onmouseover="this.style.color='#ffee00'" onmouseout="this.style.color=''">⭐</span>
-            <span style="font-size:2.3rem; cursor:pointer; color:rgba(255,255,255,0.2);" onclick="submitRating(3)" onmouseover="this.style.color='#ffee00'" onmouseout="this.style.color=''">⭐</span>
-            <span style="font-size:2.3rem; cursor:pointer; color:rgba(255,255,255,0.2);" onclick="submitRating(2)" onmouseover="this.style.color='#ffee00'" onmouseout="this.style.color=''">⭐</span>
-            <span style="font-size:2.3rem; cursor:pointer; color:rgba(255,255,255,0.2);" onclick="submitRating(1)" onmouseover="this.style.color='#ffee00'" onmouseout="this.style.color=''">⭐</span>
-        </div>
-        <button type="button" style="font-size: 0.8rem; color: #555; background: none; border: none; text-decoration: underline; cursor: pointer;" onclick="closeRatingModal()">Magari più tardi</button>
-    </div>
-</div>
+    </script>
 </body>
 </html>
