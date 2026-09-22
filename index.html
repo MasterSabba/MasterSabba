@@ -586,10 +586,10 @@
                     </div>
                 </div>
             </article>
-            <article class="game-card" data-id="last-spark" data-category="puzzle" data-name="spark bombs last spark masterkittens exploding kittens" onclick="openGamePreview('last-spark')">
+            <article class="game-card" data-id="last-spark" data-category="puzzle" data-name="Exploding Bomb last spark masterkittens exploding kittens" onclick="openGamePreview('last-spark')">
                 <div class="card-media kittens-bg">💥</div>
                 <div class="card-content">
-                    <h3>Spark Bombs</h3>
+                    <h3>Exploding Bomb</h3>
                     <p>Un party game a turni ad alta tensione in cui ogni mossa può scatenare l'esplosione finale.</p>
                     <div class="star-rating" onclick="rateGame(event, 'last-spark')">
                         <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
@@ -998,7 +998,7 @@
 
         const gameDataMap = {
             'color-clash': { title: 'Color Storm', desc: 'Sfidalo a colpi di combinazioni cromatiche e riflessi fulminei in questo card game.', controls: 'Click o Touch sulle carte compatibili.', url: 'https://mastersabba.github.io/MasterUno/' },
-            'last-spark': { title: 'Spark Bombs', desc: 'Un party game a turni ad alta tensione in cui ogni mossa può scatenare l\'esplosione finale.', controls: 'Click sul mazzo per pescare o usare azioni.', url: 'https://mastersabba.github.io/MasterKittens/' },
+            'last-spark': { title: 'Exploding Bomb', desc: 'Un party game a turni ad alta tensione in cui ogni mossa può scatenare l\'esplosione finale.', controls: 'Click sul mazzo per pescare o usare azioni.', url: 'https://mastersabba.github.io/MasterKittens/' },
             'master-wordle': { title: 'Word Rush', desc: 'Metti alla prova il tuo vocabolario decifrando la parola nascosta in soli sei tentativi.', controls: 'Tastiera fisica o touch.', url: 'https://mastersabba.github.io/MasterWordle/' },
             'master-murder': { title: 'Impostore', desc: 'Vesti i panni del detective cibernetico analizzando indizi digitali e interrogando i sospettati.', controls: 'Click su oggetti ed elementi di dialogo.', url: 'https://mastersabba.github.io/MasterMurder/' },
             'master-verbum': { title: 'Word Duel', desc: 'Scontro verbale testa a testa per testare velocità di digitazione e dizionario.', controls: 'Digitazione da tastiera.', url: 'https://mastersabba.github.io/MasterVerbum/' },
@@ -1017,7 +1017,7 @@
             "Sudoku": [{n: "Matrix9", s: 18}, {n: "Rex_Logic", s: 11}, {n: "SabbaFan99", s: 4}],
             "Key Speed": [{n: "CryptoKing", s: 14}, {n: "Matrix9", s: 9}, {n: "CyberGhost", s: 3}],
             "Word Rush": [{n: "WordHacker", s: 16}, {n: "SabbaFan99", s: 10}, {n: "CryptoKing", s: 5}],
-            "Spark Bombs": [{n: "ExplodeMe", s: 3}, {n: "Alpha_User", s: 2}, {n: "Matrix9", s: 1}],
+            "Exploding Bomb": [{n: "ExplodeMe", s: 3}, {n: "Alpha_User", s: 2}, {n: "Matrix9", s: 1}],
             "Color Storm": [{n: "CardShark", s: 4}, {n: "CyberGhost", s: 2}, {n: "ExplodeMe", s: 1}],
             "Tetra Block": [{n: "TetrisGod", s: 50}, {n: "Matrix9", s: 30}, {n: "Rex_Logic", s: 15}],
             "Tris Battle": [{n: "Alpha_User", s: 5}, {n: "CardShark", s: 3}, {n: "SabbaFan99", s: 1}],
@@ -1576,7 +1576,7 @@ window.addEventListener('message', (event) => {
 
     let gameNameMap = {
         'color-clash': 'Color Storm',
-        'last-spark': 'Spark Bombs',
+        'last-spark': 'Exploding Bomb',
         'master-wordle': 'Word Rush',
         'master-murder': 'Impostore',
         'master-verbum': 'Word Duel',
@@ -1655,7 +1655,7 @@ window.addEventListener('message', (event) => {
                 } else if (lower.includes('xp') || lower.includes('accumulo')) {
                     reply = "I punti vengono assegnati in caso di vittoria nei giochi, votando le stelle, testando il MasterLab e riscattando le Sfide!";
                 } else if (lower.includes('consiglio') || lower.includes('gioco')) {
-                    const games = ['Color Storm', 'Spark Bombs', 'Word Rush', 'Impostore', 'Royal Chess'];
+                    const games = ['Color Storm', 'Exploding Bomb', 'Word Rush', 'Impostore', 'Royal Chess'];
                     reply = `Ti consiglio di provare subito **${games[Math.floor(Math.random()*games.length)]}** e conquistar la vittoria!`;
                 }
 
