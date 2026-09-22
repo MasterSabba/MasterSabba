@@ -614,10 +614,10 @@
                     </div>
                 </div>
             </article>
-            <article class="game-card" data-id="master-murder" data-category="investigazione" data-name="cyber crime mastermurder murder caso investigazione case zero" onclick="openGamePreview('master-murder')">
+            <article class="game-card" data-id="master-murder" data-category="investigazione" data-name="Impostore mastermurder murder caso investigazione case zero" onclick="openGamePreview('master-murder')">
                 <div class="card-media murder-bg">🔍</div>
                 <div class="card-content">
-                    <h3>Cyber Crime</h3>
+                    <h3>Impostore</h3>
                     <p>Vesti i panni del detective cibernetico analizzando indizi digitali e interrogando i sospettati.</p>
                     <div class="star-rating" onclick="rateGame(event, 'master-murder')">
                         <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
@@ -1000,7 +1000,7 @@
             'color-clash': { title: 'Color Storm', desc: 'Sfidalo a colpi di combinazioni cromatiche e riflessi fulminei in questo card game.', controls: 'Click o Touch sulle carte compatibili.', url: 'https://mastersabba.github.io/MasterUno/' },
             'last-spark': { title: 'Spark Bombs', desc: 'Un party game a turni ad alta tensione in cui ogni mossa può scatenare l\'esplosione finale.', controls: 'Click sul mazzo per pescare o usare azioni.', url: 'https://mastersabba.github.io/MasterKittens/' },
             'master-wordle': { title: 'Word Rush', desc: 'Metti alla prova il tuo vocabolario decifrando la parola nascosta in soli sei tentativi.', controls: 'Tastiera fisica o touch.', url: 'https://mastersabba.github.io/MasterWordle/' },
-            'master-murder': { title: 'Cyber Crime', desc: 'Vesti i panni del detective cibernetico analizzando indizi digitali e interrogando i sospettati.', controls: 'Click su oggetti ed elementi di dialogo.', url: 'https://mastersabba.github.io/MasterMurder/' },
+            'master-murder': { title: 'Impostore', desc: 'Vesti i panni del detective cibernetico analizzando indizi digitali e interrogando i sospettati.', controls: 'Click su oggetti ed elementi di dialogo.', url: 'https://mastersabba.github.io/MasterMurder/' },
             'master-verbum': { title: 'Word Duel', desc: 'Scontro verbale testa a testa per testare velocità di digitazione e dizionario.', controls: 'Digitazione da tastiera.', url: 'https://mastersabba.github.io/MasterVerbum/' },
             'master-sudoku': { title: 'Digit Logic', desc: 'Rompicapo numerico basato su deduzione logica e schemi di calcolo.', controls: 'Selezione casella e tasti 1-9.', url: 'https://mastersabba.github.io/MasterSudoku/' },
             'master-key': { title: 'Key Speed', desc: 'Test di digitazione e riflessi estremi per hackerare i nodi critici della rete.', controls: 'Digita i tasti visualizzati a schermo.', url: 'https://mastersabba.github.io/MasterKey/' },
@@ -1012,7 +1012,7 @@
         };
 
         window.globalRivals = {
-            "Cyber Crime": [{n: "CyberGhost", s: 15}, {n: "SabbaFan99", s: 10}, {n: "Rex_Logic", s: 5}],
+            "Impostore": [{n: "CyberGhost", s: 15}, {n: "SabbaFan99", s: 10}, {n: "Rex_Logic", s: 5}],
             "Word Duel": [{n: "WordHacker", s: 20}, {n: "CyberGhost", s: 12}, {n: "Alpha_User", s: 6}],
             "Digit Logic": [{n: "Matrix9", s: 18}, {n: "Rex_Logic", s: 11}, {n: "SabbaFan99", s: 4}],
             "Key Speed": [{n: "CryptoKing", s: 14}, {n: "Matrix9", s: 9}, {n: "CyberGhost", s: 3}],
@@ -1578,7 +1578,7 @@ window.addEventListener('message', (event) => {
         'color-clash': 'Color Storm',
         'last-spark': 'Spark Bombs',
         'master-wordle': 'Word Rush',
-        'master-murder': 'Cyber Crime',
+        'master-murder': 'Impostore',
         'master-verbum': 'Word Duel',
         'master-sudoku': 'Digit Logic',
         'master-key': 'Key Speed',
@@ -1655,7 +1655,7 @@ window.addEventListener('message', (event) => {
                 } else if (lower.includes('xp') || lower.includes('accumulo')) {
                     reply = "I punti vengono assegnati in caso di vittoria nei giochi, votando le stelle, testando il MasterLab e riscattando le Sfide!";
                 } else if (lower.includes('consiglio') || lower.includes('gioco')) {
-                    const games = ['Color Storm', 'Spark Bombs', 'Word Rush', 'Cyber Crime', 'Royal Chess'];
+                    const games = ['Color Storm', 'Spark Bombs', 'Word Rush', 'Impostore', 'Royal Chess'];
                     reply = `Ti consiglio di provare subito **${games[Math.floor(Math.random()*games.length)]}** e conquistar la vittoria!`;
                 }
 
