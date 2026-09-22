@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <title>MasterSabba Arcade</title>
-    <meta name="description" content="Esplora la collezione arcade di MasterSabba: giochi di carte, puzzle, logica e investigazione, accumula XP e scala la classifica globale.">
-    <meta name="keywords" content="MasterSabba, Arcade, Web Games, PWA, Giochi online, Mini giochi, MasterLab">
-    <meta name="author" content="MasterSabba">
+    <meta name="description" content="Esplora la collezione arcade di MasterSabba: giochi di carte, puzzle, logica e investigazione, accumula XP e scala la classifica globale.[cite: 1]">
+    <meta name="keywords" content="MasterSabba, Arcade, Web Games, PWA, Giochi online, Mini giochi, MasterLab[cite: 1]">
+    <meta name="author" content="MasterSabba[cite: 1]">
 
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#06080e">
@@ -455,6 +455,7 @@
         .password-bg { background: linear-gradient(135deg, #485563, #29323c); }
         .chess-bg { background: linear-gradient(135deg, #8e9eab, #eef2f3); }
         .lab-bg { background: linear-gradient(135deg, #9d00ff, #00f3ff); }
+        .nonfidarti-bg { background: linear-gradient(135deg, #ff416c, #ff4b2b); }
 
         .card-content { padding: 1.2rem; display: flex; flex-direction: column; flex: 1; }
         .card-content h3 { font-family: var(--font-heading); font-size: 1.15rem; margin-bottom: 0.2rem; }
@@ -572,6 +573,22 @@
     <main class="main-container">
         <h2 class="section-title">🕹️ Arcade Collection</h2>
         <div class="games-grid" id="gameList">
+            <!-- NUOVO GIOCO: NON FIDARTI -->
+            <article class="game-card" data-id="non-fidarti" data-category="investigazione" data-name="non fidarti mastersabba investigazione thriller mistero" onclick="openGamePreview('non-fidarti')">
+                <div class="card-media nonfidarti-bg">🕵️‍♂️</div>
+                <div class="card-content">
+                    <h3>Non Fidarti</h3>
+                    <p>Un'avvincente avventura investigativa e di suspense dove ogni indizio può ribaltare la verità.</p>
+                    <div class="star-rating" onclick="rateGame(event, 'non-fidarti')">
+                        <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
+                    </div>
+                    <div class="card-footer">
+                        <span class="tag">Investigazione</span>
+                        <a href="https://mastersabba.github.io/Non-Fidarti/" target="_blank" class="btn-play" onclick="registerPlay(event, 'non-fidarti')">GIOCA</a>
+                    </div>
+                </div>
+            </article>
+
             <article class="game-card" data-id="color-clash" data-category="carte" data-name="Unos Due masteruno uno carte" onclick="openGamePreview('color-clash')">
                 <div class="card-media uno-bg">🎴</div>
                 <div class="card-content">
@@ -921,7 +938,7 @@
     </div>
 
     <footer class="footer">
-        <p>&copy; 2026 MasterSabba Arcade — Sviluppato da MasterSabba.</p>
+        <p>&copy; 2026 MasterSabba Arcade — Sviluppato da MasterSabba.[cite: 1]</p>
     </footer>
 
     <script>
@@ -997,6 +1014,7 @@
         } catch(e) { console.warn("Firebase non ancora attivato, uso localStorage.", e); }
 
         const gameDataMap = {
+            'non-fidarti': { title: 'Non Fidarti', desc: "Un'avvincente avventura investigativa e di suspense dove ogni indizio può ribaltare la verità.", controls: 'Click ed elementi interattivi di scelta.', url: 'https://mastersabba.github.io/Non-Fidarti/' },
             'color-clash': { title: 'Unos', desc: 'Sfidalo a colpi di combinazioni cromatiche e riflessi fulminei in questo card game.', controls: 'Click o Touch sulle carte compatibili.', url: 'https://mastersabba.github.io/MasterUno/' },
             'last-spark': { title: 'Exploding Bomb', desc: 'Un party game a turni ad alta tensione in cui ogni mossa può scatenare l\'esplosione finale.', controls: 'Click sul mazzo per pescare o usare azioni.', url: 'https://mastersabba.github.io/MasterKittens/' },
             'master-wordle': { title: 'Word Rush', desc: 'Metti alla prova il tuo vocabolario decifrando la parola nascosta in soli sei tentativi.', controls: 'Tastiera fisica o touch.', url: 'https://mastersabba.github.io/MasterWordle/' },
@@ -1012,6 +1030,7 @@
         };
 
         window.globalRivals = {
+            "Non Fidarti": [{n: "CyberGhost", s: 12}, {n: "SabbaFan99", s: 8}, {n: "Rex_Logic", s: 4}],
             "Impostore": [{n: "CyberGhost", s: 15}, {n: "SabbaFan99", s: 10}, {n: "Rex_Logic", s: 5}],
             "Word Duel": [{n: "WordHacker", s: 20}, {n: "CyberGhost", s: 12}, {n: "Alpha_User", s: 6}],
             "Sudoku": [{n: "Matrix9", s: 18}, {n: "Rex_Logic", s: 11}, {n: "SabbaFan99", s: 4}],
@@ -1516,7 +1535,6 @@
             }
         }
 
-        // --- RISOLTO: AZZERAMENTO LOCALE REALE ED EFFICACE ---
         function resetStats() {
             if (confirm("Sei sicuro di voler azzerare TUTTI i dati locali e resettare i punteggi?")) {
                 localStorage.clear();
@@ -1550,48 +1568,51 @@
             openModal('previewModal');
         }
 
+        function registerPlay(event, gameId) {
+            event.stopPropagation();
+            userState.gamesPlayed = (userState.gamesPlayed || 0) + 1;
+            userState.achievements.firstPlay = true;
+            if (gameId === 'master-blackjack') userState.achievements.labTester = true;
+            saveState();
 
-function registerPlay(event, gameId) {
-    event.stopPropagation();
-    userState.gamesPlayed = (userState.gamesPlayed || 0) + 1;
-    userState.achievements.firstPlay = true;
-    if (gameId === 'master-blackjack') userState.achievements.labTester = true;
-    saveState();
+            const cardData = gameDataMap[gameId];
+            if (cardData && cardData.url && cardData.url !== '#') {
+                const currentUid = currentUser ? currentUser.uid : 'guest';
+                let launchUrl = cardData.url;
+                if (userState.username && userState.username !== "Ospite") {
+                    const separator = launchUrl.includes('?') ? '&' : '?';
+                    launchUrl += `${separator}player=${encodeURIComponent(userState.username)}&userId=${encodeURIComponent(currentUid)}`;
+                }
+                window.open(launchUrl, '_blank');
+            }
+        }
 
-    // Reindirizza al link del gioco con i parametri utente se cliccato direttamente
-    const cardData = gameDataMap[gameId];
-    if (cardData && cardData.url && cardData.url !== '#') {
-        const launchUrl = getGameLaunchUrl(cardData.url);
-        window.open(launchUrl, '_blank');
-    }
-}
+        window.addEventListener('message', (event) => {
+            const { gameKey, points, gameId, score } = event.data || {};
+            const finalPoints = points || score || 50;
+            const targetKey = gameKey || gameId;
 
-// Ascoltatore universale Ponteggio per i punti/vittorie dai giochi
-window.addEventListener('message', (event) => {
-    const { gameKey, points, gameId, score } = event.data || {};
-    const finalPoints = points || score || 50;
-    const targetKey = gameKey || gameId;
+            if (!targetKey) return;
 
-    if (!targetKey) return;
+            let gameNameMap = {
+                'non-fidarti': 'Non Fidarti',
+                'color-clash': 'Unos',
+                'last-spark': 'Exploding Bomb',
+                'master-wordle': 'Word Rush',
+                'master-murder': 'Impostore',
+                'master-verbum': 'Word Duel',
+                'master-sudoku': 'Sudoku',
+                'master-key': 'Free the Key',
+                'master-block': 'Tetra Block',
+                'master-tris': 'Tris Battle',
+                'master-password': 'Code Breaker',
+                'master-chess': 'Royal Chess',
+                'master-blackjack': 'Cyber Deck'
+            };
 
-    let gameNameMap = {
-        'color-clash': 'Unos',
-        'last-spark': 'Exploding Bomb',
-        'master-wordle': 'Word Rush',
-        'master-murder': 'Impostore',
-        'master-verbum': 'Word Duel',
-        'master-sudoku': 'Sudoku',
-        'master-key': 'Free the Key',
-        'master-block': 'Tetra Block',
-        'master-tris': 'Tris Battle',
-        'master-password': 'Code Breaker',
-        'master-chess': 'Royal Chess',
-        'master-blackjack': 'Cyber Deck'
-    };
-
-    let mappedName = gameNameMap[targetKey] || targetKey;
-    registerWin(mappedName, finalPoints);
-});
+            let mappedName = gameNameMap[targetKey] || targetKey;
+            registerWin(mappedName, finalPoints);
+        });
 
         function rateGame(event, gameId) {
             event.stopPropagation();
@@ -1655,7 +1676,7 @@ window.addEventListener('message', (event) => {
                 } else if (lower.includes('xp') || lower.includes('accumulo')) {
                     reply = "I punti vengono assegnati in caso di vittoria nei giochi, votando le stelle, testando il MasterLab e riscattando le Sfide!";
                 } else if (lower.includes('consiglio') || lower.includes('gioco')) {
-                    const games = ['Unos', 'Exploding Bomb', 'Word Rush', 'Impostore', 'Royal Chess'];
+                    const games = ['Non Fidarti', 'Unos', 'Exploding Bomb', 'Word Rush', 'Impostore', 'Royal Chess'];
                     reply = `Ti consiglio di provare subito **${games[Math.floor(Math.random()*games.length)]}** e conquistar la vittoria!`;
                 }
 
