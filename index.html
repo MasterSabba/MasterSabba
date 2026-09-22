@@ -573,7 +573,7 @@
     <main class="main-container">
         <h2 class="section-title">🕹️ Arcade Collection</h2>
         <div class="games-grid" id="gameList">
-            <!-- NUOVO GIOCO: NON FIDARTI -->
+            <!-- GIOCO: NON FIDARTI -->
             <article class="game-card" data-id="non-fidarti" data-category="investigazione" data-name="non fidarti mastersabba investigazione thriller mistero" onclick="openGamePreview('non-fidarti')">
                 <div class="card-media nonfidarti-bg">🕵️‍♂️</div>
                 <div class="card-content">
@@ -715,7 +715,7 @@
                     </div>
                 </div>
             </article>
-            <article class="game-card" data-id="master-password" data-category="investigazione" data-name="code breaker masterpassword password sicurezza crittografia codebreaker" onclick="openGamePreview('master-password')">
+            <article class="game-card" data-id="master-password" data-category="investigazione" data-name="code breaker masterpassword password segurança crittografia codebreaker" onclick="openGamePreview('master-password')">
                 <div class="card-media password-bg">🔐</div>
                 <div class="card-content">
                     <h3>Code Breaker</h3>
@@ -855,7 +855,7 @@
 
             <div class="lb-nav-tabs">
                 <button class="lb-tab-btn active" id="lbTabGlobal" onclick="switchLbView('global')">🌐 Generale (XP)</button>
-                <button class="lb-tab-btn" id="lbTabGames" onclick="switchLbView('games')">🕹️ Per Gioco (prossimamente!)</button>
+                <button class="lb-tab-btn" id="lbTabGames" onclick="switchLbView('games')">🕹️ Per Gioco</button>
             </div>
 
             <div id="leaderboardScoresContainer"></div>
@@ -1658,32 +1658,33 @@
         function handleChatKey(e) { if (e.key === 'Enter') sendChatMessage(); }
 
         function sendChatMessage() {
-            const input = document.getElementById('chatInput');
-            const text = input.value.trim();
-            if (!text) return;
+    const input = document.getElementById('chatInput');
+    const text = input.value.trim();
+    if (!text) return;
 
-            const messages = document.getElementById('chatMessages');
-            messages.innerHTML += `<div class="msg user">${text}</div>`;
-            input.value = '';
-            messages.scrollTop = messages.scrollHeight;
+    const messages = document.getElementById('chatMessages');
+    messages.innerHTML += `<div class="msg user">${text}</div>`;
+    input.value = '';
+    messages.scrollTop = messages.scrollHeight;
 
-            setTimeout(() => {
-                let reply = "Vinci le partite per accumulare punti in classifica e sbloccare ricompense!";
-                const lower = text.toLowerCase();
+    setTimeout(() => {
+        let reply = "Vinci le partite per accumulare punti in classifica e sbloccare ricompense!";
+        const lower = text.toLowerCase();
 
-                if (lower.includes('progressi') || lower.includes('livello')) {
-                    reply = `Sei al Livello ${Math.floor(userState.xp/300)+1} con ${userState.xp} XP e ${userState.gamesPlayed} partite giocate!`;
-                } else if (lower.includes('xp') || lower.includes('accumulo')) {
-                    reply = "I punti vengono assegnati in caso di vittoria nei giochi, votando le stelle, testando il MasterLab e riscattando le Sfide!";
-                } else if (lower.includes('consiglio') || lower.includes('gioco')) {
-                    const games = ['Non Fidarti', 'Unos', 'Exploding Bomb', 'Word Rush', 'Impostore', 'Royal Chess'];
-                    reply = `Ti consiglio di provare subito **${games[Math.floor(Math.random()*games.length)]}** e conquistar la vittoria!`;
-                }
-
-                messages.innerHTML += `<div class="msg bot">${reply}</div>`;
-                messages.scrollTop = messages.scrollHeight;
-            }, 350);
+        if (lower.includes('progressi') || lower.includes('livello')) {
+            reply = `Sei al Livello ${Math.floor(userState.xp/300)+1} con ${userState.xp} XP e ${userState.gamesPlayed} partite giocate!`;
+        } else if (lower.includes('xp') || lower.includes('accumulo')) { // <- Corretto qui
+            reply = "I punti vengono assegnati in caso di vittoria nei giochi, votando le stelle, testando il MasterLab e riscattando le Sfide!";
+        } else if (lower.includes('consiglio') || lower.includes('gioco')) {
+            const games = ['Non Fidarti', 'Unos', 'Exploding Bomb', 'Word Rush', 'Impostore', 'Royal Chess'];
+            reply = `Ti consiglio di provare subito **${games[Math.floor(Math.random()*games.length)]}** e conquistar la vittoria!`;
         }
+
+        messages.innerHTML += `<div class="msg bot">${reply}</div>`;
+        messages.scrollTop = messages.scrollHeight;
+    }, 350);
+}
+
 
         document.addEventListener('DOMContentLoaded', () => {
             if (isFirebaseActive && auth) {
