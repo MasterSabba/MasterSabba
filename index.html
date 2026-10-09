@@ -855,7 +855,7 @@
 
             <div class="lb-nav-tabs">
                 <button class="lb-tab-btn active" id="lbTabGlobal" onclick="switchLbView('global')">🌐 Generale (XP)</button>
-                <button class="lb-tab-btn" id="lbTabGames" onclick="switchLbView('games')">🕹️ Per Gioco (prossimamente!</button>
+                <button class="lb-tab-btn" id="lbTabGames" onclick="switchLbView('games')">🕹️ Per Gioco (prossimamente!)</button>
             </div>
 
             <div id="leaderboardScoresContainer"></div>
@@ -1621,23 +1621,24 @@ window.openLeaderboard = () => {
         }
 
         function registerPlay(event, gameId) {
-            event.stopPropagation();
-            userState.gamesPlayed = (userState.gamesPlayed || 0) + 1;
-            userState.achievements.firstPlay = true;
-            if (gameId === 'master-blackjack') userState.achievements.labTester = true;
-            saveState();
+    if (event) event.preventDefault(); // <-- AGGIUNGI QUESTA RIGA PER BLOCCARE IL DOPPIO APRI
+    event.stopPropagation();
+    userState.gamesPlayed = (userState.gamesPlayed || 0) + 1;
+    userState.achievements.firstPlay = true;
+    if (gameId === 'master-blackjack') userState.achievements.labTester = true;
+    saveState();
 
-            const cardData = gameDataMap[gameId];
-            if (cardData && cardData.url && cardData.url !== '#') {
-                const currentUid = currentUser ? currentUser.uid : 'guest';
-                let launchUrl = cardData.url;
-                if (userState.username && userState.username !== "Ospite") {
-                    const separator = launchUrl.includes('?') ? '&' : '?';
-                    launchUrl += `${separator}player=${encodeURIComponent(userState.username)}&userId=${encodeURIComponent(currentUid)}`;
-                }
-                window.open(launchUrl, '_blank');
-            }
+    const cardData = gameDataMap[gameId];
+    if (cardData && cardData.url && cardData.url !== '#') {
+        const currentUid = currentUser ? currentUser.uid : 'guest';
+        let launchUrl = cardData.url;
+        if (userState.username && userState.username !== "Ospite") {
+            const separator = launchUrl.includes('?') ? '&' : '?';
+            launchUrl += `${separator}player=${encodeURIComponent(userState.username)}&userId=${encodeURIComponent(currentUid)}`;
         }
+        window.open(launchUrl, '_blank');
+    }
+}
 
         window.addEventListener('message', (event) => {
             const { gameKey, points, gameId, score } = event.data || {};
