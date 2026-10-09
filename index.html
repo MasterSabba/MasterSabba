@@ -1439,24 +1439,33 @@ window.buildLeaderboards = function() {
     if (!container) return;
 
     let globalPlayers = {};
+    let allUsersList = [];
 
-    // Inserisci eventuali rivali/bot predefiniti
+    // Inserisci rivali/bot predefiniti per la classifica XP generale
     Object.values(window.globalRivals).forEach(list => {
         list.forEach(p => {
             globalPlayers[p.n] = (globalPlayers[p.n] || 0) + (p.s * 10);
         });
     });
 
-    // Funzione interna per renderizzare la classifica a schermo
+    // Funzione di rendering a schermo
     function render() {
         if (!container) return;
         container.innerHTML = "";
 
-        // Sincronizza lo stato dell'utente corrente
+        // Aggiungi o aggiorna l'utente corrente nella lista globale
         if (userState.username && userState.username !== "Ospite") {
             globalPlayers[userState.username] = Math.max(globalPlayers[userState.username] || 0, userState.xp || 0);
+            
+            let myIdx = allUsersList.findIndex(u => u.username && u.username.toLowerCase() === userState.username.toLowerCase());
+            if (myIdx !== -1) {
+                allUsersList[myIdx] = userState;
+            } else {
+                allUsersList.push(userState);
+            }
         }
 
+        // Calcola il Campione Assoluto (Overlord)
         let absoluteWinner = "Nessuno", maxOverallScore = -1;
         Object.keys(globalPlayers).forEach(name => {
             if (globalPlayers[name] > maxOverallScore) { 
@@ -1467,10 +1476,11 @@ window.buildLeaderboards = function() {
         
         const overlordNameEl = document.getElementById("globalOverlordName");
         const overlordScoreEl = document.getElementById("globalOverlordScore");
-        if(overlordNameEl) overlordNameEl.textContent = absoluteWinner.toUpperCase();
-        if(overlordScoreEl) overlordScoreEl.textContent = `${maxOverallScore} XP Totali`;
+        if (overlordNameEl) overlordNameEl.textContent = absoluteWinner.toUpperCase();
+        if (overlordScoreEl) overlordScoreEl.textContent = `${maxOverallScore} XP Totali`;
 
         if (currentLbView === 'global') {
+            // --- VISTA GENERALE (XP) ---
             let sortedList = Object.keys(globalPlayers).map(name => ({
                 n: name,
                 s: globalPlayers[name]
@@ -1490,44 +1500,51 @@ window.buildLeaderboards = function() {
                 container.appendChild(div);
             });
         } else {
-            Object.keys(window.globalRivals).forEach(game => {
-                let structure = JSON.parse(JSON.stringify(window.globalRivals[game]));
-                let userGameWins = userState.winsPerGame?.[game] || 0;
-                let userScore = userGameWins * 10;
+            // --- VISTA PER GIOCO ---
+Object.keys(window.globalRivals).forEach(game => {
+    let structure = JSON.parse(JSON.stringify(window.globalRivals[game]));
 
-                if (userState.username && userState.username !== "Ospite") {
-                    let idx = structure.findIndex(item => item.n.toLowerCase() === userState.username.toLowerCase());
-                    if (idx !== -1) { 
-                        if (userScore > structure[idx].s) structure[idx].s = userScore; 
-                    } else if (userScore > 0) { 
-                        structure.push({ n: userState.username, s: userScore }); 
-                    }
-                }
-                structure.sort((a, b) => b.s - a.s);
+    // Aggiungi i punteggi di tutti i giocatori reali per questo gioco
+    allUsersList.forEach(u => {
+        if (!u.username || u.username === "Ospite") return;
+        let wins = u.winsPerGame?.[game] || 0;
+        let score = wins * 10;
 
-                let section = document.createElement("div");
-                section.className = "game-rank-section";
-                section.style = "margin-bottom: 15px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08); padding: 10px; border-radius: 10px;";
-                section.innerHTML = `<h4 style="font-size:0.85rem; color:var(--neon-cyan); margin:0 0 8px 0; text-transform:uppercase;">${game}</h4>`;
-                
-                structure.slice(0, 3).forEach((row, i) => {
-                    let medal = i === 0 ? "🥇" : i === 1 ? "🥈" : "🥉";
-                    let isMe = userState.username && row.n.toLowerCase() === userState.username.toLowerCase();
-                    let boldStyle = isMe ? "color: var(--neon-green); font-weight: bold;" : "color: #ddd;";
-                    section.innerHTML += `<div style="display:flex; justify-content:space-between; font-size:0.8rem; padding:4px 0; ${boldStyle}"><span>${medal} ${row.n}</span><span>${row.s} pts</span></div>`;
-                });
-                container.appendChild(section);
-            });
+        let idx = structure.findIndex(item => item.n.toLowerCase() === u.username.toLowerCase());
+        if (idx !== -1) {
+            if (score > structure[idx].s) structure[idx].s = score;
+        } else if (score > 0 || u.username.toLowerCase() === userState.username.toLowerCase()) {
+            structure.push({ n: u.username, s: score });
+        }
+    });
+
+    structure.sort((a, b) => b.s - a.s);
+
+    let section = document.createElement("div");
+    section.className = "game-rank-section";
+    section.style = "margin-bottom: 15px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08); padding: 10px; border-radius: 10px;";
+    section.innerHTML = `<h4 style="font-size:0.85rem; color:var(--neon-cyan); margin:0 0 8px 0; text-transform:uppercase;">${game}</h4>`;
+    
+    // Mostra solo i primi 3 (Medaglie: 🥇, 🥈, 🥉)
+    structure.slice(0, 3).forEach((row, i) => {
+        let medal = i === 0 ? "🥇" : i === 1 ? "🥈" : "🥉";
+        let isMe = userState.username && row.n.toLowerCase() === userState.username.toLowerCase();
+        let boldStyle = isMe ? "color: var(--neon-green); font-weight: bold;" : "color: #ddd;";
+        section.innerHTML += `<div style="display:flex; justify-content:space-between; font-size:0.8rem; padding:4px 0; ${boldStyle}"><span>${medal} ${row.n} ${isMe ? '(Tu)' : ''}</span><span>${row.s} pts</span></div>`;
+    });
+    container.appendChild(section);
+});
         }
     }
 
-    // Recupera tutti gli utenti reali che hanno effettuato un login/registrazione
+    // Carica tutti i profili utente da Firebase o LocalStorage
     if (isFirebaseActive && db) {
         db.ref('users').once('value').then(snapshot => {
             if (snapshot.exists()) {
                 const usersData = snapshot.val();
                 Object.values(usersData).forEach(u => {
                     if (u.username && u.username !== "Ospite") {
+                        allUsersList.push(u);
                         globalPlayers[u.username] = Math.max(globalPlayers[u.username] || 0, u.xp || 0);
                     }
                 });
@@ -1541,6 +1558,7 @@ window.buildLeaderboards = function() {
         const mockAccounts = JSON.parse(localStorage.getItem('mockAccounts')) || {};
         Object.values(mockAccounts).forEach(acc => {
             if (acc.username && acc.username !== "Ospite") {
+                allUsersList.push(acc);
                 globalPlayers[acc.username] = Math.max(globalPlayers[acc.username] || 0, acc.xp || 0);
             }
         });
