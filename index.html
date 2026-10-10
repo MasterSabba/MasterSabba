@@ -1060,17 +1060,40 @@
 
         let userState = JSON.parse(localStorage.getItem('mastersabba_arcade_v2')) || defaultState;
 
+        // --- NUOVA GENERAZIONE QUEST GIORNALIERE BILANCIATE ---
         function generateProceduralQuests(currentState) {
             const lvl = Math.floor((currentState.xp || 0) / 300) + 1;
-            const targetWins = Math.max(1, lvl);
-            const targetVotes = Math.max(1, Math.min(5, Math.floor(lvl / 2)));
-            const targetXP = (lvl * 300);
+            const baseReward = 50 + (lvl * 10); 
 
             return [
-                { id: `q_win_lvl_${lvl}`, title: `🏆 Trionfo Arcade: Ottieni ${targetWins} vittorie`, reward: 50 * lvl, target: targetWins },
-                { id: `q_vote_lvl_${lvl}`, title: `⭐ Critico Arcade: Vota ${targetVotes} giochi`, reward: 50 * lvl, target: targetVotes },
-                { id: `q_xp_lvl_${lvl}`, title: `⚡ Traguardo XP: Raggiungi ${targetXP} XP totali`, reward: 60 * lvl, target: targetXP },
-                { id: `q_lab_lvl_${lvl}`, title: `🧪 Innovatore: Prova il MasterLab`, reward: 80 * lvl, target: 1 }
+                { 
+                    id: `q_play_daily`, 
+                    title: `🎮 Gamer Serale: Gioca a 2 titoli diversi oggi`, 
+                    reward: baseReward, 
+                    target: 2,
+                    type: 'unique_plays'
+                },
+                { 
+                    id: `q_win_daily`, 
+                    title: `🏆 Campione Quotidiano: Ottieni 1 vittoria oggi`, 
+                    reward: baseReward + 25, 
+                    target: 1,
+                    type: 'wins'
+                },
+                { 
+                    id: `q_lab_daily`, 
+                    title: `🧪 Tester Lab: Avvia un gioco dal MasterLab`, 
+                    reward: baseReward + 15, 
+                    target: 1,
+                    type: 'lab'
+                },
+                { 
+                    id: `q_lb_daily`, 
+                    title: `👁️ Occhio alla Vetta: Controlla la Classifica`, 
+                    reward: baseReward, 
+                    target: 1,
+                    type: 'leaderboard'
+                }
             ];
         }
 
@@ -1079,6 +1102,13 @@
             userState.winsPerGame[gameKey] = (userState.winsPerGame[gameKey] || 0) + 1;
             
             userState.xp += pointsAwarded;
+
+            // Tracciamento giornaliero quest
+            const todayKey = new Date().toDateString();
+            let dailyActivity = JSON.parse(localStorage.getItem('arcade_daily_activity')) || { date: todayKey, playedGames: [], wins: 0, checkedLb: false, testedLab: false };
+            dailyActivity.wins = (dailyActivity.wins || 0) + 1;
+            localStorage.setItem('arcade_daily_activity', JSON.stringify(dailyActivity));
+
             saveState();
             buildLeaderboards();
         }
@@ -1374,6 +1404,7 @@
             buildLeaderboards();
         }
 
+        // --- RENDERING CON TRACCIAMENTO ATTIVITÀ DEL GIORNO ---
         function renderQuests() {
             const container = document.getElementById('questContainer');
             if (!container) return;
@@ -1383,38 +1414,49 @@
 
             startResetCountdown(lastResetTimestamp);
 
+            const todayKey = new Date().toDateString();
+            let dailyActivity = JSON.parse(localStorage.getItem('arcade_daily_activity')) || { 
+                date: todayKey, playedGames: [], wins: 0, checkedLb: false, testedLab: false 
+            };
+            
+            if (dailyActivity.date !== todayKey) {
+                dailyActivity = { date: todayKey, playedGames: [], wins: 0, checkedLb: false, testedLab: false };
+                localStorage.setItem('arcade_daily_activity', JSON.stringify(dailyActivity));
+            }
+
             let hasClaimableQuests = false;
             container.innerHTML = '';
 
             quests.forEach(q => {
                 const isCompleted = completedIds.includes(q.id) || (userState.claimedQuests && userState.claimedQuests[q.id]);
-                
                 let isConditionMet = false;
-                const titleLower = q.title.toLowerCase();
 
-                if (titleLower.includes('vittorie') || titleLower.includes('vittoria')) {
-                    let totalWins = Object.values(userState.winsPerGame || {}).reduce((a, b) => a + b, 0);
-                    isConditionMet = totalWins >= (q.target || 1);
-                } else if (titleLower.includes('vota') || titleLower.includes('giochi')) {
-                    let totalVotes = Object.keys(userState.ratings || {}).length;
-                    isConditionMet = totalVotes >= (q.target || 1);
-                } else if (titleLower.includes('xp') || titleLower.includes('traguardo')) {
-                    const xp = userState.xp || 0;
-                    isConditionMet = xp >= (q.target || 300);
-                } else if (titleLower.includes('masterlab') || titleLower.includes('lab') || titleLower.includes('prova')) {
-                    isConditionMet = !!(userState.achievements && userState.achievements.labTester);
+                if (q.type === 'unique_plays') {
+                    isConditionMet = (dailyActivity.playedGames || []).length >= q.target;
+                } else if (q.type === 'wins') {
+                    isConditionMet = (dailyActivity.wins || 0) >= q.target;
+                } else if (q.type === 'lab') {
+                    isConditionMet = !!dailyActivity.testedLab;
+                } else if (q.type === 'leaderboard') {
+                    isConditionMet = !!dailyActivity.checkedLb;
                 }
                     
                 const canClaim = isConditionMet && !isCompleted;
-
                 if (canClaim) hasClaimableQuests = true;
 
                 const div = document.createElement('div');
                 div.className = `quest-item ${isCompleted ? 'completed' : ''}`;
+                
+                let progText = "0/1";
+                if (q.type === 'unique_plays') progText = `${Math.min(dailyActivity.playedGames.length, q.target)}/${q.target}`;
+                if (q.type === 'wins') progText = `${Math.min(dailyActivity.wins || 0, q.target)}/${q.target}`;
+                if (q.type === 'lab') progText = dailyActivity.testedLab ? "1/1" : "0/1";
+                if (q.type === 'leaderboard') progText = dailyActivity.checkedLb ? "1/1" : "0/1";
+
                 div.innerHTML = `
                     <div class="quest-info">
                         <h4>${q.title}</h4>
-                        <p>Premio: <strong>+${q.reward} XP</strong></p>
+                        <p>Progresso: <strong>${progText}</strong> | Premio: <strong style="color:var(--neon-cyan)">+${q.reward} XP</strong></p>
                     </div>
                     <button class="btn-claim" ${!canClaim ? 'disabled' : ''} onclick="claimQuestReward('${q.id}')">
                         ${isCompleted ? 'Completata' : (canClaim ? 'RISCATTA' : 'In corso')}
@@ -1434,142 +1476,138 @@
             buildLeaderboards();
         }
 
-window.buildLeaderboards = function() {
-    const container = document.getElementById("leaderboardScoresContainer");
-    if (!container) return;
+        window.buildLeaderboards = function() {
+            const container = document.getElementById("leaderboardScoresContainer");
+            if (!container) return;
 
-    let globalPlayers = {};
-    let allUsersList = [];
+            let globalPlayers = {};
+            let allUsersList = [];
 
-    // Inserisci rivali/bot predefiniti per la classifica XP generale
-    Object.values(window.globalRivals).forEach(list => {
-        list.forEach(p => {
-            globalPlayers[p.n] = (globalPlayers[p.n] || 0) + (p.s * 10);
-        });
-    });
-
-    // Funzione di rendering a schermo
-    function render() {
-        if (!container) return;
-        container.innerHTML = "";
-
-        // Aggiungi o aggiorna l'utente corrente nella lista globale
-        if (userState.username && userState.username !== "Ospite") {
-            globalPlayers[userState.username] = Math.max(globalPlayers[userState.username] || 0, userState.xp || 0);
-            
-            let myIdx = allUsersList.findIndex(u => u.username && u.username.toLowerCase() === userState.username.toLowerCase());
-            if (myIdx !== -1) {
-                allUsersList[myIdx] = userState;
-            } else {
-                allUsersList.push(userState);
-            }
-        }
-
-        // Calcola il Campione Assoluto (Overlord)
-        let absoluteWinner = "Nessuno", maxOverallScore = -1;
-        Object.keys(globalPlayers).forEach(name => {
-            if (globalPlayers[name] > maxOverallScore) { 
-                maxOverallScore = globalPlayers[name]; 
-                absoluteWinner = name; 
-            }
-        });
-        
-        const overlordNameEl = document.getElementById("globalOverlordName");
-        const overlordScoreEl = document.getElementById("globalOverlordScore");
-        if (overlordNameEl) overlordNameEl.textContent = absoluteWinner.toUpperCase();
-        if (overlordScoreEl) overlordScoreEl.textContent = `${maxOverallScore} XP Totali`;
-
-        if (currentLbView === 'global') {
-            // --- VISTA GENERALE (XP) ---
-            let sortedList = Object.keys(globalPlayers).map(name => ({
-                n: name,
-                s: globalPlayers[name]
-            })).sort((a, b) => b.s - a.s);
-
-            sortedList.forEach((row, i) => {
-                let isMe = userState.username && row.n.toLowerCase() === userState.username.toLowerCase();
-                let medal = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `#${i + 1}`;
-                
-                let div = document.createElement("div");
-                div.className = `lb-row ${isMe ? 'me' : ''}`;
-                div.innerHTML = `
-                    <div class="lb-rank">${medal}</div>
-                    <div class="lb-user">${row.n} ${isMe ? '(Tu)' : ''}</div>
-                    <div class="lb-score">${row.s} XP</div>
-                `;
-                container.appendChild(div);
+            Object.values(window.globalRivals).forEach(list => {
+                list.forEach(p => {
+                    globalPlayers[p.n] = (globalPlayers[p.n] || 0) + (p.s * 10);
+                });
             });
-        } else {
-            // --- VISTA PER GIOCO ---
-Object.keys(window.globalRivals).forEach(game => {
-    let structure = JSON.parse(JSON.stringify(window.globalRivals[game]));
 
-    // Aggiungi i punteggi di tutti i giocatori reali per questo gioco
-    allUsersList.forEach(u => {
-        if (!u.username || u.username === "Ospite") return;
-        let wins = u.winsPerGame?.[game] || 0;
-        let score = wins * 10;
+            function render() {
+                if (!container) return;
+                container.innerHTML = "";
 
-        let idx = structure.findIndex(item => item.n.toLowerCase() === u.username.toLowerCase());
-        if (idx !== -1) {
-            if (score > structure[idx].s) structure[idx].s = score;
-        } else if (score > 0 || u.username.toLowerCase() === userState.username.toLowerCase()) {
-            structure.push({ n: u.username, s: score });
-        }
-    });
+                if (userState.username && userState.username !== "Ospite") {
+                    globalPlayers[userState.username] = Math.max(globalPlayers[userState.username] || 0, userState.xp || 0);
+                    
+                    let myIdx = allUsersList.findIndex(u => u.username && u.username.toLowerCase() === userState.username.toLowerCase());
+                    if (myIdx !== -1) {
+                        allUsersList[myIdx] = userState;
+                    } else {
+                        allUsersList.push(userState);
+                    }
+                }
 
-    structure.sort((a, b) => b.s - a.s);
-
-    let section = document.createElement("div");
-    section.className = "game-rank-section";
-    section.style = "margin-bottom: 15px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08); padding: 10px; border-radius: 10px;";
-    section.innerHTML = `<h4 style="font-size:0.85rem; color:var(--neon-cyan); margin:0 0 8px 0; text-transform:uppercase;">${game}</h4>`;
-    
-    // Mostra solo i primi 3 (Medaglie: 🥇, 🥈, 🥉)
-    structure.slice(0, 3).forEach((row, i) => {
-        let medal = i === 0 ? "🥇" : i === 1 ? "🥈" : "🥉";
-        let isMe = userState.username && row.n.toLowerCase() === userState.username.toLowerCase();
-        let boldStyle = isMe ? "color: var(--neon-green); font-weight: bold;" : "color: #ddd;";
-        section.innerHTML += `<div style="display:flex; justify-content:space-between; font-size:0.8rem; padding:4px 0; ${boldStyle}"><span>${medal} ${row.n} ${isMe ? '(Tu)' : ''}</span><span>${row.s} pts</span></div>`;
-    });
-    container.appendChild(section);
-});
-        }
-    }
-
-    // Carica tutti i profili utente da Firebase o LocalStorage
-    if (isFirebaseActive && db) {
-        db.ref('users').once('value').then(snapshot => {
-            if (snapshot.exists()) {
-                const usersData = snapshot.val();
-                Object.values(usersData).forEach(u => {
-                    if (u.username && u.username !== "Ospite") {
-                        allUsersList.push(u);
-                        globalPlayers[u.username] = Math.max(globalPlayers[u.username] || 0, u.xp || 0);
+                let absoluteWinner = "Nessuno", maxOverallScore = -1;
+                Object.keys(globalPlayers).forEach(name => {
+                    if (globalPlayers[name] > maxOverallScore) { 
+                        maxOverallScore = globalPlayers[name]; 
+                        absoluteWinner = name; 
                     }
                 });
-            }
-            render();
-        }).catch(err => {
-            console.error("Errore lettura classifica Firebase:", err);
-            render();
-        });
-    } else {
-        const mockAccounts = JSON.parse(localStorage.getItem('mockAccounts')) || {};
-        Object.values(mockAccounts).forEach(acc => {
-            if (acc.username && acc.username !== "Ospite") {
-                allUsersList.push(acc);
-                globalPlayers[acc.username] = Math.max(globalPlayers[acc.username] || 0, acc.xp || 0);
-            }
-        });
-        render();
-    }
-};
+                
+                const overlordNameEl = document.getElementById("globalOverlordName");
+                const overlordScoreEl = document.getElementById("globalOverlordScore");
+                if (overlordNameEl) overlordNameEl.textContent = absoluteWinner.toUpperCase();
+                if (overlordScoreEl) overlordScoreEl.textContent = `${maxOverallScore} XP Totali`;
 
-window.openLeaderboard = () => { 
-    buildLeaderboards();
-    openModal('leaderboardModal'); 
-};
+                if (currentLbView === 'global') {
+                    let sortedList = Object.keys(globalPlayers).map(name => ({
+                        n: name,
+                        s: globalPlayers[name]
+                    })).sort((a, b) => b.s - a.s);
+
+                    sortedList.forEach((row, i) => {
+                        let isMe = userState.username && row.n.toLowerCase() === userState.username.toLowerCase();
+                        let medal = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `#${i + 1}`;
+                        
+                        let div = document.createElement("div");
+                        div.className = `lb-row ${isMe ? 'me' : ''}`;
+                        div.innerHTML = `
+                            <div class="lb-rank">${medal}</div>
+                            <div class="lb-user">${row.n} ${isMe ? '(Tu)' : ''}</div>
+                            <div class="lb-score">${row.s} XP</div>
+                        `;
+                        container.appendChild(div);
+                    });
+                } else {
+                    Object.keys(window.globalRivals).forEach(game => {
+                        let structure = JSON.parse(JSON.stringify(window.globalRivals[game]));
+
+                        allUsersList.forEach(u => {
+                            if (!u.username || u.username === "Ospite") return;
+                            let wins = u.winsPerGame?.[game] || 0;
+                            let score = wins * 10;
+
+                            let idx = structure.findIndex(item => item.n.toLowerCase() === u.username.toLowerCase());
+                            if (idx !== -1) {
+                                if (score > structure[idx].s) structure[idx].s = score;
+                            } else if (score > 0 || u.username.toLowerCase() === userState.username.toLowerCase()) {
+                                structure.push({ n: u.username, s: score });
+                            }
+                        });
+
+                        structure.sort((a, b) => b.s - a.s);
+
+                        let section = document.createElement("div");
+                        section.className = "game-rank-section";
+                        section.style = "margin-bottom: 15px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08); padding: 10px; border-radius: 10px;";
+                        section.innerHTML = `<h4 style="font-size:0.85rem; color:var(--neon-cyan); margin:0 0 8px 0; text-transform:uppercase;">${game}</h4>`;
+                        
+                        structure.slice(0, 3).forEach((row, i) => {
+                            let medal = i === 0 ? "🥇" : i === 1 ? "🥈" : "🥉";
+                            let isMe = userState.username && row.n.toLowerCase() === userState.username.toLowerCase();
+                            let boldStyle = isMe ? "color: var(--neon-green); font-weight: bold;" : "color: #ddd;";
+                            section.innerHTML += `<div style="display:flex; justify-content:space-between; font-size:0.8rem; padding:4px 0; ${boldStyle}"><span>${medal} ${row.n} ${isMe ? '(Tu)' : ''}</span><span>${row.s} pts</span></div>`;
+                        });
+                        container.appendChild(section);
+                    });
+                }
+            }
+
+            if (isFirebaseActive && db) {
+                db.ref('users').once('value').then(snapshot => {
+                    if (snapshot.exists()) {
+                        const usersData = snapshot.val();
+                        Object.values(usersData).forEach(u => {
+                            if (u.username && u.username !== "Ospite") {
+                                allUsersList.push(u);
+                                globalPlayers[u.username] = Math.max(globalPlayers[u.username] || 0, u.xp || 0);
+                            }
+                        });
+                    }
+                    render();
+                }).catch(err => {
+                    console.error("Errore lettura classifica Firebase:", err);
+                    render();
+                });
+            } else {
+                const mockAccounts = JSON.parse(localStorage.getItem('mockAccounts')) || {};
+                Object.values(mockAccounts).forEach(acc => {
+                    if (acc.username && acc.username !== "Ospite") {
+                        allUsersList.push(acc);
+                        globalPlayers[acc.username] = Math.max(globalPlayers[acc.username] || 0, acc.xp || 0);
+                    }
+                });
+                render();
+            }
+        };
+
+        window.openLeaderboard = () => { 
+            const todayKey = new Date().toDateString();
+            let dailyActivity = JSON.parse(localStorage.getItem('arcade_daily_activity')) || { date: todayKey, playedGames: [], wins: 0, checkedLb: false, testedLab: false };
+            dailyActivity.checkedLb = true;
+            localStorage.setItem('arcade_daily_activity', JSON.stringify(dailyActivity));
+
+            buildLeaderboards();
+            openModal('leaderboardModal'); 
+        };
 
         function setAvatar(emoji) {
             userState.avatar = emoji;
@@ -1621,24 +1659,32 @@ window.openLeaderboard = () => {
         }
 
         function registerPlay(event, gameId) {
-    if (event) event.preventDefault(); // <-- AGGIUNGI QUESTA RIGA PER BLOCCARE IL DOPPIO APRI
-    event.stopPropagation();
-    userState.gamesPlayed = (userState.gamesPlayed || 0) + 1;
-    userState.achievements.firstPlay = true;
-    if (gameId === 'master-blackjack') userState.achievements.labTester = true;
-    saveState();
+            if (event) event.preventDefault();
+            event.stopPropagation();
+            userState.gamesPlayed = (userState.gamesPlayed || 0) + 1;
+            userState.achievements.firstPlay = true;
+            if (gameId === 'master-blackjack') userState.achievements.labTester = true;
+            
+            // Tracciamento giornaliero quest
+            const todayKey = new Date().toDateString();
+            let dailyActivity = JSON.parse(localStorage.getItem('arcade_daily_activity')) || { date: todayKey, playedGames: [], wins: 0, checkedLb: false, testedLab: false };
+            if (!dailyActivity.playedGames.includes(gameId)) dailyActivity.playedGames.push(gameId);
+            if (gameId === 'master-blackjack') dailyActivity.testedLab = true;
+            localStorage.setItem('arcade_daily_activity', JSON.stringify(dailyActivity));
 
-    const cardData = gameDataMap[gameId];
-    if (cardData && cardData.url && cardData.url !== '#') {
-        const currentUid = currentUser ? currentUser.uid : 'guest';
-        let launchUrl = cardData.url;
-        if (userState.username && userState.username !== "Ospite") {
-            const separator = launchUrl.includes('?') ? '&' : '?';
-            launchUrl += `${separator}player=${encodeURIComponent(userState.username)}&userId=${encodeURIComponent(currentUid)}`;
+            saveState();
+
+            const cardData = gameDataMap[gameId];
+            if (cardData && cardData.url && cardData.url !== '#') {
+                const currentUid = currentUser ? currentUser.uid : 'guest';
+                let launchUrl = cardData.url;
+                if (userState.username && userState.username !== "Ospite") {
+                    const separator = launchUrl.includes('?') ? '&' : '?';
+                    launchUrl += `${separator}player=${encodeURIComponent(userState.username)}&userId=${encodeURIComponent(currentUid)}`;
+                }
+                window.open(launchUrl, '_blank');
+            }
         }
-        window.open(launchUrl, '_blank');
-    }
-}
 
         window.addEventListener('message', (event) => {
             const { gameKey, points, gameId, score } = event.data || {};
@@ -1712,33 +1758,32 @@ window.openLeaderboard = () => {
         function handleChatKey(e) { if (e.key === 'Enter') sendChatMessage(); }
 
         function sendChatMessage() {
-    const input = document.getElementById('chatInput');
-    const text = input.value.trim();
-    if (!text) return;
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim();
+            if (!text) return;
 
-    const messages = document.getElementById('chatMessages');
-    messages.innerHTML += `<div class="msg user">${text}</div>`;
-    input.value = '';
-    messages.scrollTop = messages.scrollHeight;
+            const messages = document.getElementById('chatMessages');
+            messages.innerHTML += `<div class="msg user">${text}</div>`;
+            input.value = '';
+            messages.scrollTop = messages.scrollHeight;
 
-    setTimeout(() => {
-        let reply = "Vinci le partite per accumulare punti in classifica e sbloccare ricompense!";
-        const lower = text.toLowerCase();
+            setTimeout(() => {
+                let reply = "Vinci le partite per accumulare punti in classifica e sbloccare ricompense!";
+                const lower = text.toLowerCase();
 
-        if (lower.includes('progressi') || lower.includes('livello')) {
-            reply = `Sei al Livello ${Math.floor(userState.xp/300)+1} con ${userState.xp} XP e ${userState.gamesPlayed} partite giocate!`;
-        } else if (lower.includes('xp') || lower.includes('accumulo')) { // <- Corretto qui
-            reply = "I punti vengono assegnati in caso di vittoria nei giochi, votando le stelle, testando il MasterLab e riscattando le Sfide!";
-        } else if (lower.includes('consiglio') || lower.includes('gioco')) {
-            const games = ['Non Fidarti', 'Unos', 'Exploding Bomb', 'Word Rush', 'Impostore', 'Royal Chess'];
-            reply = `Ti consiglio di provare subito **${games[Math.floor(Math.random()*games.length)]}** e conquistar la vittoria!`;
+                if (lower.includes('progressi') || lower.includes('livello')) {
+                    reply = `Sei al Livello ${Math.floor(userState.xp/300)+1} con ${userState.xp} XP e ${userState.gamesPlayed} partite giocate!`;
+                } else if (lower.includes('xp') || lower.includes('accumulo')) {
+                    reply = "I punti vengono assegnati in caso di vittoria nei giochi, votando le stelle, testando il MasterLab e riscattando le Sfide!";
+                } else if (lower.includes('consiglio') || lower.includes('gioco')) {
+                    const games = ['Non Fidarti', 'Unos', 'Exploding Bomb', 'Word Rush', 'Impostore', 'Royal Chess'];
+                    reply = `Ti consiglio di provare subito **${games[Math.floor(Math.random()*games.length)]}** e conquistar la vittoria!`;
+                }
+
+                messages.innerHTML += `<div class="msg bot">${reply}</div>`;
+                messages.scrollTop = messages.scrollHeight;
+            }, 350);
         }
-
-        messages.innerHTML += `<div class="msg bot">${reply}</div>`;
-        messages.scrollTop = messages.scrollHeight;
-    }, 350);
-}
-
 
         document.addEventListener('DOMContentLoaded', () => {
             if (isFirebaseActive && auth) {
