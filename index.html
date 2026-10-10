@@ -985,39 +985,49 @@
             deferredPrompt = e;
         });
 
-        function triggerAppInstall() {
-            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-            const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+       function triggerAppInstall() {
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
 
-            if (isStandalone) {
-                alert("L'applicazione è già installata sul tuo dispositivo!");
-                return;
-            }
+    if (isStandalone) {
+        alert("L'applicazione è già installata sul tuo dispositivo!");
+        return;
+    }
 
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((choiceResult) => {
-                    deferredPrompt = null;
-                });
-            } else if (isIOS) {
-                const content = document.getElementById('installModalContent');
-                content.innerHTML = `
-                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">Per installare l'app sul tuo iPhone o iPad:</p>
-                    <div class="ios-step"><div class="ios-step-num">1</div><div>Tocca il pulsante <strong>Condividi</strong> ⎋ in Safari.</div></div>
-                    <div class="ios-step"><div class="ios-step-num">2</div><div>Scorri e seleziona <strong>"Aggiungi alla schermata Home"</strong> ➕.</div></div>
-                    <div class="ios-step"><div class="ios-step-num">3</div><div>Conferma premendo <strong>Aggiungi</strong>.</div></div>
-                `;
-                openModal('installAppModal');
-            } else {
-                const content = document.getElementById('installModalContent');
-                content.innerHTML = `
-                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">Installa MasterSabba Arcade come app:</p>
-                    <div class="ios-step"><div class="ios-step-num">1</div><div>Clicca sui tre puntini del browser in alto a destra.</div></div>
-                    <div class="ios-step"><div class="ios-step-num">2</div><div>Seleziona <strong>"Installa app"</strong> o "Aggiungi a schermata Home".</div></div>
-                `;
-                openModal('installAppModal');
-            }
-        }
+    if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+            deferredPrompt = null;
+        });
+    } else if (isIOS) {
+        const content = document.getElementById('installModalContent');
+        content.innerHTML = `
+            <p style="color: var(--text-secondary); margin-bottom: 1rem;">Per installare l'app su iPhone o iPad:</p>
+            <div class="ios-step"><div class="ios-step-num">1</div><div>Tocca il pulsante <strong>Condividi</strong> ⎋ in Safari.</div></div>
+            <div class="ios-step"><div class="ios-step-num">2</div><div>Scorri e seleziona <strong>"Aggiungi alla schermata Home"</strong> ➕.</div></div>
+            <div class="ios-step"><div class="ios-step-num">3</div><div>Conferma premendo <strong>Aggiungi</strong>.</div></div>
+        `;
+        openModal('installAppModal');
+    } else if (isMobile) {
+        const content = document.getElementById('installModalContent');
+        content.innerHTML = `
+            <p style="color: var(--text-secondary); margin-bottom: 1rem;">Per installare l'app da telefono o tablet:</p>
+            <div class="ios-step"><div class="ios-step-num">1</div><div>Apri il menu e clicca su <strong>Condividi</strong>.</div></div>
+            <div class="ios-step"><div class="ios-step-num">2</div><div>Seleziona <strong>Visualizza</strong> o scorri le opzioni.</div></div>
+            <div class="ios-step"><div class="ios-step-num">3</div><div>Clicca su <strong>"Aggiungi alla schermata Home"</strong> ➕.</div></div>
+        `;
+        openModal('installAppModal');
+    } else {
+        const content = document.getElementById('installModalContent');
+        content.innerHTML = `
+            <p style="color: var(--text-secondary); margin-bottom: 1rem;">Per installare l'app su PC:</p>
+            <div class="ios-step"><div class="ios-step-num">1</div><div>Clicca sui tre puntini in alto a destra nel browser.</div></div>
+            <div class="ios-step"><div class="ios-step-num">2</div><div>Seleziona <strong>"Installa MasterSabba Arcade"</strong> o salva la pagina come app.</div></div>
+        `;
+        openModal('installAppModal');
+    }
+}
 
         try {
             if (firebaseConfig.apiKey && firebaseConfig.apiKey !== "AIzaSy_YOUR_API_KEY") {
