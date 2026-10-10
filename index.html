@@ -764,6 +764,7 @@
         </div>
     </main>
 
+    <!-- MODALE PROFILO -->
     <div id="profileModal" class="modal-overlay">
         <div class="modal-card">
             <div class="modal-header">
@@ -823,7 +824,7 @@
 
                     <h4 style="font-family: var(--font-heading); font-size: 0.85rem; margin: 1rem 0 0.5rem; color: var(--neon-cyan); text-align: center;">Badge Sbloccati</h4>
                     <div class="achievements-list">
-                        <span class="badge" id="badge-first-vote">⭐ Primo Voto</span>
+                        <span class="badge" id="badge-first-vote">⭐ Primo Voto (+XP Bonus)</span>
                         <span class="badge" id="badge-first-play">🎮 Primo Avvio</span>
                         <span class="badge" id="badge-lab-tester">🧪 Tester Lab</span>
                         <span class="badge" id="badge-custom-profile">🎨 Style Master</span>
@@ -831,7 +832,7 @@
 
                     <div style="display: flex; gap: 0.6rem; margin-top: 1rem;">
                         <button class="hub-btn" style="flex: 1; color: var(--neon-pink);" onclick="handleLogout()">Disconnetti</button>
-                        <button class="hub-btn" style="flex: 1;" onclick="resetStats()">Azzera Locale</button>
+                        <button class="hub-btn" style="flex: 1; color: var(--neon-cyan);" onclick="exportData()">💾 Esporta Dati</button>
                     </div>
                 </div>
 
@@ -862,6 +863,7 @@
         </div>
     </div>
 
+    <!-- MODALE SFIDE -->
     <div id="questModal" class="modal-overlay">
         <div class="modal-card">
             <div class="modal-header">
@@ -873,6 +875,24 @@
         </div>
     </div>
 
+    <!-- MODALE PROMEMORIA REGISTRAZIONE -->
+    <div id="registerReminderModal" class="modal-overlay">
+        <div class="modal-card" style="text-align: center;">
+            <div class="modal-header">
+                <h3>✨ Salva i tuoi progressi!</h3>
+                <button class="modal-close" onclick="closeModal('registerReminderModal')">✕</button>
+            </div>
+            <p style="color: var(--text-secondary); margin-bottom: 1.2rem; font-size: 0.95rem;">
+                Stai giocando come <strong>Ospite</strong> ma hai già accumulato preziosi XP! Registrati o accedi per sincronizzare il tuo punteggio in classifica e non perderlo mai.
+            </p>
+            <div style="display: flex; gap: 0.8rem;">
+                <button class="hub-btn" style="flex:1;" onclick="closeModal('registerReminderModal')">Più tardi</button>
+                <button class="btn-play" style="flex:1; border:none; cursor:pointer;" onclick="closeModal('registerReminderModal'); openModal('profileModal'); toggleAuthMode();">Registrati Ora</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PREVIEW MODAL -->
     <div id="previewModal" class="modal-overlay">
         <div class="modal-card">
             <div class="modal-header">
@@ -923,12 +943,12 @@
                 <span style="cursor:pointer;" onclick="toggleChat()">✕</span>
             </div>
             <div class="chat-messages" id="chatMessages">
-                <div class="msg bot">Ciao! Sono l'assistente Cyber. Seleziona una scorciatoia o chiedimi qualcosa sui giochi!</div>
+                <div class="msg bot">Ciao! Sono l'assistente Cyber. Chiedimi consigli sui giochi, come guadagnare XP o le regole dei titoli!</div>
             </div>
             <div class="chat-quick-actions">
-                <button class="chip-btn" onclick="sendQuickMsg('Come accumulo XP?')">⭐ Come accumulo XP?</button>
+                <button class="chip-btn" onclick="sendQuickMsg('Come accumulo XP?')">⭐ Come guadagno XP?</button>
                 <button class="chip-btn" onclick="sendQuickMsg('Consigliami un gioco')">🎲 Consiglio Gioco</button>
-                <button class="chip-btn" onclick="sendQuickMsg('Miei progressi')">📊 Miei Progressi</button>
+                <button class="chip-btn" onclick="sendQuickMsg('Miei progressi')">📊 I miei progressi</button>
             </div>
             <div class="chat-input-area">
                 <input type="text" id="chatInput" placeholder="Chiedi qualcosa..." onkeypress="handleChatKey(event)">
@@ -977,26 +997,23 @@
             if (deferredPrompt) {
                 deferredPrompt.prompt();
                 deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        console.log('User accepted the install prompt');
-                    }
                     deferredPrompt = null;
                 });
             } else if (isIOS) {
                 const content = document.getElementById('installModalContent');
                 content.innerHTML = `
                     <p style="color: var(--text-secondary); margin-bottom: 1rem;">Per installare l'app sul tuo iPhone o iPad:</p>
-                    <div class="ios-step"><div class="ios-step-num">1</div><div>Tocca il pulsante <strong>Condividi</strong> ⎋ / ⍞ in Safari.</div></div>
+                    <div class="ios-step"><div class="ios-step-num">1</div><div>Tocca il pulsante <strong>Condividi</strong> ⎋ in Safari.</div></div>
                     <div class="ios-step"><div class="ios-step-num">2</div><div>Scorri e seleziona <strong>"Aggiungi alla schermata Home"</strong> ➕.</div></div>
-                    <div class="ios-step"><div class="ios-step-num">3</div><div>Conferma premendo <strong>Aggiungi</strong> in alto a destra.</div></div>
+                    <div class="ios-step"><div class="ios-step-num">3</div><div>Conferma premendo <strong>Aggiungi</strong>.</div></div>
                 `;
                 openModal('installAppModal');
             } else {
                 const content = document.getElementById('installModalContent');
                 content.innerHTML = `
-                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">Installa MasterSabba Arcade come app sul tuo computer o telefono:</p>
-                    <div class="ios-step"><div class="ios-step-num">1</div><div>Se usi un computer: Clicca in alto a destra sui tre puntini, <strong>Salva e Condividi</strong> 💻 / ➕ e installa pagina come app.</div></div>
-                    <div class="ios-step"><div class="ios-step-num">2</div><div>Se usi il browser da telefono: Apri il menu condividi e clicca visualizza altro, poi <strong>"Aggiungi alla schermata Home"</strong>.</div></div>
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">Installa MasterSabba Arcade come app:</p>
+                    <div class="ios-step"><div class="ios-step-num">1</div><div>Clicca sui tre puntini del browser in alto a destra.</div></div>
+                    <div class="ios-step"><div class="ios-step-num">2</div><div>Seleziona <strong>"Installa app"</strong> o "Aggiungi a schermata Home".</div></div>
                 `;
                 openModal('installAppModal');
             }
@@ -1011,22 +1028,22 @@
                 auth = firebase.auth();
                 isFirebaseActive = true;
             }
-        } catch(e) { console.warn("Firebase non ancora attivato, uso localStorage.", e); }
+        } catch(e) { console.warn("Firebase non attivo, uso localStorage.", e); }
 
         const gameDataMap = {
-            'non-fidarti': { title: 'Non Fidarti', desc: "Un'avvincente avventura investigativa e di suspense dove ogni indizio può ribaltare la verità.", controls: 'Click ed elementi interattivi di scelta.', url: 'https://mastersabba.github.io/Non-Fidarti/' },
-            'color-clash': { title: 'Unos', desc: 'Sfidalo a colpi di combinazioni cromatiche e riflessi fulminei in questo card game.', controls: 'Click o Touch sulle carte compatibili.', url: 'https://mastersabba.github.io/MasterUno/' },
-            'last-spark': { title: 'Exploding Bomb', desc: 'Un party game a turni ad alta tensione in cui ogni mossa può scatenare l\'esplosione finale.', controls: 'Click sul mazzo per pescare o usare azioni.', url: 'https://mastersabba.github.io/MasterKittens/' },
-            'master-wordle': { title: 'Word Rush', desc: 'Metti alla prova il tuo vocabolario decifrando la parola nascosta in soli sei tentativi.', controls: 'Tastiera fisica o touch.', url: 'https://mastersabba.github.io/MasterWordle/' },
-            'master-murder': { title: 'Impostore', desc: 'Vesti i panni del detective cibernetico analizzando indizi digitali e interrogando i sospettati.', controls: 'Click su oggetti ed elementi di dialogo.', url: 'https://mastersabba.github.io/MasterMurder/' },
-            'master-verbum': { title: 'Word Duel', desc: 'Scontro verbale testa a testa per testare velocità di digitazione e dizionario.', controls: 'Digitazione da tastiera.', url: 'https://mastersabba.github.io/MasterVerbum/' },
-            'master-sudoku': { title: 'Sudoku', desc: 'Rompicapo numerico basato su deduzione logica e schemi di calcolo.', controls: 'Selezione casella e tasti 1-9.', url: 'https://mastersabba.github.io/MasterSudoku/' },
-            'master-key': { title: 'Free the Key', desc: 'Test di digitazione e riflessi estremi per hackerare i nodi critici della rete.', controls: 'Digita i tasti visualizzati a schermo.', url: 'https://mastersabba.github.io/MasterKey/' },
-            'master-block': { title: 'Tetra Block', desc: 'Incastra forme geometriche in caduta libera per svuotare la griglia.', controls: 'Trascina e rilascia nella griglia.', url: 'https://mastersabba.github.io/MasterBlock/' },
-            'master-tris': { title: 'Tris Battle', desc: 'Scontri tattici rapidi e dinamici sul classico schema del tris.', controls: 'Click per posizionare il simbolo.', url: 'https://mastersabba.github.io/MasterTris/' },
-            'master-password': { title: 'Code Breaker', desc: 'Rompi i sistemi di sicurezza violando codici criptati attraverso deduzioni logiche.', controls: 'Inserimento cifre e verifica feedback.', url: 'https://mastersabba.github.io/MasterPassword/' },
-            'master-chess': { title: 'Royal Chess', desc: 'Duelli intellettuali sulla scacchiera virtuale contro un\'intelligenza artificiale.', controls: 'Trascina i pezzi sulla scacchiera.', url: 'https://mastersabba.github.io/MasterChess/' },
-            'master-blackjack': { title: 'Cyber Deck', desc: 'Tavolo da gioco sperimentale nel MasterLab con chip animate e sfide di carte.', controls: 'Tasti Carta, Stai, Puntata.', url: '#' }
+            'non-fidarti': { title: 'Non Fidarti', desc: "Avventura investigativa e di suspense dove ogni indizio può ribaltare la verità.", controls: 'Click ed elementi interattivi di scelta.', url: 'https://mastersabba.github.io/Non-Fidarti/' },
+            'color-clash': { title: 'Unos', desc: 'Combinazioni cromatiche e riflessi fulminei in questo card game.', controls: 'Click o Touch sulle carte compatibili.', url: 'https://mastersabba.github.io/MasterUno/' },
+            'last-spark': { title: 'Exploding Bomb', desc: 'Party game a turni ad alta tensione in cui ogni mossa può scatenare l\'esplosione.', controls: 'Click sul mazzo per pescare o azioni.', url: 'https://mastersabba.github.io/MasterKittens/' },
+            'master-wordle': { title: 'Word Rush', desc: 'Metti alla prova il tuo vocabolario decifrando la parola nascosta.', controls: 'Tastiera fisica o touch.', url: 'https://mastersabba.github.io/MasterWordle/' },
+            'master-murder': { title: 'Impostore', desc: 'Analizza indizi digitali e interroga i sospettati.', controls: 'Click su oggetti ed elementi di dialogo.', url: 'https://mastersabba.github.io/MasterMurder/' },
+            'master-verbum': { title: 'Word Duel', desc: 'Scontro verbale testa a testa per testare velocità e dizionario.', controls: 'Digitazione da tastiera.', url: 'https://mastersabba.github.io/MasterVerbum/' },
+            'master-sudoku': { title: 'Sudoku', desc: 'Rompicapo numerico basato su deduzione logica.', controls: 'Selezione casella e tasti 1-9.', url: 'https://mastersabba.github.io/MasterSudoku/' },
+            'master-key': { title: 'Free the Key', desc: 'Test di digitazione e riflessi estremi per hackerare i nodi della rete.', controls: 'Digita i tasti visualizzati.', url: 'https://mastersabba.github.io/MasterKey/' },
+            'master-block': { title: 'Tetra Block', desc: 'Incastra forme geometriche in caduta libera.', controls: 'Trascina e rilascia nella griglia.', url: 'https://mastersabba.github.io/MasterBlock/' },
+            'master-tris': { title: 'Tris Battle', desc: 'Scontri tattici rapidi sul classico tris.', controls: 'Click per posizionare il simbolo.', url: 'https://mastersabba.github.io/MasterTris/' },
+            'master-password': { title: 'Code Breaker', desc: 'Rompi i sistemi di sicurezza violando codici criptati.', controls: 'Inserimento cifre e verifica feedback.', url: 'https://mastersabba.github.io/MasterPassword/' },
+            'master-chess': { title: 'Royal Chess', desc: 'Duelli intellettuali sulla scacchiera virtuale contro l\'IA.', controls: 'Trascina i pezzi sulla scacchiera.', url: 'https://mastersabba.github.io/MasterChess/' },
+            'master-blackjack': { title: 'Cyber Deck', desc: 'Tavolo da gioco sperimentale nel MasterLab.', controls: 'Tasti Carta, Stai, Puntata.', url: '#' }
         };
 
         window.globalRivals = {
@@ -1060,40 +1077,15 @@
 
         let userState = JSON.parse(localStorage.getItem('mastersabba_arcade_v2')) || defaultState;
 
-        // --- NUOVA GENERAZIONE QUEST GIORNALIERE BILANCIATE ---
         function generateProceduralQuests(currentState) {
             const lvl = Math.floor((currentState.xp || 0) / 300) + 1;
             const baseReward = 50 + (lvl * 10); 
 
             return [
-                { 
-                    id: `q_play_daily`, 
-                    title: `🎮 Gamer Serale: Gioca a 2 titoli diversi oggi`, 
-                    reward: baseReward, 
-                    target: 2,
-                    type: 'unique_plays'
-                },
-                { 
-                    id: `q_win_daily`, 
-                    title: `🏆 Campione Quotidiano: Ottieni 1 vittoria oggi`, 
-                    reward: baseReward + 25, 
-                    target: 1,
-                    type: 'wins'
-                },
-                { 
-                    id: `q_lab_daily`, 
-                    title: `🧪 Tester Lab: Avvia un gioco dal MasterLab`, 
-                    reward: baseReward + 15, 
-                    target: 1,
-                    type: 'lab'
-                },
-                { 
-                    id: `q_lb_daily`, 
-                    title: `👁️ Occhio alla Vetta: Controlla la Classifica`, 
-                    reward: baseReward, 
-                    target: 1,
-                    type: 'leaderboard'
-                }
+                { id: `q_play_daily`, title: `🎮 Gamer Serale: Gioca a 2 titoli diversi oggi`, reward: baseReward, target: 2, type: 'unique_plays' },
+                { id: `q_win_daily`, title: `🏆 Campione Quotidiano: Ottieni 1 vittoria oggi`, reward: baseReward + 25, target: 1, type: 'wins' },
+                { id: `q_lab_daily`, title: `🧪 Tester Lab: Avvia un gioco dal MasterLab`, reward: baseReward + 15, target: 1, type: 'lab' },
+                { id: `q_lb_daily`, title: `👁️ Occhio alla Vetta: Controlla la Classifica`, reward: baseReward, target: 1, type: 'leaderboard' }
             ];
         }
 
@@ -1103,7 +1095,6 @@
             
             userState.xp += pointsAwarded;
 
-            // Tracciamento giornaliero quest
             const todayKey = new Date().toDateString();
             let dailyActivity = JSON.parse(localStorage.getItem('arcade_daily_activity')) || { date: todayKey, playedGames: [], wins: 0, checkedLb: false, testedLab: false };
             dailyActivity.wins = (dailyActivity.wins || 0) + 1;
@@ -1174,7 +1165,6 @@
                 if (!userState.claimedQuests) userState.claimedQuests = {};
                 userState.claimedQuests[questId] = true;
                 saveState();
-
                 renderQuests();
             }
         }
@@ -1194,12 +1184,7 @@
         function showAuthUI(isLoggedIn) {
             document.getElementById('authSection').style.display = isLoggedIn ? 'none' : 'block';
             document.getElementById('userSection').style.display = isLoggedIn ? 'block' : 'none';
-            
-            if (isLoggedIn) {
-                document.getElementById('profileModalTitle').textContent = "👤 Profilo Utente";
-            } else {
-                document.getElementById('profileModalTitle').textContent = "🔐 Accedi";
-            }
+            document.getElementById('profileModalTitle').textContent = isLoggedIn ? "👤 Profilo Utente" : "🔐 Accedi";
         }
 
         function handleAuthAction() {
@@ -1209,52 +1194,34 @@
             const errorDiv = document.getElementById('authError');
 
             errorDiv.innerText = "";
+            if (!email || !password) { errorDiv.innerText = "Inserisci email e password."; return; }
+            if (isRegistering && !username) { errorDiv.innerText = "Inserisci un nome utente."; return; }
 
-            if (!email || !password) {
-                errorDiv.innerText = "Inserisci email e password.";
-                return;
-            }
-            if (isRegistering && !username) {
-                errorDiv.innerText = "Inserisci un nome utente per registrarti.";
-                return;
-            }
-
-            if (typeof isFirebaseActive !== 'undefined' && isFirebaseActive) {
+            if (isFirebaseActive && auth) {
                 if (isRegistering) {
-                    auth.createUserWithEmailAndPassword(email, password)
-                        .then(cred => {
-                            currentUser = cred.user;
-                            userState.username = username;
-                            window.hubCurrentUser = username;
-                            localStorage.setItem('masterhub_logged_user', cred.user.uid);
-                            db.ref('users/' + cred.user.uid).set(userState);
-                            showAuthUI(true);
-                            updateUI();
-                        })
-                        .catch(err => errorDiv.innerText = "Errore: " + err.message);
+                    auth.createUserWithEmailAndPassword(email, password).then(cred => {
+                        currentUser = cred.user;
+                        userState.username = username;
+                        window.hubCurrentUser = username;
+                        localStorage.setItem('masterhub_logged_user', cred.user.uid);
+                        db.ref('users/' + cred.user.uid).set(userState);
+                        showAuthUI(true);
+                        updateUI();
+                    }).catch(err => errorDiv.innerText = "Errore: " + err.message);
                 } else {
-                    auth.signInWithEmailAndPassword(email, password)
-                        .then(cred => {
-                            currentUser = cred.user;
-                            localStorage.setItem('masterhub_logged_user', cred.user.uid);
-                            loadUserData(cred.user.uid);
-                        })
-                        .catch(err => errorDiv.innerText = "Credenziali errate o errore di login.");
+                    auth.signInWithEmailAndPassword(email, password).then(cred => {
+                        currentUser = cred.user;
+                        localStorage.setItem('masterhub_logged_user', cred.user.uid);
+                        loadUserData(cred.user.uid);
+                    }).catch(err => errorDiv.innerText = "Credenziali errate.");
                 }
             } else {
                 let localAccounts = JSON.parse(localStorage.getItem('mockAccounts')) || {};
-                
                 if (isRegistering) {
                     if (localAccounts[email]) {
-                        errorDiv.innerText = "Account già esistente. Accedi.";
+                        errorDiv.innerText = "Account già esistente.";
                     } else {
-                        localAccounts[email] = { 
-                            password: password, 
-                            username: username, 
-                            xp: userState.xp || 0,
-                            gamesPlayed: userState.gamesPlayed || 0,
-                            winsPerGame: userState.winsPerGame || {}
-                        };
+                        localAccounts[email] = { password, username, xp: userState.xp, gamesPlayed: userState.gamesPlayed, winsPerGame: userState.winsPerGame };
                         localStorage.setItem('mockAccounts', JSON.stringify(localAccounts));
                         startLocalSession(email, localAccounts[email]);
                     }
@@ -1263,16 +1230,14 @@
                     if (acc && acc.password === password) {
                         startLocalSession(email, acc);
                     } else {
-                        errorDiv.innerText = "Email o Password errata o account non registrato in locale.";
+                        errorDiv.innerText = "Credenziali non valide.";
                     }
                 }
             }
         }
 
         function handleLogout() {
-            if (isFirebaseActive && auth) {
-                auth.signOut();
-            }
+            if (isFirebaseActive && auth) auth.signOut();
             currentUser = null;
             window.hubCurrentUser = null;
             localStorage.removeItem('currentSession');
@@ -1290,48 +1255,22 @@
             db.ref('users/' + uid).once('value').then((snapshot) => {
                 if (snapshot.exists()) {
                     let remoteData = snapshot.val();
-                    userState = { 
-                        ...defaultState, 
-                        ...remoteData,
-                        xp: Math.max(userState.xp || 0, remoteData.xp || 0),
-                        gamesPlayed: Math.max(userState.gamesPlayed || 0, remoteData.gamesPlayed || 0),
-                        winsPerGame: { ...(remoteData.winsPerGame || {}), ...(userState.winsPerGame || {}) }
-                    };
+                    userState = { ...defaultState, ...remoteData };
                     window.hubCurrentUser = userState.username;
-                    saveUserData(uid);
-                } else {
-                    saveUserData(uid);
                 }
                 showAuthUI(true);
                 updateUI();
             });
         }
 
-        function saveUserData(uid) {
-            if (db && uid) {
-                db.ref('users/' + uid).set(userState);
-            }
-        }
-
         function startLocalSession(email, accountData) {
             localStorage.setItem('currentSession', email);
             localStorage.setItem('masterhub_logged_user', email);
-            
             userState.username = accountData.username || email.split('@')[0];
-            userState.xp = Math.max(userState.xp || 0, accountData.xp || 0);
-            userState.gamesPlayed = Math.max(userState.gamesPlayed || 0, accountData.gamesPlayed || 0);
-            userState.winsPerGame = { ...(accountData.winsPerGame || {}), ...(userState.winsPerGame || {}) };
-            
-            accountData.xp = userState.xp;
-            accountData.gamesPlayed = userState.gamesPlayed;
-            accountData.winsPerGame = userState.winsPerGame;
-            
-            let localAccounts = JSON.parse(localStorage.getItem('mockAccounts')) || {};
-            localAccounts[email] = accountData;
-            localStorage.setItem('mockAccounts', JSON.stringify(localAccounts));
-
+            userState.xp = accountData.xp || 0;
+            userState.gamesPlayed = accountData.gamesPlayed || 0;
+            userState.winsPerGame = accountData.winsPerGame || {};
             window.hubCurrentUser = userState.username;
-            document.getElementById('authError').innerText = "";
             showAuthUI(true);
             saveState();
         }
@@ -1342,22 +1281,14 @@
                 const localAccounts = JSON.parse(localStorage.getItem('mockAccounts'));
                 if (localAccounts && localAccounts[sessionEmail]) {
                     startLocalSession(sessionEmail, localAccounts[sessionEmail]);
-                } else {
-                    showAuthUI(false);
-                }
-            } else {
-                showAuthUI(false);
-            }
+                } else { showAuthUI(false); }
+            } else { showAuthUI(false); }
         }
 
         function saveState() {
             const storageKey = currentUser ? `arcade_v2_${currentUser.uid}` : 'mastersabba_arcade_v2';
             localStorage.setItem('mastersabba_arcade_v2', JSON.stringify(userState));
-            localStorage.setItem(storageKey, JSON.stringify(userState));
-
-            if (isFirebaseActive && currentUser) {
-                saveUserData(currentUser.uid);
-            }
+            if (isFirebaseActive && currentUser && db) db.ref('users/' + currentUser.uid).set(userState);
             updateUI();
         }
 
@@ -1365,7 +1296,6 @@
             document.getElementById('navUsername').textContent = userState.username;
             document.getElementById('navAvatar').textContent = userState.avatar;
             document.getElementById('usernameInput').value = userState.username;
-            window.hubCurrentUser = userState.username;
 
             document.querySelectorAll('.avatar-opt').forEach(opt => {
                 opt.classList.toggle('selected', opt.textContent === userState.avatar);
@@ -1395,30 +1325,45 @@
             Object.keys(userState.ratings || {}).forEach(gameId => {
                 const val = userState.ratings[gameId];
                 const card = document.querySelector(`.game-card[data-id="${gameId}"]`);
-                if (card) {
-                    card.querySelectorAll('.star').forEach((s, idx) => s.classList.toggle('active', idx < val));
-                }
+                if (card) card.querySelectorAll('.star').forEach((s, idx) => s.classList.toggle('active', idx < val));
             });
 
             renderQuests();
-            buildLeaderboards();
+            checkGuestPopupTrigger(xp);
         }
 
-        // --- RENDERING CON TRACCIAMENTO ATTIVITÀ DEL GIORNO ---
+        // Popup promemoria per ospiti con XP > 100
+        function checkGuestPopupTrigger(xp) {
+            if (userState.username === "Ospite" && xp >= 100) {
+                const lastShown = localStorage.getItem('last_guest_reminder');
+                const now = Date.now();
+                if (!lastShown || (now - lastShown) > 1000 * 60 * 30) { // ogni 30 min
+                    localStorage.setItem('last_guest_reminder', now);
+                    setTimeout(() => openModal('registerReminderModal'), 1000);
+                }
+            }
+        }
+
+        function exportData() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(userState, null, 2));
+            const dlAnchor = document.createElement('a');
+            dlAnchor.setAttribute("href", dataStr);
+            dlAnchor.setAttribute("download", `mastersabba_backup_${userState.username}.json`);
+            document.body.appendChild(dlAnchor);
+            dlAnchor.click();
+            dlAnchor.remove();
+        }
+
         function renderQuests() {
             const container = document.getElementById('questContainer');
             if (!container) return;
 
             const questData = getOrUpdateDailyQuests(userState);
             const { quests, completedIds, lastResetTimestamp } = questData;
-
             startResetCountdown(lastResetTimestamp);
 
             const todayKey = new Date().toDateString();
-            let dailyActivity = JSON.parse(localStorage.getItem('arcade_daily_activity')) || { 
-                date: todayKey, playedGames: [], wins: 0, checkedLb: false, testedLab: false 
-            };
-            
+            let dailyActivity = JSON.parse(localStorage.getItem('arcade_daily_activity')) || { date: todayKey, playedGames: [], wins: 0, checkedLb: false, testedLab: false };
             if (dailyActivity.date !== todayKey) {
                 dailyActivity = { date: todayKey, playedGames: [], wins: 0, checkedLb: false, testedLab: false };
                 localStorage.setItem('arcade_daily_activity', JSON.stringify(dailyActivity));
@@ -1431,28 +1376,22 @@
                 const isCompleted = completedIds.includes(q.id) || (userState.claimedQuests && userState.claimedQuests[q.id]);
                 let isConditionMet = false;
 
-                if (q.type === 'unique_plays') {
-                    isConditionMet = (dailyActivity.playedGames || []).length >= q.target;
-                } else if (q.type === 'wins') {
-                    isConditionMet = (dailyActivity.wins || 0) >= q.target;
-                } else if (q.type === 'lab') {
-                    isConditionMet = !!dailyActivity.testedLab;
-                } else if (q.type === 'leaderboard') {
-                    isConditionMet = !!dailyActivity.checkedLb;
-                }
+                if (q.type === 'unique_plays') isConditionMet = (dailyActivity.playedGames || []).length >= q.target;
+                else if (q.type === 'wins') isConditionMet = (dailyActivity.wins || 0) >= q.target;
+                else if (q.type === 'lab') isConditionMet = !!dailyActivity.testedLab;
+                else if (q.type === 'leaderboard') isConditionMet = !!dailyActivity.checkedLb;
                     
                 const canClaim = isConditionMet && !isCompleted;
                 if (canClaim) hasClaimableQuests = true;
 
-                const div = document.createElement('div');
-                div.className = `quest-item ${isCompleted ? 'completed' : ''}`;
-                
                 let progText = "0/1";
                 if (q.type === 'unique_plays') progText = `${Math.min(dailyActivity.playedGames.length, q.target)}/${q.target}`;
                 if (q.type === 'wins') progText = `${Math.min(dailyActivity.wins || 0, q.target)}/${q.target}`;
                 if (q.type === 'lab') progText = dailyActivity.testedLab ? "1/1" : "0/1";
                 if (q.type === 'leaderboard') progText = dailyActivity.checkedLb ? "1/1" : "0/1";
 
+                const div = document.createElement('div');
+                div.className = `quest-item ${isCompleted ? 'completed' : ''}`;
                 div.innerHTML = `
                     <div class="quest-info">
                         <h4>${q.title}</h4>
@@ -1484,9 +1423,7 @@
             let allUsersList = [];
 
             Object.values(window.globalRivals).forEach(list => {
-                list.forEach(p => {
-                    globalPlayers[p.n] = (globalPlayers[p.n] || 0) + (p.s * 10);
-                });
+                list.forEach(p => { globalPlayers[p.n] = (globalPlayers[p.n] || 0) + (p.s * 10); });
             });
 
             function render() {
@@ -1495,64 +1432,40 @@
 
                 if (userState.username && userState.username !== "Ospite") {
                     globalPlayers[userState.username] = Math.max(globalPlayers[userState.username] || 0, userState.xp || 0);
-                    
                     let myIdx = allUsersList.findIndex(u => u.username && u.username.toLowerCase() === userState.username.toLowerCase());
-                    if (myIdx !== -1) {
-                        allUsersList[myIdx] = userState;
-                    } else {
-                        allUsersList.push(userState);
-                    }
+                    if (myIdx !== -1) allUsersList[myIdx] = userState;
+                    else allUsersList.push(userState);
                 }
 
                 let absoluteWinner = "Nessuno", maxOverallScore = -1;
                 Object.keys(globalPlayers).forEach(name => {
-                    if (globalPlayers[name] > maxOverallScore) { 
-                        maxOverallScore = globalPlayers[name]; 
-                        absoluteWinner = name; 
-                    }
+                    if (globalPlayers[name] > maxOverallScore) { maxOverallScore = globalPlayers[name]; absoluteWinner = name; }
                 });
                 
-                const overlordNameEl = document.getElementById("globalOverlordName");
-                const overlordScoreEl = document.getElementById("globalOverlordScore");
-                if (overlordNameEl) overlordNameEl.textContent = absoluteWinner.toUpperCase();
-                if (overlordScoreEl) overlordScoreEl.textContent = `${maxOverallScore} XP Totali`;
+                document.getElementById("globalOverlordName").textContent = absoluteWinner.toUpperCase();
+                document.getElementById("globalOverlordScore").textContent = `${maxOverallScore} XP Totali`;
 
                 if (currentLbView === 'global') {
-                    let sortedList = Object.keys(globalPlayers).map(name => ({
-                        n: name,
-                        s: globalPlayers[name]
-                    })).sort((a, b) => b.s - a.s);
-
+                    let sortedList = Object.keys(globalPlayers).map(name => ({ n: name, s: globalPlayers[name] })).sort((a, b) => b.s - a.s);
                     sortedList.forEach((row, i) => {
                         let isMe = userState.username && row.n.toLowerCase() === userState.username.toLowerCase();
                         let medal = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `#${i + 1}`;
-                        
                         let div = document.createElement("div");
                         div.className = `lb-row ${isMe ? 'me' : ''}`;
-                        div.innerHTML = `
-                            <div class="lb-rank">${medal}</div>
-                            <div class="lb-user">${row.n} ${isMe ? '(Tu)' : ''}</div>
-                            <div class="lb-score">${row.s} XP</div>
-                        `;
+                        div.innerHTML = `<div class="lb-rank">${medal}</div><div class="lb-user">${row.n} ${isMe ? '(Tu)' : ''}</div><div class="lb-score">${row.s} XP</div>`;
                         container.appendChild(div);
                     });
                 } else {
                     Object.keys(window.globalRivals).forEach(game => {
                         let structure = JSON.parse(JSON.stringify(window.globalRivals[game]));
-
                         allUsersList.forEach(u => {
                             if (!u.username || u.username === "Ospite") return;
                             let wins = u.winsPerGame?.[game] || 0;
                             let score = wins * 10;
-
                             let idx = structure.findIndex(item => item.n.toLowerCase() === u.username.toLowerCase());
-                            if (idx !== -1) {
-                                if (score > structure[idx].s) structure[idx].s = score;
-                            } else if (score > 0 || u.username.toLowerCase() === userState.username.toLowerCase()) {
-                                structure.push({ n: u.username, s: score });
-                            }
+                            if (idx !== -1) { if (score > structure[idx].s) structure[idx].s = score; }
+                            else if (score > 0 || u.username.toLowerCase() === userState.username.toLowerCase()) { structure.push({ n: u.username, s: score }); }
                         });
-
                         structure.sort((a, b) => b.s - a.s);
 
                         let section = document.createElement("div");
@@ -1574,8 +1487,7 @@
             if (isFirebaseActive && db) {
                 db.ref('users').once('value').then(snapshot => {
                     if (snapshot.exists()) {
-                        const usersData = snapshot.val();
-                        Object.values(usersData).forEach(u => {
+                        Object.values(snapshot.val()).forEach(u => {
                             if (u.username && u.username !== "Ospite") {
                                 allUsersList.push(u);
                                 globalPlayers[u.username] = Math.max(globalPlayers[u.username] || 0, u.xp || 0);
@@ -1583,10 +1495,7 @@
                         });
                     }
                     render();
-                }).catch(err => {
-                    console.error("Errore lettura classifica Firebase:", err);
-                    render();
-                });
+                }).catch(() => render());
             } else {
                 const mockAccounts = JSON.parse(localStorage.getItem('mockAccounts')) || {};
                 Object.values(mockAccounts).forEach(acc => {
@@ -1625,16 +1534,6 @@
             }
         }
 
-        function resetStats() {
-            if (confirm("Sei sicuro di voler azzerare TUTTI i dati locali e resettare i punteggi?")) {
-                localStorage.clear();
-                sessionStorage.clear();
-                userState = {...defaultState};
-                window.hubCurrentUser = null;
-                location.reload();
-            }
-        }
-
         function openGamePreview(gameId) {
             const data = gameDataMap[gameId];
             if (!data) return;
@@ -1644,7 +1543,6 @@
             
             const playBtn = document.getElementById('prevPlayBtn');
             const currentUid = currentUser ? currentUser.uid : 'guest';
-            
             localStorage.setItem('masterhub_logged_user', currentUid);
 
             let finalUrl = data.url;
@@ -1652,7 +1550,6 @@
                 const separator = finalUrl.includes('?') ? '&' : '?';
                 finalUrl += `${separator}player=${encodeURIComponent(userState.username)}&userId=${encodeURIComponent(currentUid)}`;
             }
-            
             playBtn.href = finalUrl;
             playBtn.onclick = (e) => registerPlay(e, gameId);
             openModal('previewModal');
@@ -1665,7 +1562,6 @@
             userState.achievements.firstPlay = true;
             if (gameId === 'master-blackjack') userState.achievements.labTester = true;
             
-            // Tracciamento giornaliero quest
             const todayKey = new Date().toDateString();
             let dailyActivity = JSON.parse(localStorage.getItem('arcade_daily_activity')) || { date: todayKey, playedGames: [], wins: 0, checkedLb: false, testedLab: false };
             if (!dailyActivity.playedGames.includes(gameId)) dailyActivity.playedGames.push(gameId);
@@ -1690,39 +1586,30 @@
             const { gameKey, points, gameId, score } = event.data || {};
             const finalPoints = points || score || 50;
             const targetKey = gameKey || gameId;
-
             if (!targetKey) return;
 
             let gameNameMap = {
-                'non-fidarti': 'Non Fidarti',
-                'color-clash': 'Unos',
-                'master-uno': 'Unos',
-                'last-spark': 'Exploding Bomb',
-                'master-wordle': 'Word Rush',
-                'master-murder': 'Impostore',
-                'master-verbum': 'Word Duel',
-                'master-sudoku': 'Sudoku',
-                'master-key': 'Free the Key',
-                'master-block': 'Tetra Block',
-                'master-tris': 'Tris Battle',
-                'master-password': 'Code Breaker',
-                'master-chess': 'Royal Chess',
-                'master-blackjack': 'Cyber Deck'
+                'non-fidarti': 'Non Fidarti', 'color-clash': 'Unos', 'master-uno': 'Unos',
+                'last-spark': 'Exploding Bomb', 'master-wordle': 'Word Rush', 'master-murder': 'Impostore',
+                'master-verbum': 'Word Duel', 'master-sudoku': 'Sudoku', 'master-key': 'Free the Key',
+                'master-block': 'Tetra Block', 'master-tris': 'Tris Battle', 'master-password': 'Code Breaker',
+                'master-chess': 'Royal Chess', 'master-blackjack': 'Cyber Deck'
             };
-
-            let mappedName = gameNameMap[targetKey] || targetKey;
-            registerWin(mappedName, finalPoints);
+            registerWin(gameNameMap[targetKey] || targetKey, finalPoints);
         });
 
+        // 🌟 Le stelle ora conferiscono XP extra e sbloccano bonus
         function rateGame(event, gameId) {
             event.stopPropagation();
             if (event.target.classList.contains('star')) {
                 const val = parseInt(event.target.getAttribute('data-value'));
-                if (!userState.ratings[gameId]) userState.xp += 50;
+                if (!userState.ratings[gameId]) {
+                    userState.xp += 50; // +50 XP la prima volta che voti un gioco
+                }
                 userState.ratings[gameId] = val;
                 userState.achievements.firstVote = true;
-                
                 saveState();
+                alert(`⭐ Voto registrato! Hai ricevuto XP bonus per il tuo supporto.`);
             }
         }
 
@@ -1757,6 +1644,7 @@
 
         function handleChatKey(e) { if (e.key === 'Enter') sendChatMessage(); }
 
+        // 🤖 Chatbot potenziato e intelligente
         function sendChatMessage() {
             const input = document.getElementById('chatInput');
             const text = input.value.trim();
@@ -1768,16 +1656,21 @@
             messages.scrollTop = messages.scrollHeight;
 
             setTimeout(() => {
-                let reply = "Vinci le partite per accumulare punti in classifica e sbloccare ricompense!";
+                let reply = "Non ho capito bene la domanda. Prova a chiedermi dei consigli sui giochi o su come guadagnare XP!";
                 const lower = text.toLowerCase();
 
-                if (lower.includes('progressi') || lower.includes('livello')) {
-                    reply = `Sei al Livello ${Math.floor(userState.xp/300)+1} con ${userState.xp} XP e ${userState.gamesPlayed} partite giocate!`;
-                } else if (lower.includes('xp') || lower.includes('accumulo')) {
-                    reply = "I punti vengono assegnati in caso di vittoria nei giochi, votando le stelle, testando il MasterLab e riscattando le Sfide!";
-                } else if (lower.includes('consiglio') || lower.includes('gioco')) {
-                    const games = ['Non Fidarti', 'Unos', 'Exploding Bomb', 'Word Rush', 'Impostore', 'Royal Chess'];
-                    reply = `Ti consiglio di provare subito **${games[Math.floor(Math.random()*games.length)]}** e conquistar la vittoria!`;
+                if (lower.includes('progressi') || lower.includes('livello') || lower.includes('statistiche')) {
+                    reply = `📊 Statistiche attuali: Livello ${Math.floor(userState.xp/300)+1} (${userState.xp} XP totali) e ${userState.gamesPlayed} partite giocate!`;
+                } else if (lower.includes('xp') || lower.includes('accumulo') || lower.includes('punti')) {
+                    reply = "⭐ Puoi guadagnare XP vincendo le partite nei vari giochi, votando con le stelle ⭐, completando le sfide giornaliere e testando il MasterLab!";
+                } else if (lower.includes('consiglio') || lower.includes('gioco') || lower.includes('giocare')) {
+                    const games = ['Non Fidarti', 'Unos', 'Exploding Bomb', 'Word Rush', 'Impostore', 'Royal Chess', 'Sudoku'];
+                    const picked = games[Math.floor(Math.random()*games.length)];
+                    reply = `🎲 Ti consiglio di provare subito **${picked}** e conquistare la vetta della classifica!`;
+                } else if (lower.includes('regole') || lower.includes('come si gioca')) {
+                    reply = "📜 Seleziona un gioco dalla griglia e clicca 'Gioca' o sull'anteprima per leggere i comandi specifici di ogni titolo.";
+                } else if (lower.includes('ciao') || lower.includes('salve')) {
+                    reply = `Ciao ${userState.username}! Sono il MasterBot. Come posso aiutarti oggi nella tua sessione arcade?`;
                 }
 
                 messages.innerHTML += `<div class="msg bot">${reply}</div>`;
@@ -1792,13 +1685,9 @@
                         currentUser = user;
                         localStorage.setItem('masterhub_logged_user', user.uid);
                         loadUserData(user.uid);
-                    } else {
-                        showAuthUI(false);
-                    }
+                    } else { showAuthUI(false); }
                 });
-            } else {
-                checkLocalSession();
-            }
+            } else { checkLocalSession(); }
         });
     </script>
 </body>
