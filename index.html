@@ -1090,16 +1090,17 @@
         let userState = JSON.parse(localStorage.getItem('mastersabba_arcade_v2')) || defaultState;
 
         function generateProceduralQuests(currentState) {
-            const lvl = Math.floor((currentState.xp || 0) / 300) + 1;
-            const baseReward = 50 + (lvl * 10); 
+    const lvl = Math.floor((currentState.xp || 0) / 300) + 1;
+    const baseReward = 50 + (lvl * 10); 
+    const todayStr = new Date().toDateString(); // Rende l'ID unico per ogni giornata
 
-            return [
-                { id: `q_play_daily`, title: `🎮 Gamer Serale: Gioca a 2 titoli diversi oggi`, reward: baseReward, target: 2, type: 'unique_plays' },
-                { id: `q_win_daily`, title: `🏆 Campione Quotidiano: Ottieni 1 vittoria oggi`, reward: baseReward + 25, target: 1, type: 'wins' },
-                { id: `q_lab_daily`, title: `🧪 Tester Lab: Avvia un gioco dal MasterLab`, reward: baseReward + 15, target: 1, type: 'lab' },
-                { id: `q_lb_daily`, title: `👁️ Occhio alla Vetta: Controlla la Classifica`, reward: baseReward, target: 1, type: 'leaderboard' }
-            ];
-        }
+    return [
+        { id: `q_play_daily_${todayStr}`, title: `🎮 Gamer Serale: Gioca a 2 titoli diversi oggi`, reward: baseReward, target: 2, type: 'unique_plays' },
+        { id: `q_win_daily_${todayStr}`, title: `🏆 Campione Quotidiano: Ottieni 1 vittoria oggi`, reward: baseReward + 25, target: 1, type: 'wins' },
+        { id: `q_lab_daily_${todayStr}`, title: `🧪 Tester Lab: Avvia un gioco dal MasterLab`, reward: baseReward + 15, target: 1, type: 'lab' },
+        { id: `q_lb_daily_${todayStr}`, title: `👁️ Occhio alla Vetta: Controlla la Classifica`, reward: baseReward, target: 1, type: 'leaderboard' }
+    ];
+}
 
         function registerWin(gameKey, pointsAwarded = 50) {
             if (!userState.winsPerGame) userState.winsPerGame = {};
@@ -1118,22 +1119,26 @@
 
         const STORAGE_KEY_QUESTS = 'mastersabba_quests_data';
 
-        function getOrUpdateDailyQuests(currentState) {
-            const now = Date.now();
-            const ONE_DAY_MS = 24 * 60 * 60 * 1000;
-            let savedData = JSON.parse(localStorage.getItem(STORAGE_KEY_QUESTS)) || null;
+      function getOrUpdateDailyQuests(currentState) {
+    const now = Date.now();
+    const ONE_DAY_MS = 24 * 60 * 60 * 1000;
+    let savedData = JSON.parse(localStorage.getItem(STORAGE_KEY_QUESTS)) || null;
+    const todayStr = new Date().toDateString();
 
-            if (!savedData || (now - savedData.lastResetTimestamp) >= ONE_DAY_MS) {
-                savedData = {
-                    lastResetTimestamp: now,
-                    quests: generateProceduralQuests(currentState),
-                    completedIds: []
-                };
-                localStorage.setItem(STORAGE_KEY_QUESTS, JSON.stringify(savedData));
-            }
-            return savedData;
-        }
-
+    if (!savedData || (now - savedData.lastResetTimestamp) >= ONE_DAY_MS || savedData.dateKey !== todayStr) {
+        savedData = {
+            lastResetTimestamp: now,
+            dateKey: todayStr,
+            quests: generateProceduralQuests(currentState),
+            completedIds: []
+        };
+        // Salva prima su localStorage per evitare loop
+        localStorage.setItem(STORAGE_KEY_QUESTS, JSON.stringify(savedData));
+        currentState.claimedQuests = {}; 
+        saveState(); 
+    }
+    return savedData;
+}
         function getTimeUntilReset(lastResetTimestamp) {
             const ONE_DAY_MS = 24 * 60 * 60 * 1000;
             const nextReset = lastResetTimestamp + ONE_DAY_MS;
