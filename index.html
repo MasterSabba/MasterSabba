@@ -527,6 +527,31 @@
             .main-container { padding: 0 0.8rem 2rem; }
             .modal-card { padding: 1.2rem; }
         }
+      #toastNotification {
+    position: fixed;
+    top: 25px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-40px);
+    background: #12121a;
+    color: #ffffff;
+    border: 2px solid #ffd700;
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    padding: 12px 24px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 215, 0, 0.3);
+    z-index: 9999;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+    opacity: 0;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+#toastNotification.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
     </style>
 </head>
 <body>
@@ -1616,19 +1641,19 @@
         });
 
         // 🌟 Le stelle ora conferiscono XP extra e sbloccano bonus
-        function rateGame(event, gameId) {
-            event.stopPropagation();
-            if (event.target.classList.contains('star')) {
-                const val = parseInt(event.target.getAttribute('data-value'));
-                if (!userState.ratings[gameId]) {
-                    userState.xp += 50; // +50 XP la prima volta che voti un gioco
-                }
-                userState.ratings[gameId] = val;
-                userState.achievements.firstVote = true;
-                saveState();
-                alert(`⭐ Voto registrato! Hai ricevuto XP bonus per il tuo supporto.`);
-            }
+       function rateGame(event, gameId) {
+    event.stopPropagation();
+    if (event.target.classList.contains('star')) {
+        const val = parseInt(event.target.getAttribute('data-value'));
+        if (!userState.ratings[gameId]) {
+            userState.xp += 50; // +50 XP bonus alla prima votazione
         }
+        userState.ratings[gameId] = val;
+        userState.achievements.firstVote = true;
+        saveState();
+        showToast("⭐ Voto registrato! +50 XP bonus.");
+    }
+}
 
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
@@ -1658,7 +1683,21 @@
             document.getElementById('chatInput').value = text;
             sendChatMessage();
         }
-
+function showToast(message) {
+    let toast = document.getElementById('toastNotification');
+    if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'toastNotification';
+        document.body.appendChild(toast);
+    }
+    toast.textContent = message;
+    toast.classList.add('show');
+    
+    // Sparisce da sola dopo 3 secondi
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, 3000);
+}
         function handleChatKey(e) { if (e.key === 'Enter') sendChatMessage(); }
 
         // 🤖 Chatbot potenziato e intelligente
