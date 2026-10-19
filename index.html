@@ -455,8 +455,9 @@
         .tris-bg { background: linear-gradient(135deg, #00ff66, #00a2ff); }
         .password-bg { background: linear-gradient(135deg, #485563, #29323c); }
         .chess-bg { background: linear-gradient(135deg, #8e9eab, #eef2f3); }
-        .lab-bg { background: linear-gradient(135deg, #9d00ff, #00f3ff); }
+        .blackjack-bg { background: linear-gradient(135deg, #11998e, #38ef7d); }
         .nonfidarti-bg { background: linear-gradient(135deg, #ff416c, #ff4b2b); }
+        .glitch-bg { background: linear-gradient(135deg, #00ff66, #ff00ff); }
 
         .card-content { padding: 1.2rem; display: flex; flex-direction: column; flex: 1; }
         .card-content h3 { font-family: var(--font-heading); font-size: 1.15rem; margin-bottom: 0.2rem; }
@@ -769,25 +770,38 @@
                     </div>
                 </div>
             </article>
-            <article class="game-card" data-id="master-blackjack" data-category="carte" data-name="master blackjack carte casino dealer 21 ventuno" onclick="openGamePreview('master-blackjack')">
-    <div class="card-media blackjack-bg">♠️</div>
-    <div class="card-content">
-        <h3>MasterBlackJack</h3>
-        <p>Sfida il dealer al tavolo verde virtuale e gestisci le tue fiches in un'esperienza da casinò.</p>
-        <div class="star-rating" onclick="rateGame(event, 'master-blackjack')">
-            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
-        </div>
-        <div class="card-footer">
-            <span class="tag">Carte</span>
-            <a href="https://mastersabba.github.io/MasterBlackJack/" target="_blank" class="btn-play" onclick="registerPlay(event, 'master-blackjack')">GIOCA</a>
-        </div>
-    </div>
-</article>
+            <article class="game-card" data-id="master-blackjack" data-category="carte" data-name="blackjack carte casino dealer 21 ventuno" onclick="openGamePreview('master-blackjack')">
+                <div class="card-media blackjack-bg">♠️</div>
+                <div class="card-content">
+                    <h3>BlackJack</h3>
+                    <p>Sfida il dealer al tavolo verde virtuale e gestisci le tue fiches in un'esperienza da casinò.</p>
+                    <div class="star-rating" onclick="rateGame(event, 'master-blackjack')">
+                        <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
+                    </div>
+                    <div class="card-footer">
+                        <span class="tag">Carte</span>
+                        <a href="https://mastersabba.github.io/MasterBlackJack/" target="_blank" class="btn-play" onclick="registerPlay(event, 'master-blackjack')">GIOCA</a>
+                    </div>
+                </div>
+            </article>
         </div>
 
         <h2 class="section-title" style="margin-top: 2rem;">🚧 MasterLab (Sperimentale)</h2>
         <div class="games-grid">
-
+          <article class="game-card" data-id="neural-glitch" data-category="lab" data-name="neural glitch lab sperimentale" onclick="openGamePreview('neural-glitch')">
+    <div class="card-media glitch-bg">⚡🧪</div>
+    <div class="card-content">
+        <h3>Neural Glitch</h3>
+        <p>Un esperimento cibernetico instabile: hackera il flusso di dati prima del sovraccarico.</p>
+        <div class="star-rating" onclick="rateGame(event, 'neural-glitch')">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
+        </div>
+        <div class="card-footer">
+            <span class="tag">MasterLab</span>
+            <a href="#" class="btn-play" onclick="registerPlay(event, 'neural-glitch')">TEST</a>
+        </div>
+    </div>
+</article>
         </div>
     </main>
 
@@ -1081,7 +1095,10 @@
             'master-tris': { title: 'Tris Battle', desc: 'Scontri tattici rapidi sul classico tris.', controls: 'Click per posizionare il simbolo.', url: 'https://mastersabba.github.io/MasterTris/' },
             'master-password': { title: 'Code Breaker', desc: 'Rompi i sistemi di sicurezza violando codici criptati.', controls: 'Inserimento cifre e verifica feedback.', url: 'https://mastersabba.github.io/MasterPassword/' },
             'master-chess': { title: 'Royal Chess', desc: 'Duelli intellettuali sulla scacchiera virtuale contro l\'IA.', controls: 'Trascina i pezzi sulla scacchiera.', url: 'https://mastersabba.github.io/MasterChess/' },
-            'master-blackjack': { title: 'Cyber Deck', desc: 'Tavolo da gioco sperimentale nel MasterLab.', controls: 'Tasti Carta, Stai, Puntata.', url: '#' }
+            'master-blackjack': { title: 'BlackJack', desc: 'Sfida il dealer al tavolo verde virtuale e gestisci le tue fiches in un\'esperienza da casinò.', controls: 'Tasti Carta, Stai, Puntata.', url: 'https://mastersabba.github.io/MasterBlackJack/' }, 
+            'neural-glitch': { title: 'Neural Glitch', desc: 'Un esperimento cibernetico instabile: hackera il flusso di dati prima del sovraccarico.', controls: 'Clicca rapidamente sui nodi energetici attivi.', url: '#' 
+}
+            
         };
 
         window.globalRivals = {
@@ -1097,7 +1114,7 @@
             "Tris Battle": [{n: "Andres", s: 5}, {n: "Giulyy", s: 3}, {n: "Ludo", s: 1}],
             "Code Breaker": [{n: "Enry", s: 8}, {n: "Tommy;)", s: 5}, {n: "Auri", s: 2}],
             "Royal Chess": [{n: "Lucy", s: 12}, {n: "Gio09", s: 8}, {n: "Andres", s: 4}],
-            "Cyber Deck": [{n: "Marty", s: 25}, {n: "Simbi", s: 15}, {n: "Max", s: 10}]
+            "BlackJack": [{n: "Marty", s: 25}, {n: "Simbi", s: 15}, {n: "Max", s: 10}]
         };
 
         window.hubCurrentUser = null;
@@ -1118,7 +1135,7 @@
         function generateProceduralQuests(currentState) {
     const lvl = Math.floor((currentState.xp || 0) / 300) + 1;
     const baseReward = 50 + (lvl * 10); 
-    const todayStr = new Date().toDateString(); // Rende l'ID unico per ogni giornata
+    const todayStr = new Date().toDateString();
 
     return [
         { id: `q_play_daily_${todayStr}`, title: `🎮 Gamer Serale: Gioca a 2 titoli diversi oggi`, reward: baseReward, target: 2, type: 'unique_plays' },
@@ -1158,7 +1175,6 @@
             quests: generateProceduralQuests(currentState),
             completedIds: []
         };
-        // Salva prima su localStorage per evitare loop
         localStorage.setItem(STORAGE_KEY_QUESTS, JSON.stringify(savedData));
         currentState.claimedQuests = {}; 
         saveState(); 
@@ -1375,12 +1391,11 @@
             checkGuestPopupTrigger(xp);
         }
 
-        // Popup promemoria per ospiti con XP > 100
         function checkGuestPopupTrigger(xp) {
             if (userState.username === "Ospite" && xp >= 100) {
                 const lastShown = localStorage.getItem('last_guest_reminder');
                 const now = Date.now();
-                if (!lastShown || (now - lastShown) > 1000 * 60 * 30) { // ogni 30 min
+                if (!lastShown || (now - lastShown) > 1000 * 60 * 30) {
                     localStorage.setItem('last_guest_reminder', now);
                     setTimeout(() => openModal('registerReminderModal'), 1000);
                 }
@@ -1598,32 +1613,34 @@
             openModal('previewModal');
         }
 
-        function registerPlay(event, gameId) {
-            if (event) event.preventDefault();
-            event.stopPropagation();
-            userState.gamesPlayed = (userState.gamesPlayed || 0) + 1;
-            userState.achievements.firstPlay = true;
-            if (gameId === 'master-blackjack') userState.achievements.labTester = true;
-            
-            const todayKey = new Date().toDateString();
-            let dailyActivity = JSON.parse(localStorage.getItem('arcade_daily_activity')) || { date: todayKey, playedGames: [], wins: 0, checkedLb: false, testedLab: false };
-            if (!dailyActivity.playedGames.includes(gameId)) dailyActivity.playedGames.push(gameId);
-            if (gameId === 'master-blackjack') dailyActivity.testedLab = true;
-            localStorage.setItem('arcade_daily_activity', JSON.stringify(dailyActivity));
+       function registerPlay(event, gameId) {
+    if (event) event.preventDefault();
+    event.stopPropagation();
+    userState.gamesPlayed = (userState.gamesPlayed || 0) + 1;
+    userState.achievements.firstPlay = true;
+    if (gameId === 'neural-glitch') userState.achievements.labTester = true;
+    
+    const todayKey = new Date().toDateString();
+    let dailyActivity = JSON.parse(localStorage.getItem('arcade_daily_activity')) || { date: todayKey, playedGames: [], wins: 0, checkedLb: false, testedLab: false };
+    if (!dailyActivity.playedGames.includes(gameId)) dailyActivity.playedGames.push(gameId);
+    if (gameId === 'neural-glitch') dailyActivity.testedLab = true;
+    localStorage.setItem('arcade_daily_activity', JSON.stringify(dailyActivity));
 
-            saveState();
+    saveState();
 
-            const cardData = gameDataMap[gameId];
-            if (cardData && cardData.url && cardData.url !== '#') {
-                const currentUid = currentUser ? currentUser.uid : 'guest';
-                let launchUrl = cardData.url;
-                if (userState.username && userState.username !== "Ospite") {
-                    const separator = launchUrl.includes('?') ? '&' : '?';
-                    launchUrl += `${separator}player=${encodeURIComponent(userState.username)}&userId=${encodeURIComponent(currentUid)}`;
-                }
-                window.open(launchUrl, '_blank');
-            }
+    const cardData = gameDataMap[gameId];
+    if (cardData && cardData.url && cardData.url !== '#') {
+        const currentUid = currentUser ? currentUser.uid : 'guest';
+        let launchUrl = cardData.url;
+        if (userState.username && userState.username !== "Ospite") {
+            const separator = launchUrl.includes('?') ? '&' : '?';
+            launchUrl += `${separator}player=${encodeURIComponent(userState.username)}&userId=${encodeURIComponent(currentUid)}`;
         }
+        window.open(launchUrl, '_blank');
+    } else {
+        showToast("🧪 Test MasterLab completato! +XP Tester registrato.");
+    }
+}
 
         window.addEventListener('message', (event) => {
             const { gameKey, points, gameId, score } = event.data || {};
@@ -1636,25 +1653,24 @@
                 'last-spark': 'Exploding Bomb', 'WORD-RUSH': 'Word Rush', 'master-murder': 'Impostore',
                 'master-verbum': 'Word Duel', 'master-sudoku': 'Sudoku', 'master-key': 'Free the Key',
                 'master-block': 'Tetra Block', 'master-tris': 'Tris Battle', 'master-password': 'Code Breaker',
-                'master-chess': 'Royal Chess', 'master-blackjack': 'Cyber Deck'
+                'master-chess': 'Royal Chess', 'master-blackjack': 'BlackJack'
             };
             registerWin(gameNameMap[targetKey] || targetKey, finalPoints);
         });
 
-        // 🌟 Le stelle ora conferiscono XP extra e sbloccano bonus
        function rateGame(event, gameId) {
-    event.stopPropagation();
-    if (event.target.classList.contains('star')) {
-        const val = parseInt(event.target.getAttribute('data-value'));
-        if (!userState.ratings[gameId]) {
-            userState.xp += 50; // +50 XP bonus alla prima votazione
+            event.stopPropagation();
+            if (event.target.classList.contains('star')) {
+                const val = parseInt(event.target.getAttribute('data-value'));
+                if (!userState.ratings[gameId]) {
+                    userState.xp += 50;
+                }
+                userState.ratings[gameId] = val;
+                userState.achievements.firstVote = true;
+                saveState();
+                showToast("⭐ Voto registrato! +50 XP bonus.");
+            }
         }
-        userState.ratings[gameId] = val;
-        userState.achievements.firstVote = true;
-        saveState();
-        showToast("⭐ Voto registrato! +50 XP bonus.");
-    }
-}
 
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
@@ -1684,24 +1700,24 @@
             document.getElementById('chatInput').value = text;
             sendChatMessage();
         }
-function showToast(message) {
-    let toast = document.getElementById('toastNotification');
-    if (!toast) {
-        toast = document.createElement('div');
-        toast.id = 'toastNotification';
-        document.body.appendChild(toast);
-    }
-    toast.textContent = message;
-    toast.classList.add('show');
-    
-    // Sparisce da sola dopo 3 secondi
-    setTimeout(() => {
-        toast.classList.remove('show');
-    }, 3000);
-}
+
+        function showToast(message) {
+            let toast = document.getElementById('toastNotification');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'toastNotification';
+                document.body.appendChild(toast);
+            }
+            toast.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
         function handleChatKey(e) { if (e.key === 'Enter') sendChatMessage(); }
 
-        // 🤖 Chatbot potenziato e intelligente
         function sendChatMessage() {
             const input = document.getElementById('chatInput');
             const text = input.value.trim();
@@ -1721,7 +1737,7 @@ function showToast(message) {
                 } else if (lower.includes('xp') || lower.includes('accumulo') || lower.includes('punti')) {
                     reply = "⭐ Puoi guadagnare XP vincendo le partite nei vari giochi, votando con le stelle ⭐, completando le sfide giornaliere e testando il MasterLab!";
                 } else if (lower.includes('consiglio') || lower.includes('gioco') || lower.includes('giocare')) {
-                    const games = ['Non Fidarti', 'Unos', 'Exploding Bomb', 'Word Rush', 'Impostore', 'Royal Chess', 'Sudoku'];
+                    const games = ['Non Fidarti', 'Unos', 'Exploding Bomb', 'Word Rush', 'Impostore', 'Royal Chess', 'Sudoku', 'BlackJack'];
                     const picked = games[Math.floor(Math.random()*games.length)];
                     reply = `🎲 Ti consiglio di provare subito **${picked}** e conquistare la vetta della classifica!`;
                 } else if (lower.includes('regole') || lower.includes('come si gioca')) {
