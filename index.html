@@ -1230,34 +1230,47 @@
         }
 
         async function toggleQuestNotifications(checkbox) {
-            if (checkbox.checked) {
-                if (!("Notification" in window)) {
-                    showToast("❌ Il browser non supporta le notifiche.");
-                    checkbox.checked = false;
-                    return;
-                }
-                const permission = await Notification.requestPermission();
-                if (permission === "granted") {
-                    userState.settings = userState.settings || {};
-                    userState.settings.questNotifications = true;
-                    saveState();
-                    showToast("✅ Notifiche quest attivate!");
-                    new Notification("MasterSabba Arcade 🎮", {
-                        body: "Promemoria attivo: ricordati di completare le tue quest giornaliere oggi!"
-                    });
-                } else {
-                    showToast("⚠️ Permesso di notifica negato.");
-                    checkbox.checked = false;
-                    userState.settings.questNotifications = false;
-                    saveState();
-                }
-            } else {
-                userState.settings = userState.settings || {};
-                userState.settings.questNotifications = false;
-                saveState();
-                showToast("🔕 Notifiche disattivate.");
-            }
+    if (checkbox.checked) {
+        // Verifica supporto notifiche
+        if (!("Notification" in window)) {
+            showToast("❌ Il tuo browser non supporta le notifiche.");
+            checkbox.checked = false;
+            return;
         }
+
+        // Se i permessi erano già stati negati in precedenza dal browser
+        if (Notification.permission === "denied") {
+            showToast("⚠️ Hai bloccato le notifiche nelle impostazioni del browser. Sbloccale lì per riattivarle.");
+            checkbox.checked = false;
+            return;
+        }
+
+        // Chiede il permesso se non è ancora stato concesso
+        let permission = Notification.permission;
+        if (permission !== "granted") {
+            permission = await Notification.requestPermission();
+        }
+
+        if (permission === "granted") {
+            userState.settings = userState.settings || {};
+            userState.settings.questNotifications = true;
+            saveState();
+            showToast("✅ Notifiche quest attivate con successo!");
+        } else {
+            showToast("⚠️ Permesso di notifica negato.");
+            checkbox.checked = false;
+            userState.settings = userState.settings || {};
+            userState.settings.questNotifications = false;
+            saveState();
+        }
+    } else {
+        // Disattivazione volontaria dall'interruttore
+        userState.settings = userState.settings || {};
+        userState.settings.questNotifications = false;
+        saveState();
+        showToast("🔕 Notifiche disattivate.");
+    }
+}
 
         function toggleAuthMode() {
             isRegistering = !isRegistering;
