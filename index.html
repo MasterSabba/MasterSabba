@@ -1231,21 +1231,18 @@
 
         async function toggleQuestNotifications(checkbox) {
     if (checkbox.checked) {
-        // Verifica supporto notifiche
         if (!("Notification" in window)) {
             showToast("❌ Il tuo browser non supporta le notifiche.");
             checkbox.checked = false;
             return;
         }
 
-        // Se i permessi erano già stati negati in precedenza dal browser
         if (Notification.permission === "denied") {
-            showToast("⚠️ Hai bloccato le notifiche nelle impostazioni del browser. Sbloccale lì per riattivarle.");
+            showToast("⚠️ Hai bloccato le notifiche nel browser. Sbloccale nelle impostazioni per attivarle.");
             checkbox.checked = false;
             return;
         }
 
-        // Chiede il permesso se non è ancora stato concesso
         let permission = Notification.permission;
         if (permission !== "granted") {
             permission = await Notification.requestPermission();
@@ -1255,16 +1252,19 @@
             userState.settings = userState.settings || {};
             userState.settings.questNotifications = true;
             saveState();
-            showToast("✅ Notifiche quest attivate con successo!");
+            showToast("🎉 Ottimo! Notifiche attivate con successo.");
+            
+            new Notification("MasterSabba Arcade 🎮", {
+                body: "Perfetto! Ora riceverai i promemoria per non perdere neanche una quest."
+            });
         } else {
-            showToast("⚠️ Permesso di notifica negato.");
+            showToast("⚠️ Permesso negato. Riattivalo quando vuoi!");
             checkbox.checked = false;
             userState.settings = userState.settings || {};
             userState.settings.questNotifications = false;
             saveState();
         }
     } else {
-        // Disattivazione volontaria dall'interruttore
         userState.settings = userState.settings || {};
         userState.settings.questNotifications = false;
         saveState();
@@ -1455,7 +1455,7 @@
             dlAnchor.remove();
         }
 
-        function renderQuests() {
+       function renderQuests() {
             const container = document.getElementById('questContainer');
             if (!container) return;
 
@@ -1505,16 +1505,14 @@
                 container.appendChild(div);
             });
 
-            // Toggle Notifiche Quest in fondo
-            const isNotifEnabled = userState.settings && userState.settings.questNotifications !== undefined 
-                ? userState.settings.questNotifications 
-                : true;
+            // Toggle Notifiche Quest in fondo (Parte su OFF di default se non esplicitamente true)
+            const isNotifEnabled = userState.settings && userState.settings.questNotifications === true;
 
             const footerToggle = document.createElement('div');
             footerToggle.className = 'quest-footer-toggle';
             footerToggle.style.cssText = 'margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 12px; display: flex; align-items: center; justify-content: space-between; font-size: 0.85rem;';
             footerToggle.innerHTML = `
-                <span>🔔 Notifiche Quest Giornaliere</span>
+                <span>🔔 Attiva Notifiche Quest</span>
                 <input type="checkbox" id="toggleNotifications" ${isNotifEnabled ? 'checked' : ''} onchange="toggleQuestNotifications(this)">
             `;
             container.appendChild(footerToggle);
