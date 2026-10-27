@@ -1133,32 +1133,83 @@
         let userState = JSON.parse(localStorage.getItem('mastersabba_arcade_v2')) || defaultState;
 
         function generateProceduralQuests(currentState) {
-            const lvl = Math.floor((currentState.xp || 0) / 300) + 1;
-            const baseReward = 50 + (lvl * 10); 
-            const todayStr = new Date().toDateString();
+    const lvl = Math.floor((currentState.xp || 0) / 300) + 1;
+    const baseReward = 50 + (lvl * 10); 
+    const todayStr = new Date().toDateString();
 
-            return [
-                { id: `q_play_daily_${todayStr}`, title: `🎮 Gamer Serale: Gioca a 2 titoli diversi oggi`, reward: baseReward, target: 2, type: 'unique_plays' },
-                { id: `q_win_daily_${todayStr}`, title: `🏆 Campione Quotidiano: Ottieni 1 vittoria oggi`, reward: baseReward + 25, target: 1, type: 'wins' },
-                { id: `q_lab_daily_${todayStr}`, title: `🧪 Tester Lab: Avvia un gioco dal MasterLab`, reward: baseReward + 15, target: 1, type: 'lab' },
-                { id: `q_lb_daily_${todayStr}`, title: `👁️ Occhio alla Vetta: Controlla la Classifica`, reward: baseReward, target: 1, type: 'leaderboard' }
-            ];
+    // Pool di quest possibili
+    const questPool = [
+        {
+            id: `q_play_multi_${todayStr}`,
+            title: `🎮 Esploratore Arcade: Gioca a 3 giochi differenti`,
+            reward: baseReward + 20,
+            target: 3,
+            type: 'unique_plays'
+        },
+        {
+            id: `q_win_streak_${todayStr}`,
+            title: `🔥 Serie Vincente: Ottieni 3 vittorie oggi`,
+            reward: baseReward + 40,
+            target: 3,
+            type: 'wins'
+        },
+        {
+            id: `q_win_master_${todayStr}`,
+            title: `🏆 Campione Implacabile: Ottieni 5 vittorie oggi`,
+            reward: baseReward + 75,
+            target: 5,
+            type: 'wins'
+        },
+        {
+            id: `q_diverse_wins_${todayStr}`,
+            title: `🌟 Versatile: Vinci in 2 giochi differenti`,
+            reward: baseReward + 50,
+            target: 2,
+            type: 'unique_wins'
+        },
+        {
+            id: `q_lab_daily_${todayStr}`,
+            title: `🧪 Tester Lab: Avvia un gioco dal MasterLab`,
+            reward: baseReward + 15,
+            target: 1,
+            type: 'lab'
+        },
+        {
+            id: `q_lb_daily_${todayStr}`,
+            title: `👁️ Occhio alla Vetta: Controlla la Classifica`,
+            reward: baseReward,
+            target: 1,
+            type: 'leaderboard'
         }
+    ];
+
+    // Seleziona 4 sfide dal pool (1 esplorazione/gioco, 1 o 2 sulle vittorie, 1 lab/classifica)
+    return [
+        questPool[0], // Esploratore (3 giochi)
+        (Math.random() > 0.5 ? questPool[1] : questPool[2]), // 3 o 5 vittorie
+        questPool[3], // 2 giochi diversi con vittoria
+        (Math.random() > 0.5 ? questPool[4] : questPool[5])  // Lab o Classifica
+    ];
+}
 
         function registerWin(gameKey, pointsAwarded = 50) {
-            if (!userState.winsPerGame) userState.winsPerGame = {};
-            userState.winsPerGame[gameKey] = (userState.winsPerGame[gameKey] || 0) + 1;
-            
-            userState.xp += pointsAwarded;
+    if (!userState.winsPerGame) userState.winsPerGame = {};
+    userState.winsPerGame[gameKey] = (userState.winsPerGame[gameKey] || 0) + 1;
+    
+    userState.xp += pointsAwarded;
 
-            const todayKey = new Date().toDateString();
-            let dailyActivity = JSON.parse(localStorage.getItem('arcade_daily_activity')) || { date: todayKey, playedGames: [], wins: 0, checkedLb: false, testedLab: false };
-            dailyActivity.wins = (dailyActivity.wins || 0) + 1;
-            localStorage.setItem('arcade_daily_activity', JSON.stringify(dailyActivity));
+    const todayKey = new Date().toDateString();
+    let dailyActivity = JSON.parse(localStorage.getItem('arcade_daily_activity')) || { date: todayKey, playedGames: [], wonGames: [], wins: 0, checkedLb: false, testedLab: false };
+    dailyActivity.wins = (dailyActivity.wins || 0) + 1;
+    
+    if (!dailyActivity.wonGames) dailyActivity.wonGames = [];
+    if (!dailyActivity.wonGames.includes(gameKey)) dailyActivity.wonGames.push(gameKey);
 
-            saveState();
-            buildLeaderboards();
-        }
+    localStorage.setItem('arcade_daily_activity', JSON.stringify(dailyActivity));
+
+    saveState();
+    buildLeaderboards();
+}
 
         const STORAGE_KEY_QUESTS = 'mastersabba_quests_data';
 
@@ -1477,19 +1528,24 @@
                 const isCompleted = completedIds.includes(q.id) || (userState.claimedQuests && userState.claimedQuests[q.id]);
                 let isConditionMet = false;
 
-                if (q.type === 'unique_plays') isConditionMet = (dailyActivity.playedGames || []).length >= q.target;
-                else if (q.type === 'wins') isConditionMet = (dailyActivity.wins || 0) >= q.target;
-                else if (q.type === 'lab') isConditionMet = !!dailyActivity.testedLab;
-                else if (q.type === 'leaderboard') isConditionMet = !!dailyActivity.checkedLb;
+if (q.type === 'unique_plays') isConditionMet = (dailyActivity.playedGames || []).length >= q.target;
+else if (q.type === 'wins') isConditionMet = (dailyActivity.wins || 0) >= q.target;
+else if (q.type === 'unique_wins') isConditionMet = (dailyActivity.wonGames || []).length >= q.target;
+else if (q.type === 'lab') isConditionMet = !!dailyActivity.testedLab;
+else if (q.type === 'leaderboard') isConditionMet = !!dailyActivity.checkedLb;
+
+// E per la stringa del progresso (progText):
+let progText = "0/1";
+if (q.type === 'unique_plays') progText = `${Math.min((dailyActivity.playedGames || []).length, q.target)}/${q.target}`;
+if (q.type === 'wins') progText = `${Math.min(dailyActivity.wins || 0, q.target)}/${q.target}`;
+if (q.type === 'unique_wins') progText = `${Math.min((dailyActivity.wonGames || []).length, q.target)}/${q.target}`;
+if (q.type === 'lab') progText = dailyActivity.testedLab ? "1/1" : "0/1";
+if (q.type === 'leaderboard') progText = dailyActivity.checkedLb ? "1/1" : "0/1";
                     
                 const canClaim = isConditionMet && !isCompleted;
                 if (canClaim) hasClaimableQuests = true;
 
-                let progText = "0/1";
-                if (q.type === 'unique_plays') progText = `${Math.min(dailyActivity.playedGames.length, q.target)}/${q.target}`;
-                if (q.type === 'wins') progText = `${Math.min(dailyActivity.wins || 0, q.target)}/${q.target}`;
-                if (q.type === 'lab') progText = dailyActivity.testedLab ? "1/1" : "0/1";
-                if (q.type === 'leaderboard') progText = dailyActivity.checkedLb ? "1/1" : "0/1";
+                
 
                 const div = document.createElement('div');
                 div.className = `quest-item ${isCompleted ? 'completed' : ''}`;
