@@ -592,7 +592,8 @@
             <button class="tab-btn" onclick="filterCategory('carte', this)">Carte</button>
             <button class="tab-btn" onclick="filterCategory('puzzle', this)">Puzzle</button>
             <button class="tab-btn" onclick="filterCategory('investigazione', this)">Investigazione</button>
-            <button class="tab-btn" onclick="filterCategory('reflex', this)">Reflex</button>
+            <button class="tab-btn" onclick="filterCategory('riflessi', this)">Riflessi</button>
+            <button class="tab-btn" onclick="filterCategory('multiplayer', this)">Multiplayer</button>
             <button class="tab-btn" onclick="filterCategory('lab', this)">Lab</button>
         </div>
     </section>
@@ -616,7 +617,7 @@
                 </div>
             </article>
 
-            <article class="game-card" data-id="color-clash" data-category="carte" data-name="Unos Due masteruno uno carte" onclick="openGamePreview('color-clash')">
+            <article class="game-card" data-id="color-clash" data-category="carte" data-multiplayer="true" data-name="Unos Due masteruno uno carte multiplayer" onclick="openGamePreview('color-clash')">
                 <div class="card-media uno-bg">🎴</div>
                 <div class="card-content">
                     <h3>Unos</h3>
@@ -625,12 +626,12 @@
                         <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
                     </div>
                     <div class="card-footer">
-                        <span class="tag">Carte</span>
+                        <span class="tag">Carte / 1VS1</span>
                         <a href="https://mastersabba.github.io/MasterUno/" target="_blank" class="btn-play" onclick="registerPlay(event, 'color-clash')">GIOCA</a>
                     </div>
                 </div>
             </article>
-            <article class="game-card" data-id="last-spark" data-category="puzzle" data-name="Exploding Bomb last spark masterkittens exploding kittens" onclick="openGamePreview('last-spark')">
+            <article class="game-card" data-id="last-spark" data-category="puzzle" data-multiplayer="false" data-name="Exploding Bomb last spark masterkittens exploding kittens" onclick="openGamePreview('last-spark')">
                 <div class="card-media kittens-bg">💥</div>
                 <div class="card-content">
                     <h3>Exploding Bomb</h3>
@@ -639,7 +640,7 @@
                         <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
                     </div>
                     <div class="card-footer">
-                        <span class="tag">Puzzle</span>
+                        <span class="tag">Party / 1VS1</span>
                         <a href="https://mastersabba.github.io/MasterKittens/" target="_blank" class="btn-play" onclick="registerPlay(event, 'last-spark')">GIOCA</a>
                     </div>
                 </div>
@@ -658,7 +659,7 @@
                     </div>
                 </div>
             </article>
-            <article class="game-card" data-id="master-murder" data-category="investigazione" data-name="Impostore mastermurder murder caso investigazione case zero" onclick="openGamePreview('master-murder')">
+            <article class="game-card" data-id="master-murder" data-category="investigazione" data-multiplayer="true" data-name="Impostore mastermurder murder caso investigazione case zero" onclick="openGamePreview('master-murder')">
                 <div class="card-media murder-bg">🔍</div>
                 <div class="card-content">
                     <h3>Impostore</h3>
@@ -672,7 +673,7 @@
                     </div>
                 </div>
             </article>
-            <article class="game-card" data-id="master-verbum" data-category="puzzle" data-name="word duel masterverbum verbum dizionario parole velocità" onclick="openGamePreview('master-verbum')">
+            <article class="game-card" data-id="master-verbum" data-category="puzzle" data-multiplayer="true" data-name="word duel masterverbum verbum dizionario parole velocità multiplayer" onclick="openGamePreview('master-verbum')">
                 <div class="card-media verbum-bg">📚</div>
                 <div class="card-content">
                     <h3>Word Duel</h3>
@@ -681,7 +682,7 @@
                         <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
                     </div>
                     <div class="card-footer">
-                        <span class="tag">Parole</span>
+                        <span class="tag">Parole / 1vs1</span>
                         <a href="https://mastersabba.github.io/MasterVerbum/" target="_blank" class="btn-play" onclick="registerPlay(event, 'master-verbum')">GIOCA</a>
                     </div>
                 </div>
@@ -700,7 +701,7 @@
                     </div>
                 </div>
             </article>
-            <article class="game-card" data-id="master-key" data-category="reflex" data-name="Free the Key masterkey key logica codici segreti cyberkey" onclick="openGamePreview('master-key')">
+            <article class="game-card" data-id="master-key" data-category="riflessi" data-name="Free the Key masterkey key logica codici segreti cyberkey" onclick="openGamePreview('master-key')">
                 <div class="card-media key-bg">⌨️</div>
                 <div class="card-content">
                     <h3>Free the Key</h3>
@@ -709,7 +710,7 @@
                         <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
                     </div>
                     <div class="card-footer">
-                        <span class="tag">Reflex</span>
+                        <span class="tag">Riflessi</span>
                         <a href="https://mastersabba.github.io/MasterKey/" target="_blank" class="btn-play" onclick="registerPlay(event, 'master-key')">GIOCA</a>
                     </div>
                 </div>
@@ -728,7 +729,7 @@
                     </div>
                 </div>
             </article>
-            <article class="game-card" data-id="master-tris" data-category="puzzle" data-name="tris battle mastertris tris strategia 1vs1 gridfall" onclick="openGamePreview('master-tris')">
+            <article class="game-card" data-id="master-tris" data-category="puzzle" data-multiplayer="true" data-name="tris battle mastertris tris strategia 1vs1 gridfall multiplayer" onclick="openGamePreview('master-tris')">
                 <div class="card-media tris-bg">📐</div>
                 <div class="card-content">
                     <h3>Tris Battle</h3>
@@ -737,7 +738,7 @@
                         <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
                     </div>
                     <div class="card-footer">
-                        <span class="tag">Strategia</span>
+                        <span class="tag">Strategia / 1vs1</span>
                         <a href="https://mastersabba.github.io/MasterTris/" target="_blank" class="btn-play" onclick="registerPlay(event, 'master-tris')">GIOCA</a>
                     </div>
                 </div>
@@ -756,16 +757,16 @@
                     </div>
                 </div>
             </article>
-            <article class="game-card" data-id="master-chess" data-category="puzzle" data-name="royal chess masterchess chess scacchi strategia" onclick="openGamePreview('master-chess')">
+            <article class="game-card" data-id="master-chess" data-category="puzzle" data-multiplayer="true" data-name="royal chess masterchess chess scacchi strategia multiplayer" onclick="openGamePreview('master-chess')">
                 <div class="card-media chess-bg">♟️</div>
                 <div class="card-content">
                     <h3>Royal Chess</h3>
-                    <p>Duelli intellettuali sulla scacchiera virtuale contro un'intelligenza artificiale.</p>
+                    <p>Duelli intellettuali sulla scacchiera virtuale contro un'intelligenza artificiale o sfidanti.</p>
                     <div class="star-rating" onclick="rateGame(event, 'master-chess')">
                         <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
                     </div>
                     <div class="card-footer">
-                        <span class="tag">Scacchi</span>
+                        <span class="tag">Scacchi / 1VS1</span>
                         <a href="https://mastersabba.github.io/MasterChess/" target="_blank" class="btn-play" onclick="registerPlay(event, 'master-chess')">GIOCA</a>
                     </div>
                 </div>
@@ -789,19 +790,19 @@
         <h2 class="section-title" style="margin-top: 2rem;">🚧 MasterLab (Sperimentale)</h2>
         <div class="games-grid">
           <article class="game-card" data-id="neural-glitch" data-category="lab" data-name="neural glitch lab sperimentale" onclick="openGamePreview('neural-glitch')">
-    <div class="card-media glitch-bg">⚡🧪</div>
-    <div class="card-content">
-        <h3>Neural Glitch</h3>
-        <p>Un esperimento cibernetico instabile: hackera il flusso di dati prima del sovraccarico.</p>
-        <div class="star-rating" onclick="rateGame(event, 'neural-glitch')">
-            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
-        </div>
-        <div class="card-footer">
-            <span class="tag">MasterLab</span>
-            <a href="#" class="btn-play" onclick="registerPlay(event, 'neural-glitch')">TEST</a>
-        </div>
-    </div>
-</article>
+            <div class="card-media glitch-bg">⚡🧪</div>
+            <div class="card-content">
+                <h3>Neural Glitch</h3>
+                <p>Un esperimento cibernetico instabile: hackera il flusso di dati prima del sovraccarico.</p>
+                <div class="star-rating" onclick="rateGame(event, 'neural-glitch')">
+                    <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
+                </div>
+                <div class="card-footer">
+                    <span class="tag">MasterLab</span>
+                    <a href="#" class="btn-play" onclick="registerPlay(event, 'neural-glitch')">TEST</a>
+                </div>
+            </div>
+          </article>
         </div>
     </main>
 
@@ -1095,11 +1096,8 @@
             'master-tris': { title: 'Tris Battle', desc: 'Scontri tattici rapidi sul classico tris.', controls: 'Click per posizionare il simbolo.', url: 'https://mastersabba.github.io/MasterTris/' },
             'master-password': { title: 'Code Breaker', desc: 'Rompi i sistemi di sicurezza violando codici criptati.', controls: 'Inserimento cifre e verifica feedback.', url: 'https://mastersabba.github.io/MasterPassword/' },
             'master-chess': { title: 'Royal Chess', desc: 'Duelli intellettuali sulla scacchiera virtuale contro l\'IA.', controls: 'Trascina i pezzi sulla scacchiera.', url: 'https://mastersabba.github.io/MasterChess/' },
-           'master-blackjack': { title: 'BlackJack', desc: 'Sfida il dealer al tavolo verde virtuale e gestisci le tue fiches in un\'esperienza da casinò.', controls: 'Tasti Carta, Stai, Puntata.', url: 'https://mastersabba.github.io/MasterBlackJack/' 
-},
-            'neural-glitch': { title: 'Neural Glitch', desc: 'Un esperimento cibernetico instabile: hackera il flusso di dati prima del sovraccarico.', controls: 'Clicca rapidamente sui nodi energetici attivi.', url: '#' 
-}
-            
+           'master-blackjack': { title: 'BlackJack', desc: 'Sfida il dealer al tavolo verde virtuale e gestisci le tue fiches in un\'esperienza da casinò.', controls: 'Tasti Carta, Stai, Puntata.', url: 'https://mastersabba.github.io/MasterBlackJack/' },
+            'neural-glitch': { title: 'Neural Glitch', desc: 'Un esperimento cibernetico instabile: hackera il flusso di dati prima del sovraccarico.', controls: 'Clicca rapidamente sui nodi energetici attivi.', url: '#' }
         };
 
         window.globalRivals = {
@@ -1128,23 +1126,24 @@
             ratings: {},
             achievements: { firstVote: false, firstPlay: false, labTester: false, customProfile: false },
             claimedQuests: {},
-            winsPerGame: {}
+            winsPerGame: {},
+            settings: { questNotifications: true }
         };
 
         let userState = JSON.parse(localStorage.getItem('mastersabba_arcade_v2')) || defaultState;
 
         function generateProceduralQuests(currentState) {
-    const lvl = Math.floor((currentState.xp || 0) / 300) + 1;
-    const baseReward = 50 + (lvl * 10); 
-    const todayStr = new Date().toDateString();
+            const lvl = Math.floor((currentState.xp || 0) / 300) + 1;
+            const baseReward = 50 + (lvl * 10); 
+            const todayStr = new Date().toDateString();
 
-    return [
-        { id: `q_play_daily_${todayStr}`, title: `🎮 Gamer Serale: Gioca a 2 titoli diversi oggi`, reward: baseReward, target: 2, type: 'unique_plays' },
-        { id: `q_win_daily_${todayStr}`, title: `🏆 Campione Quotidiano: Ottieni 1 vittoria oggi`, reward: baseReward + 25, target: 1, type: 'wins' },
-        { id: `q_lab_daily_${todayStr}`, title: `🧪 Tester Lab: Avvia un gioco dal MasterLab`, reward: baseReward + 15, target: 1, type: 'lab' },
-        { id: `q_lb_daily_${todayStr}`, title: `👁️ Occhio alla Vetta: Controlla la Classifica`, reward: baseReward, target: 1, type: 'leaderboard' }
-    ];
-}
+            return [
+                { id: `q_play_daily_${todayStr}`, title: `🎮 Gamer Serale: Gioca a 2 titoli diversi oggi`, reward: baseReward, target: 2, type: 'unique_plays' },
+                { id: `q_win_daily_${todayStr}`, title: `🏆 Campione Quotidiano: Ottieni 1 vittoria oggi`, reward: baseReward + 25, target: 1, type: 'wins' },
+                { id: `q_lab_daily_${todayStr}`, title: `🧪 Tester Lab: Avvia un gioco dal MasterLab`, reward: baseReward + 15, target: 1, type: 'lab' },
+                { id: `q_lb_daily_${todayStr}`, title: `👁️ Occhio alla Vetta: Controlla la Classifica`, reward: baseReward, target: 1, type: 'leaderboard' }
+            ];
+        }
 
         function registerWin(gameKey, pointsAwarded = 50) {
             if (!userState.winsPerGame) userState.winsPerGame = {};
@@ -1163,25 +1162,26 @@
 
         const STORAGE_KEY_QUESTS = 'mastersabba_quests_data';
 
-      function getOrUpdateDailyQuests(currentState) {
-    const now = Date.now();
-    const ONE_DAY_MS = 24 * 60 * 60 * 1000;
-    let savedData = JSON.parse(localStorage.getItem(STORAGE_KEY_QUESTS)) || null;
-    const todayStr = new Date().toDateString();
+        function getOrUpdateDailyQuests(currentState) {
+            const now = Date.now();
+            const ONE_DAY_MS = 24 * 60 * 60 * 1000;
+            let savedData = JSON.parse(localStorage.getItem(STORAGE_KEY_QUESTS)) || null;
+            const todayStr = new Date().toDateString();
 
-    if (!savedData || (now - savedData.lastResetTimestamp) >= ONE_DAY_MS || savedData.dateKey !== todayStr) {
-        savedData = {
-            lastResetTimestamp: now,
-            dateKey: todayStr,
-            quests: generateProceduralQuests(currentState),
-            completedIds: []
-        };
-        localStorage.setItem(STORAGE_KEY_QUESTS, JSON.stringify(savedData));
-        currentState.claimedQuests = {}; 
-        saveState(); 
-    }
-    return savedData;
-}
+            if (!savedData || (now - savedData.lastResetTimestamp) >= ONE_DAY_MS || savedData.dateKey !== todayStr) {
+                savedData = {
+                    lastResetTimestamp: now,
+                    dateKey: todayStr,
+                    quests: generateProceduralQuests(currentState),
+                    completedIds: []
+                };
+                localStorage.setItem(STORAGE_KEY_QUESTS, JSON.stringify(savedData));
+                currentState.claimedQuests = {}; 
+                saveState(); 
+            }
+            return savedData;
+        }
+
         function getTimeUntilReset(lastResetTimestamp) {
             const ONE_DAY_MS = 24 * 60 * 60 * 1000;
             const nextReset = lastResetTimestamp + ONE_DAY_MS;
@@ -1226,6 +1226,36 @@
                 userState.claimedQuests[questId] = true;
                 saveState();
                 renderQuests();
+            }
+        }
+
+        async function toggleQuestNotifications(checkbox) {
+            if (checkbox.checked) {
+                if (!("Notification" in window)) {
+                    showToast("❌ Il browser non supporta le notifiche.");
+                    checkbox.checked = false;
+                    return;
+                }
+                const permission = await Notification.requestPermission();
+                if (permission === "granted") {
+                    userState.settings = userState.settings || {};
+                    userState.settings.questNotifications = true;
+                    saveState();
+                    showToast("✅ Notifiche quest attivate!");
+                    new Notification("MasterSabba Arcade 🎮", {
+                        body: "Promemoria attivo: ricordati di completare le tue quest giornaliere oggi!"
+                    });
+                } else {
+                    showToast("⚠️ Permesso di notifica negato.");
+                    checkbox.checked = false;
+                    userState.settings.questNotifications = false;
+                    saveState();
+                }
+            } else {
+                userState.settings = userState.settings || {};
+                userState.settings.questNotifications = false;
+                saveState();
+                showToast("🔕 Notifiche disattivate.");
             }
         }
 
@@ -1346,7 +1376,6 @@
         }
 
         function saveState() {
-            const storageKey = currentUser ? `arcade_v2_${currentUser.uid}` : 'mastersabba_arcade_v2';
             localStorage.setItem('mastersabba_arcade_v2', JSON.stringify(userState));
             if (isFirebaseActive && currentUser && db) db.ref('users/' + currentUser.uid).set(userState);
             updateUI();
@@ -1463,6 +1492,20 @@
                 container.appendChild(div);
             });
 
+            // Toggle Notifiche Quest in fondo
+            const isNotifEnabled = userState.settings && userState.settings.questNotifications !== undefined 
+                ? userState.settings.questNotifications 
+                : true;
+
+            const footerToggle = document.createElement('div');
+            footerToggle.className = 'quest-footer-toggle';
+            footerToggle.style.cssText = 'margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 12px; display: flex; align-items: center; justify-content: space-between; font-size: 0.85rem;';
+            footerToggle.innerHTML = `
+                <span>🔔 Notifiche Quest Giornaliere</span>
+                <input type="checkbox" id="toggleNotifications" ${isNotifEnabled ? 'checked' : ''} onchange="toggleQuestNotifications(this)">
+            `;
+            container.appendChild(footerToggle);
+
             const dot = document.getElementById('questNotificationDot');
             if (dot) dot.style.display = hasClaimableQuests ? 'block' : 'none';
         }
@@ -1474,38 +1517,49 @@
             buildLeaderboards();
         }
 
+        // 🧠 CLASSIFICA SMART: Real-first con bot di riempimento dinamico se i giocatori reali sono pochi (< 5)
         window.buildLeaderboards = function() {
             const container = document.getElementById("leaderboardScoresContainer");
             if (!container) return;
 
-            let globalPlayers = {};
+            let realPlayers = {};
             let allUsersList = [];
 
-            Object.values(window.globalRivals).forEach(list => {
-                list.forEach(p => { globalPlayers[p.n] = (globalPlayers[p.n] || 0) + (p.s * 10); });
-            });
-
-            function render() {
+            function render(fetchedRealPlayers) {
                 if (!container) return;
                 container.innerHTML = "";
 
+                // Aggiunge l'utente corrente se loggato/attivo
                 if (userState.username && userState.username !== "Ospite") {
-                    globalPlayers[userState.username] = Math.max(globalPlayers[userState.username] || 0, userState.xp || 0);
+                    fetchedRealPlayers[userState.username] = Math.max(fetchedRealPlayers[userState.username] || 0, userState.xp || 0);
                     let myIdx = allUsersList.findIndex(u => u.username && u.username.toLowerCase() === userState.username.toLowerCase());
                     if (myIdx !== -1) allUsersList[myIdx] = userState;
                     else allUsersList.push(userState);
                 }
 
+                let realCount = Object.keys(fetchedRealPlayers).length;
+                let finalPlayers = { ...fetchedRealPlayers };
+
+                // Se ci sono meno di 5 persone reali, inseriamo i bot come riempimento graduale
+                if (realCount < 5) {
+                    let botList = [{n: "Tommy;)", s: 120}, {n: "Ludo", s: 95}, {n: "Gio09", s: 80}, {n: "Auri", s: 65}, {n: "Fedex", s: 50}];
+                    for (let bot of botList) {
+                        if (Object.keys(finalPlayers).length < 5 && !finalPlayers[bot.n]) {
+                            finalPlayers[bot.n] = bot.s * 10;
+                        }
+                    }
+                }
+
                 let absoluteWinner = "Nessuno", maxOverallScore = -1;
-                Object.keys(globalPlayers).forEach(name => {
-                    if (globalPlayers[name] > maxOverallScore) { maxOverallScore = globalPlayers[name]; absoluteWinner = name; }
+                Object.keys(finalPlayers).forEach(name => {
+                    if (finalPlayers[name] > maxOverallScore) { maxOverallScore = finalPlayers[name]; absoluteWinner = name; }
                 });
                 
                 document.getElementById("globalOverlordName").textContent = absoluteWinner.toUpperCase();
                 document.getElementById("globalOverlordScore").textContent = `${maxOverallScore} XP Totali`;
 
                 if (currentLbView === 'global') {
-                    let sortedList = Object.keys(globalPlayers).map(name => ({ n: name, s: globalPlayers[name] })).sort((a, b) => b.s - a.s);
+                    let sortedList = Object.keys(finalPlayers).map(name => ({ n: name, s: finalPlayers[name] })).sort((a, b) => b.s - a.s);
                     sortedList.forEach((row, i) => {
                         let isMe = userState.username && row.n.toLowerCase() === userState.username.toLowerCase();
                         let medal = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `#${i + 1}`;
@@ -1545,25 +1599,27 @@
 
             if (isFirebaseActive && db) {
                 db.ref('users').once('value').then(snapshot => {
+                    let fetched = {};
                     if (snapshot.exists()) {
                         Object.values(snapshot.val()).forEach(u => {
                             if (u.username && u.username !== "Ospite") {
                                 allUsersList.push(u);
-                                globalPlayers[u.username] = Math.max(globalPlayers[u.username] || 0, u.xp || 0);
+                                fetched[u.username] = u.xp || 0;
                             }
                         });
                     }
-                    render();
-                }).catch(() => render());
+                    render(fetched);
+                }).catch(() => render({}));
             } else {
+                let fetched = {};
                 const mockAccounts = JSON.parse(localStorage.getItem('mockAccounts')) || {};
                 Object.values(mockAccounts).forEach(acc => {
                     if (acc.username && acc.username !== "Ospite") {
                         allUsersList.push(acc);
-                        globalPlayers[acc.username] = Math.max(globalPlayers[acc.username] || 0, acc.xp || 0);
+                        fetched[acc.username] = acc.xp || 0;
                     }
                 });
-                render();
+                render(fetched);
             }
         };
 
@@ -1614,34 +1670,34 @@
             openModal('previewModal');
         }
 
-       function registerPlay(event, gameId) {
-    if (event) event.preventDefault();
-    event.stopPropagation();
-    userState.gamesPlayed = (userState.gamesPlayed || 0) + 1;
-    userState.achievements.firstPlay = true;
-    if (gameId === 'neural-glitch') userState.achievements.labTester = true;
-    
-    const todayKey = new Date().toDateString();
-    let dailyActivity = JSON.parse(localStorage.getItem('arcade_daily_activity')) || { date: todayKey, playedGames: [], wins: 0, checkedLb: false, testedLab: false };
-    if (!dailyActivity.playedGames.includes(gameId)) dailyActivity.playedGames.push(gameId);
-    if (gameId === 'neural-glitch') dailyActivity.testedLab = true;
-    localStorage.setItem('arcade_daily_activity', JSON.stringify(dailyActivity));
+        function registerPlay(event, gameId) {
+            if (event) event.preventDefault();
+            event.stopPropagation();
+            userState.gamesPlayed = (userState.gamesPlayed || 0) + 1;
+            userState.achievements.firstPlay = true;
+            if (gameId === 'neural-glitch') userState.achievements.labTester = true;
+            
+            const todayKey = new Date().toDateString();
+            let dailyActivity = JSON.parse(localStorage.getItem('arcade_daily_activity')) || { date: todayKey, playedGames: [], wins: 0, checkedLb: false, testedLab: false };
+            if (!dailyActivity.playedGames.includes(gameId)) dailyActivity.playedGames.push(gameId);
+            if (gameId === 'neural-glitch') dailyActivity.testedLab = true;
+            localStorage.setItem('arcade_daily_activity', JSON.stringify(dailyActivity));
 
-    saveState();
+            saveState();
 
-    const cardData = gameDataMap[gameId];
-    if (cardData && cardData.url && cardData.url !== '#') {
-        const currentUid = currentUser ? currentUser.uid : 'guest';
-        let launchUrl = cardData.url;
-        if (userState.username && userState.username !== "Ospite") {
-            const separator = launchUrl.includes('?') ? '&' : '?';
-            launchUrl += `${separator}player=${encodeURIComponent(userState.username)}&userId=${encodeURIComponent(currentUid)}`;
+            const cardData = gameDataMap[gameId];
+            if (cardData && cardData.url && cardData.url !== '#') {
+                const currentUid = currentUser ? currentUser.uid : 'guest';
+                let launchUrl = cardData.url;
+                if (userState.username && userState.username !== "Ospite") {
+                    const separator = launchUrl.includes('?') ? '&' : '?';
+                    launchUrl += `${separator}player=${encodeURIComponent(userState.username)}&userId=${encodeURIComponent(currentUid)}`;
+                }
+                window.open(launchUrl, '_blank');
+            } else {
+                showToast("🧪 Test MasterLab completato! +XP Tester registrato.");
+            }
         }
-        window.open(launchUrl, '_blank');
-    } else {
-        showToast("🧪 Test MasterLab completato! +XP Tester registrato.");
-    }
-}
 
         window.addEventListener('message', (event) => {
             const { gameKey, points, gameId, score } = event.data || {};
@@ -1659,7 +1715,7 @@
             registerWin(gameNameMap[targetKey] || targetKey, finalPoints);
         });
 
-       function rateGame(event, gameId) {
+        function rateGame(event, gameId) {
             event.stopPropagation();
             if (event.target.classList.contains('star')) {
                 const val = parseInt(event.target.getAttribute('data-value'));
@@ -1688,7 +1744,13 @@
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             if (btn) btn.classList.add('active');
             document.querySelectorAll("#gameList .game-card").forEach(card => {
-                card.style.display = (cat === 'all' || card.getAttribute("data-category") === cat) ? "flex" : "none";
+                if (cat === 'all') {
+                    card.style.display = "flex";
+                } else if (cat === 'multiplayer') {
+                    card.style.display = card.getAttribute("data-multiplayer") === "true" ? "flex" : "none";
+                } else {
+                    card.style.display = card.getAttribute("data-category") === cat ? "flex" : "none";
+                }
             });
         }
 
