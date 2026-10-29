@@ -1253,8 +1253,10 @@
             } else if (itemKey === 'reroll') {
                 userState.xp -= cost;
                 localStorage.removeItem(STORAGE_KEY_QUESTS);
-                showToast("🎯 Sfide giornaliere rigenerate!");
+                localStorage.removeItem('arcade_daily_activity');
+                showToast("🎯 Sfide giornaliere rigenerate da zero!");
                 renderQuests();
+            }
             } else if (itemKey === 'avatar_robot') {
                 if (userState.inventory && userState.inventory.avatar_robot) {
                     showToast("Hai già sbloccato questo avatar!");
