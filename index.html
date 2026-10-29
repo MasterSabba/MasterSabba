@@ -420,6 +420,33 @@
         .quest-info h4 { font-size: 0.95rem; color: #fff; }
         .quest-info p { font-size: 0.75rem; color: var(--neon-cyan); }
 
+        /* SHOP CYBER VAULT STYLES */
+        .shop-grid { display: grid; grid-template-columns: 1fr; gap: 0.8rem; max-height: 350px; overflow-y: auto; padding-right: 4px; }
+        .shop-item {
+            background: rgba(255,255,255,0.03);
+            border: var(--border-glass);
+            border-radius: 10px;
+            padding: 0.8rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .shop-item-info h4 { font-family: var(--font-heading); font-size: 0.9rem; color: #fff; margin-bottom: 2px; }
+        .shop-item-info p { font-size: 0.75rem; color: var(--text-secondary); }
+        .btn-buy {
+            background: linear-gradient(135deg, var(--neon-yellow), #ff8800);
+            color: #000;
+            font-weight: 900;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            border: none;
+            cursor: pointer;
+            font-family: var(--font-heading);
+            white-space: nowrap;
+        }
+        .btn-buy:hover { transform: scale(1.05); box-shadow: 0 0 12px rgba(255, 183, 0, 0.6); }
+
         .main-container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem 2.5rem; flex: 1; width: 100%; }
         .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 1.5rem; }
 
@@ -457,7 +484,9 @@
         .chess-bg { background: linear-gradient(135deg, #8e9eab, #eef2f3); }
         .blackjack-bg { background: linear-gradient(135deg, #11998e, #38ef7d); }
         .nonfidarti-bg { background: linear-gradient(135deg, #ff416c, #ff4b2b); }
-        .glitch-bg { background: linear-gradient(135deg, #00ff66, #ff00ff); }
+        
+        /* CARD NEURAL GLITCH MODIFICATA CON NUOVA GRAFICA NEON CYBER */
+        .glitch-bg { background: linear-gradient(135deg, #050515, #1f005c, #00f3ff); border-bottom: 2px solid var(--neon-cyan); }
 
         .card-content { padding: 1.2rem; display: flex; flex-direction: column; flex: 1; }
         .card-content h3 { font-family: var(--font-heading); font-size: 1.15rem; margin-bottom: 0.2rem; }
@@ -470,38 +499,49 @@
         .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
         .tag { font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; font-family: var(--font-heading); }
 
+        /* NUOVA CHAT MASTERBOT AI E MODULO BUG INTEGRATO */
         .chatbot-container { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
         .chatbot-toggle {
             background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan));
-            color: #fff; border: none; width: 55px; height: 55px; border-radius: 50%;
-            font-size: 1.5rem; cursor: pointer; box-shadow: 0 0 20px rgba(157, 0, 255, 0.4);
+            color: #fff; border: none; width: 58px; height: 58px; border-radius: 50%;
+            font-size: 1.6rem; cursor: pointer; box-shadow: 0 0 25px rgba(0, 243, 255, 0.5);
             display: flex; align-items: center; justify-content: center;
+            transition: transform 0.2s;
         }
+        .chatbot-toggle:hover { transform: scale(1.08); }
         .chatbot-window {
-            display: none; position: absolute; bottom: 70px; right: 0; width: 340px; height: 450px;
-            background: rgba(16, 22, 36, 0.95); border: var(--border-glass); border-radius: 16px;
-            flex-direction: column; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.8);
-            backdrop-filter: blur(16px);
+            display: none; position: absolute; bottom: 70px; right: 0; width: 360px; height: 480px;
+            background: rgba(10, 14, 24, 0.98); border: var(--border-glass); border-radius: 16px;
+            flex-direction: column; overflow: hidden; box-shadow: 0 15px 50px rgba(0,0,0,0.9), var(--shadow-neon);
+            backdrop-filter: blur(18px);
         }
         .chat-header {
-            background: rgba(168, 17, 255, 0.2); padding: 0.8rem 1rem; font-family: var(--font-heading);
+            background: linear-gradient(90deg, rgba(168, 17, 255, 0.3), rgba(0, 243, 255, 0.2));
+            padding: 0.9rem 1rem; font-family: var(--font-heading);
             font-size: 0.85rem; display: flex; justify-content: space-between; align-items: center; border-bottom: var(--border-glass);
+            color: var(--neon-cyan);
         }
         .chat-messages { flex: 1; padding: 0.8rem; overflow-y: auto; display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.85rem; }
-        .msg { padding: 0.5rem 0.8rem; border-radius: 8px; max-width: 85%; line-height: 1.3; }
-        .msg.bot { background: rgba(0, 243, 255, 0.1); border: 1px solid rgba(0, 243, 255, 0.2); align-self: flex-start; }
-        .msg.user { background: rgba(168, 17, 255, 0.2); border: 1px solid rgba(168, 17, 255, 0.3); align-self: flex-end; }
+        .msg { padding: 0.6rem 0.9rem; border-radius: 10px; max-width: 88%; line-height: 1.35; font-family: var(--font-body); }
+        .msg.bot { background: rgba(0, 243, 255, 0.12); border: 1px solid rgba(0, 243, 255, 0.25); align-self: flex-start; color: #e2f8ff; }
+        .msg.user { background: rgba(168, 17, 255, 0.25); border: 1px solid rgba(168, 17, 255, 0.4); align-self: flex-end; color: #fff; }
         
-        .chat-quick-actions { display: flex; gap: 0.3rem; padding: 0.4rem 0.6rem; overflow-x: auto; background: rgba(0,0,0,0.2); border-top: var(--border-glass); }
+        .chat-quick-actions { display: flex; gap: 0.4rem; padding: 0.5rem 0.6rem; overflow-x: auto; background: rgba(0,0,0,0.3); border-top: var(--border-glass); }
         .chip-btn {
-            background: rgba(255,255,255,0.05); border: var(--border-glass); color: var(--neon-cyan);
-            padding: 0.2rem 0.5rem; border-radius: 12px; font-size: 0.7rem; white-space: nowrap; cursor: pointer;
+            background: rgba(255,255,255,0.06); border: var(--border-glass); color: var(--neon-cyan);
+            padding: 0.3rem 0.6rem; border-radius: 12px; font-size: 0.72rem; white-space: nowrap; cursor: pointer;
+            font-family: var(--font-heading);
         }
         .chip-btn:hover { background: rgba(0, 243, 255, 0.2); }
 
-        .chat-input-area { display: flex; padding: 0.6rem; background: rgba(0,0,0,0.3); border-top: var(--border-glass); }
+        .chat-input-area { display: flex; padding: 0.6rem; background: rgba(0,0,0,0.4); border-top: var(--border-glass); }
         .chat-input-area input { flex: 1; background: transparent; border: none; color: var(--text-primary); padding: 0.4rem; outline: none; font-family: var(--font-body); }
-        .chat-input-area button { background: var(--neon-cyan); border: none; padding: 0.4rem 0.8rem; border-radius: 6px; font-weight: bold; cursor: pointer; }
+        .chat-input-area button { background: var(--neon-cyan); border: none; padding: 0.4rem 0.8rem; border-radius: 6px; font-weight: bold; cursor: pointer; color: #000; }
+
+        .bug-form-container { display: none; flex-direction: column; gap: 0.6rem; padding: 0.8rem; background: rgba(0,0,0,0.4); border-top: var(--border-glass); }
+        .bug-form-container input, .bug-form-container textarea {
+            width: 100%; padding: 0.5rem; background: rgba(0,0,0,0.6); border: var(--border-glass); border-radius: 6px; color: #fff; font-size: 0.8rem; outline: none;
+        }
 
         .footer { text-align: center; padding: 2rem; border-top: var(--border-glass); color: var(--text-dim); font-size: 0.85rem; margin-top: auto; }
 
@@ -527,32 +567,34 @@
             .games-grid { grid-template-columns: 1fr; gap: 1rem; }
             .main-container { padding: 0 0.8rem 2rem; }
             .modal-card { padding: 1.2rem; }
+            .chatbot-window { width: 300px; right: -10px; }
         }
+
       #toastNotification {
-    position: fixed;
-    top: 25px;
-    left: 50%;
-    transform: translateX(-50%) translateY(-40px);
-    background: #12121a;
-    color: #ffffff;
-    border: 2px solid #ffd700;
-    font-family: var(--font-heading);
-    font-size: 0.9rem;
-    padding: 12px 24px;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 215, 0, 0.3);
-    z-index: 9999;
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
-    opacity: 0;
-    pointer-events: none;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-#toastNotification.show {
-    transform: translateX(-50%) translateY(0);
-    opacity: 1;
-}
+            position: fixed;
+            top: 25px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-40px);
+            background: #12121a;
+            color: #ffffff;
+            border: 2px solid #ffd700;
+            font-family: var(--font-heading);
+            font-size: 0.9rem;
+            padding: 12px 24px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 215, 0, 0.3);
+            z-index: 9999;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+            opacity: 0;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+      }
+      #toastNotification.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+      }
     </style>
 </head>
 <body>
@@ -565,6 +607,9 @@
         <div class="hub-actions">
             <button class="hub-btn btn-install" onclick="triggerAppInstall()">
                 <span>📲</span> <span class="btn-text">SCARICA APP</span>
+            </button>
+            <button class="hub-btn" onclick="openModal('shopModal')">
+                <span>🏪</span> <span class="btn-text">Shop</span>
             </button>
             <button class="hub-btn" onclick="openModal('profileModal')">
                 <span id="navAvatar">⚡</span> <span id="navUsername" class="btn-text">Profilo</span>
@@ -663,7 +708,7 @@
                 <div class="card-media murder-bg">🔍</div>
                 <div class="card-content">
                     <h3>Impostore</h3>
-                    <p>Vesti i panni del detective cibernetico analizzando indizi digitali e interrogando i sospettati.</p>
+                    <p>Vesti i panni del detective cibernetico analizando indizi digitali e interrogando i sospettati.</p>
                     <div class="star-rating" onclick="rateGame(event, 'master-murder')">
                         <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
                     </div>
@@ -789,8 +834,9 @@
 
         <h2 class="section-title" style="margin-top: 2rem;">🚧 MasterLab (Sperimentale)</h2>
         <div class="games-grid">
+          <!-- CARD NEURAL GLITCH CON GRAFICA NEON CYBER RINNOVATA -->
           <article class="game-card" data-id="neural-glitch" data-category="lab" data-name="neural glitch lab sperimentale" onclick="openGamePreview('neural-glitch')">
-            <div class="card-media glitch-bg">⚡🧪</div>
+            <div class="card-media glitch-bg">🔮</div>
             <div class="card-content">
                 <h3>Neural Glitch</h3>
                 <p>Un esperimento cibernetico instabile: hackera il flusso di dati prima del sovraccarico.</p>
@@ -805,6 +851,56 @@
           </article>
         </div>
     </main>
+
+    <!-- MODALE SHOP CON PREZZI ALTISSIMI -->
+    <div id="shopModal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>🏪 Cyber Shop & Vault</h3>
+                <button class="modal-close" onclick="closeModal('shopModal')">✕</button>
+            </div>
+            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 1rem; text-align: center;">
+                Punti XP attuali: <strong id="shopXpDisplay" style="color:var(--neon-cyan)">0 XP</strong>
+            </p>
+            <div class="shop-grid">
+                <div class="shop-item">
+                    <div class="shop-item-info">
+                        <h4>⚡ Moltiplicatore 2x XP (10 Min)</h4>
+                        <p>Raddoppia ogni punto guadagnato per 10 minuti intensi.</p>
+                    </div>
+                    <button class="btn-buy" onclick="buyShopItem('booster_2x', 5000)">5.000 XP</button>
+                </div>
+                <div class="shop-item">
+                    <div class="shop-item-info">
+                        <h4>🔥 Super Booster 3x XP (10 Min)</h4>
+                        <p>Triplica la tua esperienza per 10 minuti di scalata.</p>
+                    </div>
+                    <button class="btn-buy" onclick="buyShopItem('booster_3x', 10000)">10.000 XP</button>
+                </div>
+                <div class="shop-item">
+                    <div class="shop-item-info">
+                        <h4>🎯 Reroll Sfide Giornaliere</h4>
+                        <p>Genera istantaneamente nuove sfide se quelle attuali non ti piacciono.</p>
+                    </div>
+                    <button class="btn-buy" onclick="buyShopItem('reroll', 1000)">1.000 XP</button>
+                </div>
+                <div class="shop-item">
+                    <div class="shop-item-info">
+                        <h4>🛡️ Titolo: Cyber Hacker</h4>
+                        <p>Mostra il rango leggendario di Cyber Hacker nel profilo.</p>
+                    </div>
+                    <button class="btn-buy" onclick="buyShopItem('title_hacker', 3000)">3.000 XP</button>
+                </div>
+                <div class="shop-item">
+                    <div class="shop-item-info">
+                        <h4>🦾 Avatar Mecha Robot</h4>
+                        <p>Sblocca l'avatar esclusivo robotico da equipaggiare.</p>
+                    </div>
+                    <button class="btn-buy" onclick="buyShopItem('avatar_robot', 2500)">2.500 XP</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- MODALE PROFILO -->
     <div id="profileModal" class="modal-overlay">
@@ -842,6 +938,7 @@
                         <span class="avatar-opt" onclick="setAvatar('👾')">👾</span>
                         <span class="avatar-opt" onclick="setAvatar('🐱')">🐱</span>
                         <span class="avatar-opt" onclick="setAvatar('🔥')">🔥</span>
+                        <span class="avatar-opt" id="optAvatarRobot" style="display:none;" onclick="setAvatar('🦾')">🦾</span>
                     </div>
 
                     <div class="stats-grid">
@@ -882,11 +979,11 @@
         </div>
     </div>
 
-    <!-- MODALE CLASSIFICA -->
+    <!-- MODALE CLASSIFICA PERMANENTE -->
     <div id="leaderboardModal" class="modal-overlay">
         <div class="modal-card" style="max-height: 85vh; overflow-y: auto;">
             <div class="modal-header">
-                <h3 style="color: var(--neon-purple);">🏆 CLASSIFICA GENERALE</h3>
+                <h3 style="color: var(--neon-purple);">🏆 CLASSIFICA GENERALE PERMANENTE</h3>
                 <button class="modal-close" onclick="closeModal('leaderboardModal')">✕</button>
             </div>
             
@@ -977,23 +1074,34 @@
         </div>
     </div>
 
+    <!-- CHATBOT RIFATTO COMPLETA CON SEGNALAZIONE BUG GRATUITA -->
     <div class="chatbot-container">
         <button class="chatbot-toggle" onclick="toggleChat()">💬</button>
         <div class="chatbot-window" id="chatWindow">
             <div class="chat-header">
-                <span>MasterBot Assistant</span>
+                <span>🤖 MasterBot Cyber AI</span>
                 <span style="cursor:pointer;" onclick="toggleChat()">✕</span>
             </div>
             <div class="chat-messages" id="chatMessages">
-                <div class="msg bot">Ciao! Sono l'assistente Cyber. Chiedimi consigli sui giochi, come guadagnare XP o le regole dei titoli!</div>
+                <div class="msg bot">Ciao! Sono l'assistente Cyber. Chiedimi consigli sui giochi, regole o invia una segnalazione al developer!</div>
             </div>
             <div class="chat-quick-actions">
-                <button class="chip-btn" onclick="sendQuickMsg('Come accumulo XP?')">⭐ Come guadagno XP?</button>
-                <button class="chip-btn" onclick="sendQuickMsg('Consigliami un gioco')">🎲 Consiglio Gioco</button>
-                <button class="chip-btn" onclick="sendQuickMsg('Miei progressi')">📊 I miei progressi</button>
+                <button class="chip-btn" onclick="sendQuickMsg('Come accumulo XP?')">⭐ Guadagnare XP</button>
+                <button class="chip-btn" onclick="sendQuickMsg('Consigliami un gioco')">🎲 Consiglio</button>
+                <button class="chip-btn" onclick="toggleBugForm()">🐛 Segnala Bug / Problema</button>
             </div>
-            <div class="chat-input-area">
-                <input type="text" id="chatInput" placeholder="Chiedi qualcosa..." onkeypress="handleChatKey(event)">
+
+            <!-- FORM PER L'INVIO GRATUITO DELLE EMAIL DI BUG VIA FORMSUBMIT -->
+            <form id="bugReportForm" class="bug-form-container" action="https://formsubmit.co/fsabbadini1@gmail.com" method="POST" target="_blank" onsubmit="handleBugSubmit()">
+                <input type="hidden" name="_subject" value="MasterSabba Arcade - Nuova Segnalazione Bug!">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="email" name="email" required placeholder="La tua Email per la risposta...">
+                <textarea name="message" required rows="3" placeholder="Descrivi il bug o problema trovato..."></textarea>
+                <button type="submit" class="btn-play" style="width:100%; border:none; padding:0.4rem; font-size:0.8rem; cursor:pointer;">INVIA MESSAGGIO VIA EMAIL</button>
+            </form>
+
+            <div class="chat-input-area" id="chatInputGroup">
+                <input type="text" id="chatInput" placeholder="Chiedi al bot..." onkeypress="handleChatKey(event)">
                 <button onclick="sendChatMessage()">Invia</button>
             </div>
         </div>
@@ -1027,56 +1135,52 @@
             deferredPrompt = e;
         });
 
-       function triggerAppInstall() {
-    const ua = navigator.userAgent;
-    const isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
-    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+        function triggerAppInstall() {
+            const ua = navigator.userAgent;
+            const isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
+            const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
 
-    if (isStandalone) {
-        alert("L'applicazione è già installata sul tuo dispositivo!");
-        return;
-    }
+            if (isStandalone) {
+                alert("L'applicazione è già installata sul tuo dispositivo!");
+                return;
+            }
 
-    if (deferredPrompt) {
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then((choiceResult) => {
-            deferredPrompt = null;
-        });
-    } else if (isIOS) {
-        const content = document.getElementById('installModalContent');
-        content.innerHTML = `
-            <p style="color: var(--text-secondary); margin-bottom: 1rem;">Per installare l'app su iPhone o iPad:</p>
-            <div class="ios-step"><div class="ios-step-num">1</div><div>Tocca il pulsante <strong>Condividi</strong> ⎋ in Safari.</div></div>
-            <div class="ios-step"><div class="ios-step-num">2</div><div>Scorri e seleziona <strong>"Aggiungi alla schermata Home"</strong> ➕.</div></div>
-            <div class="ios-step"><div class="ios-step-num">3</div><div>Conferma premendo <strong>Aggiungi</strong>.</div></div>
-        `;
-        openModal('installAppModal');
-    } else if (isMobile) {
-        const content = document.getElementById('installModalContent');
-        content.innerHTML = `
-            <p style="color: var(--text-secondary); margin-bottom: 1rem;">Per installare l'app da telefono o tablet:</p>
-            <div class="ios-step"><div class="ios-step-num">1</div><div>Apri il menu e clicca su <strong>Condividi</strong>.</div></div>
-            <div class="ios-step"><div class="ios-step-num">2</div><div>Seleziona <strong>Visualizza</strong> o scorri le opzioni.</div></div>
-            <div class="ios-step"><div class="ios-step-num">3</div><div>Clicca su <strong>"Aggiungi alla schermata Home"</strong> ➕.</div></div>
-        `;
-        openModal('installAppModal');
-    } else {
-        const content = document.getElementById('installModalContent');
-        content.innerHTML = `
-            <p style="color: var(--text-secondary); margin-bottom: 1rem;">Per installare l'app su PC:</p>
-            <div class="ios-step"><div class="ios-step-num">1</div><div>Clicca sui tre puntini in alto a destra nel browser.</div></div>
-            <div class="ios-step"><div class="ios-step-num">2</div><div>Seleziona <strong>"Installa MasterSabba Arcade"</strong> o salva la pagina come app.</div></div>
-        `;
-        openModal('installAppModal');
-    }
-}
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => { deferredPrompt = null; });
+            } else if (isIOS) {
+                const content = document.getElementById('installModalContent');
+                content.innerHTML = `
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">Per installare l'app su iPhone o iPad:</p>
+                    <div class="ios-step"><div class="ios-step-num">1</div><div>Tocca il pulsante <strong>Condividi</strong> ⎋ in Safari.</div></div>
+                    <div class="ios-step"><div class="ios-step-num">2</div><div>Scorri e seleziona <strong>"Aggiungi alla schermata Home"</strong> ➕.</div></div>
+                    <div class="ios-step"><div class="ios-step-num">3</div><div>Conferma premendo <strong>Aggiungi</strong>.</div></div>
+                `;
+                openModal('installAppModal');
+            } else if (isMobile) {
+                const content = document.getElementById('installModalContent');
+                content.innerHTML = `
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">Per installare l'app da telefono o tablet:</p>
+                    <div class="ios-step"><div class="ios-step-num">1</div><div>Apri il menu e clicca su <strong>Condividi</strong>.</div></div>
+                    <div class="ios-step"><div class="ios-step-num">2</div><div>Seleziona <strong>Visualizza</strong> o scorri le opzioni.</div></div>
+                    <div class="ios-step"><div class="ios-step-num">3</div><div>Clicca su <strong>"Aggiungi alla schermata Home"</strong> ➕.</div></div>
+                `;
+                openModal('installAppModal');
+            } else {
+                const content = document.getElementById('installModalContent');
+                content.innerHTML = `
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">Per installare l'app su PC:</p>
+                    <div class="ios-step"><div class="ios-step-num">1</div><div>Clicca sui tre puntini in alto a destra nel browser.</div></div>
+                    <div class="ios-step"><div class="ios-step-num">2</div><div>Seleziona <strong>"Installa MasterSabba Arcade"</strong> o salva la pagina come app.</div></div>
+                `;
+                openModal('installAppModal');
+            }
+        }
 
         try {
             if (firebaseConfig.apiKey && firebaseConfig.apiKey !== "AIzaSy_YOUR_API_KEY") {
-                if (!firebase.apps.length) {
-                    firebase.initializeApp(firebaseConfig);
-                }
+                if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
                 db = firebase.database();
                 auth = firebase.auth();
                 isFirebaseActive = true;
@@ -1084,21 +1188,21 @@
         } catch(e) { console.warn("Firebase non attivo, uso localStorage.", e); }
 
         const gameDataMap = {
-    'non-fidarti': { title: 'Non Fidarti', desc: "Leggi le chat, scopri gli indizi nascosti e fai le scelte giuste per svelare la verità.", controls: 'Click ed elementi interattivi di scelta.', url: 'https://mastersabba.github.io/Non-Fidarti/' },
-    'color-clash': { title: 'Unos', desc: 'Gioca le tue carte abbinando colori e numeri o usa quelle speciali per bloccare gli avversari.', controls: 'Click o Touch sulle carte compatibili.', url: 'https://mastersabba.github.io/MasterUno/' },
-    'last-spark': { title: 'Exploding Bomb', desc: 'Pesca carte a turno dal mazzo: evita la bomba usando i disinneschi o bluffa sugli avversari.', controls: 'Click sul mazzo per pescare o azioni.', url: 'https://mastersabba.github.io/MasterKittens/' },
-    'WORD-RUSH': { title: 'Word Rush', desc: 'Indovina la parola segreta in pochi tentativi sfruttando gli indizi di colore sulle lettere.', controls: 'Tastiera fisica o touch.', url: 'https://mastersabba.github.io/MasterWordle/' },
-    'master-murder': { title: 'Impostore', desc: 'Esamina la scena del crimine, analizza le prove digitali e smaschera l’assassino.', controls: 'Click su oggetti ed elementi di dialogo.', url: 'https://mastersabba.github.io/MasterMurder/' },
-    'master-verbum': { title: 'Word Duel', desc: 'Trova e componi più parole possibili contro il tempo per battere il rivale.', controls: 'Digitazione da tastiera.', url: 'https://mastersabba.github.io/MasterVerbum/' },
-    'master-sudoku': { title: 'Sudoku', desc: 'Riempi la griglia inserendo i numeri da 1 a 9 senza ripeterli nelle righe o nei blocchi.', controls: 'Selezione casella e tasti 1-9.', url: 'https://mastersabba.github.io/MasterSudoku/' },
-    'master-key': { title: 'Free the Key', desc: 'Digita velocemente i codici che compaiono sullo schermo per superare i blocchi di sicurezza.', controls: 'Digita i tasti visualizzati.', url: 'https://mastersabba.github.io/MasterKey/' },
-    'master-block': { title: 'Tetra Block', desc: 'Incastra i blocchi geometrici in caduta per completare le righe e liberare spazio.', controls: 'Trascina e rilascia nella griglia.', url: 'https://mastersabba.github.io/MasterBlock/' },
-    'master-tris': { title: 'Tris Battle', desc: 'Allinea tre simboli uguali in verticale, orizzontale o diagonale per vincere la partita.', controls: 'Click per posizionare il simbolo.', url: 'https://mastersabba.github.io/MasterTris/' },
-    'master-password': { title: 'Code Breaker', desc: 'Crea una password che rispetti contemporaneamente decine di bizzarre regole logiche.', controls: 'Inserimento cifre e verifica feedback.', url: 'https://mastersabba.github.io/MasterPassword/' },
-    'master-chess': { title: 'Royal Chess', desc: 'Muovi i tuoi pezzi sulla scacchiera con strategia per dare scacco matto all’avversario.', controls: 'Trascina i pezzi sulla scacchiera.', url: 'https://mastersabba.github.io/MasterChess/' },
-    'master-blackjack': { title: 'BlackJack', desc: 'Avvicinati a 21 con le tue carte senza superarlo per battere il banco e vincere le fiches.', controls: 'Tasti Carta, Stai, Puntata.', url: 'https://mastersabba.github.io/MasterBlackJack/' },
-    'neural-glitch': { title: 'Neural Glitch', desc: 'Clicca rapidamente sui nodi dati che si accendono per stabilire il sistema prima del crash.', controls: 'Clicca rapidamente sui nodi energetici attivi.', url: '#' }
-};
+            'non-fidarti': { title: 'Non Fidarti', desc: "Leggi le chat, scopri gli indizi nascosti e fai le scelte giuste per svelare la verità.", controls: 'Click ed elementi interattivi di scelta.', url: 'https://mastersabba.github.io/Non-Fidarti/' },
+            'color-clash': { title: 'Unos', desc: 'Gioca le tue carte abbinando colori e numeri o usa quelle speciali per bloccare gli avversari.', controls: 'Click o Touch sulle carte compatibili.', url: 'https://mastersabba.github.io/MasterUno/' },
+            'last-spark': { title: 'Exploding Bomb', desc: 'Pesca carte a turno dal mazzo: evita la bomba usando i disinneschi o bluffa sugli avversari.', controls: 'Click sul mazzo per pescare o azioni.', url: 'https://mastersabba.github.io/MasterKittens/' },
+            'WORD-RUSH': { title: 'Word Rush', desc: 'Indovina la parola segreta in pochi tentativi sfruttando gli indizi di colore sulle lettere.', controls: 'Tastiera fisica o touch.', url: 'https://mastersabba.github.io/MasterWordle/' },
+            'master-murder': { title: 'Impostore', desc: 'Esamina la scena del crimine, analizza le prove digitali e smaschera l’assassino.', controls: 'Click su oggetti ed elementi di dialogo.', url: 'https://mastersabba.github.io/MasterMurder/' },
+            'master-verbum': { title: 'Word Duel', desc: 'Trova e componi più parole possibili contro il tempo per battere il rivale.', controls: 'Digitazione da tastiera.', url: 'https://mastersabba.github.io/MasterVerbum/' },
+            'master-sudoku': { title: 'Sudoku', desc: 'Riempi la griglia inserendo i numeri da 1 a 9 senza ripeterli nelle righe o nei blocchi.', controls: 'Selezione casella e tasti 1-9.', url: 'https://mastersabba.github.io/MasterSudoku/' },
+            'master-key': { title: 'Free the Key', desc: 'Digita velocemente i codici che compaiono sullo schermo per superare i blocchi di sicurezza.', controls: 'Digita i tasti visualizzati.', url: 'https://mastersabba.github.io/MasterKey/' },
+            'master-block': { title: 'Tetra Block', desc: 'Incastra i blocchi geometrici in caduta per completare le righe e liberare spazio.', controls: 'Trascina e rilascia nella griglia.', url: 'https://mastersabba.github.io/MasterBlock/' },
+            'master-tris': { title: 'Tris Battle', desc: 'Allinea tre simboli uguali in verticale, orizzontale o diagonale per vincere la partita.', controls: 'Click per posizionare il simbolo.', url: 'https://mastersabba.github.io/MasterTris/' },
+            'master-password': { title: 'Code Breaker', desc: 'Crea una password che rispetti contemporaneamente decine di bizzarre regole logiche.', controls: 'Inserimento cifre e verifica feedback.', url: 'https://mastersabba.github.io/MasterPassword/' },
+            'master-chess': { title: 'Royal Chess', desc: 'Muovi i tuoi pezzi sulla scacchiera con strategia per dare scacco matto all’avversario.', controls: 'Trascina i pezzi sulla scacchiera.', url: 'https://mastersabba.github.io/MasterChess/' },
+            'master-blackjack': { title: 'BlackJack', desc: 'Avvicinati a 21 con le tue carte senza superarlo per battere il banco e vincere le fiches.', controls: 'Tasti Carta, Stai, Puntata.', url: 'https://mastersabba.github.io/MasterBlackJack/' },
+            'neural-glitch': { title: 'Neural Glitch', desc: 'Clicca rapidamente sui nodi dati che si accendono per stabilire il sistema prima del crash.', controls: 'Clicca rapidamente sui nodi energetici attivi.', url: '#' }
+        };
 
         window.globalRivals = {
             "Non Fidarti": [{n: "Tommy;)", s: 12}, {n: "Ludo", s: 8}, {n: "Gio09", s: 4}],
@@ -1127,89 +1231,105 @@
             achievements: { firstVote: false, firstPlay: false, labTester: false, customProfile: false },
             claimedQuests: {},
             winsPerGame: {},
-            settings: { questNotifications: true }
+            inventory: {},
+            boosterMultiplier: 1,
+            boosterUntil: 0
         };
 
         let userState = JSON.parse(localStorage.getItem('mastersabba_arcade_v2')) || defaultState;
 
-        function generateProceduralQuests(currentState) {
-    const lvl = Math.floor((currentState.xp || 0) / 300) + 1;
-    const baseReward = 50 + (lvl * 10); 
-    const todayStr = new Date().toDateString();
+        // FUNZIONE ACQUISTO SHOP
+        function buyShopItem(itemKey, cost) {
+            if (userState.xp < cost) {
+                showToast("❌ XP insufficienti! Gioca per guadagnarne altri.");
+                return;
+            }
 
-    // Pool di quest possibili
-    const questPool = [
-        {
-            id: `q_play_multi_${todayStr}`,
-            title: `🎮 Esploratore Arcade: Gioca a 3 giochi differenti`,
-            reward: baseReward + 20,
-            target: 3,
-            type: 'unique_plays'
-        },
-        {
-            id: `q_win_streak_${todayStr}`,
-            title: `🔥 Serie Vincente: Ottieni 3 vittorie oggi`,
-            reward: baseReward + 40,
-            target: 3,
-            type: 'wins'
-        },
-        {
-            id: `q_win_master_${todayStr}`,
-            title: `🏆 Campione Implacabile: Ottieni 5 vittorie oggi`,
-            reward: baseReward + 75,
-            target: 5,
-            type: 'wins'
-        },
-        {
-            id: `q_diverse_wins_${todayStr}`,
-            title: `🌟 Versatile: Vinci in 2 giochi differenti`,
-            reward: baseReward + 50,
-            target: 2,
-            type: 'unique_wins'
-        },
-        {
-            id: `q_lab_daily_${todayStr}`,
-            title: `🧪 Tester Lab: Avvia un gioco dal MasterLab`,
-            reward: baseReward + 15,
-            target: 1,
-            type: 'lab'
-        },
-        {
-            id: `q_lb_daily_${todayStr}`,
-            title: `👁️ Occhio alla Vetta: Controlla la Classifica`,
-            reward: baseReward,
-            target: 1,
-            type: 'leaderboard'
+            if (itemKey === 'booster_2x') {
+                userState.xp -= cost;
+                userState.boosterMultiplier = 2;
+                userState.boosterUntil = Date.now() + (10 * 60 * 1000);
+                showToast("⚡ Moltiplicatore 2x XP Attivo per 10 Minuti!");
+            } else if (itemKey === 'booster_3x') {
+                userState.xp -= cost;
+                userState.boosterMultiplier = 3;
+                userState.boosterUntil = Date.now() + (10 * 60 * 1000);
+                showToast("🔥 Super Booster 3x XP Attivo per 10 Minuti!");
+            } else if (itemKey === 'reroll') {
+                userState.xp -= cost;
+                localStorage.removeItem(STORAGE_KEY_QUESTS);
+                showToast("🎯 Sfide giornaliere rigenerate!");
+                renderQuests();
+            } else if (itemKey === 'avatar_robot') {
+                if (userState.inventory && userState.inventory.avatar_robot) {
+                    showToast("Hai già sbloccato questo avatar!");
+                    return;
+                }
+                userState.xp -= cost;
+                if (!userState.inventory) userState.inventory = {};
+                userState.inventory.avatar_robot = true;
+                document.getElementById('optAvatarRobot').style.display = 'block';
+                showToast("🦾 Avatar Mecha Robot Sbloccato!");
+            } else if (itemKey === 'title_hacker') {
+                if (userState.inventory && userState.inventory.title_hacker) {
+                    showToast("Hai già questo titolo!");
+                    return;
+                }
+                userState.xp -= cost;
+                if (!userState.inventory) userState.inventory = {};
+                userState.inventory.title_hacker = true;
+                showToast("🛡️ Titolo Cyber Hacker Sbloccato!");
+            }
+
+            saveState();
+            closeModal('shopModal');
         }
-    ];
 
-    // Seleziona 4 sfide dal pool (1 esplorazione/gioco, 1 o 2 sulle vittorie, 1 lab/classifica)
-    return [
-        questPool[0], // Esploratore (3 giochi)
-        (Math.random() > 0.5 ? questPool[1] : questPool[2]), // 3 o 5 vittorie
-        questPool[3], // 2 giochi diversi con vittoria
-        (Math.random() > 0.5 ? questPool[4] : questPool[5])  // Lab o Classifica
-    ];
-}
+        function generateProceduralQuests(currentState) {
+            const lvl = Math.floor((currentState.xp || 0) / 300) + 1;
+            const baseReward = 50 + (lvl * 10); 
+            const todayStr = new Date().toDateString();
+
+            const questPool = [
+                { id: `q_play_multi_${todayStr}`, title: `🎮 Esploratore: Gioca a 3 giochi diversi`, reward: baseReward + 20, target: 3, type: 'unique_plays' },
+                { id: `q_win_streak_${todayStr}`, title: `🔥 Serie Vincente: Ottieni 3 vittorie`, reward: baseReward + 40, target: 3, type: 'wins' },
+                { id: `q_win_master_${todayStr}`, title: `🏆 Campione: Ottieni 5 vittorie totali`, reward: baseReward + 75, target: 5, type: 'wins' },
+                { id: `q_diverse_wins_${todayStr}`, title: `🌟 Versatile: Vinci in 2 giochi differenti`, reward: baseReward + 50, target: 2, type: 'unique_wins' },
+                { id: `q_lab_daily_${todayStr}`, title: `🧪 Tester Lab: Avvia Neural Glitch`, reward: baseReward + 15, target: 1, type: 'lab' },
+                { id: `q_lb_daily_${todayStr}`, title: `👁️ Controlla la Classifica Generale`, reward: baseReward, target: 1, type: 'leaderboard' }
+            ];
+
+            return [
+                questPool[0],
+                (Math.random() > 0.5 ? questPool[1] : questPool[2]),
+                questPool[3],
+                (Math.random() > 0.5 ? questPool[4] : questPool[5])
+            ];
+        }
 
         function registerWin(gameKey, pointsAwarded = 50) {
-    if (!userState.winsPerGame) userState.winsPerGame = {};
-    userState.winsPerGame[gameKey] = (userState.winsPerGame[gameKey] || 0) + 1;
-    
-    userState.xp += pointsAwarded;
+            if (!userState.winsPerGame) userState.winsPerGame = {};
+            userState.winsPerGame[gameKey] = (userState.winsPerGame[gameKey] || 0) + 1;
+            
+            // APPLICAZIONE BOOSTER SE ATTIVO
+            if (userState.boosterUntil && Date.now() < userState.boosterUntil) {
+                pointsAwarded *= (userState.boosterMultiplier || 2);
+            }
 
-    const todayKey = new Date().toDateString();
-    let dailyActivity = JSON.parse(localStorage.getItem('arcade_daily_activity')) || { date: todayKey, playedGames: [], wonGames: [], wins: 0, checkedLb: false, testedLab: false };
-    dailyActivity.wins = (dailyActivity.wins || 0) + 1;
-    
-    if (!dailyActivity.wonGames) dailyActivity.wonGames = [];
-    if (!dailyActivity.wonGames.includes(gameKey)) dailyActivity.wonGames.push(gameKey);
+            userState.xp += pointsAwarded;
 
-    localStorage.setItem('arcade_daily_activity', JSON.stringify(dailyActivity));
+            const todayKey = new Date().toDateString();
+            let dailyActivity = JSON.parse(localStorage.getItem('arcade_daily_activity')) || { date: todayKey, playedGames: [], wonGames: [], wins: 0, checkedLb: false, testedLab: false };
+            dailyActivity.wins = (dailyActivity.wins || 0) + 1;
+            
+            if (!dailyActivity.wonGames) dailyActivity.wonGames = [];
+            if (!dailyActivity.wonGames.includes(gameKey)) dailyActivity.wonGames.push(gameKey);
 
-    saveState();
-    buildLeaderboards();
-}
+            localStorage.setItem('arcade_daily_activity', JSON.stringify(dailyActivity));
+
+            saveState();
+            buildLeaderboards();
+        }
 
         const STORAGE_KEY_QUESTS = 'mastersabba_quests_data';
 
@@ -1280,49 +1400,6 @@
             }
         }
 
-        async function toggleQuestNotifications(checkbox) {
-    if (checkbox.checked) {
-        if (!("Notification" in window)) {
-            showToast("❌ Il tuo browser non supporta le notifiche.");
-            checkbox.checked = false;
-            return;
-        }
-
-        if (Notification.permission === "denied") {
-            showToast("⚠️ Hai bloccato le notifiche nel browser. Sbloccale nelle impostazioni per attivarle.");
-            checkbox.checked = false;
-            return;
-        }
-
-        let permission = Notification.permission;
-        if (permission !== "granted") {
-            permission = await Notification.requestPermission();
-        }
-
-        if (permission === "granted") {
-            userState.settings = userState.settings || {};
-            userState.settings.questNotifications = true;
-            saveState();
-            showToast("🎉 Ottimo! Notifiche attivate con successo.");
-            
-            new Notification("MasterSabba Arcade 🎮", {
-                body: "Perfetto! Ora riceverai i promemoria per non perdere neanche una quest."
-            });
-        } else {
-            showToast("⚠️ Permesso negato. Riattivalo quando vuoi!");
-            checkbox.checked = false;
-            userState.settings = userState.settings || {};
-            userState.settings.questNotifications = false;
-            saveState();
-        }
-    } else {
-        userState.settings = userState.settings || {};
-        userState.settings.questNotifications = false;
-        saveState();
-        showToast("🔕 Notifiche disattivate.");
-    }
-}
-
         function toggleAuthMode() {
             isRegistering = !isRegistering;
             const usernameInput = document.getElementById('username');
@@ -1339,6 +1416,9 @@
             document.getElementById('authSection').style.display = isLoggedIn ? 'none' : 'block';
             document.getElementById('userSection').style.display = isLoggedIn ? 'block' : 'none';
             document.getElementById('profileModalTitle').textContent = isLoggedIn ? "👤 Profilo Utente" : "🔐 Accedi";
+            if (userState.inventory && userState.inventory.avatar_robot) {
+                document.getElementById('optAvatarRobot').style.display = 'block';
+            }
         }
 
         function handleAuthAction() {
@@ -1449,6 +1529,7 @@
             document.getElementById('navUsername').textContent = userState.username;
             document.getElementById('navAvatar').textContent = userState.avatar;
             document.getElementById('usernameInput').value = userState.username;
+            document.getElementById('shopXpDisplay').textContent = (userState.xp || 0) + " XP";
 
             document.querySelectorAll('.avatar-opt').forEach(opt => {
                 opt.classList.toggle('selected', opt.textContent === userState.avatar);
@@ -1463,6 +1544,7 @@
             if (level >= 3) rank = "Arcade Player";
             if (level >= 5) rank = "Cyber Master";
             if (level >= 10) rank = "Legendary Sabba";
+            if (userState.inventory && userState.inventory.title_hacker) rank = "Cyber Hacker 🛡️";
 
             document.getElementById('userLevel').textContent = level;
             document.getElementById('userRank').textContent = rank;
@@ -1506,7 +1588,7 @@
             dlAnchor.remove();
         }
 
-       function renderQuests() {
+        function renderQuests() {
             const container = document.getElementById('questContainer');
             if (!container) return;
 
@@ -1528,24 +1610,21 @@
                 const isCompleted = completedIds.includes(q.id) || (userState.claimedQuests && userState.claimedQuests[q.id]);
                 let isConditionMet = false;
 
-if (q.type === 'unique_plays') isConditionMet = (dailyActivity.playedGames || []).length >= q.target;
-else if (q.type === 'wins') isConditionMet = (dailyActivity.wins || 0) >= q.target;
-else if (q.type === 'unique_wins') isConditionMet = (dailyActivity.wonGames || []).length >= q.target;
-else if (q.type === 'lab') isConditionMet = !!dailyActivity.testedLab;
-else if (q.type === 'leaderboard') isConditionMet = !!dailyActivity.checkedLb;
+                if (q.type === 'unique_plays') isConditionMet = (dailyActivity.playedGames || []).length >= q.target;
+                else if (q.type === 'wins') isConditionMet = (dailyActivity.wins || 0) >= q.target;
+                else if (q.type === 'unique_wins') isConditionMet = (dailyActivity.wonGames || []).length >= q.target;
+                else if (q.type === 'lab') isConditionMet = !!dailyActivity.testedLab;
+                else if (q.type === 'leaderboard') isConditionMet = !!dailyActivity.checkedLb;
 
-// E per la stringa del progresso (progText):
-let progText = "0/1";
-if (q.type === 'unique_plays') progText = `${Math.min((dailyActivity.playedGames || []).length, q.target)}/${q.target}`;
-if (q.type === 'wins') progText = `${Math.min(dailyActivity.wins || 0, q.target)}/${q.target}`;
-if (q.type === 'unique_wins') progText = `${Math.min((dailyActivity.wonGames || []).length, q.target)}/${q.target}`;
-if (q.type === 'lab') progText = dailyActivity.testedLab ? "1/1" : "0/1";
-if (q.type === 'leaderboard') progText = dailyActivity.checkedLb ? "1/1" : "0/1";
+                let progText = "0/1";
+                if (q.type === 'unique_plays') progText = `${Math.min((dailyActivity.playedGames || []).length, q.target)}/${q.target}`;
+                if (q.type === 'wins') progText = `${Math.min(dailyActivity.wins || 0, q.target)}/${q.target}`;
+                if (q.type === 'unique_wins') progText = `${Math.min((dailyActivity.wonGames || []).length, q.target)}/${q.target}`;
+                if (q.type === 'lab') progText = dailyActivity.testedLab ? "1/1" : "0/1";
+                if (q.type === 'leaderboard') progText = dailyActivity.checkedLb ? "1/1" : "0/1";
                     
                 const canClaim = isConditionMet && !isCompleted;
                 if (canClaim) hasClaimableQuests = true;
-
-                
 
                 const div = document.createElement('div');
                 div.className = `quest-item ${isCompleted ? 'completed' : ''}`;
@@ -1561,18 +1640,6 @@ if (q.type === 'leaderboard') progText = dailyActivity.checkedLb ? "1/1" : "0/1"
                 container.appendChild(div);
             });
 
-            // Toggle Notifiche Quest in fondo (Parte su OFF di default se non esplicitamente true)
-            const isNotifEnabled = userState.settings && userState.settings.questNotifications === true;
-
-            const footerToggle = document.createElement('div');
-            footerToggle.className = 'quest-footer-toggle';
-            footerToggle.style.cssText = 'margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 12px; display: flex; align-items: center; justify-content: space-between; font-size: 0.85rem;';
-            footerToggle.innerHTML = `
-                <span>🔔 Attiva Notifiche Quest</span>
-                <input type="checkbox" id="toggleNotifications" ${isNotifEnabled ? 'checked' : ''} onchange="toggleQuestNotifications(this)">
-            `;
-            container.appendChild(footerToggle);
-
             const dot = document.getElementById('questNotificationDot');
             if (dot) dot.style.display = hasClaimableQuests ? 'block' : 'none';
         }
@@ -1584,31 +1651,25 @@ if (q.type === 'leaderboard') progText = dailyActivity.checkedLb ? "1/1" : "0/1"
             buildLeaderboards();
         }
 
-        // 🧠 CLASSIFICA SMART: Real-first con bot di riempimento dinamico se i giocatori reali sono pochi (< 5)
+        // CLASSIFICA GENERALE PERMANENTE
         window.buildLeaderboards = function() {
             const container = document.getElementById("leaderboardScoresContainer");
             if (!container) return;
 
-            let realPlayers = {};
+            let fetchedRealPlayers = {};
             let allUsersList = [];
 
-            function render(fetchedRealPlayers) {
+            function render(realPlayers) {
                 if (!container) return;
                 container.innerHTML = "";
 
-                // Aggiunge l'utente corrente se loggato/attivo
                 if (userState.username && userState.username !== "Ospite") {
-                    fetchedRealPlayers[userState.username] = Math.max(fetchedRealPlayers[userState.username] || 0, userState.xp || 0);
-                    let myIdx = allUsersList.findIndex(u => u.username && u.username.toLowerCase() === userState.username.toLowerCase());
-                    if (myIdx !== -1) allUsersList[myIdx] = userState;
-                    else allUsersList.push(userState);
+                    realPlayers[userState.username] = Math.max(realPlayers[userState.username] || 0, userState.xp || 0);
+                    allUsersList.push(userState);
                 }
 
-                let realCount = Object.keys(fetchedRealPlayers).length;
-                let finalPlayers = { ...fetchedRealPlayers };
-
-                // Se ci sono meno di 5 persone reali, inseriamo i bot come riempimento graduale
-                if (realCount < 5) {
+                let finalPlayers = { ...realPlayers };
+                if (Object.keys(finalPlayers).length < 5) {
                     let botList = [{n: "Tommy;)", s: 120}, {n: "Ludo", s: 95}, {n: "Gio09", s: 80}, {n: "Auri", s: 65}, {n: "Fedex", s: 50}];
                     for (let bot of botList) {
                         if (Object.keys(finalPlayers).length < 5 && !finalPlayers[bot.n]) {
@@ -1644,7 +1705,7 @@ if (q.type === 'leaderboard') progText = dailyActivity.checkedLb ? "1/1" : "0/1"
                             let score = wins * 10;
                             let idx = structure.findIndex(item => item.n.toLowerCase() === u.username.toLowerCase());
                             if (idx !== -1) { if (score > structure[idx].s) structure[idx].s = score; }
-                            else if (score > 0 || u.username.toLowerCase() === userState.username.toLowerCase()) { structure.push({ n: u.username, s: score }); }
+                            else if (score > 0) { structure.push({ n: u.username, s: score }); }
                         });
                         structure.sort((a, b) => b.s - a.s);
 
@@ -1826,6 +1887,23 @@ if (q.type === 'leaderboard') progText = dailyActivity.checkedLb ? "1/1" : "0/1"
             chat.style.display = chat.style.display === 'flex' ? 'none' : 'flex';
         }
 
+        function toggleBugForm() {
+            const form = document.getElementById('bugReportForm');
+            const chatInputGroup = document.getElementById('chatInputGroup');
+            if (form.style.display === 'flex') {
+                form.style.display = 'none';
+                chatInputGroup.style.display = 'flex';
+            } else {
+                form.style.display = 'flex';
+                chatInputGroup.style.display = 'none';
+            }
+        }
+
+        function handleBugSubmit() {
+            showToast("✉️ Segnalazione inviata via email con successo!");
+            setTimeout(() => { toggleBugForm(); }, 800);
+        }
+
         function sendQuickMsg(text) {
             document.getElementById('chatInput').value = text;
             sendChatMessage();
@@ -1840,10 +1918,7 @@ if (q.type === 'leaderboard') progText = dailyActivity.checkedLb ? "1/1" : "0/1"
             }
             toast.textContent = message;
             toast.classList.add('show');
-            
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
+            setTimeout(() => { toast.classList.remove('show'); }, 3000);
         }
 
         function handleChatKey(e) { if (e.key === 'Enter') sendChatMessage(); }
@@ -1859,21 +1934,19 @@ if (q.type === 'leaderboard') progText = dailyActivity.checkedLb ? "1/1" : "0/1"
             messages.scrollTop = messages.scrollHeight;
 
             setTimeout(() => {
-                let reply = "Non ho capito bene la domanda. Prova a chiedermi dei consigli sui giochi o su come guadagnare XP!";
+                let reply = "Non ho capito la domanda. Chiedimi come guadagnare XP o seleziona l'opzione 'Segnala Bug' per contattare lo sviluppatore!";
                 const lower = text.toLowerCase();
 
                 if (lower.includes('progressi') || lower.includes('livello') || lower.includes('statistiche')) {
                     reply = `📊 Statistiche attuali: Livello ${Math.floor(userState.xp/300)+1} (${userState.xp} XP totali) e ${userState.gamesPlayed} partite giocate!`;
                 } else if (lower.includes('xp') || lower.includes('accumulo') || lower.includes('punti')) {
-                    reply = "⭐ Puoi guadagnare XP vincendo le partite nei vari giochi, votando con le stelle ⭐, completando le sfide giornaliere e testando il MasterLab!";
-                } else if (lower.includes('consiglio') || lower.includes('gioco') || lower.includes('giocare')) {
-                    const games = ['Non Fidarti', 'Unos', 'Exploding Bomb', 'Word Rush', 'Impostore', 'Royal Chess', 'Sudoku', 'BlackJack'];
+                    reply = "⭐ Guadagni XP vincendo partite nei vari giochi, votando con le stelle ⭐, completando le sfide e acquistando booster dallo Shop!";
+                } else if (lower.includes('consiglio') || lower.includes('gioco')) {
+                    const games = ['Non Fidarti', 'Unos', 'Exploding Bomb', 'Word Rush', 'Impostore', 'Royal Chess', 'Sudoku', 'BlackJack', 'Free the Key'];
                     const picked = games[Math.floor(Math.random()*games.length)];
-                    reply = `🎲 Ti consiglio di provare subito **${picked}** e conquistare la vetta della classifica!`;
-                } else if (lower.includes('regole') || lower.includes('come si gioca')) {
-                    reply = "📜 Seleziona un gioco dalla griglia e clicca 'Gioca' o sull'anteprima per leggere i comandi specifici di ogni titolo.";
+                    reply = `🎲 Ti consiglio di provare subito **${picked}** e scalare la classifica!`;
                 } else if (lower.includes('ciao') || lower.includes('salve')) {
-                    reply = `Ciao ${userState.username}! Sono il MasterBot. Come posso aiutarti oggi nella tua sessione arcade?`;
+                    reply = `Ciao ${userState.username}! Sono il MasterBot Cyber AI. Come posso aiutarti oggi?`;
                 }
 
                 messages.innerHTML += `<div class="msg bot">${reply}</div>`;
