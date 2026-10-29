@@ -1251,11 +1251,18 @@
                 userState.boosterUntil = Date.now() + (10 * 60 * 1000);
                 showToast("🔥 Super Booster 3x XP Attivo per 10 Minuti!");
             } else if (itemKey === 'reroll') {
-                userState.xp -= cost;
-                localStorage.removeItem(STORAGE_KEY_QUESTS);
-                showToast("🎯 Sfide giornaliere rigenerate!");
-                renderQuests();
-            } else if (itemKey === 'avatar_robot') {
+        userState.xp -= cost;
+        localStorage.removeItem(STORAGE_KEY_QUESTS);
+        
+        // Resetta le attività giornaliere e ricrea la struttura pulita per evitare blocchi
+        const todayStr = new Date().toDateString();
+        const freshActivity = { date: todayStr, playedGames: [], wonGames: [], wins: 0, checkedLb: false, testedLab: false };
+        localStorage.setItem('arcade_daily_activity', JSON.stringify(freshActivity));
+
+        showToast("🎯 Sfide giornaliere rigenerate da zero!");
+        renderQuests();
+    }
+     else if (itemKey === 'avatar_robot') {
                 if (userState.inventory && userState.inventory.avatar_robot) {
                     showToast("Hai già sbloccato questo avatar!");
                     return;
