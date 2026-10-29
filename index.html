@@ -827,6 +827,22 @@
                     </div>
                 </div>
             </article>
+
+            <!-- GIOCO: SNAKE CARTOON -->
+            <article class="game-card" data-id="snake" data-category="riflessi" data-name="snake snake cartoon serpente arcade retro mastersnake" onclick="openGamePreview('snake')">
+                <div class="card-media" style="background: linear-gradient(135deg, #15803d, #032010);">🐍</div>
+                <div class="card-content">
+                    <h3>Snake</h3>
+                    <p>Guida il serpente, raccogli le mele e sblocca skin e temi di legno nello Shop!</p>
+                    <div class="star-rating" onclick="rateGame(event, 'snake')">
+                        <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
+                    </div>
+                    <div class="card-footer">
+                        <span class="tag">Riflessi</span>
+                        <a href="https://mastersabba.github.io/MasterSnake/" target="_blank" class="btn-play" onclick="registerPlay(event, 'snake')">GIOCA</a>
+                    </div>
+                </div>
+            </article>
         </div>
 
         <h2 class="section-title" style="margin-top: 2rem;">🚧 MasterLab (Sperimentale)</h2>
@@ -1195,7 +1211,7 @@
             'master-tris': { title: 'Tris Battle', desc: 'Allinea tre simboli uguali in verticale, orizzontale o diagonale per vincere la partida.', controls: 'Click per posizionare il simbolo.', url: 'https://mastersabba.github.io/MasterTris/' },
             'master-password': { title: 'Code Breaker', desc: 'Crea una password che rispetti contemporaneamente decine di bizzarre regole logiche.', controls: 'Inserimento cifre e verifica feedback.', url: 'https://mastersabba.github.io/MasterPassword/' },
             'master-chess': { title: 'Royal Chess', desc: 'Muovi i tuoi pezzi sulla scacchiera con strategia per dare scacco matto all’avversario.', controls: 'Trascina i pezzi sulla scacchiera.', url: 'https://mastersabba.github.io/MasterChess/' },
-            'master-blackjack': { title: 'BlackJack', desc: 'Avvicinati a 21 con le tue carte senza superarlo per battere il dealer e vincere le fiches.', controls: 'Tasti Carta, Stai, Puntata.', url: 'https://mastersabba.github.io/MasterBlackJack/' },
+            'master-blackjack': { title: 'BlackJack', desc: 'Avvicinati a 21 con le tue carte senza superarlo per battere il dealer e vincere le fiches.', controls: 'Tasti Carta, Stai, Puntata.', url: 'https://mastersabba.github.io/MasterBlackJack/' }, 'snake': { title: 'Snake', desc: 'Guida il serpente, raccogli le mele e sblocca skin e temi di legno nello Shop!', controls: 'Frecce direzionali, WASD o Swipe sul touch screen.', url: 'https://mastersabba.github.io/MasterSnake/' },
             'neural-glitch': { title: 'Neural Glitch', desc: 'Clicca rapidamente sui nodi dati che si accendono per stabilire il sistema prima del crash.', controls: 'Clicca rapidamente sui nodi energetici attivi.', url: '#' }
         };
 
@@ -1212,7 +1228,7 @@
             "Tris Battle": [{n: "Andres", s: 5}, {n: "Giulyy", s: 3}, {n: "Ludo", s: 1}],
             "Code Breaker": [{n: "Enry", s: 8}, {n: "Tommy;)", s: 5}, {n: "Auri", s: 2}],
             "Royal Chess": [{n: "Lucy", s: 12}, {n: "Gio09", s: 8}, {n: "Andres", s: 4}],
-            "BlackJack": [{n: "Marty", s: 25}, {n: "Simbi", s: 15}, {n: "Max", s: 10}]
+            "BlackJack": [{n: "Marty", s: 25}, {n: "Simbi", s: 15}, {n: "Max", s: 10}], "Snake Cartoon": [{n: "Tommy;)", s: 150}, {n: "Ludo", s: 120}, {n: "Gio09", s: 90}]
         };
 
         window.hubCurrentUser = null;
@@ -1840,8 +1856,8 @@
                 'last-spark': 'Exploding Bomb', 'WORD-RUSH': 'Word Rush', 'master-murder': 'Impostore',
                 'master-verbum': 'Word Duel', 'master-sudoku': 'Sudoku', 'master-key': 'Free the Key',
                 'master-block': 'Tetra Block', 'master-tris': 'Tris Battle', 'master-password': 'Code Breaker',
-                'master-chess': 'Royal Chess', 'master-blackjack': 'BlackJack'
-            };
+                'master-chess': 'Royal Chess', 'master-blackjack': 'BlackJack', 'snake': 'Snake Cartoon'
+            }; 
             registerWin(gameNameMap[targetKey] || targetKey, finalPoints);
         });
 
