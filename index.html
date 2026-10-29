@@ -420,7 +420,7 @@
         .quest-info h4 { font-size: 0.95rem; color: #fff; }
         .quest-info p { font-size: 0.75rem; color: var(--neon-cyan); }
 
-        /* SHOP CYBER VAULT STYLES */
+        /* SHOP STYLES */
         .shop-grid { display: grid; grid-template-columns: 1fr; gap: 0.8rem; max-height: 350px; overflow-y: auto; padding-right: 4px; }
         .shop-item {
             background: rgba(255,255,255,0.03);
@@ -484,8 +484,6 @@
         .chess-bg { background: linear-gradient(135deg, #8e9eab, #eef2f3); }
         .blackjack-bg { background: linear-gradient(135deg, #11998e, #38ef7d); }
         .nonfidarti-bg { background: linear-gradient(135deg, #ff416c, #ff4b2b); }
-        
-        /* CARD NEURAL GLITCH MODIFICATA CON NUOVA GRAFICA NEON CYBER */
         .glitch-bg { background: linear-gradient(135deg, #050515, #1f005c, #00f3ff); border-bottom: 2px solid var(--neon-cyan); }
 
         .card-content { padding: 1.2rem; display: flex; flex-direction: column; flex: 1; }
@@ -499,7 +497,6 @@
         .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
         .tag { font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; font-family: var(--font-heading); }
 
-        /* NUOVA CHAT MASTERBOT AI E MODULO BUG INTEGRATO */
         .chatbot-container { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
         .chatbot-toggle {
             background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan));
@@ -570,7 +567,7 @@
             .chatbot-window { width: 300px; right: -10px; }
         }
 
-      #toastNotification {
+        #toastNotification {
             position: fixed;
             top: 25px;
             left: 50%;
@@ -590,11 +587,11 @@
             display: flex;
             align-items: center;
             gap: 10px;
-      }
-      #toastNotification.show {
+        }
+        #toastNotification.show {
             transform: translateX(-50%) translateY(0);
             opacity: 1;
-      }
+        }
     </style>
 </head>
 <body>
@@ -708,7 +705,7 @@
                 <div class="card-media murder-bg">🔍</div>
                 <div class="card-content">
                     <h3>Impostore</h3>
-                    <p>Vesti i panni del detective cibernetico analizando indizi digitali e interrogando i sospettati.</p>
+                    <p>Vesti i panni del detective cibernetico analizzando indizi digitali e interrogando i sospettati.</p>
                     <div class="star-rating" onclick="rateGame(event, 'master-murder')">
                         <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
                     </div>
@@ -836,7 +833,7 @@
         <div class="games-grid">
           <!-- CARD NEURAL GLITCH CON GRAFICA NEON CYBER RINNOVATA -->
           <article class="game-card" data-id="neural-glitch" data-category="lab" data-name="neural glitch lab sperimentale" onclick="openGamePreview('neural-glitch')">
-            <div class="card-media glitch-bg">🔮</div>
+            <div class="card-media glitch-bg">⚡🔮</div>
             <div class="card-content">
                 <h3>Neural Glitch</h3>
                 <p>Un esperimento cibernetico instabile: hackera il flusso di dati prima del sovraccarico.</p>
@@ -1074,7 +1071,7 @@
         </div>
     </div>
 
-    <!-- CHATBOT RIFATTO COMPLETA CON SEGNALAZIONE BUG GRATUITA -->
+    <!-- CHATBOT RIFATTO COMPLETA CON SEGNALAZIONE BUG GRATUITA VIA WEB3FORMS (FORMDATA) -->
     <div class="chatbot-container">
         <button class="chatbot-toggle" onclick="toggleChat()">💬</button>
         <div class="chatbot-window" id="chatWindow">
@@ -1091,13 +1088,11 @@
                 <button class="chip-btn" onclick="toggleBugForm()">🐛 Segnala Bug / Problema</button>
             </div>
 
-            <!-- FORM PER L'INVIO GRATUITO DELLE EMAIL DI BUG VIA FORMSUBMIT -->
-            <form id="bugReportForm" class="bug-form-container" action="https://formsubmit.co/fsabbadini1@gmail.com" method="POST" target="_blank" onsubmit="handleBugSubmit()">
-                <input type="hidden" name="_subject" value="MasterSabba Arcade - Nuova Segnalazione Bug!">
-                <input type="hidden" name="_captcha" value="false">
-                <input type="email" name="email" required placeholder="La tua Email per la risposta...">
-                <textarea name="message" required rows="3" placeholder="Descrivi il bug o problema trovato..."></textarea>
-                <button type="submit" class="btn-play" style="width:100%; border:none; padding:0.4rem; font-size:0.8rem; cursor:pointer;">INVIA MESSAGGIO VIA EMAIL</button>
+            <!-- FORM INTEGRATO WEB3FORMS CON ACCESS KEY REALE -->
+            <form id="bugReportForm" class="bug-form-container" onsubmit="sendBugReport(event)">
+                <input type="email" name="email" id="bugEmail" required placeholder="La tua Email per la risposta...">
+                <textarea name="message" id="bugMessage" required rows="3" placeholder="Descrivi il bug o problema trovato..."></textarea>
+                <button type="submit" id="bugSubmitBtn" class="btn-play" style="width:100%; border:none; padding:0.4rem; font-size:0.8rem; cursor:pointer;">INVIA SEGNALAZIONE</button>
             </form>
 
             <div class="chat-input-area" id="chatInputGroup">
@@ -1197,10 +1192,10 @@
             'master-sudoku': { title: 'Sudoku', desc: 'Riempi la griglia inserendo i numeri da 1 a 9 senza ripeterli nelle righe o nei blocchi.', controls: 'Selezione casella e tasti 1-9.', url: 'https://mastersabba.github.io/MasterSudoku/' },
             'master-key': { title: 'Free the Key', desc: 'Digita velocemente i codici che compaiono sullo schermo per superare i blocchi di sicurezza.', controls: 'Digita i tasti visualizzati.', url: 'https://mastersabba.github.io/MasterKey/' },
             'master-block': { title: 'Tetra Block', desc: 'Incastra i blocchi geometrici in caduta per completare le righe e liberare spazio.', controls: 'Trascina e rilascia nella griglia.', url: 'https://mastersabba.github.io/MasterBlock/' },
-            'master-tris': { title: 'Tris Battle', desc: 'Allinea tre simboli uguali in verticale, orizzontale o diagonale per vincere la partita.', controls: 'Click per posizionare il simbolo.', url: 'https://mastersabba.github.io/MasterTris/' },
+            'master-tris': { title: 'Tris Battle', desc: 'Allinea tre simboli uguali in verticale, orizzontale o diagonale per vincere la partida.', controls: 'Click per posizionare il simbolo.', url: 'https://mastersabba.github.io/MasterTris/' },
             'master-password': { title: 'Code Breaker', desc: 'Crea una password che rispetti contemporaneamente decine di bizzarre regole logiche.', controls: 'Inserimento cifre e verifica feedback.', url: 'https://mastersabba.github.io/MasterPassword/' },
             'master-chess': { title: 'Royal Chess', desc: 'Muovi i tuoi pezzi sulla scacchiera con strategia per dare scacco matto all’avversario.', controls: 'Trascina i pezzi sulla scacchiera.', url: 'https://mastersabba.github.io/MasterChess/' },
-            'master-blackjack': { title: 'BlackJack', desc: 'Avvicinati a 21 con le tue carte senza superarlo per battere il banco e vincere le fiches.', controls: 'Tasti Carta, Stai, Puntata.', url: 'https://mastersabba.github.io/MasterBlackJack/' },
+            'master-blackjack': { title: 'BlackJack', desc: 'Avvicinati a 21 con le tue carte senza superarlo per battere il dealer e vincere le fiches.', controls: 'Tasti Carta, Stai, Puntata.', url: 'https://mastersabba.github.io/MasterBlackJack/' },
             'neural-glitch': { title: 'Neural Glitch', desc: 'Clicca rapidamente sui nodi dati che si accendono per stabilire il sistema prima del crash.', controls: 'Clicca rapidamente sui nodi energetici attivi.', url: '#' }
         };
 
@@ -1899,9 +1894,41 @@
             }
         }
 
-        function handleBugSubmit() {
-            showToast("✉️ Segnalazione inviata via email con successo!");
-            setTimeout(() => { toggleBugForm(); }, 800);
+        // NUOVA FUNZIONE DI INVIO EMAIL VIA WEB3FORMS (FORMDATA NATIVO)
+        async function sendBugReport(e) {
+            e.preventDefault();
+            
+            const form = document.getElementById('bugReportForm');
+            const submitBtn = document.getElementById('bugSubmitBtn');
+
+            const formData = new FormData(form);
+            formData.append("access_key", "6e6208b4-87b9-4d2b-9786-686f4b0c32e7");
+
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = "Invio in corso...";
+            submitBtn.disabled = true;
+
+            try {
+                const response = await fetch("https://api.web3forms.com/submit", {
+                    method: "POST",
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showToast("✉️ Segnalazione inviata con successo!");
+                    form.reset();
+                    toggleBugForm();
+                } else {
+                    showToast("❌ Errore: " + (data.message || "Invio fallito"));
+                }
+            } catch (error) {
+                showToast("❌ Qualcosa è andato storto. Riprova più tardi.");
+            } finally {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
         }
 
         function sendQuickMsg(text) {
