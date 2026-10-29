@@ -1084,21 +1084,21 @@
         } catch(e) { console.warn("Firebase non attivo, uso localStorage.", e); }
 
         const gameDataMap = {
-            'non-fidarti': { title: 'Non Fidarti', desc: "Avventura investigativa e di suspense dove ogni indizio può ribaltare la verità.", controls: 'Click ed elementi interattivi di scelta.', url: 'https://mastersabba.github.io/Non-Fidarti/' },
-            'color-clash': { title: 'Unos', desc: 'Combinazioni cromatiche e riflessi fulminei in questo card game.', controls: 'Click o Touch sulle carte compatibili.', url: 'https://mastersabba.github.io/MasterUno/' },
-            'last-spark': { title: 'Exploding Bomb', desc: 'Party game a turni ad alta tensione in cui ogni mossa può scatenare l\'esplosione.', controls: 'Click sul mazzo per pescare o azioni.', url: 'https://mastersabba.github.io/MasterKittens/' },
-            'WORD-RUSH': { title: 'Word Rush', desc: 'Metti alla prova il tuo vocabolario decifrando la parola nascosta.', controls: 'Tastiera fisica o touch.', url: 'https://mastersabba.github.io/MasterWordle/' },
-            'master-murder': { title: 'Impostore', desc: 'Analizza indizi digitali e interroga i sospettati.', controls: 'Click su oggetti ed elementi di dialogo.', url: 'https://mastersabba.github.io/MasterMurder/' },
-            'master-verbum': { title: 'Word Duel', desc: 'Scontro verbale testa a testa per testare velocità e dizionario.', controls: 'Digitazione da tastiera.', url: 'https://mastersabba.github.io/MasterVerbum/' },
-            'master-sudoku': { title: 'Sudoku', desc: 'Rompicapo numerico basato su deduzione logica.', controls: 'Selezione casella e tasti 1-9.', url: 'https://mastersabba.github.io/MasterSudoku/' },
-            'master-key': { title: 'Free the Key', desc: 'Test di digitazione e riflessi estremi per hackerare i nodi della rete.', controls: 'Digita i tasti visualizzati.', url: 'https://mastersabba.github.io/MasterKey/' },
-            'master-block': { title: 'Tetra Block', desc: 'Incastra forme geometriche in caduta libera.', controls: 'Trascina e rilascia nella griglia.', url: 'https://mastersabba.github.io/MasterBlock/' },
-            'master-tris': { title: 'Tris Battle', desc: 'Scontri tattici rapidi sul classico tris.', controls: 'Click per posizionare il simbolo.', url: 'https://mastersabba.github.io/MasterTris/' },
-            'master-password': { title: 'Code Breaker', desc: 'Rompi i sistemi di sicurezza violando codici criptati.', controls: 'Inserimento cifre e verifica feedback.', url: 'https://mastersabba.github.io/MasterPassword/' },
-            'master-chess': { title: 'Royal Chess', desc: 'Duelli intellettuali sulla scacchiera virtuale contro l\'IA.', controls: 'Trascina i pezzi sulla scacchiera.', url: 'https://mastersabba.github.io/MasterChess/' },
-           'master-blackjack': { title: 'BlackJack', desc: 'Sfida il dealer al tavolo verde virtuale e gestisci le tue fiches in un\'esperienza da casinò.', controls: 'Tasti Carta, Stai, Puntata.', url: 'https://mastersabba.github.io/MasterBlackJack/' },
-            'neural-glitch': { title: 'Neural Glitch', desc: 'Un esperimento cibernetico instabile: hackera il flusso di dati prima del sovraccarico.', controls: 'Clicca rapidamente sui nodi energetici attivi.', url: '#' }
-        };
+    'non-fidarti': { title: 'Non Fidarti', desc: "Leggi le chat, scopri gli indizi nascosti e fai le scelte giuste per svelare la verità.", controls: 'Click ed elementi interattivi di scelta.', url: 'https://mastersabba.github.io/Non-Fidarti/' },
+    'color-clash': { title: 'Unos', desc: 'Gioca le tue carte abbinando colori e numeri o usa quelle speciali per bloccare gli avversari.', controls: 'Click o Touch sulle carte compatibili.', url: 'https://mastersabba.github.io/MasterUno/' },
+    'last-spark': { title: 'Exploding Bomb', desc: 'Pesca carte a turno dal mazzo: evita la bomba usando i disinneschi o bluffa sugli avversari.', controls: 'Click sul mazzo per pescare o azioni.', url: 'https://mastersabba.github.io/MasterKittens/' },
+    'WORD-RUSH': { title: 'Word Rush', desc: 'Indovina la parola segreta in pochi tentativi sfruttando gli indizi di colore sulle lettere.', controls: 'Tastiera fisica o touch.', url: 'https://mastersabba.github.io/MasterWordle/' },
+    'master-murder': { title: 'Impostore', desc: 'Esamina la scena del crimine, analizza le prove digitali e smaschera l’assassino.', controls: 'Click su oggetti ed elementi di dialogo.', url: 'https://mastersabba.github.io/MasterMurder/' },
+    'master-verbum': { title: 'Word Duel', desc: 'Trova e componi più parole possibili contro il tempo per battere il rivale.', controls: 'Digitazione da tastiera.', url: 'https://mastersabba.github.io/MasterVerbum/' },
+    'master-sudoku': { title: 'Sudoku', desc: 'Riempi la griglia inserendo i numeri da 1 a 9 senza ripeterli nelle righe o nei blocchi.', controls: 'Selezione casella e tasti 1-9.', url: 'https://mastersabba.github.io/MasterSudoku/' },
+    'master-key': { title: 'Free the Key', desc: 'Digita velocemente i codici che compaiono sullo schermo per superare i blocchi di sicurezza.', controls: 'Digita i tasti visualizzati.', url: 'https://mastersabba.github.io/MasterKey/' },
+    'master-block': { title: 'Tetra Block', desc: 'Incastra i blocchi geometrici in caduta per completare le righe e liberare spazio.', controls: 'Trascina e rilascia nella griglia.', url: 'https://mastersabba.github.io/MasterBlock/' },
+    'master-tris': { title: 'Tris Battle', desc: 'Allinea tre simboli uguali in verticale, orizzontale o diagonale per vincere la partita.', controls: 'Click per posizionare il simbolo.', url: 'https://mastersabba.github.io/MasterTris/' },
+    'master-password': { title: 'Code Breaker', desc: 'Crea una password che rispetti contemporaneamente decine di bizzarre regole logiche.', controls: 'Inserimento cifre e verifica feedback.', url: 'https://mastersabba.github.io/MasterPassword/' },
+    'master-chess': { title: 'Royal Chess', desc: 'Muovi i tuoi pezzi sulla scacchiera con strategia per dare scacco matto all’avversario.', controls: 'Trascina i pezzi sulla scacchiera.', url: 'https://mastersabba.github.io/MasterChess/' },
+    'master-blackjack': { title: 'BlackJack', desc: 'Avvicinati a 21 con le tue carte senza superarlo per battere il banco e vincere le fiches.', controls: 'Tasti Carta, Stai, Puntata.', url: 'https://mastersabba.github.io/MasterBlackJack/' },
+    'neural-glitch': { title: 'Neural Glitch', desc: 'Clicca rapidamente sui nodi dati che si accendono per stabilire il sistema prima del crash.', controls: 'Clicca rapidamente sui nodi energetici attivi.', url: '#' }
+};
 
         window.globalRivals = {
             "Non Fidarti": [{n: "Tommy;)", s: 12}, {n: "Ludo", s: 8}, {n: "Gio09", s: 4}],
