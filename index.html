@@ -1250,12 +1250,11 @@
                 userState.boosterMultiplier = 3;
                 userState.boosterUntil = Date.now() + (10 * 60 * 1000);
                 showToast("🔥 Super Booster 3x XP Attivo per 10 Minuti!");
-           } else if (itemKey === 'reroll') {
-        userState.xp -= cost;
-        localStorage.removeItem(STORAGE_KEY_QUESTS);
-        showToast("🎯 Sfide giornaliere rigenerate!");
-        renderQuests();
-    }
+            } else if (itemKey === 'reroll') {
+                userState.xp -= cost;
+                localStorage.removeItem(STORAGE_KEY_QUESTS);
+                showToast("🎯 Sfide giornaliere rigenerate!");
+                renderQuests();
             } else if (itemKey === 'avatar_robot') {
                 if (userState.inventory && userState.inventory.avatar_robot) {
                     showToast("Hai già sbloccato questo avatar!");
