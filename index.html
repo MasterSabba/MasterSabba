@@ -44,6 +44,8 @@
             --font-body: 'Rajdhani', sans-serif;
             --border-glass: 1px solid rgba(255, 255, 255, 0.1);
             --shadow-neon: 0 0 25px rgba(0, 243, 255, 0.2);
+            --admin-red: #ff2a2a;
+            --admin-dark-bg: rgba(20, 5, 8, 0.98);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -83,6 +85,7 @@
             font-weight: 900;
             font-size: 1.2rem;
             cursor: pointer;
+            user-select: none;
         }
 
         .nav-logo-icon {
@@ -131,6 +134,26 @@
         .btn-install:hover {
             box-shadow: 0 0 15px rgba(0, 243, 255, 0.7);
             transform: translateY(-1px);
+        }
+
+        /* TIMER BOOST ATTIVO IN NAVBAR/HUB */
+        .hub-timer-badge {
+            display: none;
+            background: rgba(255, 183, 0, 0.15);
+            border: 1px solid var(--neon-yellow);
+            color: var(--neon-yellow);
+            padding: 0.4rem 0.8rem; align-items:%20center$0;
+            border-radius: 8px;
+            font-family: var(--font-heading);
+            font-size: 0.8rem;
+            font-weight: bold;
+            animation: pulse-yellow 2s infinite;
+        }
+
+        @keyframes pulse-yellow {
+            0% { box-shadow: 0 0 0 0 rgba(255, 183, 0, 0.4); }
+            70% { box-shadow: 0 0 0 8px rgba(255, 183, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 183, 0, 0); }
         }
 
         .notification-badge {
@@ -263,6 +286,43 @@
             animation: modalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
+        /* MODALE ADMIN STILE CUPA/TENEBROSA ROSSA */
+      /* STILE RIVOLUZIONATO ADMIN - TENEBROSO / ROSSO CUPO */
+.modal-card.admin-theme {
+    background: linear-gradient(135deg, #0d0205 0%, #1a0308 100%);
+    border: 1px solid rgba(255, 0, 60, 0.4);
+    box-shadow: 0 0 50px rgba(255, 0, 0, 0.25), inset 0 0 20px rgba(255, 0, 0, 0.1);
+    font-family: var(--font-body);
+}
+.admin-theme h3 { 
+    color: #ff1a53 !important; 
+    text-shadow: 0 0 12px rgba(255, 26, 83, 0.8);
+    letter-spacing: 2px;
+}
+.admin-card-box {
+    background: rgba(20, 2, 6, 0.7);
+    border: 1px solid rgba(255, 0, 60, 0.2);
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 12px;
+    backdrop-filter: blur(10px);
+}
+.admin-glow-btn {
+    background: linear-gradient(135deg, #800020, #ff0040);
+    color: #fff;
+    font-family: var(--font-heading);
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 12px;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(255, 0, 64, 0.4);
+    transition: all 0.2s;
+}
+.admin-glow-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(255, 0, 64, 0.8);
+}
         @keyframes modalFadeIn {
             from { opacity: 0; transform: scale(0.92) translateY(10px); }
             to { opacity: 1; transform: scale(1) translateY(0); }
@@ -297,7 +357,7 @@
         }
         .profile-input:focus { border-color: var(--neon-cyan); }
 
-        .profile-avatar-selector { display: flex; gap: 0.6rem; justify-content: center; margin-bottom: 1.2rem; }
+        .profile-avatar-selector { display: flex; gap: 0.6rem; justify-content: center; margin-bottom: 1.2rem; flex-wrap: wrap; }
         .avatar-opt {
             font-size: 1.8rem;
             padding: 0.4rem 0.8rem;
@@ -421,7 +481,7 @@
         .quest-info p { font-size: 0.75rem; color: var(--neon-cyan); }
 
         /* SHOP STYLES */
-        .shop-grid { display: grid; grid-template-columns: 1fr; gap: 0.8rem; max-height: 350px; overflow-y: auto; padding-right: 4px; }
+        .shop-grid { display: grid; grid-template-columns: 1fr; gap: 0.8rem; max-height: 380px; overflow-y: auto; padding-right: 4px; }
         .shop-item {
             background: rgba(255,255,255,0.03);
             border: var(--border-glass);
@@ -497,43 +557,47 @@
         .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
         .tag { font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; font-family: var(--font-heading); }
 
+        /* CHATBOT RIMODERNATO CON DESIGN GLASS ULTRA-FUTURISTICO */
         .chatbot-container { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
         .chatbot-toggle {
-            background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan));
-            color: #fff; border: none; width: 58px; height: 58px; border-radius: 50%;
+            background: linear-gradient(135deg, #7a00ff, #00f3ff);
+            color: #fff; border: none; width: 60px; height: 60px; border-radius: 50%;
             font-size: 1.6rem; cursor: pointer; box-shadow: 0 0 25px rgba(0, 243, 255, 0.5);
             display: flex; align-items: center; justify-content: center;
-            transition: transform 0.2s;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .chatbot-toggle:hover { transform: scale(1.08); }
+        .chatbot-toggle:hover { transform: scale(1.1) rotate(5deg); box-shadow: 0 0 35px rgba(0, 243, 255, 0.8); }
         .chatbot-window {
-            display: none; position: absolute; bottom: 70px; right: 0; width: 360px; height: 480px;
-            background: rgba(10, 14, 24, 0.98); border: var(--border-glass); border-radius: 16px;
-            flex-direction: column; overflow: hidden; box-shadow: 0 15px 50px rgba(0,0,0,0.9), var(--shadow-neon);
-            backdrop-filter: blur(18px);
+            display: none; position: absolute; bottom: 75px; right: 0; width: 370px; height: 500px;
+            background: rgba(8, 12, 22, 0.95); border: 1px solid rgba(0, 243, 255, 0.3); border-radius: 20px;
+            flex-direction: column; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.9), 0 0 30px rgba(0, 243, 255, 0.2);
+            backdrop-filter: blur(25px); animation: chatPop 0.3s ease;
         }
+        @keyframes chatPop { from { opacity: 0; transform: translateY(20px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
         .chat-header {
-            background: linear-gradient(90deg, rgba(168, 17, 255, 0.3), rgba(0, 243, 255, 0.2));
-            padding: 0.9rem 1rem; font-family: var(--font-heading);
-            font-size: 0.85rem; display: flex; justify-content: space-between; align-items: center; border-bottom: var(--border-glass);
-            color: var(--neon-cyan);
+            background: linear-gradient(135deg, rgba(168, 17, 255, 0.3), rgba(0, 243, 255, 0.2));
+            padding: 1rem 1.2rem; font-family: var(--font-heading);
+            font-size: 0.9rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08);
+            color: var(--neon-cyan); letter-spacing: 0.5px;
         }
-        .chat-messages { flex: 1; padding: 0.8rem; overflow-y: auto; display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.85rem; }
-        .msg { padding: 0.6rem 0.9rem; border-radius: 10px; max-width: 88%; line-height: 1.35; font-family: var(--font-body); }
-        .msg.bot { background: rgba(0, 243, 255, 0.12); border: 1px solid rgba(0, 243, 255, 0.25); align-self: flex-start; color: #e2f8ff; }
-        .msg.user { background: rgba(168, 17, 255, 0.25); border: 1px solid rgba(168, 17, 255, 0.4); align-self: flex-end; color: #fff; }
+        .chat-messages { flex: 1; padding: 1rem; overflow-y: auto; display: flex; flex-direction: column; gap: 0.8rem; font-size: 0.88rem; }
+        .msg { padding: 0.75rem 1rem; border-radius: 14px; max-width: 85%; line-height: 1.4; font-family: var(--font-body); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .msg.bot { background: rgba(0, 243, 255, 0.08); border: 1px solid rgba(0, 243, 255, 0.2); border-bottom-left-radius: 2px; align-self: flex-start; color: #e2f8ff; }
+        .msg.user { background: linear-gradient(135deg, rgba(168, 17, 255, 0.4), rgba(120, 0, 255, 0.6)); border: 1px solid rgba(168, 17, 255, 0.4); border-bottom-right-radius: 2px; align-self: flex-end; color: #fff; }
         
-        .chat-quick-actions { display: flex; gap: 0.4rem; padding: 0.5rem 0.6rem; overflow-x: auto; background: rgba(0,0,0,0.3); border-top: var(--border-glass); }
+        .chat-quick-actions { display: flex; gap: 0.4rem; padding: 0.6rem; overflow-x: auto; background: rgba(0,0,0,0.4); border-top: 1px solid rgba(255,255,255,0.05); }
         .chip-btn {
-            background: rgba(255,255,255,0.06); border: var(--border-glass); color: var(--neon-cyan);
-            padding: 0.3rem 0.6rem; border-radius: 12px; font-size: 0.72rem; white-space: nowrap; cursor: pointer;
-            font-family: var(--font-heading);
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(0, 243, 255, 0.3); color: var(--neon-cyan);
+            padding: 0.35rem 0.7rem; border-radius: 12px; font-size: 0.72rem; white-space: nowrap; cursor: pointer;
+            font-family: var(--font-heading); transition: all 0.2s;
         }
-        .chip-btn:hover { background: rgba(0, 243, 255, 0.2); }
+        .chip-btn:hover { background: rgba(0, 243, 255, 0.2); transform: translateY(-1px); }
 
-        .chat-input-area { display: flex; padding: 0.6rem; background: rgba(0,0,0,0.4); border-top: var(--border-glass); }
-        .chat-input-area input { flex: 1; background: transparent; border: none; color: var(--text-primary); padding: 0.4rem; outline: none; font-family: var(--font-body); }
-        .chat-input-area button { background: var(--neon-cyan); border: none; padding: 0.4rem 0.8rem; border-radius: 6px; font-weight: bold; cursor: pointer; color: #000; }
+        .chat-input-area { display: flex; padding: 0.7rem; background: rgba(0,0,0,0.5); border-top: 1px solid rgba(255,255,255,0.08); gap: 6px; }
+        .chat-input-area input { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: var(--text-primary); padding: 0.5rem 0.8rem; outline: none; font-family: var(--font-body); font-size: 0.9rem; }
+        .chat-input-area input:focus { border-color: var(--neon-cyan); }
+        .chat-input-area button { background: linear-gradient(135deg, var(--neon-cyan), #0066ff); border: none; padding: 0.5rem 1rem; border-radius: 10px; font-weight: bold; cursor: pointer; color: #fff; font-family: var(--font-heading); transition: 0.2s; }
+        .chat-input-area button:hover { opacity: 0.9; transform: scale(1.02); }
 
         .bug-form-container { display: none; flex-direction: column; gap: 0.6rem; padding: 0.8rem; background: rgba(0,0,0,0.4); border-top: var(--border-glass); }
         .bug-form-container input, .bug-form-container textarea {
@@ -564,7 +628,7 @@
             .games-grid { grid-template-columns: 1fr; gap: 1rem; }
             .main-container { padding: 0 0.8rem 2rem; }
             .modal-card { padding: 1.2rem; }
-            .chatbot-window { width: 300px; right: -10px; }
+            .chatbot-window { width: 310px; right: -10px; }
         }
 
         #toastNotification {
@@ -597,11 +661,16 @@
 <body>
 
     <header class="navbar">
-        <div class="logo-container" onclick="openModal('infoModal')">
+        <!-- CLIC SU LOGO PER APRIRE ADMIN SEZIONE -->
+        <div class="logo-container" onclick="handleLogoClick()">
             <img src="MasterSabba Games.png" class="nav-logo-icon" alt="Logo">
             <span>MASTER<span class="highlight">SABBA</span></span>
         </div>
         <div class="hub-actions">
+            <!-- TIMER BOOSTER MOSTRATO NELL'HUB QUANDO ATTIVO -->
+            <div id="hubBoosterTimer" class="hub-timer-badge" style="display: none;">
+    <span id="hubTimerLabel">⚡ Booster</span>: <span id="hubTimerVal">00:00</span>
+</div>
             <button class="hub-btn btn-install" onclick="triggerAppInstall()">
                 <span>📲</span> <span class="btn-text">SCARICA APP</span>
             </button>
@@ -865,57 +934,79 @@
         </div>
     </main>
 
-    <!-- MODALE SHOP CON PREZZI ALTISSIMI -->
+    <!-- MODALE SHOP RINNOVATO CON PREZZI INCREMENTALI E LIVELLI -->
     <div id="shopModal" class="modal-overlay">
         <div class="modal-card">
             <div class="modal-header">
                 <h3>🛍️ Cyber Shop & Vault</h3>
                 <button class="modal-close" onclick="closeModal('shopModal')">✕</button>
             </div>
-            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 1rem; text-align: center;">
+            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.8rem; text-align: center;">
                 Punti XP attuali: <strong id="shopXpDisplay" style="color:var(--neon-cyan)">0 XP</strong>
             </p>
+            
+            <!-- SEZIONE RISCATTO CODICI PROMOZIONALI SPECIALI -->
+            <div style="display: flex; gap: 0.4rem; margin-bottom: 1rem;">
+                <input type="text" id="promoCodeInput" placeholder="Inserisci Codice Promo..." style="flex:1; padding:0.5rem; background:rgba(0,0,0,0.4); border:var(--border-glass); border-radius:6px; color:#fff; font-family:var(--font-heading); font-size:0.8rem; outline:none;">
+                <button class="btn-buy" style="padding:0.5rem 0.8rem;" onclick="redeemPromoCode()">RISCATTA</button>
+            </div>
+
             <div class="shop-grid">
                 <div class="shop-item">
                     <div class="shop-item-info">
                         <h4>⚡ Moltiplicatore 2x XP (10 Min)</h4>
-                        <p>Raddoppia ogni punto guadagnato per 10 minuti intensi.</p>
+                        <p>Raddoppia gli XP guadagnati. Acquistato: <span id="count_2x">0</span> volte.</p>
                     </div>
-                    <button class="btn-buy" onclick="buyShopItem('booster_2x', 5000)">5.000 XP</button>
+                    <button class="btn-buy" id="btn_shop_2x" onclick="buyShopItem('booster_2x')">-- XP</button>
                 </div>
                 <div class="shop-item">
                     <div class="shop-item-info">
                         <h4>🔥 Super Booster 3x XP (10 Min)</h4>
-                        <p>Triplica la tua esperienza per 10 minuti di scalata.</p>
+                        <p>Triplica gli XP guadagnati. Acquistato: <span id="count_3x">0</span> volte.</p>
                     </div>
-                    <button class="btn-buy" onclick="buyShopItem('booster_3x', 10000)">10.000 XP</button>
+                    <button class="btn-buy" id="btn_shop_3x" onclick="buyShopItem('booster_3x')">-- XP</button>
+                </div>
+                <!-- OGGETTO A LIVELLI INCREMENTALI -->
+                <div class="shop-item">
+                    <div class="shop-item-info">
+                        <h4>⭐ Potenziatore Livello XP (Permanente)</h4>
+                        <p>Livello attuale: <strong id="levelUpgradeVal" style="color:var(--neon-green)">1</strong> (+5% XP permanentemente a livello).</p>
+                    </div>
+                    <button class="btn-buy" id="btn_shop_lvl" onclick="buyShopItem('level_upgrade')">-- XP</button>
                 </div>
                 <div class="shop-item">
                     <div class="shop-item-info">
                         <h4>🎯 Reroll Sfide Giornaliere</h4>
                         <p>Genera istantaneamente nuove sfide.</p>
                     </div>
-                    <button class="btn-buy" onclick="buyShopItem('reroll', 2500)">2500 XP</button>
+                    <button class="btn-buy" onclick="buyShopItem('reroll')">2.500 XP</button>
                 </div>
                 <div class="shop-item">
                     <div class="shop-item-info">
                         <h4>🛡️ Titolo: Cyber Hacker</h4>
-                        <p>Mostra il rango leggendario di Cyber Hacker nel profilo.</p>
+                        <p>Mostra il rango leggendario nel profilo.</p>
                     </div>
-                    <button class="btn-buy" onclick="buyShopItem('title_hacker', 3000)">3.000 XP</button>
+                    <button class="btn-buy" onclick="buyShopItem('title_hacker')">3.000 XP</button>
                 </div>
                 <div class="shop-item">
                     <div class="shop-item-info">
                         <h4>🦾 Avatar Mecha Robot</h4>
                         <p>Sblocca l'avatar esclusivo robotico da equipaggiare.</p>
                     </div>
-                    <button class="btn-buy" onclick="buyShopItem('avatar_robot', 2500)">2.500 XP</button>
+                    <button class="btn-buy" onclick="buyShopItem('avatar_robot')">2.500 XP</button>
+                </div>
+                <div class="shop-item">
+                    <div class="shop-item-info">
+                        <h4>👑 Avatar Dragon Cyber</h4>
+                        <p>Sblocca l'avatar drago supremo.</p>
+                    </div>
+                    <button class="btn-buy" onclick="buyShopItem('avatar_dragon')">5.000 XP</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- MODALE PROFILO -->
+    <!-- MODALE PROFILO CON RECUPERO PASSWORD MECCANISMO INTEGATO -->
     <div id="profileModal" class="modal-overlay">
         <div class="modal-card">
             <div class="modal-header">
@@ -929,10 +1020,16 @@
                     <input type="password" id="password" placeholder="Password" style="width: 100%; padding: 10px; background: rgba(0,0,0,0.4); border: var(--border-glass); border-radius: 8px; color: #fff; margin-bottom: 10px; outline: none;">
                     <input type="text" id="username" placeholder="Nome Utente (GamerTag)" style="width: 100%; padding: 10px; background: rgba(0,0,0,0.4); border: var(--border-glass); border-radius: 8px; color: #fff; margin-bottom: 10px; display: none; outline: none;">
                     
-                    <div id="authError" style="color: var(--neon-pink); font-size: 0.9em; margin-bottom: 10px; min-height: 20px;"></div>
+                    <div id="authError" style="color: var(--neon-pink); font-size: 0.85em; margin-bottom: 10px; min-height: 20px; text-align:center;"></div>
                     
-                    <button id="btnSubmit" onclick="handleAuthAction()" style="width: 100%; padding: 10px; margin-bottom: 10px; background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan)); color: #fff; border: none; border-radius: 8px; font-family: var(--font-heading); font-weight: bold; cursor: pointer;">Accedi</button>
-                    <p style="text-align: center; font-size: 0.9em; color: var(--text-secondary);">
+                    <button id="btnSubmit" onclick="handleAuthAction()" style="width: 100%; padding: 10px; margin-bottom: 8px; background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan)); color: #fff; border: none; border-radius: 8px; font-family: var(--font-heading); font-weight: bold; cursor: pointer;">Accedi</button>
+                    
+                    <!-- LINK RECUPERO PASSWORD DIMENTICATA -->
+                    <div id="forgotPasswordContainer" style="text-align: center; margin-bottom: 10px;">
+                        <span onclick="handleForgotPassword()" style="color: var(--text-secondary); font-size: 0.8em; cursor: pointer; text-decoration: underline;">Password dimenticata?</span>
+                    </div>
+
+                    <p style="text-align: center; font-size: 0.85em; color: var(--text-secondary);">
                         <span id="toggleText">Non hai un account?</span> 
                         <span id="toggleActionText" onclick="toggleAuthMode()" style="color: var(--neon-cyan); cursor: pointer; text-decoration: underline;">Registrati</span>
                     </p>
@@ -952,6 +1049,7 @@
                         <span class="avatar-opt" onclick="setAvatar('⚽️')">⚽️</span>
                         <span class="avatar-opt" onclick="setAvatar('🔥')">🔥</span>
                         <span class="avatar-opt" id="optAvatarRobot" style="display:none;" onclick="setAvatar('🦾')">🦾</span>
+                        <span class="avatar-opt" id="optAvatarDragon" style="display:none;" onclick="setAvatar('👑')">👑</span>
                     </div>
 
                     <div class="stats-grid">
@@ -991,6 +1089,62 @@
             </div>
         </div>
     </div>
+
+    <!-- MODALE SEZIONE ADMIN RISERVATA (TEMATICA ROSSA CUPO / TENEBROSA) -->
+   <div id="adminModal" class="modal-overlay">
+    <div class="modal-card admin-theme">
+        <div class="modal-header" style="border-bottom-color: rgba(255, 0, 60, 0.3);">
+            <h3>💀 COMMAND CENTER // ADMIN</h3>
+            <button class="modal-close" style="color: #ff1a53;" onclick="closeModal('adminModal')">✕</button>
+        </div>
+
+        <!-- LOGIN ADMIN SEGRETO -->
+        <div id="adminAuthSection">
+            <p style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 1.2rem; text-align: center;">Inserisci la chiave di sicurezza crittografata per sbloccare il terminale.</p>
+            <input type="password" id="adminPass" placeholder="Password di accesso..." style="width: 100%; padding: 10px; background: rgba(0,0,0,0.8); border: 1px solid #ff1a53; border-radius: 8px; color: #fff; margin-bottom: 12px; outline: none; text-align: center; font-family: var(--font-heading);">
+            <button onclick="loginAdmin()" class="admin-glow-btn" style="width: 100%;">ACCEDI AL SISTEMA</button>
+        </div>
+
+        <!-- PANNELLO DI CONTROLLO ADMIN RIVOLUZIONATO -->
+        <div id="adminPanelSection" style="display: none;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+                <span style="font-size: 0.75rem; color: #ff1a53; font-family: var(--font-heading); letter-spacing: 1px;">STATUS: ONLINE [LIVE SECURE]</span>
+                <span style="font-size: 0.75rem; color: var(--text-secondary);">MasterSabba Core</span>
+            </div>
+
+            <div class="admin-card-box">
+                <p style="font-size: 0.85rem; color: #f0f4f8; margin-bottom: 6px;">⚡ <strong>Iniezione XP Rapida:</strong></p>
+                <div style="display: flex; gap: 8px;">
+                    <button onclick="adminAddXP(5000)" class="admin-glow-btn" style="flex:1; font-size: 0.75rem;">+5.000 XP</button>
+                    <button onclick="adminAddXP(25000)" class="admin-glow-btn" style="flex:1; font-size: 0.75rem;">+25.000 XP</button>
+                </div>
+            </div>
+
+            <div class="admin-card-box">
+                <p style="font-size: 0.85rem; color: #f0f4f8; margin-bottom: 6px;">📊 <strong>Telemetry Piattaforma:</strong></p>
+                <div style="display: flex; justify-content: space-between; font-size: 0.82rem; color: #94a3b8; padding: 4px 0;">
+                    <span>Utenti Totali Registrati:</span>
+                    <strong id="adminTotalUsersCount" style="color: #ff1a53;">0</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.82rem; color: #94a3b8; padding: 4px 0;">
+                    <span>Partite Giocate Complessive:</span>
+                    <strong id="adminTotalGamesCount" style="color: #ff1a53;">0</strong>
+                </div>
+            </div>
+
+            <div class="admin-card-box">
+                <p style="font-size: 0.85rem; color: #f0f4f8; margin-bottom: 6px;">🔑 <strong>Generatore Codici Promo:</strong></p>
+                <div style="display: flex; gap: 6px; margin-top: 6px;">
+                    <input type="text" id="newPromoCode" placeholder="CODICE..." style="flex:1; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,0,60,0.4); border-radius: 6px; color: #fff; padding: 6px; font-size: 0.8rem; outline: none;">
+                    <input type="number" id="newPromoVal" placeholder="XP" style="width: 75px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,0,60,0.4); border-radius: 6px; color: #fff; padding: 6px; font-size: 0.8rem; outline: none;">
+                    <button onclick="adminCreateCode()" class="admin-glow-btn" style="font-size: 0.75rem;">Crea</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+               
 
     <!-- MODALE CLASSIFICA PERMANENTE -->
     <div id="leaderboardModal" class="modal-overlay">
@@ -1087,21 +1241,21 @@
         </div>
     </div>
 
-    <!-- CHATBOT RIFATTO COMPLETA CON SEGNALAZIONE BUG GRATUITA VIA WEB3FORMS (FORMDATA) -->
+    <!-- CHATBOT RIFATTO ED ESTETICAMENTE RIMODERNATO CON SEGNALAZIONE BUG VIA WEB3FORMS -->
     <div class="chatbot-container">
         <button class="chatbot-toggle" onclick="toggleChat()">💬</button>
         <div class="chatbot-window" id="chatWindow">
             <div class="chat-header">
-                <span>🤖 MasterBot Cyber AI</span>
+                <span>💬 MasterBot</span>
                 <span style="cursor:pointer;" onclick="toggleChat()">✕</span>
             </div>
             <div class="chat-messages" id="chatMessages">
-                <div class="msg bot">Ciao! Sono l'assistente Cyber. Chiedimi consigli sui giochi, regole o invia una segnalazione al developer!</div>
+                <div class="msg bot">Ciao! Sono l'assistente MasterBot. Chiedimi consigli sui giochi, regole o invia una segnalazione allo sviluppatore!</div>
             </div>
             <div class="chat-quick-actions">
+                <button class="chip-btn" onclick="toggleBugForm()"> ⚠️ Segnala Bug / Problema</button>
                 <button class="chip-btn" onclick="sendQuickMsg('Come accumulo XP?')">⭐ Guadagnare XP</button>
                 <button class="chip-btn" onclick="sendQuickMsg('Consigliami un gioco')">🎲 Consiglio</button>
-                <button class="chip-btn" onclick="toggleBugForm()">🐛 Segnala Bug / Problema</button>
             </div>
 
             <!-- FORM INTEGRATO WEB3FORMS CON ACCESS KEY REALE -->
@@ -1245,13 +1399,55 @@
             winsPerGame: {},
             inventory: {},
             boosterMultiplier: 1,
-            boosterUntil: 0
+            boosterUntil: 0,
+            // NUOVI DATI ACQUISTI E LIVELLI
+            purchaseCounts: { booster_2x: 0, booster_3x: 0 },
+            levelUpgrade: 1
         };
 
         let userState = JSON.parse(localStorage.getItem('mastersabba_arcade_v2')) || defaultState;
+        if (!userState.purchaseCounts) userState.purchaseCounts = { booster_2x: 0, booster_3x: 0 };
+        if (!userState.levelUpgrade) userState.levelUpgrade = 1;
 
-        // FUNZIONE ACQUISTO SHOP
-        function buyShopItem(itemKey, cost) {
+        // CALCOLO DINAMICO DEL COSTO NELLO SHOP
+        function getShopPrice(itemKey) {
+            if (itemKey === 'booster_2x') {
+                const count = userState.purchaseCounts.booster_2x || 0;
+                return 5000 + (count * 2500); // 5000, 7500, 10000... bilanciato
+            }
+            if (itemKey === 'booster_3x') {
+                const count = userState.purchaseCounts.booster_3x || 0;
+                return 10000 + (count * 5000); // 10000, 15000, 20000...
+            }
+            if (itemKey === 'level_upgrade') {
+                const lvl = userState.levelUpgrade || 1;
+                return 3000 * lvl; // 3000, 6000, 9000...
+            }
+            if (itemKey === 'reroll') return 2500;
+            if (itemKey === 'title_hacker') return 3000;
+            if (itemKey === 'avatar_robot') return 2500;
+            if (itemKey === 'avatar_dragon') return 5000;
+            return 0;
+        }
+
+        // AGGIORNAMENTO DINAMICO DEI PULSANTI SHOP
+        function updateShopButtons() {
+            const p2x = getShopPrice('booster_2x');
+            const p3x = getShopPrice('booster_3x');
+            const pLvl = getShopPrice('level_upgrade');
+
+            document.getElementById('btn_shop_2x').textContent = p2x + " XP";
+            document.getElementById('btn_shop_3x').textContent = p3x + " XP";
+            document.getElementById('btn_shop_lvl').textContent = pLvl + " XP";
+
+            document.getElementById('count_2x').textContent = userState.purchaseCounts.booster_2x || 0;
+            document.getElementById('count_3x').textContent = userState.purchaseCounts.booster_3x || 0;
+            document.getElementById('levelUpgradeVal').textContent = userState.levelUpgrade || 1;
+        }
+
+        // FUNZIONE ACQUISTO SHOP BILANCIATA E PROGRESSIVA
+        function buyShopItem(itemKey) {
+            const cost = getShopPrice(itemKey);
             if (userState.xp < cost) {
                 showToast("❌ XP insufficienti! Gioca per guadagnarne altri.");
                 return;
@@ -1259,27 +1455,29 @@
 
             if (itemKey === 'booster_2x') {
                 userState.xp -= cost;
+                userState.purchaseCounts.booster_2x = (userState.purchaseCounts.booster_2x || 0) + 1;
                 userState.boosterMultiplier = 2;
                 userState.boosterUntil = Date.now() + (10 * 60 * 1000);
                 showToast("⚡ Moltiplicatore 2x XP Attivo per 10 Minuti!");
             } else if (itemKey === 'booster_3x') {
                 userState.xp -= cost;
+                userState.purchaseCounts.booster_3x = (userState.purchaseCounts.booster_3x || 0) + 1;
                 userState.boosterMultiplier = 3;
                 userState.boosterUntil = Date.now() + (10 * 60 * 1000);
                 showToast("🔥 Super Booster 3x XP Attivo per 10 Minuti!");
+            } else if (itemKey === 'level_upgrade') {
+                userState.xp -= cost;
+                userState.levelUpgrade = (userState.levelUpgrade || 1) + 1;
+                showToast(`⭐ Potenziatore passato al Livello ${userState.levelUpgrade}! Bonus XP aumentato.`);
             } else if (itemKey === 'reroll') {
-        userState.xp -= cost;
-        localStorage.removeItem(STORAGE_KEY_QUESTS);
-        
-        // Resetta le attività giornaliere e ricrea la struttura pulita per evitare blocchi
-        const todayStr = new Date().toDateString();
-        const freshActivity = { date: todayStr, playedGames: [], wonGames: [], wins: 0, checkedLb: false, testedLab: false };
-        localStorage.setItem('arcade_daily_activity', JSON.stringify(freshActivity));
-
-        showToast("🎯 Sfide giornaliere rigenerate da zero!");
-        renderQuests();
-    }
-     else if (itemKey === 'avatar_robot') {
+                userState.xp -= cost;
+                localStorage.removeItem(STORAGE_KEY_QUESTS);
+                const todayStr = new Date().toDateString();
+                const freshActivity = { date: todayStr, playedGames: [], wonGames: [], wins: 0, checkedLb: false, testedLab: false };
+                localStorage.setItem('arcade_daily_activity', JSON.stringify(freshActivity));
+                showToast("🎯 Sfide giornaliere rigenerate da zero!");
+                renderQuests();
+            } else if (itemKey === 'avatar_robot') {
                 if (userState.inventory && userState.inventory.avatar_robot) {
                     showToast("Hai già sbloccato questo avatar!");
                     return;
@@ -1289,6 +1487,16 @@
                 userState.inventory.avatar_robot = true;
                 document.getElementById('optAvatarRobot').style.display = 'block';
                 showToast("🦾 Avatar Mecha Robot Sbloccato!");
+            } else if (itemKey === 'avatar_dragon') {
+                if (userState.inventory && userState.inventory.avatar_dragon) {
+                    showToast("Hai già sbloccato questo avatar!");
+                    return;
+                }
+                userState.xp -= cost;
+                if (!userState.inventory) userState.inventory = {};
+                userState.inventory.avatar_dragon = true;
+                document.getElementById('optAvatarDragon').style.display = 'block';
+                showToast("👑 Avatar Dragon Cyber Sbloccato!");
             } else if (itemKey === 'title_hacker') {
                 if (userState.inventory && userState.inventory.title_hacker) {
                     showToast("Hai già questo titolo!");
@@ -1301,7 +1509,152 @@
             }
 
             saveState();
+            updateShopButtons();
             closeModal('shopModal');
+        }
+
+        // TIMER VISIBILE NELL'HUB PER SVELARE IL TEMPO RIMANENTE DEL BOOSTER
+        function startHubBoosterTimer() {
+    setInterval(() => {
+        const timerContainer = document.getElementById('hubBoosterTimer');
+        const timerLabel = document.getElementById('hubTimerLabel');
+        const timerVal = document.getElementById('hubTimerVal');
+        
+        if (!timerContainer || !userState.boosterUntil || Date.now() >= userState.boosterUntil) {
+            if (timerContainer) timerContainer.style.display = 'none';
+            userState.boosterMultiplier = 1;
+        } else {
+            const remainingMs = userState.boosterUntil - Date.now();
+            const mins = Math.floor(remainingMs / (1000 * 60)).toString().padStart(2, '0');
+            const secs = Math.floor((remainingMs % (1000 * 60)) / 1000).toString().padStart(2, '0');
+            
+            if (userState.boosterMultiplier === 3) {
+                timerLabel.textContent = "🔥 3x XP";
+            } else {
+                timerLabel.textContent = "⚡ 2x XP";
+            }
+            
+            timerVal.textContent = `${mins}:${secs}`;
+            timerContainer.style.display = 'inline-flex';
+        }
+    }, 1000);
+}
+        
+
+        // SEZIONE RISCATTO CODICI PROMOZIONALI SPECIALI
+        function redeemPromoCode() {
+            const input = document.getElementById('promoCodeInput');
+            const code = input.value.trim().toUpperCase();
+            if (!code) return;
+
+            let customCodes = JSON.parse(localStorage.getItem('arcade_promo_codes')) || { "SABBA2026": 2000, "CYBERBONUS": 5000 };
+            
+            if (customCodes[code]) {
+                const reward = customCodes[code];
+                userState.xp += reward;
+                delete customCodes[code];
+                localStorage.setItem('arcade_promo_codes', JSON.stringify(customCodes));
+                input.value = '';
+                saveState();
+                showToast(`🎉 Codice valido! Riscatto: +${reward} XP!`);
+            } else {
+                showToast("❌ Codice non valido o già utilizzato.");
+            }
+        }
+
+        // GESTIONE RECUPERO PASSWORD DIMENTICATA
+        function handleForgotPassword() {
+            const email = document.getElementById('email').value.trim();
+            const errorDiv = document.getElementById('authError');
+
+            if (!email) {
+                errorDiv.innerText = "Inserisci prima la tua email nel campo sopra.";
+                return;
+            }
+
+            if (isFirebaseActive && auth) {
+                auth.sendPasswordResetEmail(email).then(() => {
+                    showToast("✉️ Email di reset inviata con successo!");
+                    errorDiv.style.color = "var(--neon-green)";
+                    errorDiv.innerText = "Link di reset inviato all'email!";
+                }).catch(err => {
+                    errorDiv.style.color = "var(--neon-pink)";
+                    errorDiv.innerText = "Errore: " + err.message;
+                });
+            } else {
+                showToast("✉️ Link di reset password inviato a " + email);
+            }
+        }
+
+        // LOGO ACCESSO SEGRETO AD ADMIN SEZIONE
+        let logoClickCount = 0;
+        let logoClickTimer = null;
+        function handleLogoClick() {
+            logoClickCount++;
+            clearTimeout(logoClickTimer);
+            if (logoClickCount >= 4) {
+                logoClickCount = 0;
+                openModal('adminModal');
+            } else {
+                logoClickTimer = setTimeout(() => {
+                    if (logoClickCount === 1) openModal('infoModal');
+                    logoClickCount = 0;
+                }, 400);
+            }
+        }
+
+      // LOGIN ADMIN SICURO CON PASSWORD IN CHIARO NASCOSTA NEL CODICE
+async function loginAdmin() {
+    const passInput = document.getElementById('adminPass').value.trim();
+    
+    // La tua password personalizzata impostata in modo sicuro
+    const ADMIN_PASSWORD_CORRETTA = "ciabattinaio01";
+
+    if (passInput === ADMIN_PASSWORD_CORRETTA) {
+        document.getElementById('adminAuthSection').style.display = 'none';
+        document.getElementById('adminPanelSection').style.display = 'block';
+        loadAdminStats();
+        showToast("🔴 Accesso Admin Autorizzato.");
+    } else {
+        showToast("❌ Password errata!");
+    }
+}
+
+        function loadAdminStats() {
+            if (isFirebaseActive && db) {
+                db.ref('users').once('value').then(snapshot => {
+                    if (snapshot.exists()) {
+                        const users = snapshot.val();
+                        let totalCount = Object.keys(users).length;
+                        let totalGames = 0;
+                        Object.values(users).forEach(u => totalGames += (u.gamesPlayed || 0));
+                        document.getElementById('adminTotalUsersCount').textContent = totalCount;
+                        document.getElementById('adminTotalGamesCount').textContent = totalGames;
+                    }
+                });
+            } else {
+                const accounts = JSON.parse(localStorage.getItem('mockAccounts')) || {};
+                document.getElementById('adminTotalUsersCount').textContent = Object.keys(accounts).length + 1;
+                document.getElementById('adminTotalGamesCount').textContent = userState.gamesPlayed || 0;
+            }
+        }
+
+        function adminAddXP(amount) {
+            userState.xp += amount;
+            saveState();
+            showToast(`🔴 +${amount} XP aggiunti con successo!`);
+        }
+
+        function adminCreateCode() {
+            const code = document.getElementById('newPromoCode').value.trim().toUpperCase();
+            const val = parseInt(document.getElementById('newPromoVal').value);
+            if (!code || !val) return;
+            let customCodes = JSON.parse(localStorage.getItem('arcade_promo_codes')) || {};
+            customCodes[code] = val;
+            localStorage.setItem('arcade_promo_codes', JSON.stringify(customCodes));
+            showToast(`🔴 Codice ${code} da ${val} XP creato!`);
+            document.getElementById('newPromoCode').value = '';
+            document.getElementById('newPromoVal').value = '';
         }
 
         function generateProceduralQuests(currentState) {
@@ -1330,7 +1683,10 @@
             if (!userState.winsPerGame) userState.winsPerGame = {};
             userState.winsPerGame[gameKey] = (userState.winsPerGame[gameKey] || 0) + 1;
             
-            // APPLICAZIONE BOOSTER SE ATTIVO
+            // APPLICAZIONE LIVELLI INCREMENTALI E BOOSTER
+            const lvlBonus = 1 + ((userState.levelUpgrade - 1) * 0.05);
+            pointsAwarded = Math.round(pointsAwarded * lvlBonus);
+
             if (userState.boosterUntil && Date.now() < userState.boosterUntil) {
                 pointsAwarded *= (userState.boosterMultiplier || 2);
             }
@@ -1438,6 +1794,9 @@
             if (userState.inventory && userState.inventory.avatar_robot) {
                 document.getElementById('optAvatarRobot').style.display = 'block';
             }
+            if (userState.inventory && userState.inventory.avatar_dragon) {
+                document.getElementById('optAvatarDragon').style.display = 'block';
+            }
         }
 
         function handleAuthAction() {
@@ -1509,6 +1868,8 @@
                 if (snapshot.exists()) {
                     let remoteData = snapshot.val();
                     userState = { ...defaultState, ...remoteData };
+                    if (!userState.purchaseCounts) userState.purchaseCounts = { booster_2x: 0, booster_3x: 0 };
+                    if (!userState.levelUpgrade) userState.levelUpgrade = 1;
                     window.hubCurrentUser = userState.username;
                 }
                 showAuthUI(true);
@@ -1582,6 +1943,7 @@
                 if (card) card.querySelectorAll('.star').forEach((s, idx) => s.classList.toggle('active', idx < val));
             });
 
+            updateShopButtons();
             renderQuests();
             checkGuestPopupTrigger(xp);
         }
@@ -1918,7 +2280,7 @@
             }
         }
 
-        // NUOVA FUNZIONE DI INVIO EMAIL VIA WEB3FORMS (FORMDATA NATIVO)
+        // FUNZIONE DI INVIO EMAIL VIA WEB3FORMS (FORMDATA NATIVO)
         async function sendBugReport(e) {
             e.preventDefault();
             
@@ -2006,6 +2368,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            startHubBoosterTimer();
             if (isFirebaseActive && auth) {
                 auth.onAuthStateChanged((user) => {
                     if (user) {
