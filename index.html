@@ -75,11 +75,10 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            flex-wrap: wrap; /* Permette agli elementi di andare a capo se lo schermo si restringe */
+            flex-wrap: wrap;
             gap: 0.5rem;
         }
 
-       
         .logo-container {
             display: flex;
             align-items: center;
@@ -104,7 +103,7 @@
             display: flex; 
             gap: 0.5rem; 
             align-items: center; 
-            flex-wrap: wrap; /* Adatta i pulsanti anche su iPad in modalità ridotta */
+            flex-wrap: wrap;
         }
 
         .hub-btn, .btn-play, .tab-btn {
@@ -144,23 +143,22 @@
             transform: translateY(-1px);
         }
 
-        /* TIMER BOOST ATTIVO IN NAVBAR/HUB */
         .hub-timer-badge {
-    display: none;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    background: rgba(255, 183, 0, 0.15);
-    border: 1px solid var(--neon-yellow);
-    color: var(--neon-yellow);
-    padding: 0.3rem 0.7rem;
-    border-radius: 8px;
-    font-family: var(--font-heading);
-    font-size: 0.8rem;
-    font-weight: bold;
-    line-height: 1;
-    animation: pulse-yellow 2s infinite;
-}
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            background: rgba(255, 183, 0, 0.15);
+            border: 1px solid var(--neon-yellow);
+            color: var(--neon-yellow);
+            padding: 0.3rem 0.7rem;
+            border-radius: 8px;
+            font-family: var(--font-heading);
+            font-size: 0.8rem;
+            font-weight: bold;
+            line-height: 1;
+            animation: pulse-yellow 2s infinite;
+        }
 
         @keyframes pulse-yellow {
             0% { box-shadow: 0 0 0 0 rgba(255, 183, 0, 0.4); }
@@ -298,43 +296,41 @@
             animation: modalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* MODALE ADMIN STILE CUPA/TENEBROSA ROSSA */
-      /* STILE RIVOLUZIONATO ADMIN - TENEBROSO / ROSSO CUPO */
-.modal-card.admin-theme {
-    background: linear-gradient(135deg, #0d0205 0%, #1a0308 100%);
-    border: 1px solid rgba(255, 0, 60, 0.4);
-    box-shadow: 0 0 50px rgba(255, 0, 0, 0.25), inset 0 0 20px rgba(255, 0, 0, 0.1);
-    font-family: var(--font-body);
-}
-.admin-theme h3 { 
-    color: #ff1a53 !important; 
-    text-shadow: 0 0 12px rgba(255, 26, 83, 0.8);
-    letter-spacing: 2px;
-}
-.admin-card-box {
-    background: rgba(20, 2, 6, 0.7);
-    border: 1px solid rgba(255, 0, 60, 0.2);
-    border-radius: 10px;
-    padding: 12px;
-    margin-bottom: 12px;
-    backdrop-filter: blur(10px);
-}
-.admin-glow-btn {
-    background: linear-gradient(135deg, #800020, #ff0040);
-    color: #fff;
-    font-family: var(--font-heading);
-    font-weight: bold;
-    border: none;
-    border-radius: 6px;
-    padding: 8px 12px;
-    cursor: pointer;
-    box-shadow: 0 0 15px rgba(255, 0, 64, 0.4);
-    transition: all 0.2s;
-}
-.admin-glow-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 0 20px rgba(255, 0, 64, 0.8);
-}
+        .modal-card.admin-theme {
+            background: linear-gradient(135deg, #0d0205 0%, #1a0308 100%);
+            border: 1px solid rgba(255, 0, 60, 0.4);
+            box-shadow: 0 0 50px rgba(255, 0, 0, 0.25), inset 0 0 20px rgba(255, 0, 0, 0.1);
+            font-family: var(--font-body);
+        }
+        .admin-theme h3 { 
+            color: #ff1a53 !important; 
+            text-shadow: 0 0 12px rgba(255, 26, 83, 0.8);
+            letter-spacing: 2px;
+        }
+        .admin-card-box {
+            background: rgba(20, 2, 6, 0.7);
+            border: 1px solid rgba(255, 0, 60, 0.2);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 12px;
+            backdrop-filter: blur(10px);
+        }
+        .admin-glow-btn {
+            background: linear-gradient(135deg, #800020, #ff0040);
+            color: #fff;
+            font-family: var(--font-heading);
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 12px;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(255, 0, 64, 0.4);
+            transition: all 0.2s;
+        }
+        .admin-glow-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(255, 0, 64, 0.8);
+        }
         @keyframes modalFadeIn {
             from { opacity: 0; transform: scale(0.92) translateY(10px); }
             to { opacity: 1; transform: scale(1) translateY(0); }
@@ -569,7 +565,7 @@
         .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
         .tag { font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; font-family: var(--font-heading); }
 
-        /* CHATBOT RIMODERNATO CON DESIGN GLASS ULTRA-FUTURISTICO */
+        /* CHATBOT DESIGN GLASS ULTRA-FUTURISTICO */
         .chatbot-container { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
         .chatbot-toggle {
             background: linear-gradient(135deg, #7a00ff, #00f3ff);
@@ -628,15 +624,14 @@
             width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
         }
 
-     
-
         @media (max-width: 768px) {
             .navbar { padding: 0.5rem 0.8rem; }
             .logo-container { font-size: 0.95rem; }
             .hub-actions { gap: 0.3rem; }
             .hub-btn { padding: 0.35rem 0.6rem; font-size: 0.8rem; }
-            .btn-text { display: none; } /* Nasconde le etichette testuali salvando spazio prezioso su schermi stretti */
+            .btn-text { display: none; }
         }
+
         #toastNotification {
             position: fixed;
             top: 25px;
@@ -662,21 +657,90 @@
             transform: translateX(-50%) translateY(0);
             opacity: 1;
         }
+
+        /* RUOTA DELLA FORTUNA GACHA */
+        .wheel-box {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            border: 4px solid var(--neon-yellow);
+            margin: 1rem auto;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: conic-gradient(#ff0055 0deg 60deg, #00f3ff 60deg 120deg, #a811ff 120deg 180deg, #00ff66 180deg 240deg, #ffb700 240deg 300deg, #ff8800 300deg 360deg);
+            box-shadow: 0 0 30px rgba(255, 183, 0, 0.4);
+            transition: transform 3s cubic-bezier(0.15, 0.9, 0.2, 1);
+        }
+        .wheel-pointer {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 20px solid #fff;
+            z-index: 10;
+        }
+
+        /* TORNEO DELLA SETTIMANA - INTERFACCIA PREMIUM CYBERPUNK */
+      .tournament-card {
+            max-width: 500px;
+            margin: 0 auto 1.5rem;
+            background: rgba(168, 17, 255, 0.08);
+            border: 1px solid rgba(168, 17, 255, 0.4);
+            border-radius: 12px;
+            padding: 0.7rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 15px rgba(168, 17, 255, 0.15);
+        }
+        .tournament-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .tournament-icon {
+            font-size: 1.5rem;
+        }
+        .tournament-game-name {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: bold;
+            color: #fff;
+            text-transform: uppercase;
+        }
+        .tournament-right {
+            text-align: right;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+        .tournament-timer {
+            font-family: var(--font-heading);
+            font-weight: bold;
+            color: var(--neon-cyan);
+        }  
     </style>
 </head>
 <body>
 
     <header class="navbar">
-        <!-- CLIC SU LOGO PER APRIRE ADMIN SEZIONE -->
         <div class="logo-container" onclick="handleLogoClick()">
             <img src="MasterSabba Games.png" class="nav-logo-icon" alt="Logo">
             <span>MASTER<span class="highlight">SABBA</span></span>
         </div>
         <div class="hub-actions">
-            <!-- TIMER BOOSTER MOSTRATO NELL'HUB QUANDO ATTIVO -->
             <div id="hubBoosterTimer" class="hub-timer-badge" style="display: none;">
-    <span id="hubTimerLabel">⚡ Booster</span>: <span id="hubTimerVal">00:00</span>
-</div>
+                <span id="hubTimerLabel">⚡ Booster</span>: <span id="hubTimerVal">00:00</span>
+            </div>
+            <button class="hub-btn" style="background: linear-gradient(135deg, #ffb700, #ff8800); color:#000;" onclick="openModal('gachaModal')">
+                <span>🎰</span> <span class="btn-text">Premio 24H</span>
+            </button>
             <button class="hub-btn btn-install" onclick="triggerAppInstall()">
                 <span>📲</span> <span class="btn-text">SCARICA APP</span>
             </button>
@@ -700,6 +764,18 @@
         <h1 class="hero-title">MASTER<span class="highlight">SABBA</span> ARCADE</h1>
         <p class="hero-subtitle">Seleziona un titolo, accumula XP e scala la classifica globale.</p>
         
+       <!-- MINI-TORNEO SOTTO LA BARRA DI RICERCA -->
+       <div style="max-width: 500px; margin: 0 auto 1.2rem; text-align: center;">
+    <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(0, 243, 255, 0.12); border: 1px solid rgba(0, 243, 255, 0.4); padding: 0.4rem 1rem; border-radius: 20px; font-size: 1rem; backdrop-filter: blur(10px); box-shadow: 0 0 15px rgba(0, 243, 255, 0.15);">
+        <span style="font-size: 1rem;" id="weeklyIcon">⚔️</span>
+        <span style="font-family: var(--font-heading); color: var(--neon-yellow); font-size: 1rem; font-weight: bold; text-transform: uppercase;"><b>Torneo:</b></span>
+        <strong id="weeklyTournamentGame" style="color: #fff; font-family: var(--font-heading); font-size: 1rem;">--</strong>
+        <span style="color: rgba(255,255,255,0.2);">|</span>
+        <span style="color: var(--neon-cyan); font-size: 1rem;"><b>🏆 +10k XP</b></span>
+        <span style="color: rgba(255,255,255,0.2);">|</span>
+        <span style="color: var(--text-secondary); font-size: 1rem;">🕒 <strong><span id="weeklyTournamentTimer" style="color: var(--neon-cyan); font-size: 1rem;">--:--:--</span></strong></span>
+    </div>
+</div>
         <div class="search-container">
             <input type="text" id="gameSearch" class="search-box" autocomplete="off" placeholder="Cerca un titolo..." oninput="filterGames()">
         </div>
@@ -718,7 +794,6 @@
     <main class="main-container">
         <h2 class="section-title">🕹️ Arcade Collection</h2>
         <div class="games-grid" id="gameList">
-            <!-- GIOCO: NON FIDARTI -->
             <article class="game-card" data-id="non-fidarti" data-category="investigazione" data-name="non fidarti mastersabba investigazione thriller mistero" onclick="openGamePreview('non-fidarti')">
                 <div class="card-media nonfidarti-bg">🕵️‍♂️</div>
                 <div class="card-content">
@@ -903,8 +978,7 @@
                 </div>
             </article>
 
-            <!-- GIOCO: SNAKE  -->
-            <article class="game-card" data-id="snake" data-category="riflessi" data-name="snake snake  serpente arcade retro mastersnake" onclick="openGamePreview('snake')">
+            <article class="game-card" data-id="snake" data-category="riflessi" data-name="snake snake serpente arcade retro mastersnake" onclick="openGamePreview('snake')">
                 <div class="card-media" style="background: linear-gradient(135deg, #15803d, #032010);">🐍</div>
                 <div class="card-content">
                     <h3>Snake</h3>
@@ -922,7 +996,6 @@
 
         <h2 class="section-title" style="margin-top: 2rem;">🚧 MasterLab (Sperimentale)</h2>
         <div class="games-grid">
-          <!-- CARD NEURAL GLITCH CON GRAFICA NEON CYBER RINNOVATA -->
           <article class="game-card" data-id="neural-glitch" data-category="lab" data-name="neural glitch lab sperimentale" onclick="openGamePreview('neural-glitch')">
             <div class="card-media glitch-bg">⚡🔮</div>
             <div class="card-content">
@@ -940,7 +1013,23 @@
         </div>
     </main>
 
-    <!-- MODALE SHOP RINNOVATO CON PREZZI INCREMENTALI E LIVELLI -->
+    <!-- MODALE RUOTA GIORNALIERA (GACHA) -->
+    <div id="gachaModal" class="modal-overlay">
+        <div class="modal-card" style="text-align: center;">
+            <div class="modal-header">
+                <h3>🎰 Ruota della Fortuna (24H)</h3>
+                <button class="modal-close" onclick="closeModal('gachaModal')">✕</button>
+            </div>
+            <p style="font-size:0.85rem; color:var(--text-secondary);">Gira la ruota ogni 24 ore per sbloccare ricompense in XP e Booster!</p>
+            <div class="wheel-box" id="wheelBox">
+                <div class="wheel-pointer"></div>
+                <span style="font-family:var(--font-heading); font-size:1.5rem; font-weight:900; color:#fff; text-shadow:0 0 10px #000;">SPIN</span>
+            </div>
+            <button id="spinBtn" class="btn-play" style="width:100%; font-size:1rem; padding:0.8rem; margin-top:0.5rem;" onclick="spinWheel()">GIRA LA RUOTA!</button>
+        </div>
+    </div>
+
+    <!-- MODALE SHOP RINNOVATO -->
     <div id="shopModal" class="modal-overlay">
         <div class="modal-card">
             <div class="modal-header">
@@ -951,7 +1040,6 @@
                 Punti XP attuali: <strong id="shopXpDisplay" style="color:var(--neon-cyan)">0 XP</strong>
             </p>
             
-            <!-- SEZIONE RISCATTO CODICI PROMOZIONALI SPECIALI -->
             <div style="display: flex; gap: 0.4rem; margin-bottom: 1rem;">
                 <input type="text" id="promoCodeInput" placeholder="Inserisci Codice Promo..." style="flex:1; padding:0.5rem; background:rgba(0,0,0,0.4); border:var(--border-glass); border-radius:6px; color:#fff; font-family:var(--font-heading); font-size:0.8rem; outline:none;">
                 <button class="btn-buy" style="padding:0.5rem 0.8rem;" onclick="redeemPromoCode()">RISCATTA</button>
@@ -972,7 +1060,6 @@
                     </div>
                     <button class="btn-buy" id="btn_shop_3x" onclick="buyShopItem('booster_3x')">-- XP</button>
                 </div>
-                <!-- OGGETTO A LIVELLI INCREMENTALI -->
                 <div class="shop-item">
                     <div class="shop-item-info">
                         <h4>⭐ Potenziatore Livello XP (Permanente)</h4>
@@ -1012,9 +1099,9 @@
         </div>
     </div>
 
-    <!-- MODALE PROFILO CON RECUPERO PASSWORD MECCANISMO INTEGATO -->
+    <!-- MODALE PROFILO CON STATISTICHE A VITA & TROFEI AVANZATI -->
     <div id="profileModal" class="modal-overlay">
-        <div class="modal-card">
+        <div class="modal-card" style="max-height:85vh; overflow-y:auto;">
             <div class="modal-header">
                 <h3 id="profileModalTitle">👤 Profilo Utente</h3>
                 <button class="modal-close" onclick="closeModal('profileModal')">✕</button>
@@ -1030,7 +1117,6 @@
                     
                     <button id="btnSubmit" onclick="handleAuthAction()" style="width: 100%; padding: 10px; margin-bottom: 8px; background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan)); color: #fff; border: none; border-radius: 8px; font-family: var(--font-heading); font-weight: bold; cursor: pointer;">Accedi</button>
                     
-                    <!-- LINK RECUPERO PASSWORD DIMENTICATA -->
                     <div id="forgotPasswordContainer" style="text-align: center; margin-bottom: 10px;">
                         <span onclick="handleForgotPassword()" style="color: var(--text-secondary); font-size: 0.8em; cursor: pointer; text-decoration: underline;">Password dimenticata?</span>
                     </div>
@@ -1078,12 +1164,29 @@
                         <div class="xp-bar-fill" id="xpBarFill"></div>
                     </div>
 
-                    <h4 style="font-family: var(--font-heading); font-size: 0.85rem; margin: 1rem 0 0.5rem; color: var(--neon-cyan); text-align: center;">Badge Sbloccati</h4>
+                    <!-- SEZIONE STATISTICHE A VITA (LIFETIME STATS) -->
+                    <div style="background: rgba(0,0,0,0.4); border: var(--border-glass); border-radius: 10px; padding: 0.8rem; margin: 1rem 0;">
+                        <h4 style="font-family: var(--font-heading); font-size: 0.85rem; color: var(--neon-cyan); margin-bottom: 6px; text-align: center;">📊 Statistiche a Vita</h4>
+                        <div style="display:flex; justify-content:space-between; font-size:0.8rem; color:#ccc; margin-bottom:4px;">
+                            <span>Gioco Preferito:</span> <strong id="favoriteGameVal" style="color:var(--neon-yellow)">-</strong>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; font-size:0.8rem; color:#ccc; margin-bottom:4px;">
+                            <span>Vittorie Totali:</span> <strong id="totalWinsVal" style="color:var(--neon-green)">0</strong>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; font-size:0.8rem; color:#ccc;">
+                            <span>Winrate Globale:</span> <strong id="winRateVal" style="color:var(--neon-cyan)">0%</strong>
+                        </div>
+                    </div>
+
+                    <!-- SEZIONE TROFEI AVANZATI -->
+                    <h4 style="font-family: var(--font-heading); font-size: 0.85rem; margin: 1rem 0 0.5rem; color: var(--neon-cyan); text-align: center;">🏆 Trofei & Badge Sbloccati</h4>
                     <div class="achievements-list">
                         <span class="badge" id="badge-first-vote">⭐ Primo Voto (+XP Bonus)</span>
                         <span class="badge" id="badge-first-play">🎮 Primo Avvio</span>
                         <span class="badge" id="badge-lab-tester">🧪 Tester Lab</span>
                         <span class="badge" id="badge-custom-profile">🎨 Style Master</span>
+                        <span class="badge" id="badge-night-owl">🌙 Gufo Notturno</span>
+                        <span class="badge" id="badge-win-streak">🔥 Dominatore (5 Win)</span>
                     </div>
 
                     <div style="display: flex; gap: 0.6rem; margin-top: 1rem;">
@@ -1096,61 +1199,57 @@
         </div>
     </div>
 
-    <!-- MODALE SEZIONE ADMIN RISERVATA (TEMATICA ROSSA CUPO / TENEBROSA) -->
-   <div id="adminModal" class="modal-overlay">
-    <div class="modal-card admin-theme">
-        <div class="modal-header" style="border-bottom-color: rgba(255, 0, 60, 0.3);">
-            <h3>💀 COMMAND CENTER // ADMIN</h3>
-            <button class="modal-close" style="color: #ff1a53;" onclick="closeModal('adminModal')">✕</button>
-        </div>
-
-        <!-- LOGIN ADMIN SEGRETO -->
-        <div id="adminAuthSection">
-            <p style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 1.2rem; text-align: center;">Inserisci la chiave di sicurezza crittografata per sbloccare il terminale.</p>
-            <input type="password" id="adminPass" placeholder="Password di accesso..." style="width: 100%; padding: 10px; background: rgba(0,0,0,0.8); border: 1px solid #ff1a53; border-radius: 8px; color: #fff; margin-bottom: 12px; outline: none; text-align: center; font-family: var(--font-heading);">
-            <button onclick="loginAdmin()" class="admin-glow-btn" style="width: 100%;">ACCEDI AL SISTEMA</button>
-        </div>
-
-        <!-- PANNELLO DI CONTROLLO ADMIN RIVOLUZIONATO -->
-        <div id="adminPanelSection" style="display: none;">
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
-                <span style="font-size: 0.75rem; color: #ff1a53; font-family: var(--font-heading); letter-spacing: 1px;">STATUS: ONLINE [LIVE SECURE]</span>
-                <span style="font-size: 0.75rem; color: var(--text-secondary);">MasterSabba Core</span>
+    <!-- MODALE SEZIONE ADMIN -->
+    <div id="adminModal" class="modal-overlay">
+        <div class="modal-card admin-theme">
+            <div class="modal-header" style="border-bottom-color: rgba(255, 0, 60, 0.3);">
+                <h3>💀 COMMAND CENTER // ADMIN</h3>
+                <button class="modal-close" style="color: #ff1a53;" onclick="closeModal('adminModal')">✕</button>
             </div>
 
-            <div class="admin-card-box">
-                <p style="font-size: 0.85rem; color: #f0f4f8; margin-bottom: 6px;">⚡ <strong>Iniezione XP Rapida:</strong></p>
-                <div style="display: flex; gap: 8px;">
-                    <button onclick="adminAddXP(5000)" class="admin-glow-btn" style="flex:1; font-size: 0.75rem;">+5.000 XP</button>
-                    <button onclick="adminAddXP(25000)" class="admin-glow-btn" style="flex:1; font-size: 0.75rem;">+25.000 XP</button>
-                </div>
+            <div id="adminAuthSection">
+                <p style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 1.2rem; text-align: center;">Inserisci la chiave di sicurezza crittografata per sbloccare il terminale.</p>
+                <input type="password" id="adminPass" placeholder="Password di accesso..." style="width: 100%; padding: 10px; background: rgba(0,0,0,0.8); border: 1px solid #ff1a53; border-radius: 8px; color: #fff; margin-bottom: 12px; outline: none; text-align: center; font-family: var(--font-heading);">
+                <button onclick="loginAdmin()" class="admin-glow-btn" style="width: 100%;">ACCEDI AL SISTEMA</button>
             </div>
 
-            <div class="admin-card-box">
-                <p style="font-size: 0.85rem; color: #f0f4f8; margin-bottom: 6px;">📊 <strong>Telemetry Piattaforma:</strong></p>
-                <div style="display: flex; justify-content: space-between; font-size: 0.82rem; color: #94a3b8; padding: 4px 0;">
-                    <span>Utenti Totali Registrati:</span>
-                    <strong id="adminTotalUsersCount" style="color: #ff1a53;">0</strong>
+            <div id="adminPanelSection" style="display: none;">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+                    <span style="font-size: 0.75rem; color: #ff1a53; font-family: var(--font-heading); letter-spacing: 1px;">STATUS: ONLINE [LIVE SECURE]</span>
+                    <span style="font-size: 0.75rem; color: var(--text-secondary);">MasterSabba Core</span>
                 </div>
-                <div style="display: flex; justify-content: space-between; font-size: 0.82rem; color: #94a3b8; padding: 4px 0;">
-                    <span>Partite Giocate Complessive:</span>
-                    <strong id="adminTotalGamesCount" style="color: #ff1a53;">0</strong>
-                </div>
-            </div>
 
-            <div class="admin-card-box">
-                <p style="font-size: 0.85rem; color: #f0f4f8; margin-bottom: 6px;">🔑 <strong>Generatore Codici Promo:</strong></p>
-                <div style="display: flex; gap: 6px; margin-top: 6px;">
-                    <input type="text" id="newPromoCode" placeholder="CODICE..." style="flex:1; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,0,60,0.4); border-radius: 6px; color: #fff; padding: 6px; font-size: 0.8rem; outline: none;">
-                    <input type="number" id="newPromoVal" placeholder="XP" style="width: 75px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,0,60,0.4); border-radius: 6px; color: #fff; padding: 6px; font-size: 0.8rem; outline: none;">
-                    <button onclick="adminCreateCode()" class="admin-glow-btn" style="font-size: 0.75rem;">Crea</button>
+                <div class="admin-card-box">
+                    <p style="font-size: 0.85rem; color: #f0f4f8; margin-bottom: 6px;">⚡ <strong>Iniezione XP Rapida:</strong></p>
+                    <div style="display: flex; gap: 8px;">
+                        <button onclick="adminAddXP(5000)" class="admin-glow-btn" style="flex:1; font-size: 0.75rem;">+5.000 XP</button>
+                        <button onclick="adminAddXP(25000)" class="admin-glow-btn" style="flex:1; font-size: 0.75rem;">+25.000 XP</button>
+                    </div>
+                </div>
+
+                <div class="admin-card-box">
+                    <p style="font-size: 0.85rem; color: #f0f4f8; margin-bottom: 6px;">📊 <strong>Telemetry Piattaforma:</strong></p>
+                    <div style="display: flex; justify-content: space-between; font-size: 0.82rem; color: #94a3b8; padding: 4px 0;">
+                        <span>Utenti Totali Registrati:</span>
+                        <strong id="adminTotalUsersCount" style="color: #ff1a53;">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 0.82rem; color: #94a3b8; padding: 4px 0;">
+                        <span>Partite Giocate Complessive:</span>
+                        <strong id="adminTotalGamesCount" style="color: #ff1a53;">0</strong>
+                    </div>
+                </div>
+
+                <div class="admin-card-box">
+                    <p style="font-size: 0.85rem; color: #f0f4f8; margin-bottom: 6px;">🔑 <strong>Generatore Codici Promo:</strong></p>
+                    <div style="display: flex; gap: 6px; margin-top: 6px;">
+                        <input type="text" id="newPromoCode" placeholder="CODICE..." style="flex:1; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,0,60,0.4); border-radius: 6px; color: #fff; padding: 6px; font-size: 0.8rem; outline: none;">
+                        <input type="number" id="newPromoVal" placeholder="XP" style="width: 75px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,0,60,0.4); border-radius: 6px; color: #fff; padding: 6px; font-size: 0.8rem; outline: none;">
+                        <button onclick="adminCreateCode()" class="admin-glow-btn" style="font-size: 0.75rem;">Crea</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-               
 
     <!-- MODALE CLASSIFICA PERMANENTE -->
     <div id="leaderboardModal" class="modal-overlay">
@@ -1159,7 +1258,9 @@
                 <h3 style="color: var(--neon-purple);">🏆 CLASSIFICA GENERALE </h3>
                 <button class="modal-close" onclick="closeModal('leaderboardModal')">✕</button>
             </div>
+
             
+
             <div class="overlord-box">
                 <div style="font-size: 0.75rem; color: var(--neon-yellow); letter-spacing: 1px; font-weight: bold;">👑 CAMPIONE ASSOLUTO</div>
                 <div id="globalOverlordName" style="font-size: 1.2rem; font-weight: bold; color: white; margin-top: 4px;">-</div>
@@ -1247,7 +1348,7 @@
         </div>
     </div>
 
-    <!-- CHATBOT RIFATTO ED ESTETICAMENTE RIMODERNATO CON SEGNALAZIONE BUG VIA WEB3FORMS -->
+    <!-- CHATBOT -->
     <div class="chatbot-container">
         <button class="chatbot-toggle" onclick="toggleChat()">💬</button>
         <div class="chatbot-window" id="chatWindow">
@@ -1264,7 +1365,6 @@
                 <button class="chip-btn" onclick="sendQuickMsg('Consigliami un gioco')">🎲 Consiglio</button>
             </div>
 
-            <!-- FORM INTEGRATO WEB3FORMS CON ACCESS KEY REALE -->
             <form id="bugReportForm" class="bug-form-container" onsubmit="sendBugReport(event)">
                 <input type="email" name="email" id="bugEmail" required placeholder="La tua Email per la risposta...">
                 <textarea name="message" id="bugMessage" required rows="3" placeholder="Descrivi il bug o problema trovato..."></textarea>
@@ -1371,23 +1471,24 @@
             'master-tris': { title: 'Tris Battle', desc: 'Allinea tre simboli uguali in verticale, orizzontale o diagonale per vincere la partida.', controls: 'Click per posizionare il simbolo.', url: 'https://mastersabba.github.io/MasterTris/' },
             'master-password': { title: 'Code Breaker', desc: 'Crea una password che rispetti contemporaneamente decine di bizzarre regole logiche.', controls: 'Inserimento cifre e verifica feedback.', url: 'https://mastersabba.github.io/MasterPassword/' },
             'master-chess': { title: 'Royal Chess', desc: 'Muovi i tuoi pezzi sulla scacchiera con strategia per dare scacco matto all’avversario.', controls: 'Trascina i pezzi sulla scacchiera.', url: 'https://mastersabba.github.io/MasterChess/' },
-            'master-blackjack': { title: 'BlackJack', desc: 'Avvicinati a 21 con le tue carte senza superarlo per battere il dealer e vincere le fiches.', controls: 'Tasti Carta, Stai, Puntata.', url: 'https://mastersabba.github.io/MasterBlackJack/' }, 'snake': { title: 'Snake', desc: 'Guida il serpente, raccogli le mele e sblocca skin e temi di legno nello Shop!', controls: 'Frecce direzionali, WASD o Swipe sul touch screen.', url: 'https://mastersabba.github.io/MasterSnake/' },
+            'master-blackjack': { title: 'BlackJack', desc: 'Avvicinati a 21 con le tue carte senza superarlo per battere il dealer e vincere le fiches.', controls: 'Tasti Carta, Stai, Puntata.', url: 'https://mastersabba.github.io/MasterBlackJack/' }, 
+            'snake': { title: 'Snake', desc: 'Guida il serpente, raccogli le mele e sblocca skin e temi di legno nello Shop!', controls: 'Frecce direzionali, WASD o Swipe sul touch screen.', url: 'https://mastersabba.github.io/MasterSnake/' },
             'neural-glitch': { title: 'Neural Glitch', desc: 'Clicca rapidamente sui nodi dati che si accendono per stabilire il sistema prima del crash.', controls: 'Clicca rapidamente sui nodi energetici attivi.', url: '#' }
         };
 
         window.globalRivals = {
             "Non Fidarti": [{n: "Tommy;)", s: 12}, {n: "Ludo", s: 8}, {n: "Gio09", s: 4}],
-            "Impostore": [{n: "Tommy;)", s: 15}, {n: "Ludo", s: 10}, {n: "Gio09", s: 5}],
-            "Word Duel": [{n: "Auri", s: 20}, {n: "Tommy;)", s: 12}, {n: "Andres", s: 6}],
-            "Sudoku": [{n: "Fedex", s: 18}, {n: "Gio09", s: 11}, {n: "Ludo", s: 4}],
+            "Impostore": [{n: "Tommy;)", s: 3}, {n: "Ludo", s: 2}, {n: "Gio09", s: 1}],
+            "Word Duel": [{n: "Auri", s: 3}, {n: "Tommy;)", s: 2}, {n: "Andres", s: 1}],
+            "Sudoku": [{n: "Fedex", s: 1}, {n: "Gio09", s: 2}, {n: "Ludo", s: 3}],
             "Free the Key": [{n: "Enry", s: 14}, {n: "Fedex", s: 9}, {n: "Tommy;)", s: 3}],
             "Word Rush": [{n: "Auri", s: 16}, {n: "Ludo", s: 10}, {n: "Enry", s: 5}],
             "Exploding Bomb": [{n: "Edu", s: 3}, {n: "Andres", s: 2}, {n: "Fedex", s: 1}],
             "Unos": [{n: "Giulyy", s: 4}, {n: "Tommy;)", s: 2}, {n: "Edu", s: 1}],
             "Tetra Block": [{n: "Francis", s: 50}, {n: "Fedex", s: 30}, {n: "Gio09", s: 15}],
             "Tris Battle": [{n: "Andres", s: 5}, {n: "Giulyy", s: 3}, {n: "Ludo", s: 1}],
-            "Code Breaker": [{n: "Enry", s: 8}, {n: "Tommy;)", s: 5}, {n: "Auri", s: 2}],
-            "Royal Chess": [{n: "Lucy", s: 12}, {n: "Gio09", s: 8}, {n: "Andres", s: 4}],
+            "Code Breaker": [{n: "Enry", s: 3}, {n: "Tommy;)", s: 2}, {n: "Auri", s: 1}],
+            "Royal Chess": [{n: "Lucy", s: 3}, {n: "Gio09", s: 2}, {n: "Andres", s: 1}],
             "BlackJack": [{n: "Marty", s: 25}, {n: "Simbi", s: 15}, {n: "Max", s: 10}],
             "Snake Cartoon": [{n: "Tommy;)", s: 2}, {n: "Ludo", s: 3}, {n: "Gio09", s: 4}]
         };
@@ -1400,34 +1501,36 @@
             xp: 0,
             gamesPlayed: 0,
             ratings: {},
-            achievements: { firstVote: false, firstPlay: false, labTester: false, customProfile: false },
+            achievements: { firstVote: false, firstPlay: false, labTester: false, customProfile: false, nightOwl: false, winStreak: false },
             claimedQuests: {},
             winsPerGame: {},
+            playsPerGame: {},
             inventory: {},
             boosterMultiplier: 1,
             boosterUntil: 0,
-            // NUOVI DATI ACQUISTI E LIVELLI
             purchaseCounts: { booster_2x: 0, booster_3x: 0 },
-            levelUpgrade: 1
+            levelUpgrade: 1,
+            lastGachaClaim: 0
         };
 
         let userState = JSON.parse(localStorage.getItem('mastersabba_arcade_v2')) || defaultState;
         if (!userState.purchaseCounts) userState.purchaseCounts = { booster_2x: 0, booster_3x: 0 };
         if (!userState.levelUpgrade) userState.levelUpgrade = 1;
+        if (!userState.playsPerGame) userState.playsPerGame = {};
+        if (!userState.achievements) userState.achievements = defaultState.achievements;
 
-        // CALCOLO DINAMICO DEL COSTO NELLO SHOP
         function getShopPrice(itemKey) {
             if (itemKey === 'booster_2x') {
                 const count = userState.purchaseCounts.booster_2x || 0;
-                return 5000 + (count * 2500); // 5000, 7500, 10000... bilanciato
+                return 5000 + (count * 2500);
             }
             if (itemKey === 'booster_3x') {
                 const count = userState.purchaseCounts.booster_3x || 0;
-                return 10000 + (count * 5000); // 10000, 15000, 20000...
+                return 10000 + (count * 5000);
             }
             if (itemKey === 'level_upgrade') {
                 const lvl = userState.levelUpgrade || 1;
-                return 3000 * lvl; // 3000, 6000, 9000...
+                return 3000 * lvl;
             }
             if (itemKey === 'reroll') return 2500;
             if (itemKey === 'title_hacker') return 3000;
@@ -1436,7 +1539,6 @@
             return 0;
         }
 
-        // AGGIORNAMENTO DINAMICO DEI PULSANTI SHOP
         function updateShopButtons() {
             const p2x = getShopPrice('booster_2x');
             const p3x = getShopPrice('booster_3x');
@@ -1451,7 +1553,6 @@
             document.getElementById('levelUpgradeVal').textContent = userState.levelUpgrade || 1;
         }
 
-        // FUNZIONE ACQUISTO SHOP BILANCIATA E PROGRESSIVA
         function buyShopItem(itemKey) {
             const cost = getShopPrice(itemKey);
             if (userState.xp < cost) {
@@ -1519,35 +1620,122 @@
             closeModal('shopModal');
         }
 
-        // TIMER VISIBILE NELL'HUB PER SVELARE IL TEMPO RIMANENTE DEL BOOSTER
-        function startHubBoosterTimer() {
-    setInterval(() => {
-        const timerContainer = document.getElementById('hubBoosterTimer');
-        const timerLabel = document.getElementById('hubTimerLabel');
-        const timerVal = document.getElementById('hubTimerVal');
-        
-        if (!timerContainer || !userState.boosterUntil || Date.now() >= userState.boosterUntil) {
-            if (timerContainer) timerContainer.style.display = 'none';
-            userState.boosterMultiplier = 1;
-        } else {
-            const remainingMs = userState.boosterUntil - Date.now();
-            const mins = Math.floor(remainingMs / (1000 * 60)).toString().padStart(2, '0');
-            const secs = Math.floor((remainingMs % (1000 * 60)) / 1000).toString().padStart(2, '0');
-            
-            if (userState.boosterMultiplier === 3) {
-                timerLabel.textContent = "🔥 3x XP";
-            } else {
-                timerLabel.textContent = "⚡ 2x XP";
+        /* RUOTA DELLA FORTUNA GACHA SYSTEM */
+        let isSpinning = false;
+        function spinWheel() {
+            const now = Date.now();
+            const cooldown = 24 * 60 * 60 * 1000;
+            if (userState.lastGachaClaim && (now - userState.lastGachaClaim) < cooldown) {
+                const remaining = cooldown - (now - userState.lastGachaClaim);
+                const hrs = Math.floor(remaining / (1000 * 60 * 60));
+                const mins = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+                showToast(`⏳ Riprova tra ${hrs}h e ${mins}m per il premio giornaliero!`);
+                return;
             }
-            
-            timerVal.textContent = `${mins}:${secs}`;
-            timerContainer.style.display = 'inline-flex';
-        }
-    }, 1000);
-}
-        
 
-        // SEZIONE RISCATTO CODICI PROMOZIONALI SPECIALI
+            if (isSpinning) return;
+            isSpinning = true;
+
+            const wheel = document.getElementById('wheelBox');
+            const randomDeg = 1440 + Math.floor(Math.random() * 360);
+            wheel.style.transform = `rotate(${randomDeg}deg)`;
+
+            setTimeout(() => {
+                isSpinning = false;
+                userState.lastGachaClaim = Date.now();
+                
+                const rewards = [500, 1000, 1500, 2500, 5000];
+                const prize = rewards[Math.floor(Math.random() * rewards.length)];
+                
+                userState.xp += prize;
+                saveState();
+                showToast(`🎉 COMPLIMENTI! Hai vinto +${prize} XP dalla Ruota!`);
+                closeModal('gachaModal');
+            }, 3000);
+        }
+
+        function startHubBoosterTimer() {
+            setInterval(() => {
+                const timerContainer = document.getElementById('hubBoosterTimer');
+                const timerLabel = document.getElementById('hubTimerLabel');
+                const timerVal = document.getElementById('hubTimerVal');
+                
+                if (!timerContainer || !userState.boosterUntil || Date.now() >= userState.boosterUntil) {
+                    if (timerContainer) timerContainer.style.display = 'none';
+                    userState.boosterMultiplier = 1;
+                } else {
+                    const remainingMs = userState.boosterUntil - Date.now();
+                    const mins = Math.floor(remainingMs / (1000 * 60)).toString().padStart(2, '0');
+                    const secs = Math.floor((remainingMs % (1000 * 60)) / 1000).toString().padStart(2, '0');
+                    
+                    if (userState.boosterMultiplier === 3) {
+                        timerLabel.textContent = "🔥 3x XP";
+                    } else {
+                        timerLabel.textContent = "⚡ 2x XP";
+                    }
+                    
+                    timerVal.textContent = `${mins}:${secs}`;
+                    timerContainer.style.display = 'inline-flex';
+                }
+            }, 1000);
+        }
+
+      /* LISTA COMPLETA DEI GIOCHI (ESCLUSO IMPOSTORE) */
+        const eligibleTournamentGames = [
+            { name: "Non Fidarti"},
+            { name: "Unos"},
+            { name: "Exploding Bomb"},
+            { name: "Word Rush"},
+            { name: "Word Duel"},
+            { name: "Sudoku"},
+            { name: "Free the Key"},
+            { name: "Tetra Block"},
+            { name: "Tris Battle"},
+            { name: "Code Breaker"},
+            { name: "Royal Chess"},
+            { name: "BlackJack"},
+            { name: "Snake"}
+        ];
+
+        function getWeekNumber(d) {
+            d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+            d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+            var yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
+            var weekNo = Math.ceil(( ( (d - yearStart) / 86400000) + 1)/7);
+            return weekNo;
+        }
+
+        function startWeeklyTournamentTimer() {
+            function updateTournament() {
+                const now = new Date();
+                const currentWeek = getWeekNumber(now);
+                const selectedGame = eligibleTournamentGames[currentWeek % eligibleTournamentGames.length];
+
+                // Aggiorna la pillola sotto la barra di ricerca
+                const gameTitleEl = document.getElementById('weeklyTournamentGame');
+                const gameIconEl = document.getElementById('weeklyIcon');
+                if (gameTitleEl) gameTitleEl.textContent = selectedGame.name;
+                if (gameIconEl) gameIconEl.textContent = selectedGame.icon;
+
+                // Countdown fino alla fine della settimana
+                const dayOfWeek = now.getDay();
+                const daysUntilSunday = (7 - dayOfWeek) % 7;
+                const nextReset = new Date(now.getFullYear(), now.getMonth(), now.getDate() + daysUntilSunday, 23, 59, 59);
+                const diff = Math.max(0, nextReset - now);
+                
+                const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+                const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+                const s = Math.floor((diff % (1000 * 60)) / 1000).toString().padStart(2, '0');
+
+                const timerEl = document.getElementById('weeklyTournamentTimer');
+                if (timerEl) timerEl.textContent = `${d}g ${h}:${m}:${s}`;
+            }
+
+            updateTournament();
+            setInterval(updateTournament, 1000);
+        }
+
         function redeemPromoCode() {
             const input = document.getElementById('promoCodeInput');
             const code = input.value.trim().toUpperCase();
@@ -1568,7 +1756,6 @@
             }
         }
 
-        // GESTIONE RECUPERO PASSWORD DIMENTICATA
         function handleForgotPassword() {
             const email = document.getElementById('email').value.trim();
             const errorDiv = document.getElementById('authError');
@@ -1592,7 +1779,6 @@
             }
         }
 
-        // LOGO ACCESSO SEGRETO AD ADMIN SEZIONE
         let logoClickCount = 0;
         let logoClickTimer = null;
         function handleLogoClick() {
@@ -1609,22 +1795,19 @@
             }
         }
 
-      // LOGIN ADMIN SICURO CON PASSWORD IN CHIARO NASCOSTA NEL CODICE
-async function loginAdmin() {
-    const passInput = document.getElementById('adminPass').value.trim();
-    
-    // La tua password personalizzata impostata in modo sicuro
-    const ADMIN_PASSWORD_CORRETTA = "ciabattinaio01";
+        async function loginAdmin() {
+            const passInput = document.getElementById('adminPass').value.trim();
+            const ADMIN_PASSWORD_CORRETTA = "ciabattinaio01";
 
-    if (passInput === ADMIN_PASSWORD_CORRETTA) {
-        document.getElementById('adminAuthSection').style.display = 'none';
-        document.getElementById('adminPanelSection').style.display = 'block';
-        loadAdminStats();
-        showToast("🔴 Accesso Admin Autorizzato.");
-    } else {
-        showToast("❌ Password errata!");
-    }
-}
+            if (passInput === ADMIN_PASSWORD_CORRETTA) {
+                document.getElementById('adminAuthSection').style.display = 'none';
+                document.getElementById('adminPanelSection').style.display = 'block';
+                loadAdminStats();
+                showToast("🔴 Accesso Admin Autorizzato.");
+            } else {
+                showToast("❌ Password errata!");
+            }
+        }
 
         function loadAdminStats() {
             if (isFirebaseActive && db) {
@@ -1689,7 +1872,19 @@ async function loginAdmin() {
             if (!userState.winsPerGame) userState.winsPerGame = {};
             userState.winsPerGame[gameKey] = (userState.winsPerGame[gameKey] || 0) + 1;
             
-            // APPLICAZIONE LIVELLI INCREMENTALI E BOOSTER
+            // TROFEO GUFO NOTTURNO
+            const currentHour = new Date().getHours();
+            if (currentHour >= 0 && currentHour <= 5) {
+                userState.achievements.nightOwl = true;
+            }
+
+            // TROFEO DOMINATORE 5 WIN
+            let totalWins = 0;
+            Object.values(userState.winsPerGame).forEach(w => totalWins += w);
+            if (totalWins >= 5) {
+                userState.achievements.winStreak = true;
+            }
+
             const lvlBonus = 1 + ((userState.levelUpgrade - 1) * 0.05);
             pointsAwarded = Math.round(pointsAwarded * lvlBonus);
 
@@ -1876,6 +2071,7 @@ async function loginAdmin() {
                     userState = { ...defaultState, ...remoteData };
                     if (!userState.purchaseCounts) userState.purchaseCounts = { booster_2x: 0, booster_3x: 0 };
                     if (!userState.levelUpgrade) userState.levelUpgrade = 1;
+                    if (!userState.playsPerGame) userState.playsPerGame = {};
                     window.hubCurrentUser = userState.username;
                 }
                 showAuthUI(true);
@@ -1938,10 +2134,30 @@ async function loginAdmin() {
             document.getElementById('gamesPlayedCount').textContent = userState.gamesPlayed || 0;
             document.getElementById('xpBarFill').style.width = fillPct + '%';
 
+            // LIFETIME STATS CALCOLO
+            let favGame = "-";
+            let maxPlays = 0;
+            Object.keys(userState.playsPerGame || {}).forEach(g => {
+                if (userState.playsPerGame[g] > maxPlays) {
+                    maxPlays = userState.playsPerGame[g];
+                    favGame = g;
+                }
+            });
+            let totalWins = 0;
+            Object.values(userState.winsPerGame || {}).forEach(w => totalWins += w);
+            let winrate = userState.gamesPlayed > 0 ? Math.round((totalWins / userState.gamesPlayed) * 100) : 0;
+
+            document.getElementById('favoriteGameVal').textContent = favGame;
+            document.getElementById('totalWinsVal').textContent = totalWins;
+            document.getElementById('winRateVal').textContent = `${winrate}%`;
+
+            // TROFEI & BADGE
             if (userState.achievements?.firstVote) document.getElementById('badge-first-vote').classList.add('unlocked');
             if (userState.achievements?.firstPlay) document.getElementById('badge-first-play').classList.add('unlocked');
             if (userState.achievements?.labTester) document.getElementById('badge-lab-tester').classList.add('unlocked');
             if (userState.achievements?.customProfile) document.getElementById('badge-custom-profile').classList.add('unlocked');
+            if (userState.achievements?.nightOwl) document.getElementById('badge-night-owl').classList.add('unlocked');
+            if (userState.achievements?.winStreak) document.getElementById('badge-win-streak').classList.add('unlocked');
 
             Object.keys(userState.ratings || {}).forEach(gameId => {
                 const val = userState.ratings[gameId];
@@ -2038,7 +2254,6 @@ async function loginAdmin() {
             buildLeaderboards();
         }
 
-        // CLASSIFICA GENERALE PERMANENTE
         window.buildLeaderboards = function() {
             const container = document.getElementById("leaderboardScoresContainer");
             if (!container) return;
@@ -2083,7 +2298,9 @@ async function loginAdmin() {
                         div.innerHTML = `<div class="lb-rank">${medal}</div><div class="lb-user">${row.n} ${isMe ? '(Tu)' : ''}</div><div class="lb-score">${row.s} XP</div>`;
                         container.appendChild(div);
                     });
-                } else {
+             } else {
+                    const currentTournamentGame = document.getElementById('weeklyTournamentGame')?.textContent?.trim() || "";
+
                     Object.keys(window.globalRivals).forEach(game => {
                         let structure = JSON.parse(JSON.stringify(window.globalRivals[game]));
                         allUsersList.forEach(u => {
@@ -2096,16 +2313,37 @@ async function loginAdmin() {
                         });
                         structure.sort((a, b) => b.s - a.s);
 
+                        const isTournamentGame = game.toLowerCase() === currentTournamentGame.toLowerCase();
+
                         let section = document.createElement("div");
                         section.className = "game-rank-section";
-                        section.style = "margin-bottom: 15px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08); padding: 10px; border-radius: 10px;";
-                        section.innerHTML = `<h4 style="font-size:0.85rem; color:var(--neon-cyan); margin:0 0 8px 0; text-transform:uppercase;">${game}</h4>`;
+                        
+                        const sectionStyle = isTournamentGame 
+                        ? "margin-bottom: 15px; padding: 10px; border-radius: 10px; border: 1px solid var(--neon-cyan); background: rgba(0, 243, 255, 0.08);" 
+                        : "margin-bottom: 15px; padding: 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08); background: rgba(0,0,0,0.3);";
+
+                    
+                        section.style = sectionStyle;
+                        
+                        const badgeTorneo = isTournamentGame ? ' <span style="font-size:0.7rem; color:var(--neon-yellow); font-family:var(--font-heading);">(⚔️ TORNEO)</span>' : '';
+                        section.innerHTML = `<h4 style="font-size:0.85rem; color:var(--neon-cyan); margin:0 0 8px 0; text-transform:uppercase;">${game}${badgeTorneo}</h4>`;
                         
                         structure.slice(0, 3).forEach((row, i) => {
-                            let medal = i === 0 ? "🥇" : i === 1 ? "🥈" : "🥉";
                             let isMe = userState.username && row.n.toLowerCase() === userState.username.toLowerCase();
-                            let boldStyle = isMe ? "color: var(--neon-green); font-weight: bold;" : "color: #ddd;";
-                            section.innerHTML += `<div style="display:flex; justify-content:space-between; font-size:0.8rem; padding:4px 0; ${boldStyle}"><span>${medal} ${row.n} ${isMe ? '(Tu)' : ''}</span><span>${row.s} pts</span></div>`;
+                            let rankStyle = "";
+                            let medal = i === 0 ? "🥇" : i === 1 ? "🥈" : "🥉";
+
+                            if (i === 0 && isTournamentGame) {
+                        medal = "👑";
+                        rankStyle = "color: var(--neon-cyan); font-weight: bold; text-shadow: 0 0 10px rgba(0, 243, 255, 0.8); background: rgba(0, 243, 255, 0.18); border: 1px solid rgba(0, 243, 255, 0.4); padding: 4px 8px; border-radius: 6px;";
+                    
+                            } else if (isMe) {
+                                rankStyle = "color: var(--neon-green); font-weight: bold;";
+                            } else {
+                                rankStyle = "color: #ddd;";
+                            }
+
+                            section.innerHTML += `<div style="display:flex; justify-content:space-between; align-items:center; font-size:0.8rem; padding:4px 0; ${rankStyle}"><span>${medal} ${row.n} ${isMe ? '(Tu)' : ''}</span><span>${row.s} pts</span></div>`;
                         });
                         container.appendChild(section);
                     });
@@ -2192,6 +2430,10 @@ async function loginAdmin() {
             userState.achievements.firstPlay = true;
             if (gameId === 'neural-glitch') userState.achievements.labTester = true;
             
+            // CONTEGGIO PARTITE PER GIOCO (LIFETIME STATS)
+            const titleName = gameDataMap[gameId]?.title || gameId;
+            userState.playsPerGame[titleName] = (userState.playsPerGame[titleName] || 0) + 1;
+
             const todayKey = new Date().toDateString();
             let dailyActivity = JSON.parse(localStorage.getItem('arcade_daily_activity')) || { date: todayKey, playedGames: [], wins: 0, checkedLb: false, testedLab: false };
             if (!dailyActivity.playedGames.includes(gameId)) dailyActivity.playedGames.push(gameId);
@@ -2286,7 +2528,6 @@ async function loginAdmin() {
             }
         }
 
-        // FUNZIONE DI INVIO EMAIL VIA WEB3FORMS (FORMDATA NATIVO)
         async function sendBugReport(e) {
             e.preventDefault();
             
@@ -2375,6 +2616,7 @@ async function loginAdmin() {
 
         document.addEventListener('DOMContentLoaded', () => {
             startHubBoosterTimer();
+            startWeeklyTournamentTimer();
             if (isFirebaseActive && auth) {
                 auth.onAuthStateChanged((user) => {
                     if (user) {
@@ -2387,4 +2629,5 @@ async function loginAdmin() {
         });
     </script>
 </body>
+
 </html>
