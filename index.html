@@ -621,11 +621,11 @@
         }
 
         @media (max-width: 600px) {
-            .navbar { padding: 0.6rem 0.8rem; }
+            .navbar { padding: 0.5rem 0.6rem; flex-wrap: wrap; gap: 0.4rem; }
             .logo-container { font-size: 0.95rem; }
             .logo-container span { display: flex; gap: 2px; }
-            .hub-actions { gap: 0.3rem; }
-            .hub-btn { padding: 0.4rem 0.6rem; font-size: 0.85rem; }
+            .hub-actions { gap: 0.25rem; flex-wrap: wrap; justify-content: flex-end; }
+            .hub-btn { padding: 0.3rem 0.5rem; font-size: 0.8rem; }
             .btn-text { display: none; }
             .hero-title { font-size: 1.6rem; }
             .hero-subtitle { font-size: 0.85rem; }
@@ -634,7 +634,6 @@
             .modal-card { padding: 1.2rem; }
             .chatbot-window { width: 310px; right: -10px; }
         }
-
         #toastNotification {
             position: fixed;
             top: 25px;
