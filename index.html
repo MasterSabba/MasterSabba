@@ -1264,8 +1264,15 @@
         <button onclick="adminBanUserAction(false)" style="background: var(--neon-cyan); color: #000; border: none; padding: 6px 8px; border-radius: 6px; font-weight: bold; font-size: 0.7rem; cursor: pointer;">Unban</button>
     </div>
     <!-- Pulsante d'emergenza per rimuovere il ban locale del dispositivo -->
-    <button onclick="adminUnbanDevice()" style="width: 100%; background: rgba(0, 243, 255, 0.15); color: #00f3ff; border: 1px solid #00f3ff; padding: 6px; border-radius: 6px; font-weight: bold; font-size: 0.7rem; cursor: pointer;">🛡️ Rimuovi Ban Dispositivo (localStorage)</button>
+    <button onclick="adminUnbanDevice()" style="width: 100%; background: rgba(0, 243, 255, 0.15); color: #00f3ff; border: 1px solid #00f3ff; padding: 6px; border-radius: 6px; font-weight: bold; font-size: 0.7rem; cursor: pointer;">🛡️ Rimuovi Ban Dispositivo</button>
+
+    <!-- Pulsante Selezione Livello Free the Key -->
+<button onclick="adminSetFreeTheKeyLevel()" style="width: 100%; background: #ffaa00; color: #000; border: none; padding: 7px; border-radius: 6px; font-weight: bold; font-size: 0.75rem; cursor: pointer; margin-top: 8px;">
+    🔑 Free the Key: Seleziona Livello
+</button>
 </div>
+
+
 
                 <div style="margin-bottom: 14px; background: rgba(0,0,0,0.4); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
                     <label style="color: #fff; font-size: 0.8rem; font-weight: bold; display: block; margin-bottom: 6px;">📢 Broadcast Annuncio</label>
@@ -2005,6 +2012,21 @@ function adminBanUserAction(shouldBan) {
         }
         
         alert(`✅ Dispositivo e sistema sbannati con successo! La pagina verrà ricaricata.`);
+        location.reload();
+    }
+}
+
+// Funzione dedicata: Free the Key - Selezione e Ripristino Livello
+function adminSetFreeTheKeyLevel() {
+    let inputLevel = prompt("🔑 Free the Key - Seleziona il livello da sbloccare (es. 475):", "475");
+    if (inputLevel !== null && inputLevel.trim() !== "" && !isNaN(inputLevel)) {
+        let levelNum = parseInt(inputLevel.trim(), 10);
+        
+        // Salva il livello corrente e sblocca tutti i precedenti
+        localStorage.setItem("freeTheKey_level", levelNum);
+        localStorage.setItem("freeTheKey_maxLevelUnlocked", levelNum);
+        
+        alert(`✅ Livello impostato a ${levelNum}! Tutti i livelli precedenti sono stati sbloccati. Ricarica in corso...`);
         location.reload();
     }
 }
