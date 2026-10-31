@@ -68,15 +68,18 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.9rem 2rem;
+            padding: 0.8rem 1.5rem;
             background: rgba(6, 8, 14, 0.85);
             backdrop-filter: blur(16px);
             border-bottom: var(--border-glass);
             position: sticky;
             top: 0;
             z-index: 100;
+            flex-wrap: wrap; /* Permette agli elementi di andare a capo se lo schermo si restringe */
+            gap: 0.5rem;
         }
 
+       
         .logo-container {
             display: flex;
             align-items: center;
@@ -97,7 +100,12 @@
 
         .highlight { color: var(--neon-cyan); text-shadow: 0 0 10px rgba(0, 243, 255, 0.6); }
 
-        .hub-actions { display: flex; gap: 0.6rem; align-items: center; }
+        .hub-actions { 
+            display: flex; 
+            gap: 0.5rem; 
+            align-items: center; 
+            flex-wrap: wrap; /* Adatta i pulsanti anche su iPad in modalità ridotta */
+        }
 
         .hub-btn, .btn-play, .tab-btn {
             font-family: var(--font-heading);
@@ -620,19 +628,14 @@
             width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
         }
 
-        @media (max-width: 600px) {
-            .navbar { padding: 0.5rem 0.6rem; flex-wrap: wrap; gap: 0.4rem; }
+     
+
+        @media (max-width: 768px) {
+            .navbar { padding: 0.5rem 0.8rem; }
             .logo-container { font-size: 0.95rem; }
-            .logo-container span { display: flex; gap: 2px; }
-            .hub-actions { gap: 0.25rem; flex-wrap: wrap; justify-content: flex-end; }
-            .hub-btn { padding: 0.3rem 0.5rem; font-size: 0.8rem; }
-            .btn-text { display: none; }
-            .hero-title { font-size: 1.6rem; }
-            .hero-subtitle { font-size: 0.85rem; }
-            .games-grid { grid-template-columns: 1fr; gap: 1rem; }
-            .main-container { padding: 0 0.8rem 2rem; }
-            .modal-card { padding: 1.2rem; }
-            .chatbot-window { width: 310px; right: -10px; }
+            .hub-actions { gap: 0.3rem; }
+            .hub-btn { padding: 0.35rem 0.6rem; font-size: 0.8rem; }
+            .btn-text { display: none; } /* Nasconde le etichette testuali salvando spazio prezioso su schermi stretti */
         }
         #toastNotification {
             position: fixed;
