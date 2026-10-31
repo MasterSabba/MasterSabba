@@ -1257,13 +1257,15 @@
                 </div>
 
                 <div style="margin-bottom: 14px; background: rgba(0,0,0,0.4); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
-                    <label style="color: #fff; font-size: 0.8rem; font-weight: bold; display: block; margin-bottom: 6px;">🚫 Ban & Moderazione</label>
-                    <div style="display: flex; gap: 6px;">
-                        <input type="text" id="adminBanUser" placeholder="Username da bannare" style="background: #111; color: #fff; border: 1px solid #ff0055; padding: 6px; border-radius: 6px; flex: 1; font-size: 0.8rem;">
-                        <button onclick="adminBanUserAction(true)" style="background: #ff0055; color: #fff; border: none; padding: 6px 8px; border-radius: 6px; font-weight: bold; font-size: 0.7rem; cursor: pointer;">Banna</button>
-                        <button onclick="adminBanUserAction(false)" style="background: var(--neon-cyan); color: #000; border: none; padding: 6px 8px; border-radius: 6px; font-weight: bold; font-size: 0.7rem; cursor: pointer;">Unban</button>
-                    </div>
-                </div>
+    <label style="color: #fff; font-size: 0.8rem; font-weight: bold; display: block; margin-bottom: 6px;">🚫 Ban & Moderazione</label>
+    <div style="display: flex; gap: 6px; margin-bottom: 8px;">
+        <input type="text" id="adminBanUser" placeholder="Username da bannare" style="background: #111; color: #fff; border: 1px solid #ff0055; padding: 6px; border-radius: 6px; flex: 1; font-size: 0.8rem;">
+        <button onclick="adminBanUserAction(true)" style="background: #ff0055; color: #fff; border: none; padding: 6px 8px; border-radius: 6px; font-weight: bold; font-size: 0.7rem; cursor: pointer;">Banna</button>
+        <button onclick="adminBanUserAction(false)" style="background: var(--neon-cyan); color: #000; border: none; padding: 6px 8px; border-radius: 6px; font-weight: bold; font-size: 0.7rem; cursor: pointer;">Unban</button>
+    </div>
+    <!-- Pulsante d'emergenza per rimuovere il ban locale del dispositivo -->
+    <button onclick="adminUnbanDevice()" style="width: 100%; background: rgba(0, 243, 255, 0.15); color: #00f3ff; border: 1px solid #00f3ff; padding: 6px; border-radius: 6px; font-weight: bold; font-size: 0.7rem; cursor: pointer;">🛡️ Rimuovi Ban Dispositivo (localStorage)</button>
+</div>
 
                 <div style="margin-bottom: 14px; background: rgba(0,0,0,0.4); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
                     <label style="color: #fff; font-size: 0.8rem; font-weight: bold; display: block; margin-bottom: 6px;">📢 Broadcast Annuncio</label>
@@ -1867,6 +1869,18 @@ function handleLogoClick() {
 // Contatore globale dei tentativi falliti
 let adminFailedAttempts = 0;
 
+// Esegui questo controllo all'avvio della pagina per verificare se il client è bannato
+window.addEventListener('DOMContentLoaded', () => {
+    if (localStorage.getItem("masterSabba_banned") === "true") {
+        document.body.innerHTML = `
+            <div style="background: #000; color: #ff0055; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: sans-serif; text-align: center; padding: 20px;">
+                <h1 style="font-size: 2.5rem; margin-bottom: 10px;">🛑 ACCESSO NEGATO</h1>
+                <p style="color: #fff; font-size: 1.2rem;">Questo dispositivo/account è stato permanentemente bannato per ripetuti tentativi di violazione del sistema di sicurezza.</p>
+            </div>
+        `;
+    }
+});
+
 function verifySecretPin(inputStr) {
     const encodedPin = "NTYxMjA4NTQyNjc5ODA2";
     try {
@@ -1914,30 +1928,20 @@ function handleAdminFailedAttempt() {
 
 function checkSecurityProtocol() {
     if (adminFailedAttempts === 1) {
-        if (typeof showToast === 'function') {
-            showToast("⚠️ ATTENZIONE: Tentativo non autorizzato registrato! Email di allerta inviata.");
-        } else {
-            alert("⚠️ ATTENZIONE: Tentativo di accesso non autorizzato registrato! Email di allerta inviata.");
-        }
+        alert("⚠️ ATTENZIONE: Tentativo di accesso non autorizzato registrato!");
         
-
-        try {
-            gmail.send_message({
-                to: ["fsabbadini1@gmail.com"],
-                subject: "🚨 ALLERTA SICUREZZA: Tentativo di accesso Admin fallito",
-                body: "Salve MasterSabba, e' stato rilevato un tentativo di accesso non autorizzato al Command Center Admin della tua piattaforma arcade. Controlla subito i log di sicurezza."
-            });
-        } catch (e) {
-            console.error("Errore nell'invio dell'email di sicurezza:", e);
-        }
+        // Apre l'app di posta predefinita per inviare l'allerta a fsabbadini1@gmail.com
+        const subject = encodeURIComponent("🚨 ALLERTA SICUREZZA: Tentativo di accesso Admin fallito");
+        const body = encodeURIComponent("Salve MasterSabba, è stato rilevato un tentativo di accesso non autorizzato al Command Center Admin.");
+        window.location.href = `mailto:fsabbadini1@gmail.com?subject=${subject}&body=${body}`;
     } 
     else if (adminFailedAttempts === 2) {
-        alert("🚨 ATTENZIONE CRITICA (2/3): Hai inserito credenziali errate per la seconda volta. AL PROSSIMO ERRORE L'ACCOUNT VERRA CANCELLATO E BANNATO DEFINITIVAMENTE!");
+        alert("🚨 ATTENZIONE CRITICA (2/3): Credenziali errate per la seconda volta. AL PROSSIMO ERRORE L'ACCOUNT VERRÀ CANCELLATO E BANNATO!");
     } 
     else if (adminFailedAttempts >= 3) {
-        alert("🛑 SICUREZZA INTERVENUTA (3/3): Troppi tentativi falliti. L'account e' stato compromesso. Cancellazione dati e ban in corso...");
+        alert("🛑 SICUREZZA INTERVENUTA (3/3): Troppi tentativi falliti. Cancellazione dati e ban in corso...");
         
-        // Wipe totale del profilo e ban permanente
+        // Esegue il wipe totale e attiva il blocco permanente
         localStorage.clear();
         localStorage.setItem("masterSabba_banned", "true");
         location.reload();
@@ -1973,6 +1977,7 @@ function adminModifyXP(action) {
     }
 }
 
+// Gestione Reale Ban / Unban Utenti con localStorage
 function adminBanUserAction(shouldBan) {
     const userToBan = document.getElementById('adminBanUser').value.trim();
     if (!userToBan) {
@@ -1980,11 +1985,31 @@ function adminBanUserAction(shouldBan) {
         return;
     }
 
+    // Recupera la lista degli utenti bannati dal localStorage (o crea un array vuoto)
+    let bannedUsers = JSON.parse(localStorage.getItem("masterSabba_bannedUsers") || "[]");
+    
+    const userLower = userToBan.toLowerCase();
+
     if (shouldBan) {
         let confirmBan = confirm(`Sei sicuro di voler bannare l'utente "${userToBan}"? Non potrà più accedere alle classifiche.`);
-        if (confirmBan) alert(`🚫 Utente "${userToBan}" bannato con successo!`);
+        if (confirmBan) {
+            if (!bannedUsers.includes(userLower)) {
+                bannedUsers.push(userLower);
+                localStorage.setItem("masterSabba_bannedUsers", JSON.stringify(bannedUsers));
+            }
+            alert(`🚫 Utente "${userToBan}" bannato con successo!`);
+            document.getElementById('adminBanUser').value = "";
+        }
     } else {
-        alert(`✅ Ban rimosso per l'utente "${userToBan}".`);
+        let index = bannedUsers.indexOf(userLower);
+        if (index > -1) {
+            bannedUsers.splice(index, 1);
+            localStorage.setItem("masterSabba_bannedUsers", JSON.stringify(bannedUsers));
+            alert(`✅ Ban rimosso per l'utente "${userToBan}".`);
+        } else {
+            alert(`ℹ️ L'utente "${userToBan}" non risulta tra i bannati.`);
+        }
+        document.getElementById('adminBanUser').value = "";
     }
 }
 
