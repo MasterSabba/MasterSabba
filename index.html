@@ -1985,9 +1985,7 @@ function adminBanUserAction(shouldBan) {
         return;
     }
 
-    // Recupera la lista degli utenti bannati dal localStorage (o crea un array vuoto)
     let bannedUsers = JSON.parse(localStorage.getItem("masterSabba_bannedUsers") || "[]");
-    
     const userLower = userToBan.toLowerCase();
 
     if (shouldBan) {
@@ -2007,7 +2005,9 @@ function adminBanUserAction(shouldBan) {
             localStorage.setItem("masterSabba_bannedUsers", JSON.stringify(bannedUsers));
             alert(`✅ Ban rimosso per l'utente "${userToBan}".`);
         } else {
-            alert(`ℹ️ L'utente "${userToBan}" non risulta tra i bannati.`);
+            // Mostra la lista attuale per capire chi c'è salvato
+            let listaAttuale = bannedUsers.length > 0 ? bannedUsers.join(", ") : "Nessun utente bannato";
+            alert(`ℹ️ L'utente "${userToBan}" non risulta tra i bannati.\n\nElenco utenti attualmente bannati:\n[ ${listaAttuale} ]`);
         }
         document.getElementById('adminBanUser').value = "";
     }
