@@ -1980,49 +1980,32 @@ function adminModifyXP(action) {
 // Gestione Reale Ban / Unban Utenti con localStorage
 function adminBanUserAction(shouldBan) {
     const targetUser = document.getElementById('adminBanUser').value.trim();
-    if (!targetUser) {
-        alert("⚠️ Specifica uno username.");
-        return;
-    }
-
-    const userLower = targetUser.toLowerCase();
-    let bannedUsers = JSON.parse(localStorage.getItem("masterSabba_bannedUsers") || "[]");
-
+    
     if (shouldBan) {
-        let confirmBan = confirm(`Sei sicuro di voler bannare l'utente "${targetUser}"?`);
-        if (confirmBan) {
-            if (!bannedUsers.includes(userLower)) {
-                bannedUsers.push(userLower);
-                localStorage.setItem("masterSabba_bannedUsers", JSON.stringify(bannedUsers));
-            }
-            alert(`🚫 Utente "${targetUser}" bannato con successo!`);
-            document.getElementById('adminBanUser').value = "";
+        if (!targetUser) {
+            alert("⚠️ Specifica uno username da bannare.");
+            return;
         }
-    } else {
-        // Logica di UNBAN intelligente
-        let removed = false;
-
-        // 1. Rimuove l'utente dalla lista dei bannati se presente
-        let index = bannedUsers.indexOf(userLower);
-        if (index > -1) {
-            bannedUsers.splice(index, 1);
+        let bannedUsers = JSON.parse(localStorage.getItem("masterSabba_bannedUsers") || "[]");
+        const userLower = targetUser.toLowerCase();
+        if (!bannedUsers.includes(userLower)) {
+            bannedUsers.push(userLower);
             localStorage.setItem("masterSabba_bannedUsers", JSON.stringify(bannedUsers));
-            removed = true;
         }
-
-        // 2. Se il dispositivo è bloccato (ban totale admin), rimuove anche il ban del terminale
-        if (localStorage.getItem("masterSabba_banned") === "true") {
-            localStorage.removeItem("masterSabba_banned");
-            removed = true;
-        }
-
-        if (removed) {
-            alert(`✅ Sblocco completato! L'utente/dispositivo "${targetUser}" è stato sbannato. La pagina verrà ricaricata.`);
-            location.reload();
-        } else {
-            alert(`ℹ️ L'utente "${targetUser}" non era nella lista dei ban e il dispositivo non risultava bloccato.`);
-        }
+        alert(`🚫 Utente "${targetUser}" aggiunto ai ban!`);
         document.getElementById('adminBanUser').value = "";
+    } else {
+        // UNBAN Universale: pulisce il ban del dispositivo e rimuove l'utente se specificato
+        localStorage.removeItem("masterSabba_banned");
+        
+        if (targetUser) {
+            let bannedUsers = JSON.parse(localStorage.getItem("masterSabba_bannedUsers") || "[]");
+            let filtered = bannedUsers.filter(u => u !== targetUser.toLowerCase());
+            localStorage.setItem("masterSabba_bannedUsers", JSON.stringify(filtered));
+        }
+        
+        alert(`✅ Dispositivo e sistema sbannati con successo! La pagina verrà ricaricata.`);
+        location.reload();
     }
 }
 
