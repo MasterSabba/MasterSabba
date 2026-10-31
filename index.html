@@ -1956,17 +1956,26 @@ function checkSecurityProtocol() {
 }
 /* === SUITE COMANDI ADMIN CORRETTA === */
 
+/* === SUITE ADMIN AGGIORNATA E STABILE === */
+
 function adminModifyXP(action) {
-    const targetUser = document.getElementById('adminTargetUser').value.trim();
-    const amount = parseInt(document.getElementById('adminXpAmount').value) || 0;
+    const targetUserInput = document.getElementById('adminTargetUser');
+    const amountInput = document.getElementById('adminXpAmount');
+    
+    if (!targetUserInput || !amountInput) {
+        alert("⚠️ Elementi input XP non trovati nel DOM.");
+        return;
+    }
+
+    const targetUser = targetUserInput.value.trim();
+    const amount = parseInt(amountInput.value) || 0;
 
     if (!targetUser) {
         alert("⚠️ Inserisci lo username del destinatario.");
         return;
     }
 
-    // Se l'utente destinatario sei tu o è attivo localmente, aggiorna i dati
-    if (userState && userState.username && userState.username.toLowerCase() === targetUser.toLowerCase()) {
+    if (typeof userState !== 'undefined') {
         if (action === 'add') {
             userState.xp = (userState.xp || 0) + amount;
             alert(`✅ Aggiunti +${amount} XP a ${targetUser}.`);
@@ -1977,16 +1986,19 @@ function adminModifyXP(action) {
             userState.xp = 0;
             alert(`⚡ XP di ${targetUser} azzerati.`);
         }
-        saveState();
-        updateUI();
-    } else {
-        alert(`✅ Comando eseguito con successo per l'utente "${targetUser}" (${action.toUpperCase()} di ${amount} XP).`);
+        if (typeof saveState === 'function') saveState();
+        if (typeof updateUI === 'function') updateUI();
     }
 }
 
-// Gestione Reale Ban / Unban Utenti con localStorage
 function adminBanUserAction(shouldBan) {
-    const targetUser = document.getElementById('adminBanUser').value.trim();
+    const inputElement = document.getElementById('adminBanUser');
+    if (!inputElement) {
+        alert("⚠️ Campo input ban non trovato.");
+        return;
+    }
+
+    const targetUser = inputElement.value.trim();
     
     if (shouldBan) {
         if (!targetUser) {
@@ -2000,9 +2012,8 @@ function adminBanUserAction(shouldBan) {
             localStorage.setItem("masterSabba_bannedUsers", JSON.stringify(bannedUsers));
         }
         alert(`🚫 Utente "${targetUser}" aggiunto ai ban!`);
-        document.getElementById('adminBanUser').value = "";
+        inputElement.value = "";
     } else {
-        // UNBAN Universale: pulisce il ban del dispositivo e rimuove l'utente se specificato
         localStorage.removeItem("masterSabba_banned");
         
         if (targetUser) {
@@ -2016,7 +2027,6 @@ function adminBanUserAction(shouldBan) {
     }
 }
 
-// Rimozione rapida del ban del dispositivo
 function adminUnbanDevice() {
     localStorage.removeItem("masterSabba_banned");
     localStorage.removeItem("masterSabba_bannedUsers");
@@ -2024,13 +2034,11 @@ function adminUnbanDevice() {
     location.reload();
 }
 
-// Funzione dedicata: Free the Key - Selezione e Ripristino Livello
 function adminSetFreeTheKeyLevel() {
     let inputLevel = prompt("🔑 Free the Key - Seleziona il livello da sbloccare (es. 475):", "475");
     if (inputLevel !== null && inputLevel.trim() !== "" && !isNaN(inputLevel)) {
         let levelNum = parseInt(inputLevel.trim(), 10);
         
-        // Salva il livello corrente e sblocca tutti i precedenti nel localStorage
         localStorage.setItem("freeTheKey_level", levelNum);
         localStorage.setItem("freeTheKey_maxLevelUnlocked", levelNum);
         
@@ -2040,17 +2048,21 @@ function adminSetFreeTheKeyLevel() {
 }
 
 function adminSendBroadcast() {
-    const msg = document.getElementById('adminBroadcastMsg').value.trim();
+    const msgInput = document.getElementById('adminBroadcastMsg');
+    if (!msgInput) return;
+    const msg = msgInput.value.trim();
     if (!msg) {
         alert("⚠️ Scrivi un messaggio per il broadcast.");
         return;
     }
     alert(`📢 BROADCAST INVIATO A TUTTI GLI UTENTI: "${msg}"`);
-    document.getElementById('adminBroadcastMsg').value = "";
+    msgInput.value = "";
 }
 
 function adminSetTournamentGame() {
-    const selectedGame = document.getElementById('adminGameSelector').value;
+    const selector = document.getElementById('adminGameSelector');
+    if (!selector) return;
+    const selectedGame = selector.value;
     const gameTitleEl = document.getElementById('weeklyTournamentGame');
     if (gameTitleEl) {
         gameTitleEl.textContent = selectedGame;
@@ -2062,7 +2074,7 @@ function adminSetTournamentGame() {
 function adminResetLeaderboard() {
     let check = confirm("⚠️ SEI SICURO? Questo azzererà tutti i punteggi nelle classifiche globali.");
     if (check) {
-        window.globalRivals = {};
+        if (typeof window.globalRivals !== 'undefined') window.globalRivals = {};
         alert("🗑️ Classifiche svuotate!");
         if (typeof buildLeaderboards === 'function') buildLeaderboards();
     }
@@ -2070,7 +2082,6 @@ function adminResetLeaderboard() {
 
 function adminClearAppCache() {
     if (confirm("Vuoi cancellare i dati memorizzati nel localStorage di questo browser?")) {
-        // Pulisce la cache mantenendo però i dati critici di sblocco se necessario
         localStorage.clear();
         alert("🧹 Cache svuotata. Ricarica la pagina per applicare.");
         location.reload();
@@ -2080,22 +2091,26 @@ function adminClearAppCache() {
 function adminAddXP(amount) {
     if (typeof userState !== 'undefined') {
         userState.xp = (userState.xp || 0) + amount;
-        saveState();
-        updateUI();
+        if (typeof saveState === 'function') saveState();
+        if (typeof updateUI === 'function') updateUI();
         alert(`⚡ Aggiunti +${amount} XP al tuo profilo.`);
     }
 }
 
 function adminCreateCode() {
-    const code = document.getElementById('newPromoCode').value.trim();
-    const val = document.getElementById('newPromoVal').value;
+    const codeInput = document.getElementById('newPromoCode');
+    const valInput = document.getElementById('newPromoVal');
+    if (!codeInput || !valInput) return;
+    
+    const code = codeInput.value.trim();
+    const val = valInput.value;
     if (!code || !val) {
         alert("Inserisci codice e valore XP.");
         return;
     }
     alert(`🔑 Codice promo "${code}" creato con successo (${val} XP)!`);
-    document.getElementById('newPromoCode').value = "";
-    document.getElementById('newPromoVal').value = "";
+    codeInput.value = "";
+    valInput.value = "";
 }
 
         function generateProceduralQuests(currentState) {
