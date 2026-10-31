@@ -1883,13 +1883,12 @@ async function loginAdmin() {
     const ADMIN_PASSWORD_CORRETTA = "ciabattinaio01";
 
     if (passInput === ADMIN_PASSWORD_CORRETTA && pinInput === "5319") {
-        // Reset dei tentativi in caso di successo al primo step
         adminFailedAttempts = 0;
         document.getElementById('adminAuthSection').style.display = 'none';
         document.getElementById('adminSecondAuthSection').style.display = 'block';
         if (typeof showToast === 'function') showToast("⚠️ Inserisci il PIN definitivo...");
     } else {
-        handleAdminFailedAttempt("Credenziali primarie (Password o PIN trappola) errate!");
+        handleAdminFailedAttempt();
     }
 }
 
@@ -1908,50 +1907,40 @@ async function verifyFinalPin() {
     }
 }
 
-// Gestione dei tentativi falliti e invio e-mail automatica con Gmail
-async function handleAdminFailedAttempt(customMsg) {
+function handleAdminFailedAttempt() {
     adminFailedAttempts++;
-    checkSecurityProtocol(customMsg);
+    checkSecurityProtocol();
 }
 
-function checkSecurityProtocol(customMsg = "PIN segreto errato!") {
+function checkSecurityProtocol() {
     if (adminFailedAttempts === 1) {
-        // 1° Tentativo: Allerta e invio email automatica tramite Gmail
-        if (typeof showToast === 'function') showToast("⚠️ ATTENZIONE: Tentativo non autorizzato registrato. Email di allerta inviata!");
-        sendSecurityAlertEmail();
+        if (typeof showToast === 'function') {
+            showToast("⚠️ ATTENZIONE: Tentativo non autorizzato registrato! Email di allerta inviata.");
+        } else {
+            alert("⚠️ ATTENZIONE: Tentativo di accesso non autorizzato registrato! Email di allerta inviata.");
+        }
+        
+
+        try {
+            gmail.send_message({
+                to: ["fsabbadini1@gmail.com"],
+                subject: "🚨 ALLERTA SICUREZZA: Tentativo di accesso Admin fallito",
+                body: "Salve MasterSabba, e' stato rilevato un tentativo di accesso non autorizzato al Command Center Admin della tua piattaforma arcade. Controlla subito i log di sicurezza."
+            });
+        } catch (e) {
+            console.error("Errore nell'invio dell'email di sicurezza:", e);
+        }
     } 
     else if (adminFailedAttempts === 2) {
-        // 2° Tentativo: Ultimo avviso prima del ban
-        alert("🚨 ATTENZIONE CRITICA (2/3):Hai inserito credenziali errate per la seconda volta. AL PROSSIMO ERRORE L'ACCOUNT VERRÀ CANCELLATO E BANNATO DEFINITIVAMENTE!");
+        alert("🚨 ATTENZIONE CRITICA (2/3): Hai inserito credenziali errate per la seconda volta. AL PROSSIMO ERRORE L'ACCOUNT VERRA CANCELLATO E BANNATO DEFINITIVAMENTE!");
     } 
     else if (adminFailedAttempts >= 3) {
-        // 3° Tentativo: Ban e cancellazione totale dell'account
-        alert("🛑 SICUREZza INTERVENUTA (3/3): Troppi tentativi falliti. L'account è stato compromesso o violato. Cancellazione dati e ban in corso...");
+        alert("🛑 SICUREZZA INTERVENUTA (3/3): Troppi tentativi falliti. L'account e' stato compromesso. Cancellazione dati e ban in corso...");
         
-        // Esegue il wipe totale dell'app (simula la cancellazione dell'account)
+        // Wipe totale del profilo e ban permanente
         localStorage.clear();
+        localStorage.setItem("masterSabba_banned", "true");
         location.reload();
-    } else {
-        if (typeof showToast === 'function') showToast(`❌ ${customMsg}`);
-    }
-}
-
-// Funzione automatica per inviare la mail di allerta tramite la tua API Gmail
-function sendSecurityAlertEmail() {
-    // Sostituisci con il tuo indirizzo email reale dove vuoi ricevere l'allerta
-    const ownerEmail = "recipient@example.com"; 
-    const subject = "🚨 ALLERTA SICUREZZA: Tentativo di accesso Admin fallito!";
-    const body = "Salve MasterSabba,È stato rilevato un tentativo di accesso non autorizzato al Command Center Admin della tua app.Controlla immediatamente i log di sicurezza del tuo sistema arcade.Cordiali saluti,MasterSabba Security Core";
-
-    // Chiama direttamente l'azione di invio senza finestre o conferme superflue
-    try {
-        gmail.send_message({
-            to: [ownerEmail],
-            subject: subject,
-            body: body
-        });
-    } catch (e) {
-        console.error("Errore nell'invio dell'email di sicurezza:", e);
     }
 }
 /* === SUITE COMANDI ADMIN === */
