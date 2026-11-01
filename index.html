@@ -941,9 +941,9 @@
                         <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
                     </div>
                     <div class="card-footer">
-                        <span class="tag">Riflessi</span>
-                        <a href="https://mastersabba.github.io/MasterKey/" target="_blank" class="btn-play" onclick="registerPlay(event, 'master-key')">GIOCA</a>
-                    </div>
+                    <span class="tag">Riflessi</span>
+                    <a href="https://mastersabba.github.io/MasterKey/" target="_blank" class="btn-play" onclick="launchMasterKey(event)">GIOCA</a>
+                </div>
                 </div>
             </article>
             <article class="game-card" data-id="master-block" data-category="puzzle" data-name="tetra block masterblock block blocchi matrix tetris" onclick="openGamePreview('master-block')">
@@ -1835,6 +1835,22 @@
             var weekNo = Math.ceil(( ( (d - yearStart) / 86400000) + 1)/7);
             return weekNo;
         }
+        
+function launchMasterKey(event) {
+    if (event) event.preventDefault();
+    
+    // Recupera il livello salvato nell'Hub oppure usa 698 come fallback
+    let currentLvl = localStorage.getItem('mk_level') || localStorage.getItem('freeTheKey_level') || '698';
+    
+    // Registra la giocata nelle statistiche dell'Hub
+    if (typeof registerPlay === 'function') {
+        registerPlay(event, 'master-key');
+    }
+    
+    // Apre il gioco passando il livello esatto nell'URL
+    let targetUrl = `https://mastersabba.github.io/MasterKey/?level=${currentLvl}`;
+    window.open(targetUrl, '_blank');
+}
 
         function startWeeklyTournamentTimer() {
             function updateTournament() {
