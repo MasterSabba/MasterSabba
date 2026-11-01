@@ -2953,7 +2953,7 @@ async function verifyFinalPin() {
                     if (snapshot.exists()) {
                         const data = snapshot.val();
                         if (data.timestamp && (Date.now() - data.timestamp) < 600000) {
-                            showToast(`📢 ANNONCIO: ${data.message}`);
+                            showToast(`📢 ANNUNCIO: ${data.message}`);
                         }
                     }
                 });
