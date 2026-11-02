@@ -1839,16 +1839,17 @@
 function launchMasterKey(event) {
     if (event) event.preventDefault();
     
-    // Recupera il livello salvato nell'Hub oppure usa 698 come fallback
-    let currentLvl = localStorage.getItem('mk_level') || localStorage.getItem('freeTheKey_level') || '698';
-    
-    // Registra la giocata nelle statistiche dell'Hub
+    // Recupera l'ID utente dell'account connesso nell'Hub
+    let currentUid = (currentUser && currentUser.uid) ? currentUser.uid : localStorage.getItem('masterhub_logged_user') || 'guest';
+    let currentName = (userState && userState.username) ? userState.username : 'Ospite';
+
+    // Registra la giocata nelle statistiche
     if (typeof registerPlay === 'function') {
         registerPlay(event, 'master-key');
     }
-    
-    // Apre il gioco passando il livello esatto nell'URL
-    let targetUrl = `https://mastersabba.github.io/MasterKey/?level=${currentLvl}`;
+
+    // Apre il gioco passando l'ID e lo username dell'utente attivo
+    let targetUrl = `https://mastersabba.github.io/MasterKey/?player=${encodeURIComponent(currentName)}&userId=${encodeURIComponent(currentUid)}`;
     window.open(targetUrl, '_blank');
 }
 
