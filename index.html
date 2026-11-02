@@ -2015,7 +2015,37 @@ async function verifyFinalPin() {
             }
         }
 
-      /* COMANDI ADMIN IMPLEMENTATI E CORRETTI */
+      /* =========================================================
+   SISTEMA POPUP STILE ARCADE (No alert di testo nativi)
+   ========================================================= */
+function showCyberPopup(title, message, icon = "ℹ️") {
+    let modal = document.getElementById('cyberNoticeModal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'cyberNoticeModal';
+        modal.className = 'modal-overlay';
+        modal.style.zIndex = '10000';
+        modal.innerHTML = `
+            <div class="modal-card" style="text-align: center; max-width: 400px; border-color: var(--neon-cyan);">
+                <div class="modal-header" style="justify-content: center; gap: 8px;">
+                    <span id="cyberPopupIcon" style="font-size: 1.5rem;">ℹ️</span>
+                    <h3 id="cyberPopupTitle" style="color: var(--neon-cyan);">Avviso</h3>
+                </div>
+                <p id="cyberPopupMessage" style="color: var(--text-primary); margin: 1.2rem 0; font-size: 0.95rem; line-height: 1.4;"></p>
+                <button class="hub-btn" style="width: 100%; color: var(--neon-cyan); border-color: var(--neon-cyan);" onclick="closeModal('cyberNoticeModal')">CHIUDI</button>
+            </div>
+        `;
+        document.body.appendChild(modal);
+    }
+    document.getElementById('cyberPopupIcon').textContent = icon;
+    document.getElementById('cyberPopupTitle').textContent = title;
+    document.getElementById('cyberPopupMessage').textContent = message;
+    modal.style.display = 'flex';
+}
+
+/* =========================================================
+   COMANDI ADMIN CORRETTI E POPUP INTEGRATI
+   ========================================================= */
 function loadAdminStats() {
     if (isFirebaseActive && db) {
         db.ref('users').once('value').then(snapshot => {
@@ -2031,12 +2061,6 @@ function loadAdminStats() {
             document.getElementById('adminTotalUsersCount').textContent = totalUsers;
             document.getElementById('adminTotalGamesCount').textContent = totalGames;
         });
-    } else {
-        const mockAccounts = JSON.parse(localStorage.getItem('mockAccounts')) || {};
-        let totalUsers = Object.keys(mockAccounts).length;
-        let totalGames = userState.gamesPlayed || 0;
-        document.getElementById('adminTotalUsersCount').textContent = totalUsers;
-        document.getElementById('adminTotalGamesCount').textContent = totalGames;
     }
 }
 
@@ -2045,7 +2069,7 @@ function adminModifyXP(action) {
     const amount = parseInt(document.getElementById('adminXpAmount').value) || 0;
 
     if (!targetUser) {
-        alert("⚠️ Inserisci il nome utente target.");
+        showCyberPopup("⚠️ Attenzione", "Inserisci il nome utente target.", "⚠️");
         return;
     }
 
@@ -2067,22 +2091,19 @@ function adminModifyXP(action) {
                     else if (action === 'reset') userData.xp = 0;
 
                     db.ref('users/' + foundKey).update({ xp: userData.xp });
-                    alert(`✅ XP di "${targetUser}" aggiornati a ${userData.xp}`);
+                    showCyberPopup("Modifica XP", `XP dell'utente "${targetUser}" aggiornati a ${userData.xp}.`, "💎");
                 } else {
-                    alert("❌ Utente non trovato su Firebase.");
+                    showCyberPopup("Errore", `Utente "${targetUser}" non trovato su Firebase.`, "❌");
                 }
             }
         });
-    } else {
-        alert("⚠️ Firebase non attivo: impossibile modificare utenti remoti.");
     }
 }
 
-// 🚫 Ban / Unban Utente Sincronizzato su Firebase
 function adminBanUserAction(shouldBan) {
     const targetUser = document.getElementById('adminBanUser').value.trim().toLowerCase();
     if (!targetUser) {
-        alert("⚠️ Inserisci l'username da bannare.");
+        showCyberPopup("⚠️ Attenzione", "Inserisci l'username da bannare o sbannare.", "⚠️");
         return;
     }
 
@@ -2098,54 +2119,35 @@ function adminBanUserAction(shouldBan) {
 
                 if (foundKey) {
                     db.ref('users/' + foundKey).update({ banned: shouldBan }).then(() => {
-                        alert(`🚫 Utente "${targetUser}" ${shouldBan ? 'bannato' : 'sbannato'} con successo su Firebase!`);
+                        const stato = shouldBan ? "bannato" : "sbannato";
+                        showCyberPopup("Moderazione Utenti", `Utente "${targetUser}" ${stato} con successo su Firebase!`, shouldBan ? "🚫" : "✅");
                         document.getElementById('adminBanUser').value = "";
                     });
                 } else {
-                    alert("❌ Utente non trovato nel database Firebase.");
+                    showCyberPopup("Errore", `Utente "${targetUser}" non trovato nel database Firebase.`, "❌");
                 }
             }
         });
-    } else {
-        let bannedUsers = JSON.parse(localStorage.getItem("masterSabba_bannedUsers") || "[]");
-        if (shouldBan) {
-            if (!bannedUsers.includes(targetUser)) bannedUsers.push(targetUser);
-            alert(`🚫 Utente "${targetUser}" bannato in locale.`);
-        } else {
-            bannedUsers = bannedUsers.filter(u => u !== targetUser);
-            alert(`✅ Utente "${targetUser}" sbannato in locale.`);
-        }
-        localStorage.setItem("masterSabba_bannedUsers", JSON.stringify(bannedUsers));
-        document.getElementById('adminBanUser').value = "";
     }
 }
 
-function adminUnbanDevice() {
-    localStorage.removeItem("masterSabba_banned");
-    localStorage.removeItem("masterSabba_bannedUsers");
-    alert("🛡️ Dispositivo e blocchi di sicurezza rimossi con successo!");
-    location.reload();
-}
-
-// 📢 Broadcast Sincronizzato su Firebase
 function adminSendBroadcast() {
     const msgInput = document.getElementById('adminBroadcastMsg');
     if (!msgInput) return;
     const msg = msgInput.value.trim();
-    if (!msg) { alert("⚠️ Scrivi un messaggio per il broadcast."); return; }
+    if (!msg) { 
+        showCyberPopup("⚠️ Attenzione", "Scrivi un messaggio per il broadcast prima di inviare.", "⚠️"); 
+        return; 
+    }
     
     if (isFirebaseActive && db) {
         db.ref('broadcast').set({ message: msg, timestamp: Date.now() }).then(() => {
-            alert(`📢 BROADCAST INVIATO A TUTTI GLI UTENTI: "${msg}"`);
+            showCyberPopup("Broadcast Inviato", `Messaggio inviato a tutti i dispositivi connessi:\n"${msg}"`, "📢");
             msgInput.value = "";
         });
-    } else {
-        alert(`📢 BROADCAST LOCALE: "${msg}"`);
-        msgInput.value = "";
     }
 }
 
-// ⚔️ Torneo Sincronizzato su Firebase
 function adminSetTournamentGame() {
     const selector = document.getElementById('adminGameSelector');
     if (!selector) return;
@@ -2153,65 +2155,64 @@ function adminSetTournamentGame() {
     
     if (isFirebaseActive && db) {
         db.ref('settings/forcedTournament').set(selectedGame).then(() => {
-            alert(`⚔️ Torneo forzato e sincronizzato su Firebase: ${selectedGame}`);
+            showCyberPopup("Torneo Aggiornato", `Il Torneo Settimanale è stato forzato su: ${selectedGame}`, "⚔️");
         });
-    } else {
-        localStorage.setItem('forced_tournament_game', selectedGame);
-        alert(`⚔️ Torneo forzato in locale su: ${selectedGame}`);
-    }
-
-    const gameTitleEl = document.getElementById('weeklyTournamentGame');
-    if (gameTitleEl) {
-        gameTitleEl.textContent = selectedGame;
-        buildLeaderboards();
     }
 }
 
-function adminResetLeaderboard() {
-    if (confirm("⚠️ SEI SICURO? Questo azzererà le classifiche globali.")) {
-        if (typeof window.globalRivals !== 'undefined') window.globalRivals = {};
-        alert("🗑️ Classifiche svuotate!");
-        buildLeaderboards();
-    }
-}
-
-function adminClearAppCache() {
-    if (confirm("Vuoi cancellare i dati memorizzati nel browser?")) {
-        localStorage.clear();
-        alert("🧹 Cache svuotata. Ricarica la pagina per applicare.");
-        location.reload();
-    }
-}
-
-function adminAddXP(amount) {
-    const targetInput = document.getElementById('adminTargetUser');
-    const targetUser = targetInput ? targetInput.value.trim() : "";
-    if (targetUser) {
-        document.getElementById('adminXpAmount').value = amount;
-        adminModifyXP('add');
-    } else {
-        userState.xp = (userState.xp || 0) + amount;
-        saveState();
-        alert(`⚡ Aggiunti +${amount} XP al tuo profilo.`);
-    }
-}
-
-function adminCreateCode() {
-    const codeInput = document.getElementById('newPromoCode');
-    const valInput = document.getElementById('newPromoVal');
-    if (!codeInput || !valInput) return;
+/* =========================================================
+   LISTENERS FIREBASE IN TEMPO REALE (Aggiornato)
+   ========================================================= */
+document.addEventListener('DOMContentLoaded', () => {
+    startHubBoosterTimer();
+    startWeeklyTournamentTimer();
     
-    const code = codeInput.value.trim().toUpperCase();
-    const val = parseInt(valInput.value);
-    if (!code || !val) { alert("Inserisci codice e valore XP."); return; }
-    
-    let customCodes = JSON.parse(localStorage.getItem('arcade_promo_codes')) || {};
-    customCodes[code] = val;
-    localStorage.setItem('arcade_promo_codes', JSON.stringify(customCodes));
-    alert(`🔑 Codice promo "${code}" creato con successo (${val} XP)!`);
-    codeInput.value = "";
-    valInput.value = "";
-}
+    if (isFirebaseActive && db) {
+        // 1. ASCOLTO BROADCAST (Mostra il popup solo UNA volta per sessione)
+        db.ref('broadcast').on('value', snapshot => {
+            if (snapshot.exists()) {
+                const data = snapshot.val();
+                const lastSeenBroadcast = sessionStorage.getItem('last_seen_broadcast');
+                
+                if (data.timestamp && String(data.timestamp) !== lastSeenBroadcast) {
+                    sessionStorage.setItem('last_seen_broadcast', String(data.timestamp));
+                    showCyberPopup("📢 ANNUNCIO GLOBALE", data.message, "📢");
+                }
+            }
+        });
+
+        // 2. ASCOLTO TORNEO FORZATO IN TEMPO REALE
+        db.ref('settings/forcedTournament').on('value', snapshot => {
+            if (snapshot.exists()) {
+                const forcedGame = snapshot.val();
+                const gameTitleEl = document.getElementById('weeklyTournamentGame');
+                if (gameTitleEl) gameTitleEl.textContent = forcedGame;
+                if (typeof buildLeaderboards === 'function') buildLeaderboards();
+            }
+        });
+
+        // 3. CONTROLLO BAN UTENTE IN TEMPO REALE
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                currentUser = user;
+                localStorage.setItem('masterhub_logged_user', user.uid);
+                
+                db.ref('users/' + user.uid + '/banned').on('value', snapshot => {
+                    if (snapshot.val() === true) {
+                        document.body.innerHTML = `
+                            <div style="background: #000; color: #ff0055; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: sans-serif; text-align: center; padding: 20px;">
+                                <h1 style="font-size: 2.5rem; margin-bottom: 10px;">🛑 ACCESSO NEGATO</h1>
+                                <p style="color: #fff; font-size: 1.2rem;">Il tuo account è stato permanentemente bannato dall'amministratore.</p>
+                            </div>
+                        `;
+                    }
+                });
+
+                loadUserData(user.uid);
+            } else { showAuthUI(false); }
+        });
+    } else { checkLocalSession(); }
+});
 
         function generateProceduralQuests(currentState) {
             const lvl = Math.floor((currentState.xp || 0) / 300) + 1;
