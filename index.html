@@ -2148,18 +2148,19 @@ function adminSendBroadcast() {
     }
 }
 
-// 1. Correzione getActiveTournamentGame per leggere il torneo forzato
 function getActiveTournamentGame() {
     if (window.forcedTournamentGame) return window.forcedTournamentGame;
     let forcedGame = localStorage.getItem('forced_tournament_game');
     if (forcedGame) return forcedGame;
     
-    const now = new Date();
-    const currentWeek = getWeekNumber(now);
-    return eligibleTournamentGames[currentWeek % eligibleTournamentGames.length].name;
+    if (typeof eligibleTournamentGames !== 'undefined' && eligibleTournamentGames.length > 0) {
+        const now = new Date();
+        const currentWeek = typeof getWeekNumber === 'function' ? getWeekNumber(now) : 0;
+        return eligibleTournamentGames[currentWeek % eligibleTournamentGames.length].name;
+    }
+    return "Free the Key";
 }
 
-// 2. Forza Torneo funzionante (locale + Firebase)
 function adminSetTournamentGame() {
     const selector = document.getElementById('adminGameSelector');
     if (!selector) return;
@@ -2169,23 +2170,23 @@ function adminSetTournamentGame() {
     window.forcedTournamentGame = selectedGame;
 
     if (isFirebaseActive && db) {
-        db.ref('settings/forcedTournament').set(selectedGame);
+        db.ref('settings/forcedTournament').set(selectedGame).then(() => {
+            showCyberPopup("Torneo Aggiornato", `Torneo impostato e salvato su Firebase: ${selectedGame}`, "⚔️");
+        });
+    } else {
+        showCyberPopup("Torneo Aggiornato", `Torneo impostato in locale su: ${selectedGame}`, "⚔️");
     }
 
     const gameTitleEl = document.getElementById('weeklyTournamentGame');
     if (gameTitleEl) gameTitleEl.textContent = selectedGame;
-    
     if (typeof buildLeaderboards === 'function') buildLeaderboards();
-    showCyberPopup("Torneo Aggiornato", `Torneo impostato su: ${selectedGame}`, "⚔️");
 }
 
-// 3. Wipe Classifiche potenziato (Resetta sia Firebase che Locale)
 function adminResetLeaderboard() {
     if (confirm("⚠️ SEI SICURO? Questo azzererà tutti i dati della classifica!")) {
         if (typeof window.globalRivals !== 'undefined') window.globalRivals = {};
         
         if (isFirebaseActive && db) {
-            // Azzera XP o punteggi salvati su Firebase per tutti gli utenti
             db.ref('users').once('value').then(snapshot => {
                 if (snapshot.exists()) {
                     snapshot.forEach(child => {
