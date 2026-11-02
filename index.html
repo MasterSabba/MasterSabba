@@ -2016,7 +2016,7 @@ async function verifyFinalPin() {
             }
         }
 
-       /* COMANDI ADMIN IMPLEMENTATI E CORRETTI */
+      /* COMANDI ADMIN IMPLEMENTATI E CORRETTI */
 function loadAdminStats() {
     if (isFirebaseActive && db) {
         db.ref('users').once('value').then(snapshot => {
@@ -2079,7 +2079,7 @@ function adminModifyXP(action) {
     }
 }
 
-// 🚫 Ban / Unban Utente
+// 🚫 Ban / Unban Utente Sincronizzato su Firebase
 function adminBanUserAction(shouldBan) {
     const targetUser = document.getElementById('adminBanUser').value.trim().toLowerCase();
     if (!targetUser) {
@@ -2087,16 +2087,38 @@ function adminBanUserAction(shouldBan) {
         return;
     }
 
-    let bannedUsers = JSON.parse(localStorage.getItem("masterSabba_bannedUsers") || "[]");
-    if (shouldBan) {
-        if (!bannedUsers.includes(targetUser)) bannedUsers.push(targetUser);
-        alert(`🚫 Utente "${targetUser}" bannato con successo.`);
+    if (isFirebaseActive && db) {
+        db.ref('users').once('value').then(snapshot => {
+            if (snapshot.exists()) {
+                let foundKey = null;
+                snapshot.forEach(child => {
+                    if (child.val().username && child.val().username.toLowerCase() === targetUser) {
+                        foundKey = child.key;
+                    }
+                });
+
+                if (foundKey) {
+                    db.ref('users/' + foundKey).update({ banned: shouldBan }).then(() => {
+                        alert(`🚫 Utente "${targetUser}" ${shouldBan ? 'bannato' : 'sbannato'} con successo su Firebase!`);
+                        document.getElementById('adminBanUser').value = "";
+                    });
+                } else {
+                    alert("❌ Utente non trovato nel database Firebase.");
+                }
+            }
+        });
     } else {
-        bannedUsers = bannedUsers.filter(u => u !== targetUser);
-        alert(`✅ Utente "${targetUser}" sbannato.`);
+        let bannedUsers = JSON.parse(localStorage.getItem("masterSabba_bannedUsers") || "[]");
+        if (shouldBan) {
+            if (!bannedUsers.includes(targetUser)) bannedUsers.push(targetUser);
+            alert(`🚫 Utente "${targetUser}" bannato in locale.`);
+        } else {
+            bannedUsers = bannedUsers.filter(u => u !== targetUser);
+            alert(`✅ Utente "${targetUser}" sbannato in locale.`);
+        }
+        localStorage.setItem("masterSabba_bannedUsers", JSON.stringify(bannedUsers));
+        document.getElementById('adminBanUser').value = "";
     }
-    localStorage.setItem("masterSabba_bannedUsers", JSON.stringify(bannedUsers));
-    document.getElementById('adminBanUser').value = "";
 }
 
 function adminUnbanDevice() {
@@ -2106,6 +2128,7 @@ function adminUnbanDevice() {
     location.reload();
 }
 
+// 📢 Broadcast Sincronizzato su Firebase
 function adminSendBroadcast() {
     const msgInput = document.getElementById('adminBroadcastMsg');
     if (!msgInput) return;
@@ -2113,24 +2136,34 @@ function adminSendBroadcast() {
     if (!msg) { alert("⚠️ Scrivi un messaggio per il broadcast."); return; }
     
     if (isFirebaseActive && db) {
-        db.ref('broadcast').set({ message: msg, timestamp: Date.now() });
+        db.ref('broadcast').set({ message: msg, timestamp: Date.now() }).then(() => {
+            alert(`📢 BROADCAST INVIATO A TUTTI GLI UTENTI: "${msg}"`);
+            msgInput.value = "";
+        });
+    } else {
+        alert(`📢 BROADCAST LOCALE: "${msg}"`);
+        msgInput.value = "";
     }
-    alert(`📢 BROADCAST INVIATO A TUTTI GLI UTENTI: "${msg}"`);
-    msgInput.value = "";
 }
 
+// ⚔️ Torneo Sincronizzato su Firebase
 function adminSetTournamentGame() {
     const selector = document.getElementById('adminGameSelector');
     if (!selector) return;
     const selectedGame = selector.value;
     
-    // Salva il torneo forzato in modo persistente
-    localStorage.setItem('forced_tournament_game', selectedGame);
+    if (isFirebaseActive && db) {
+        db.ref('settings/forcedTournament').set(selectedGame).then(() => {
+            alert(`⚔️ Torneo forzato e sincronizzato su Firebase: ${selectedGame}`);
+        });
+    } else {
+        localStorage.setItem('forced_tournament_game', selectedGame);
+        alert(`⚔️ Torneo forzato in locale su: ${selectedGame}`);
+    }
 
     const gameTitleEl = document.getElementById('weeklyTournamentGame');
     if (gameTitleEl) {
         gameTitleEl.textContent = selectedGame;
-        alert(`⚔️ Torneo forzato su: ${selectedGame}`);
         buildLeaderboards();
     }
 }
