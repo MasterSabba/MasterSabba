@@ -2984,6 +2984,22 @@ async function verifyFinalPin() {
                 });
             } else { checkLocalSession(); }
         });
+
+        function checkTournamentRewards() {
+    const now = new Date();
+    const currentWeek = getWeekNumber(now);
+    const lastProcessedWeek = localStorage.getItem('last_processed_tournament_week');
+
+    // Se siamo a fine settimana (es. domenica sera) e la settimana è cambiata
+    if (lastProcessedWeek && parseInt(lastProcessedWeek) !== currentWeek) {
+        // Assegna il premio al primo in classifica del torneo precedente
+        showToast("🏆 Il torneo settimanale è terminato! I punti bonus sono stati assegnati.");
+        userState.xp += 10000; // Premio per il vincitore
+        saveState();
+    }
+    localStorage.setItem('last_processed_tournament_week', currentWeek);
+}
+
     </script>
 </body>
 </html>
