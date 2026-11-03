@@ -1504,41 +1504,47 @@
     </footer>
 
     <!-- MODALE PRIVACY POLICY -->
-    <div id="privacyModal" class="modal-overlay">
-        <div class="modal-card" style="max-height: 80vh; overflow-y: auto; text-align: left;">
-            <div class="modal-header">
-                <h3>🔒 Privacy Policy</h3>
-                <button class="modal-close" onclick="closeModal('privacyModal')">✕</button>
+   <!-- MODALE PRIVACY POLICY AGGIORNATO -->
+<div id="privacyModal" class="modal-overlay">
+    <div class="modal-card" style="max-height: 80vh; overflow-y: auto; text-align: left;">
+        <div class="modal-header">
+            <h3>🔒 Privacy Policy</h3>
+            <button class="modal-close" onclick="closeModal('privacyModal')">✕</button>
+        </div>
+        
+        <div style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; display: flex; flex-direction: column; gap: 10px;">
+            <p><strong>Ultimo aggiornamento:</strong> Novembre 2026</p>
+            
+            <!-- Avviso per l'accettazione tramite utilizzo continuato -->
+            <div style="background: rgba(0, 243, 255, 0.08); border: 1px solid rgba(0, 243, 255, 0.3); padding: 10px; border-radius: 8px; color: var(--text-primary); font-size: 0.8rem;">
+                ℹ️ <strong>Nota sull'accettazione:</strong> Continuando ad accedere al proprio account o a utilizzare i servizi di MasterSabba Arcade, l'utente accetta i presenti termini e la relativa informativa sulla privacy aggiornata.
             </div>
             
-            <div style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; display: flex; flex-direction: column; gap: 10px;">
-                <p><strong>Ultimo aggiornamento:</strong> Novembre 2026</p>
-                
-                <p>La presente Privacy Policy descrive come <strong>MasterSabba Arcade</strong> raccoglie, utilizza e protegge i dati degli utenti che utilizzano la piattaforma.</p>
-                
-                <h4 style="color: var(--neon-cyan); font-family: var(--font-heading); font-size: 0.9rem; margin-top: 5px;">1. Dati Raccolti</h4>
-                <p>Raccogliamo le informazioni fornite volontariamente in fase di registrazione o utilizzo (come indirizzo email e nome utente/gamertag) tramite Firebase Authentication e Realtime Database, oltre ai punteggi e ai progressi di gioco salvati in locale (`localStorage`) o sul cloud.</p>
-                
-                <h4 style="color: var(--neon-cyan); font-family: var(--font-heading); font-size: 0.9rem; margin-top: 5px;">2. Modulo di Segnalazione Bug</h4>
-                <p>Se utilizzi il sistema di segnalazione bug o contatti lo sviluppatore, l'indirizzo email inserito e il messaggio inviato vengono elaborati tramite servizi terzi sicuri (Web3Forms) al solo scopo di permettere allo sviluppatore di ricevere la segnalazione e risponderti.</p>
-                
-                <h4 style="color: var(--neon-cyan); font-family: var(--font-heading); font-size: 0.9rem; margin-top: 5px;">3. Utilizzo dei Dati</h4>
-                <p>I dati raccolti servono unicamente a:</p>
-                <ul style="padding-left: 20px;">
-                    <li>Gestire l'account di gioco e l'autenticazione.</li>
-                    <li>Aggiornare le classifiche globali e i tornei.</li>
-                    <li>Prevenire abusi, frodi o comportamenti non conformi (es. sistemi di ban).</li>
-                </ul>
-                
-                <h4 style="color: var(--neon-cyan); font-family: var(--font-heading); font-size: 0.9rem; margin-top: 5px;">4. Sicurezza</h4>
-                <p>Adottiamo misure di sicurezza tramite regole di accesso al database (Firebase Security Rules) per proteggere i dati degli utenti da accessi non autorizzati.</p>
-            </div>
+            <p>La presente Privacy Policy descrive come <strong>MasterSabba Arcade</strong> raccoglie, utilizza e protegge i dati degli utenti che utilizzano la piattaforma.</p>
+            
+            <h4 style="color: var(--neon-cyan); font-family: var(--font-heading); font-size: 0.9rem; margin-top: 5px;">1. Dati Raccolti</h4>
+            <p>Raccogliamo le informazioni fornite volontariamente in fase di registrazione o utilizzo (come indirizzo email e nome utente/gamertag) tramite Firebase Authentication e Realtime Database, oltre ai punteggi e ai progressi di gioco salvati in locale (`localStorage`) o sul cloud.</p>
+            
+            <h4 style="color: var(--neon-cyan); font-family: var(--font-heading); font-size: 0.9rem; margin-top: 5px;">2. Modulo di Segnalazione Bug</h4>
+            <p>Se utilizzi il sistema di segnalazione bug o contatti lo sviluppatore, l'indirizzo email inserito e il messaggio inviato vengono elaborati tramite servizi terzi sicuri (Web3Forms) al solo scopo di permettere allo sviluppatore di ricevere la segnalazione e risponderti.</p>
+            
+            <h4 style="color: var(--neon-cyan); font-family: var(--font-heading); font-size: 0.9rem; margin-top: 5px;">3. Utilizzo dei Dati</h4>
+            <p>I dati raccolti servono unicamente a:</p>
+            <ul style="padding-left: 20px;">
+                <li>Gestire l'account di gioco e l'autenticazione.</li>
+                <li>Aggiornare le classifiche globali e i tornei.</li>
+                <li>Prevenire abusi, frodi o comportamenti non conformi (es. sistemi di ban).</li>
+            </ul>
+            
+            <h4 style="color: var(--neon-cyan); font-family: var(--font-heading); font-size: 0.9rem; margin-top: 5px;">4. Sicurezza</h4>
+            <p>Adottiamo misure di sicurezza tramite regole di accesso al database (Firebase Security Rules) per proteggere i dati degli utenti da accessi non autorizzati.</p>
+        </div>
 
-            <div style="text-align: center; margin-top: 1.2rem;">
-                <button class="hub-btn" style="width: 100%; color: var(--neon-cyan); border-color: var(--neon-cyan);" onclick="closeModal('privacyModal')">CHIUDI</button>
-            </div>
+        <div style="text-align: center; margin-top: 1.2rem;">
+            <button class="hub-btn" style="width: 100%; color: var(--neon-cyan); border-color: var(--neon-cyan);" onclick="closeModal('privacyModal')">CHIUDI</button>
         </div>
     </div>
+</div>
 
     <script>
         const firebaseConfig = {
