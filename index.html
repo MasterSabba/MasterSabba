@@ -1152,28 +1152,39 @@
             
             <div id="profiloContent">
                 <div id="authSection">
-                    <input type="email" id="email" placeholder="Email" style="width: 100%; padding: 10px; background: rgba(0,0,0,0.4); border: var(--border-glass); border-radius: 8px; color: #fff; margin-bottom: 10px; outline: none;">
-                    <input type="password" id="password" placeholder="Password" style="width: 100%; padding: 10px; background: rgba(0,0,0,0.4); border: var(--border-glass); border-radius: 8px; color: #fff; margin-bottom: 10px; outline: none;">
-                    <input type="text" id="username" placeholder="Nome Utente (GamerTag)" style="width: 100%; padding: 10px; background: rgba(0,0,0,0.4); border: var(--border-glass); border-radius: 8px; color: #fff; margin-bottom: 10px; display: none; outline: none;">
-                    
-                    <div id="authError" style="color: var(--neon-pink); font-size: 0.85em; margin-bottom: 10px; min-height: 20px; text-align:center;"></div>
-                    
-                    <button id="btnSubmit" onclick="handleAuthAction()" style="width: 100%; padding: 10px; margin-bottom: 8px; background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan)); color: #fff; border: none; border-radius: 8px; font-family: var(--font-heading); font-weight: bold; cursor: pointer;">Accedi</button>
-                    
-                    <div id="forgotPasswordContainer" style="text-align: center; margin-bottom: 10px;">
-                        <span onclick="handleForgotPassword()" style="color: var(--text-secondary); font-size: 0.8em; cursor: pointer; text-decoration: underline;">Password dimenticata?</span>
-                    </div>
+    <input type="email" id="email" placeholder="Email" style="width: 100%; padding: 10px; background: rgba(0,0,0,0.4); border: var(--border-glass); border-radius: 8px; color: #fff; margin-bottom: 10px; outline: none;">
+    <input type="password" id="password" placeholder="Password" style="width: 100%; padding: 10px; background: rgba(0,0,0,0.4); border: var(--border-glass); border-radius: 8px; color: #fff; margin-bottom: 10px; outline: none;">
+    <input type="text" id="username" placeholder="Nome Utente (GamerTag)" style="width: 100%; padding: 10px; background: rgba(0,0,0,0.4); border: var(--border-glass); border-radius: 8px; color: #fff; margin-bottom: 10px; display: none; outline: none;">
 
-                    <p style="text-align: center; font-size: 0.85em; color: var(--text-secondary);">
-                        <span id="toggleText">Non hai un account?</span> 
-                        <span id="toggleActionText" onclick="toggleAuthMode()" style="color: var(--neon-cyan); cursor: pointer; text-decoration: underline;">Registrati</span>
-                    </p>
-                </div>
+    <!-- CONTENITORE PRIVACY POLICY (Visibile solo in Registrazione) -->
+    <div id="privacyContainer" style="display: none; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; font-size: 0.78rem; color: var(--text-secondary); background: rgba(0,0,0,0.3); padding: 8px 10px; border-radius: 8px; border: var(--border-glass);">
+        <label for="privacyConsent" style="cursor: pointer; display: flex; align-items: center; gap: 8px; flex: 1;">
+            <input type="checkbox" id="privacyConsent" style="accent-color: var(--neon-cyan); width: 16px; height: 16px; cursor: pointer;">
+            <span>Accetto i termini e la Privacy Policy</span>
+        </label>
+        <button type="button" onclick="openModal('privacyModal')" style="background: rgba(0, 243, 255, 0.15); border: 1px solid var(--neon-cyan); color: var(--neon-cyan); border-radius: 6px; padding: 4px 8px; font-size: 0.7rem; cursor: pointer; font-family: var(--font-heading); white-space: nowrap;">
+            📖 LEGGI 🔗
+        </button>
+    </div>
+    
+    <div id="authError" style="color: var(--neon-pink); font-size: 0.85em; margin-bottom: 10px; min-height: 20px; text-align:center;"></div>
+    
+    <button id="btnSubmit" onclick="handleAuthAction()" style="width: 100%; padding: 10px; margin-bottom: 8px; background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan)); color: #fff; border: none; border-radius: 8px; font-family: var(--font-heading); font-weight: bold; cursor: pointer;">Accedi</button>
+    
+    <div id="forgotPasswordContainer" style="text-align: center; margin-bottom: 10px;">
+        <span onclick="handleForgotPassword()" style="color: var(--text-secondary); font-size: 0.8em; cursor: pointer; text-decoration: underline;">Password dimenticata?</span>
+    </div>
 
+    <p style="text-align: center; font-size: 0.85em; color: var(--text-secondary);">
+        <span id="toggleText">Non hai un account?</span> 
+        <span id="toggleActionText" onclick="toggleAuthMode()" style="color: var(--neon-cyan); cursor: pointer; text-decoration: underline;">Registrati</span>
+    </p>
+</div>
                 <div id="userSection" style="display: none;">
                     <div class="profile-input-group">
                         <span class="profile-label">Nome Utente</span>
                         <input type="text" id="usernameInput" class="profile-input" value="RookieSabba" placeholder="Inserisci il tuo Nome" onchange="updateUsername()">
+                        
                     </div>
 
                     <span class="profile-label" style="text-align: center;">Scegli Avatar</span>
@@ -1485,7 +1496,49 @@
 
     <footer class="footer">
         <p>&copy; 2026 MasterSabba Arcade — Sviluppato da MasterSabba</p>
+        <p style="margin-top: 0.5rem; font-size: 0.75rem;">
+            <span style="color: var(--text-dim);">|</span> 
+            <a href="#" onclick="openModal('privacyModal'); return false;" style="color: var(--text-secondary); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='var(--neon-cyan)'" onmouseout="this.style.color='var(--text-secondary)'">Privacy Policy</a> 
+            <span style="color: var(--text-dim);">|</span>
+        </p>
     </footer>
+
+    <!-- MODALE PRIVACY POLICY -->
+    <div id="privacyModal" class="modal-overlay">
+        <div class="modal-card" style="max-height: 80vh; overflow-y: auto; text-align: left;">
+            <div class="modal-header">
+                <h3>🔒 Privacy Policy</h3>
+                <button class="modal-close" onclick="closeModal('privacyModal')">✕</button>
+            </div>
+            
+            <div style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; display: flex; flex-direction: column; gap: 10px;">
+                <p><strong>Ultimo aggiornamento:</strong> Novembre 2026</p>
+                
+                <p>La presente Privacy Policy descrive come <strong>MasterSabba Arcade</strong> raccoglie, utilizza e protegge i dati degli utenti che utilizzano la piattaforma.</p>
+                
+                <h4 style="color: var(--neon-cyan); font-family: var(--font-heading); font-size: 0.9rem; margin-top: 5px;">1. Dati Raccolti</h4>
+                <p>Raccogliamo le informazioni fornite volontariamente in fase di registrazione o utilizzo (come indirizzo email e nome utente/gamertag) tramite Firebase Authentication e Realtime Database, oltre ai punteggi e ai progressi di gioco salvati in locale (`localStorage`) o sul cloud.</p>
+                
+                <h4 style="color: var(--neon-cyan); font-family: var(--font-heading); font-size: 0.9rem; margin-top: 5px;">2. Modulo di Segnalazione Bug</h4>
+                <p>Se utilizzi il sistema di segnalazione bug o contatti lo sviluppatore, l'indirizzo email inserito e il messaggio inviato vengono elaborati tramite servizi terzi sicuri (Web3Forms) al solo scopo di permettere allo sviluppatore di ricevere la segnalazione e risponderti.</p>
+                
+                <h4 style="color: var(--neon-cyan); font-family: var(--font-heading); font-size: 0.9rem; margin-top: 5px;">3. Utilizzo dei Dati</h4>
+                <p>I dati raccolti servono unicamente a:</p>
+                <ul style="padding-left: 20px;">
+                    <li>Gestire l'account di gioco e l'autenticazione.</li>
+                    <li>Aggiornare le classifiche globali e i tornei.</li>
+                    <li>Prevenire abusi, frodi o comportamenti non conformi (es. sistemi di ban).</li>
+                </ul>
+                
+                <h4 style="color: var(--neon-cyan); font-family: var(--font-heading); font-size: 0.9rem; margin-top: 5px;">4. Sicurezza</h4>
+                <p>Adottiamo misure di sicurezza tramite regole di accesso al database (Firebase Security Rules) per proteggere i dati degli utenti da accessi non autorizzati.</p>
+            </div>
+
+            <div style="text-align: center; margin-top: 1.2rem;">
+                <button class="hub-btn" style="width: 100%; color: var(--neon-cyan); border-color: var(--neon-cyan);" onclick="closeModal('privacyModal')">CHIUDI</button>
+            </div>
+        </div>
+    </div>
 
     <script>
         const firebaseConfig = {
@@ -2383,18 +2436,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        function toggleAuthMode() {
-            isRegistering = !isRegistering;
-            const usernameInput = document.getElementById('username');
-            usernameInput.style.display = isRegistering ? 'block' : 'none';
-            
-            document.getElementById('profileModalTitle').textContent = isRegistering ? "📝 Registrati" : "🔐 Accedi";
-            document.getElementById('btnSubmit').innerText = isRegistering ? "Registrati" : "Accedi";
-            document.getElementById('toggleText').textContent = isRegistering ? "Hai già un account?" : "Non hai un account?";
-            document.getElementById('toggleActionText').textContent = isRegistering ? "Accedi" : "Registrati";
-            document.getElementById('authError').innerText = "";
-        }
-
         function showAuthUI(isLoggedIn) {
             document.getElementById('authSection').style.display = isLoggedIn ? 'none' : 'block';
             document.getElementById('userSection').style.display = isLoggedIn ? 'block' : 'none';
@@ -2407,54 +2448,85 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        function handleAuthAction() {
-            const email = document.getElementById('email').value.trim();
-            const password = document.getElementById('password').value.trim();
-            const username = document.getElementById('username').value.trim();
-            const errorDiv = document.getElementById('authError');
+// 1. Mostra la checkbox solo in "Registrati" e la nasconde in "Accedi"
+function toggleAuthMode() {
+    isRegistering = !isRegistering;
+    const usernameInput = document.getElementById('username');
+    const privacyContainer = document.getElementById('privacyContainer');
+    const privacyConsent = document.getElementById('privacyConsent');
 
-            errorDiv.innerText = "";
-            if (!email || !password) { errorDiv.innerText = "Inserisci email e password."; return; }
-            if (isRegistering && !username) { errorDiv.innerText = "Inserisci un nome utente."; return; }
+    usernameInput.style.display = isRegistering ? 'block' : 'none';
+    privacyContainer.style.display = isRegistering ? 'flex' : 'none';
+    
+    if (privacyConsent) privacyConsent.checked = false; // Reset spunta
+    
+    document.getElementById('profileModalTitle').textContent = isRegistering ? "📝 Registrati" : "🔐 Accedi";
+    document.getElementById('btnSubmit').innerText = isRegistering ? "Registrati" : "Accedi";
+    document.getElementById('toggleText').textContent = isRegistering ? "Hai già un account?" : "Non hai un account?";
+    document.getElementById('toggleActionText').textContent = isRegistering ? "Accedi" : "Registrati";
+    document.getElementById('authError').innerText = "";
+}
 
-            if (isFirebaseActive && auth) {
-                if (isRegistering) {
-                    auth.createUserWithEmailAndPassword(email, password).then(cred => {
-                        currentUser = cred.user;
-                        userState.username = username;
-                        window.hubCurrentUser = username;
-                        localStorage.setItem('masterhub_logged_user', cred.user.uid);
-                        db.ref('users/' + cred.user.uid).set(userState);
-                        showAuthUI(true);
-                        updateUI();
-                    }).catch(err => errorDiv.innerText = "Errore: " + err.message);
-                } else {
-                    auth.signInWithEmailAndPassword(email, password).then(cred => {
-                        currentUser = cred.user;
-                        localStorage.setItem('masterhub_logged_user', cred.user.uid);
-                        loadUserData(cred.user.uid);
-                    }).catch(err => errorDiv.innerText = "Credenziali errate.");
-                }
+// 2. Blocca la registrazione se la spunta non è attiva
+function handleAuthAction() {
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value.trim();
+    const username = document.getElementById('username').value.trim();
+    const privacyConsent = document.getElementById('privacyConsent');
+    const errorDiv = document.getElementById('authError');
+
+    errorDiv.innerText = "";
+    
+    if (!email || !password) { errorDiv.innerText = "Inserisci email e password."; return; }
+    
+    if (isRegistering) {
+        if (!username) { errorDiv.innerText = "Inserisci un nome utente."; return; }
+        if (!privacyConsent || !privacyConsent.checked) {
+            errorDiv.innerText = "⚠️ Devi accettare la Privacy Policy per registrarti.";
+            return;
+        }
+    }
+
+    if (isFirebaseActive && auth) {
+        if (isRegistering) {
+            auth.createUserWithEmailAndPassword(email, password).then(cred => {
+                currentUser = cred.user;
+                userState.username = username;
+                window.hubCurrentUser = username;
+                localStorage.setItem('masterhub_logged_user', cred.user.uid);
+                db.ref('users/' + cred.user.uid).set(userState);
+                showAuthUI(true);
+                updateUI();
+                showCyberPopup("Benvenuto!", "Registrazione completata con successo!", "🎉");
+            }).catch(err => errorDiv.innerText = "Errore: " + err.message);
+        } else {
+            auth.signInWithEmailAndPassword(email, password).then(cred => {
+                currentUser = cred.user;
+                localStorage.setItem('masterhub_logged_user', cred.user.uid);
+                loadUserData(cred.user.uid);
+            }).catch(err => errorDiv.innerText = "Credenziali errate.");
+        }
+    } else {
+        // Gestione Locale di backup
+        let localAccounts = JSON.parse(localStorage.getItem('mockAccounts')) || {};
+        if (isRegistering) {
+            if (localAccounts[email]) {
+                errorDiv.innerText = "Account già esistente.";
             } else {
-                let localAccounts = JSON.parse(localStorage.getItem('mockAccounts')) || {};
-                if (isRegistering) {
-                    if (localAccounts[email]) {
-                        errorDiv.innerText = "Account già esistente.";
-                    } else {
-                        localAccounts[email] = { password, username, xp: userState.xp, gamesPlayed: userState.gamesPlayed, winsPerGame: userState.winsPerGame };
-                        localStorage.setItem('mockAccounts', JSON.stringify(localAccounts));
-                        startLocalSession(email, localAccounts[email]);
-                    }
-                } else {
-                    const acc = localAccounts[email];
-                    if (acc && acc.password === password) {
-                        startLocalSession(email, acc);
-                    } else {
-                        errorDiv.innerText = "Credenziali non valide.";
-                    }
-                }
+                localAccounts[email] = { password, username, xp: userState.xp, gamesPlayed: userState.gamesPlayed, winsPerGame: userState.winsPerGame };
+                localStorage.setItem('mockAccounts', JSON.stringify(localAccounts));
+                startLocalSession(email, localAccounts[email]);
+            }
+        } else {
+            const acc = localAccounts[email];
+            if (acc && acc.password === password) {
+                startLocalSession(email, acc);
+            } else {
+                errorDiv.innerText = "Credenziali non valide.";
             }
         }
+    }
+}
 
         function handleLogout() {
             if (isFirebaseActive && auth) auth.signOut();
