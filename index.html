@@ -3151,6 +3151,39 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem('last_processed_tournament_week', currentWeek);
 }
 
+// Controlla gli aggiornamenti ogni volta che l'app viene aperta o riattivata
+window.addEventListener('focus', () => {
+    checkAppVersion();
+});
+
+async function checkAppVersion() {
+    // Verifica se l'app è aperta in modalità "standalone" (cioè da icona Homescreen / App)
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+    
+    if (isStandalone && navigator.onLine) {
+        try {
+            // Rilegge il file HTML principale dal server senza usare la cache (aggiungendo un parametro casuale)
+            const response = await fetch(window.location.href.split('?')[0] + '?v=' + Date.now(), { cache: 'no-store' });
+            const htmlText = await response.text();
+            
+            // Estrae un identificatore o confronta la dimensione/hash (o un meta tag di versione se vuoi)
+            // Metodo semplice: controlla se la versione corrente in cache differisce da quella fresca del server
+            // Oppure ricarica semplicemente la prima volta che viene aperta nella sessione giornaliera:
+            
+            const lastCheckDate = sessionStorage.getItem('app_version_checked');
+            const today = new Date().toDateString();
+
+            if (lastCheckDate !== today) {
+                sessionStorage.setItem('app_version_checked', today);
+                // Forza un refresh pulito per prendere gli ultimi script
+                window.location.reload(true);
+            }
+        } catch (e) {
+            // Ignora eventuali errori di connessione offline
+        }
+    }
+}
+
     </script>
 </body>
 </html>
