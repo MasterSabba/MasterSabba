@@ -1228,7 +1228,7 @@
                             <span>Winrate Globale:</span> <strong id="winRateVal" style="color:var(--neon-cyan)">0%</strong>
                         </div>
                     </div>
-
+                  
                     <h4 style="font-family: var(--font-heading); font-size: 0.85rem; margin: 1rem 0 0.5rem; color: var(--neon-cyan); text-align: center;">🏆 Trofei & Badge Sbloccati</h4>
                     <div class="achievements-list">
                         <span class="badge" id="badge-first-vote">⭐ Primo Voto (+XP Bonus)</span>
@@ -1242,6 +1242,8 @@
                     <div style="display: flex; gap: 0.6rem; margin-top: 1rem;">
                         <button class="hub-btn" style="flex: 1; color: var(--neon-pink);" onclick="handleLogout()">Disconnetti</button>
                         <button class="hub-btn" style="flex: 1; color: var(--neon-cyan);" onclick="exportData()">💾 Esporta Dati</button>
+                        <button class="hub-btn" onclick="forzaRichiestaNotifiche()" style="flex: 1; color: var(--neon-green);">
+                        Attiva Notifiche </button>
                     </div>
                 </div>
             </div>
@@ -3222,6 +3224,25 @@
                 messages.scrollTop = messages.scrollHeight;
             }, 350);
         }
+
+        async function forzaRichiestaNotifiche() {
+    try {
+        const permission = await Notification.requestPermission();
+        if (permission === 'granted') {
+            const messaging = firebase.messaging();
+            const token = await messaging.getToken({ vapidKey: 'TUA_VAPID_KEY_DI_FIREBASE' });
+            if (token && currentUser && db) {
+                db.ref('users/' + currentUser.uid).update({ fcmToken: token });
+                showCyberPopup("Ottimo!", "Notifiche attivate e token salvato con successo!", "🔔");
+            }
+        } else {
+            showCyberPopup("Attenzione", "Hai negato il permesso alle notifiche.", "⚠️");
+        }
+    } catch (e) {
+        console.error("Errore:", e);
+        showCyberPopup("Errore", "Impossibile attivare le notifiche su questo browser.", "❌");
+    }
+}
     </script>
 </body>
 </html>
