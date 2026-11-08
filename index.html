@@ -2373,17 +2373,33 @@
             startWeeklyTournamentTimer();
             
             if (isFirebaseActive && db) {
-                db.ref('broadcast').on('value', snapshot => {
-                    if (snapshot.exists()) {
-                        const data = snapshot.val();
-                        const lastSeenBroadcast = sessionStorage.getItem('last_seen_broadcast');
-                        
-                        if (data.timestamp && String(data.timestamp) !== lastSeenBroadcast) {
-                            sessionStorage.setItem('last_seen_broadcast', String(data.timestamp));
-                            showCyberPopup(data.title || "📢 ANNUNCIO", data.message, "📢");
-                        }
+    db.ref('broadcast').on('value', snapshot => {
+        if (snapshot.exists()) {
+            const data = snapshot.val();
+            const msgTimestamp = String(data.timestamp);
+            
+            // Salviamo temporaneamente il timestamp attivo nella sessione
+            sessionStorage.setItem('current_broadcast_timestamp', msgTimestamp);
+            
+            // Controlliamo se l'utente ha già letto questo specifico messaggio
+            if (currentUser) {
+                db.ref('users/' + currentUser.uid + '/readBroadcasts/' + msgTimestamp).once('value').then(readSnap => {
+                    if (!readSnap.exists()) {
+                        // Se non lo ha ancora letto, mostra il popup
+                        showCyberPopup(data.title || "📢 ANNUNCIO", data.message, "📢");
                     }
                 });
+            } else {
+                // Per gli ospiti, usiamo il sessionStorage classico
+                const lastSeenBroadcast = sessionStorage.getItem('last_seen_broadcast');
+                if (msgTimestamp !== lastSeenBroadcast) {
+                    sessionStorage.setItem('last_seen_broadcast', msgTimestamp);
+                    showCyberPopup(data.title || "📢 ANNUNCIO", data.message, "📢");
+                }
+            }
+        }
+    });
+
 
                 db.ref('settings/forcedTournament').on('value', snapshot => {
                     if (snapshot.exists()) {
@@ -3070,8 +3086,18 @@
         }
 
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
-        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-
+        function closeModal(id) {
+    document.getElementById(id).style.display = 'none';
+    
+    // Se l'utente chiude il popup di avviso/broadcast, registriamo che lo ha letto
+    if (id === 'cyberNoticeModal') {
+        const activeTimestamp = sessionStorage.getItem('current_broadcast_timestamp');
+        if (activeTimestamp && isFirebaseActive && db && currentUser) {
+            // Salva nel profilo personale dell'utente che questo timestamp è stato letto
+            db.ref('users/' + currentUser.uid + '/readBroadcasts/' + activeTimestamp).set(true);
+        }
+    }
+}
         function filterGames() {
             const input = document.getElementById("gameSearch").value.toLowerCase();
             document.querySelectorAll("#gameList .game-card").forEach(card => {
