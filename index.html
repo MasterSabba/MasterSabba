@@ -26,6 +26,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-messaging-compat.js"></script>
 
     <style>
         :root {
@@ -656,7 +657,6 @@
             opacity: 1;
         }
 
-        /* RUOTA DELLA FORTUNA GACHA CORRETTA ED EFFETTI FISICI */
         .wheel-container {
             position: relative;
             width: 240px;
@@ -1052,7 +1052,7 @@
         </div>
     </main>
 
-    <!-- MODALE RUOTA GIORNALIERA (GACHA CON ASTICELLA FISICA E SINCRONIZZATA) -->
+    <!-- MODALE RUOTA GIORNALIERA -->
     <div id="gachaModal" class="modal-overlay">
         <div class="modal-card" style="text-align: center;">
             <div class="modal-header">
@@ -1142,7 +1142,7 @@
         </div>
     </div>
 
-    <!-- MODALE PROFILO CON STATISTICHE A VITA & TROFEI AVANZATI -->
+    <!-- MODALE PROFILO -->
     <div id="profileModal" class="modal-overlay">
         <div class="modal-card" style="max-height:85vh; overflow-y:auto;">
             <div class="modal-header">
@@ -1152,39 +1152,37 @@
             
             <div id="profiloContent">
                 <div id="authSection">
-    <input type="email" id="email" placeholder="Email" style="width: 100%; padding: 10px; background: rgba(0,0,0,0.4); border: var(--border-glass); border-radius: 8px; color: #fff; margin-bottom: 10px; outline: none;">
-    <input type="password" id="password" placeholder="Password" style="width: 100%; padding: 10px; background: rgba(0,0,0,0.4); border: var(--border-glass); border-radius: 8px; color: #fff; margin-bottom: 10px; outline: none;">
-    <input type="text" id="username" placeholder="Nome Utente (GamerTag)" style="width: 100%; padding: 10px; background: rgba(0,0,0,0.4); border: var(--border-glass); border-radius: 8px; color: #fff; margin-bottom: 10px; display: none; outline: none;">
+                    <input type="email" id="email" placeholder="Email" style="width: 100%; padding: 10px; background: rgba(0,0,0,0.4); border: var(--border-glass); border-radius: 8px; color: #fff; margin-bottom: 10px; outline: none;">
+                    <input type="password" id="password" placeholder="Password" style="width: 100%; padding: 10px; background: rgba(0,0,0,0.4); border: var(--border-glass); border-radius: 8px; color: #fff; margin-bottom: 10px; outline: none;">
+                    <input type="text" id="username" placeholder="Nome Utente (GamerTag)" style="width: 100%; padding: 10px; background: rgba(0,0,0,0.4); border: var(--border-glass); border-radius: 8px; color: #fff; margin-bottom: 10px; display: none; outline: none;">
 
-    <!-- CONTENITORE PRIVACY POLICY (Visibile solo in Registrazione) -->
-    <div id="privacyContainer" style="display: none; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; font-size: 0.78rem; color: var(--text-secondary); background: rgba(0,0,0,0.3); padding: 8px 10px; border-radius: 8px; border: var(--border-glass);">
-        <label for="privacyConsent" style="cursor: pointer; display: flex; align-items: center; gap: 8px; flex: 1;">
-            <input type="checkbox" id="privacyConsent" style="accent-color: var(--neon-cyan); width: 16px; height: 16px; cursor: pointer;">
-            <span>Accetto i termini e la Privacy Policy</span>
-        </label>
-        <button type="button" onclick="openModal('privacyModal')" style="background: rgba(0, 243, 255, 0.15); border: 1px solid var(--neon-cyan); color: var(--neon-cyan); border-radius: 6px; padding: 4px 8px; font-size: 0.7rem; cursor: pointer; font-family: var(--font-heading); white-space: nowrap;">
-            📖 LEGGI 🔗
-        </button>
-    </div>
-    
-    <div id="authError" style="color: var(--neon-pink); font-size: 0.85em; margin-bottom: 10px; min-height: 20px; text-align:center;"></div>
-    
-    <button id="btnSubmit" onclick="handleAuthAction()" style="width: 100%; padding: 10px; margin-bottom: 8px; background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan)); color: #fff; border: none; border-radius: 8px; font-family: var(--font-heading); font-weight: bold; cursor: pointer;">Accedi</button>
-    
-    <div id="forgotPasswordContainer" style="text-align: center; margin-bottom: 10px;">
-        <span onclick="handleForgotPassword()" style="color: var(--text-secondary); font-size: 0.8em; cursor: pointer; text-decoration: underline;">Password dimenticata?</span>
-    </div>
+                    <div id="privacyContainer" style="display: none; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; font-size: 0.78rem; color: var(--text-secondary); background: rgba(0,0,0,0.3); padding: 8px 10px; border-radius: 8px; border: var(--border-glass);">
+                        <label for="privacyConsent" style="cursor: pointer; display: flex; align-items: center; gap: 8px; flex: 1;">
+                            <input type="checkbox" id="privacyConsent" style="accent-color: var(--neon-cyan); width: 16px; height: 16px; cursor: pointer;">
+                            <span>Accetto i termini e la Privacy Policy</span>
+                        </label>
+                        <button type="button" onclick="openModal('privacyModal')" style="background: rgba(0, 243, 255, 0.15); border: 1px solid var(--neon-cyan); color: var(--neon-cyan); border-radius: 6px; padding: 4px 8px; font-size: 0.7rem; cursor: pointer; font-family: var(--font-heading); white-space: nowrap;">
+                            📖 LEGGI 🔗
+                        </button>
+                    </div>
+                    
+                    <div id="authError" style="color: var(--neon-pink); font-size: 0.85em; margin-bottom: 10px; min-height: 20px; text-align:center;"></div>
+                    
+                    <button id="btnSubmit" onclick="handleAuthAction()" style="width: 100%; padding: 10px; margin-bottom: 8px; background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan)); color: #fff; border: none; border-radius: 8px; font-family: var(--font-heading); font-weight: bold; cursor: pointer;">Accedi</button>
+                    
+                    <div id="forgotPasswordContainer" style="text-align: center; margin-bottom: 10px;">
+                        <span onclick="handleForgotPassword()" style="color: var(--text-secondary); font-size: 0.8em; cursor: pointer; text-decoration: underline;">Password dimenticata?</span>
+                    </div>
 
-    <p style="text-align: center; font-size: 0.85em; color: var(--text-secondary);">
-        <span id="toggleText">Non hai un account?</span> 
-        <span id="toggleActionText" onclick="toggleAuthMode()" style="color: var(--neon-cyan); cursor: pointer; text-decoration: underline;">Registrati</span>
-    </p>
-</div>
+                    <p style="text-align: center; font-size: 0.85em; color: var(--text-secondary);">
+                        <span id="toggleText">Non hai un account?</span> 
+                        <span id="toggleActionText" onclick="toggleAuthMode()" style="color: var(--neon-cyan); cursor: pointer; text-decoration: underline;">Registrati</span>
+                    </p>
+                </div>
                 <div id="userSection" style="display: none;">
                     <div class="profile-input-group">
                         <span class="profile-label">Nome Utente</span>
                         <input type="text" id="usernameInput" class="profile-input" value="RookieSabba" placeholder="Inserisci il tuo Nome" onchange="updateUsername()">
-                        
                     </div>
 
                     <span class="profile-label" style="text-align: center;">Scegli Avatar</span>
@@ -1246,12 +1244,11 @@
                         <button class="hub-btn" style="flex: 1; color: var(--neon-cyan);" onclick="exportData()">💾 Esporta Dati</button>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
 
-    <!-- MODALE SEZIONE ADMIN COMPLETA E FIXATA -->
+    <!-- MODALE SEZIONE ADMIN AGGIORNATO CON I TRE CANALI -->
     <div id="adminModal" class="modal-overlay">
         <div class="modal-card admin-theme">
             <div class="modal-header" style="border-bottom-color: rgba(255, 0, 60, 0.3);">
@@ -1309,14 +1306,37 @@
                             <button onclick="adminBanUserAction(true)" style="background: #ff0055; color: #fff; border: none; padding: 6px 8px; border-radius: 6px; font-weight: bold; font-size: 0.7rem; cursor: pointer;">Banna</button>
                             <button onclick="adminBanUserAction(false)" style="background: var(--neon-cyan); color: #000; border: none; padding: 6px 8px; border-radius: 6px; font-weight: bold; font-size: 0.7rem; cursor: pointer;">Unban</button>
                         </div>
-                       
                     </div>
 
-                    <div style="margin-bottom: 14px; background: rgba(0,0,0,0.4); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
-                        <label style="color: #fff; font-size: 0.8rem; font-weight: bold; display: block; margin-bottom: 6px;">📢 Broadcast Annuncio Globale</label>
-                        <div style="display: flex; gap: 6px;">
-                            <input type="text" id="adminBroadcastMsg" placeholder="Messaggio per tutti gli utenti..." style="background: #111; color: #fff; border: 1px solid #333; padding: 6px; border-radius: 6px; flex: 1; font-size: 0.8rem;">
-                            <button onclick="adminSendBroadcast()" style="background: #aa00ff; color: #fff; border: none; padding: 6px 10px; border-radius: 6px; font-weight: bold; font-size: 0.7rem; cursor: pointer;">Invia</button>
+                    <!-- NUOVA GESTIONE A 3 CANALI PER I MESSAGGI -->
+                    <div style="margin-bottom: 14px; background: rgba(15, 2, 8, 0.9); padding: 10px; border-radius: 8px; border: 1px solid rgba(255, 0, 85, 0.4);">
+                        <label style="color: #ff0055; font-size: 0.8rem; font-weight: bold; display: block; margin-bottom: 8px;">📢 CENTRO MESSAGGI & BROADCAST</label>
+                        
+                        <!-- 1. Solo In-App -->
+                        <div style="margin-bottom: 8px; background: rgba(0,0,0,0.5); padding: 6px; border-radius: 6px; border: 1px solid rgba(0, 243, 255, 0.2);">
+                            <span style="color: var(--neon-cyan); font-size: 0.7rem; font-weight: bold; display: block; margin-bottom: 2px;">💬 Solo in Hub (Compagni Online)</span>
+                            <div style="display: flex; gap: 4px;">
+                                <input type="text" id="adminMsgInApp" placeholder="Messaggio interno..." style="background: #111; color: #fff; border: 1px solid #00f3ff; padding: 4px; border-radius: 4px; flex: 1; font-size: 0.75rem; outline: none;">
+                                <button onclick="sendInAppOnly()" style="background: var(--neon-cyan); color: #000; border: none; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 0.65rem; cursor: pointer;">Invia</button>
+                            </div>
+                        </div>
+
+                        <!-- 2. Solo Push Esterna -->
+                        <div style="margin-bottom: 8px; background: rgba(0,0,0,0.5); padding: 6px; border-radius: 6px; border: 1px solid rgba(255, 0, 85, 0.3);">
+                            <span style="color: #ff0055; font-size: 0.7rem; font-weight: bold; display: block; margin-bottom: 2px;">🔔 Solo Push (App Chiusa - Silenzioso)</span>
+                            <div style="display: flex; gap: 4px;">
+                                <input type="text" id="adminMsgPush" placeholder="Notifica silenziosa..." style="background: #111; color: #fff; border: 1px solid #ff0055; padding: 4px; border-radius: 4px; flex: 1; font-size: 0.75rem; outline: none;">
+                                <button onclick="sendPushOnly()" style="background: #ff0055; color: #fff; border: none; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 0.65rem; cursor: pointer;">Invia</button>
+                            </div>
+                        </div>
+
+                        <!-- 3. Entrambi -->
+                        <div style="background: rgba(0,0,0,0.5); padding: 6px; border-radius: 6px; border: 1px solid rgba(168, 17, 255, 0.4);">
+                            <span style="color: #a811ff; font-size: 0.7rem; font-weight: bold; display: block; margin-bottom: 2px;">⚡ Entrambi (Hub + Push)</span>
+                            <div style="display: flex; gap: 4px;">
+                                <input type="text" id="adminMsgBoth" placeholder="Messaggio ovunque..." style="background: #111; color: #fff; border: 1px solid #a811ff; padding: 4px; border-radius: 4px; flex: 1; font-size: 0.75rem; outline: none;">
+                                <button onclick="sendBoth()" style="background: linear-gradient(135deg, #a811ff, #00f3ff); color: #fff; border: none; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 0.65rem; cursor: pointer;">Invia</button>
+                            </div>
                         </div>
                     </div>
 
@@ -1504,47 +1524,45 @@
     </footer>
 
     <!-- MODALE PRIVACY POLICY -->
-   <!-- MODALE PRIVACY POLICY AGGIORNATO -->
-<div id="privacyModal" class="modal-overlay">
-    <div class="modal-card" style="max-height: 80vh; overflow-y: auto; text-align: left;">
-        <div class="modal-header">
-            <h3>🔒 Privacy Policy</h3>
-            <button class="modal-close" onclick="closeModal('privacyModal')">✕</button>
-        </div>
-        
-        <div style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; display: flex; flex-direction: column; gap: 10px;">
-            <p><strong>Ultimo aggiornamento:</strong> Novembre 2026</p>
-            
-            <!-- Avviso per l'accettazione tramite utilizzo continuato -->
-            <div style="background: rgba(0, 243, 255, 0.08); border: 1px solid rgba(0, 243, 255, 0.3); padding: 10px; border-radius: 8px; color: var(--text-primary); font-size: 0.8rem;">
-                ℹ️ <strong>Nota sull'accettazione:</strong> Continuando ad accedere al proprio account o a utilizzare i servizi di MasterSabba Arcade, l'utente accetta i presenti termini e la relativa informativa sulla privacy aggiornata.
+    <div id="privacyModal" class="modal-overlay">
+        <div class="modal-card" style="max-height: 80vh; overflow-y: auto; text-align: left;">
+            <div class="modal-header">
+                <h3>🔒 Privacy Policy</h3>
+                <button class="modal-close" onclick="closeModal('privacyModal')">✕</button>
             </div>
             
-            <p>La presente Privacy Policy descrive come <strong>MasterSabba Arcade</strong> raccoglie, utilizza e protegge i dati degli utenti che utilizzano la piattaforma.</p>
-            
-            <h4 style="color: var(--neon-cyan); font-family: var(--font-heading); font-size: 0.9rem; margin-top: 5px;">1. Dati Raccolti</h4>
-            <p>Raccogliamo le informazioni fornite volontariamente in fase di registrazione o utilizzo (come indirizzo email e nome utente/gamertag) tramite Firebase Authentication e Realtime Database, oltre ai punteggi e ai progressi di gioco salvati in locale (`localStorage`) o sul cloud.</p>
-            
-            <h4 style="color: var(--neon-cyan); font-family: var(--font-heading); font-size: 0.9rem; margin-top: 5px;">2. Modulo di Segnalazione Bug</h4>
-            <p>Se utilizzi il sistema di segnalazione bug o contatti lo sviluppatore, l'indirizzo email inserito e il messaggio inviato vengono elaborati tramite servizi terzi sicuri (Web3Forms) al solo scopo di permettere allo sviluppatore di ricevere la segnalazione e risponderti.</p>
-            
-            <h4 style="color: var(--neon-cyan); font-family: var(--font-heading); font-size: 0.9rem; margin-top: 5px;">3. Utilizzo dei Dati</h4>
-            <p>I dati raccolti servono unicamente a:</p>
-            <ul style="padding-left: 20px;">
-                <li>Gestire l'account di gioco e l'autenticazione.</li>
-                <li>Aggiornare le classifiche globali e i tornei.</li>
-                <li>Prevenire abusi, frodi o comportamenti non conformi (es. sistemi di ban).</li>
-            </ul>
-            
-            <h4 style="color: var(--neon-cyan); font-family: var(--font-heading); font-size: 0.9rem; margin-top: 5px;">4. Sicurezza</h4>
-            <p>Adottiamo misure di sicurezza tramite regole di accesso al database (Firebase Security Rules) per proteggere i dati degli utenti da accessi non autorizzati.</p>
-        </div>
+            <div style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; display: flex; flex-direction: column; gap: 10px;">
+                <p><strong>Ultimo aggiornamento:</strong> Novembre 2026</p>
+                
+                <div style="background: rgba(0, 243, 255, 0.08); border: 1px solid rgba(0, 243, 255, 0.3); padding: 10px; border-radius: 8px; color: var(--text-primary); font-size: 0.8rem;">
+                    ℹ️ <strong>Nota sull'accettazione:</strong> Continuando ad accedere al proprio account o a utilizzare i servizi di MasterSabba Arcade, l'utente accetta i presenti termini e la relativa informativa sulla privacy aggiornata.
+                </div>
+                
+                <p>La presente Privacy Policy descrive come <strong>MasterSabba Arcade</strong> raccoglie, utilizza e protegge i dati degli utenti che utilizzano la piattaforma.</p>
+                
+                <h4 style="color: var(--neon-cyan); font-family: var(--font-heading); font-size: 0.9rem; margin-top: 5px;">1. Dati Raccolti</h4>
+                <p>Raccogliamo le informazioni fornite volontariamente in fase di registrazione o utilizzo (come indirizzo email e nome utente/gamertag) tramite Firebase Authentication e Realtime Database, oltre ai punteggi e ai progressi di gioco salvati in locale (`localStorage`) o sul cloud.</p>
+                
+                <h4 style="color: var(--neon-cyan); font-family: var(--font-heading); font-size: 0.9rem; margin-top: 5px;">2. Modulo di Segnalazione Bug</h4>
+                <p>Se utilizzi il sistema di segnalazione bug o contatti lo sviluppatore, l'indirizzo email inserito e il messaggio inviato vengono elaborati tramite servizi terzi sicuri (Web3Forms) al solo scopo di permettere allo sviluppatore di ricevere la segnalazione e risponderti.</p>
+                
+                <h4 style="color: var(--neon-cyan); font-family: var(--font-heading); font-size: 0.9rem; margin-top: 5px;">3. Utilizzo dei Dati</h4>
+                <p>I dati raccolti servono unicamente a:</p>
+                <ul style="padding-left: 20px;">
+                    <li>Gestire l'account di gioco e l'autenticazione.</li>
+                    <li>Aggiornare le classifiche globali e i tornei.</li>
+                    <li>Prevenire abusi, frodi o comportamenti non conformi (es. sistemi di ban).</li>
+                </ul>
+                
+                <h4 style="color: var(--neon-cyan); font-family: var(--font-heading); font-size: 0.9rem; margin-top: 5px;">4. Sicurezza</h4>
+                <p>Adottiamo misure di sicurezza tramite regole di accesso al database (Firebase Security Rules) per proteggere i dati degli utenti da accessi non autorizzati.</p>
+            </div>
 
-        <div style="text-align: center; margin-top: 1.2rem;">
-            <button class="hub-btn" style="width: 100%; color: var(--neon-cyan); border-color: var(--neon-cyan);" onclick="closeModal('privacyModal')">CHIUDI</button>
+            <div style="text-align: center; margin-top: 1.2rem;">
+                <button class="hub-btn" style="width: 100%; color: var(--neon-cyan); border-color: var(--neon-cyan);" onclick="closeModal('privacyModal')">CHIUDI</button>
+            </div>
         </div>
     </div>
-</div>
 
     <script>
         const firebaseConfig = {
@@ -1569,6 +1587,42 @@
             e.preventDefault();
             deferredPrompt = e;
         });
+
+        // REGISTRAZIONE AUTOMATICA DEL SERVICE WORKER
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('Service Worker registrato con successo:', reg.scope))
+                    .catch(err => console.log('Errore registrazione Service Worker:', err));
+            });
+        }
+
+        // FUNZIONE PER RICHIEDERE E SALVARE IL TOKEN FCM UNA SOLA VOLTA SENZA DISTURBARE
+        async function requestAndSaveFCMToken(userId) {
+            try {
+                if (Notification.permission === 'granted') {
+                    const messaging = firebase.messaging();
+                    const token = await messaging.getToken({ vapidKey: 'TUA_VAPID_KEY_DI_FIREBASE' });
+                    if (token && db) {
+                        db.ref('users/' + userId).update({ fcmToken: token });
+                    }
+                    return;
+                }
+
+                if (Notification.permission === 'default') {
+                    const permission = await Notification.requestPermission();
+                    if (permission === 'granted') {
+                        const messaging = firebase.messaging();
+                        const token = await messaging.getToken({ vapidKey: 'TUA_VAPID_KEY_DI_FIREBASE' });
+                        if (token && db) {
+                            db.ref('users/' + userId).update({ fcmToken: token });
+                        }
+                    }
+                }
+            } catch (error) {
+                console.log("Notifiche push non supportate o errore token", error);
+            }
+        }
 
         function triggerAppInstall() {
             const ua = navigator.userAgent;
@@ -1785,7 +1839,6 @@
             closeModal('shopModal');
         }
 
-        /* SISTEMA RUOTA GACHA CORRETTO E FISICAMENTE ANIMATO */
         let isSpinning = false;
         function spinWheel() {
             const now = Date.now();
@@ -1804,7 +1857,6 @@
             const wheel = document.getElementById('wheelBox');
             const pointer = document.getElementById('wheelPointer');
             
-            // 5 spicchi: 0=500XP (0-72°), 1=1000XP (72-144°), 2=1500XP (144-216°), 3=2500XP (216-288°), 4=5000XP (288-360°)
             const rewardsConfig = [
                 { xp: 500, angleMin: 10, angleMax: 62 },
                 { xp: 1000, angleMin: 82, angleMax: 134 },
@@ -1816,14 +1868,12 @@
             const winningSegment = rewardsConfig[Math.floor(Math.random() * rewardsConfig.length)];
             const targetSectorAngle = winningSegment.angleMin + Math.floor(Math.random() * (winningSegment.angleMax - winningSegment.angleMin));
             
-            // L'asticella è in alto (0° / 360°). Per far atterrare lo spicchio in cima, ruotiamo di (360 - targetSectorAngle)
             const baseRotation = 360 - targetSectorAngle;
-            const extraRounds = 5 * 360; // 5 giri completi
+            const extraRounds = 5 * 360; 
             const totalDeg = extraRounds + baseRotation;
 
             wheel.style.transform = `rotate(${totalDeg}deg)`;
 
-            // Effetto vibrazione e scatto dell'asticella durante la rotazione
             let bounces = 0;
             const bounceInterval = setInterval(() => {
                 if (pointer) {
@@ -1894,22 +1944,19 @@
             return weekNo;
         }
         
-function launchMasterKey(event) {
-    if (event) event.preventDefault();
-    
-    // Recupera l'ID utente dell'account connesso nell'Hub
-    let currentUid = (currentUser && currentUser.uid) ? currentUser.uid : localStorage.getItem('masterhub_logged_user') || 'guest';
-    let currentName = (userState && userState.username) ? userState.username : 'Ospite';
+        function launchMasterKey(event) {
+            if (event) event.preventDefault();
+            
+            let currentUid = (currentUser && currentUser.uid) ? currentUser.uid : localStorage.getItem('masterhub_logged_user') || 'guest';
+            let currentName = (userState && userState.username) ? userState.username : 'Ospite';
 
-    // Registra la giocata nelle statistiche
-    if (typeof registerPlay === 'function') {
-        registerPlay(event, 'master-key');
-    }
+            if (typeof registerPlay === 'function') {
+                registerPlay(event, 'master-key');
+            }
 
-    // Apre il gioco passando l'ID e lo username dell'utente attivo
-    let targetUrl = `https://mastersabba.github.io/MasterKey/?player=${encodeURIComponent(currentName)}&userId=${encodeURIComponent(currentUid)}`;
-    window.open(targetUrl, '_blank');
-}
+            let targetUrl = `https://mastersabba.github.io/MasterKey/?player=${encodeURIComponent(currentName)}&userId=${encodeURIComponent(currentUid)}`;
+            window.open(targetUrl, '_blank');
+        }
 
         function startWeeklyTournamentTimer() {
             function updateTournament() {
@@ -2011,45 +2058,45 @@ function launchMasterKey(event) {
             }
         });
 
-       function verifySecretPin(inputStr) {
-    const encodedPin = "NTYxMjA4NTQyNjc5ODA2";
-    try {
-        return inputStr === atob(encodedPin);
-    } catch (e) {
-        return false;
-    }
-}
+        function verifySecretPin(inputStr) {
+            const encodedPin = "NTYxMjA4NTQyNjc5ODA2";
+            try {
+                return inputStr === atob(encodedPin);
+            } catch (e) {
+                return false;
+            }
+        }
 
-async function loginAdmin() {
-    const passInput = document.getElementById('adminPass').value.trim();
-    const pinInput = document.getElementById('adminPin').value.trim();
-    
-    const ADMIN_PASSWORD_CORRETTA = "ciabattinaio01";
+        async function loginAdmin() {
+            const passInput = document.getElementById('adminPass').value.trim();
+            const pinInput = document.getElementById('adminPin').value.trim();
+            
+            const ADMIN_PASSWORD_CORRETTA = "ciabattinaio01";
 
-    if (passInput === ADMIN_PASSWORD_CORRETTA && pinInput === "5319") {
-        adminFailedAttempts = 0;
-        document.getElementById('adminAuthSection').style.display = 'none';
-        document.getElementById('adminSecondAuthSection').style.display = 'block';
-        if (typeof showToast === 'function') showToast("⚠️ Inserisci il PIN definitivo...");
-    } else {
-        handleAdminFailedAttempt();
-    }
-}
+            if (passInput === ADMIN_PASSWORD_CORRETTA && pinInput === "5319") {
+                adminFailedAttempts = 0;
+                document.getElementById('adminAuthSection').style.display = 'none';
+                document.getElementById('adminSecondAuthSection').style.display = 'block';
+                if (typeof showToast === 'function') showToast("⚠️ Inserisci il PIN definitivo...");
+            } else {
+                handleAdminFailedAttempt();
+            }
+        }
 
-async function verifyFinalPin() {
-    const finalPinInput = document.getElementById('adminSecondPin').value.trim();
+        async function verifyFinalPin() {
+            const finalPinInput = document.getElementById('adminSecondPin').value.trim();
 
-    if (verifySecretPin(finalPinInput)) {
-        adminFailedAttempts = 0;
-        document.getElementById('adminSecondAuthSection').style.display = 'none';
-        document.getElementById('adminPanelSection').style.display = 'block';
-        if (typeof loadAdminStats === 'function') loadAdminStats();
-        if (typeof showToast === 'function') showToast("🔴 Accesso Admin Autorizzato.");
-    } else {
-        adminFailedAttempts++;
-        checkSecurityProtocol();
-    }
-}
+            if (verifySecretPin(finalPinInput)) {
+                adminFailedAttempts = 0;
+                document.getElementById('adminSecondAuthSection').style.display = 'none';
+                document.getElementById('adminPanelSection').style.display = 'block';
+                if (typeof loadAdminStats === 'function') loadAdminStats();
+                if (typeof showToast === 'function') showToast("🔴 Accesso Admin Autorizzato.");
+            } else {
+                adminFailedAttempts++;
+                checkSecurityProtocol();
+            }
+        }
 
         function handleAdminFailedAttempt() {
             adminFailedAttempts++;
@@ -2074,249 +2121,300 @@ async function verifyFinalPin() {
             }
         }
 
-      /* =========================================================
-   SISTEMA POPUP STILE ARCADE (No alert di testo nativi)
-   ========================================================= */
-function showCyberPopup(title, message, icon = "ℹ️") {
-    let modal = document.getElementById('cyberNoticeModal');
-    if (!modal) {
-        modal = document.createElement('div');
-        modal.id = 'cyberNoticeModal';
-        modal.className = 'modal-overlay';
-        modal.style.zIndex = '10000';
-        modal.innerHTML = `
-            <div class="modal-card" style="text-align: center; max-width: 400px; border-color: var(--neon-cyan);">
-                <div class="modal-header" style="justify-content: center; gap: 8px;">
-                    <span id="cyberPopupIcon" style="font-size: 1.5rem;">ℹ️</span>
-                    <h3 id="cyberPopupTitle" style="color: var(--neon-cyan);">Avviso</h3>
-                </div>
-                <p id="cyberPopupMessage" style="color: var(--text-primary); margin: 1.2rem 0; font-size: 0.95rem; line-height: 1.4;"></p>
-                <button class="hub-btn" style="width: 100%; color: var(--neon-cyan); border-color: var(--neon-cyan);" onclick="closeModal('cyberNoticeModal')">CHIUDI</button>
-            </div>
-        `;
-        document.body.appendChild(modal);
-    }
-    document.getElementById('cyberPopupIcon').textContent = icon;
-    document.getElementById('cyberPopupTitle').textContent = title;
-    document.getElementById('cyberPopupMessage').textContent = message;
-    modal.style.display = 'flex';
-}
-
-/* =========================================================
-   COMANDI ADMIN CORRETTI E POPUP INTEGRATI
-   ========================================================= */
-function loadAdminStats() {
-    if (isFirebaseActive && db) {
-        db.ref('users').once('value').then(snapshot => {
-            let totalUsers = 0;
-            let totalGames = 0;
-            if (snapshot.exists()) {
-                const usersObj = snapshot.val();
-                totalUsers = Object.keys(usersObj).length;
-                Object.values(usersObj).forEach(u => {
-                    totalGames += (u.gamesPlayed || 0);
-                });
+        function showCyberPopup(title, message, icon = "ℹ️") {
+            let modal = document.getElementById('cyberNoticeModal');
+            if (!modal) {
+                modal = document.createElement('div');
+                modal.id = 'cyberNoticeModal';
+                modal.className = 'modal-overlay';
+                modal.style.zIndex = '10000';
+                modal.innerHTML = `
+                    <div class="modal-card" style="text-align: center; max-width: 400px; border-color: var(--neon-cyan);">
+                        <div class="modal-header" style="justify-content: center; gap: 8px;">
+                            <span id="cyberPopupIcon" style="font-size: 1.5rem;">ℹ️</span>
+                            <h3 id="cyberPopupTitle" style="color: var(--neon-cyan);">Avviso</h3>
+                        </div>
+                        <p id="cyberPopupMessage" style="color: var(--text-primary); margin: 1.2rem 0; font-size: 0.95rem; line-height: 1.4;"></p>
+                        <button class="hub-btn" style="width: 100%; color: var(--neon-cyan); border-color: var(--neon-cyan);" onclick="closeModal('cyberNoticeModal')">CHIUDI</button>
+                    </div>
+                `;
+                document.body.appendChild(modal);
             }
-            document.getElementById('adminTotalUsersCount').textContent = totalUsers;
-            document.getElementById('adminTotalGamesCount').textContent = totalGames;
-        });
-    }
-}
-
-function adminModifyXP(action) {
-    const targetUser = document.getElementById('adminTargetUser').value.trim();
-    const amount = parseInt(document.getElementById('adminXpAmount').value) || 0;
-
-    if (!targetUser) {
-        showCyberPopup("⚠️ Attenzione", "Inserisci il nome utente target.", "⚠️");
-        return;
-    }
-
-    if (isFirebaseActive && db) {
-        db.ref('users').once('value').then(snapshot => {
-            if (snapshot.exists()) {
-                let foundKey = null;
-                let userData = null;
-                snapshot.forEach(child => {
-                    if (child.val().username && child.val().username.toLowerCase() === targetUser.toLowerCase()) {
-                        foundKey = child.key;
-                        userData = child.val();
-                    }
-                });
-
-                if (foundKey && userData) {
-                    if (action === 'add') userData.xp = (userData.xp || 0) + amount;
-                    else if (action === 'remove') userData.xp = Math.max(0, (userData.xp || 0) - amount);
-                    else if (action === 'reset') userData.xp = 0;
-
-                    db.ref('users/' + foundKey).update({ xp: userData.xp });
-                    showCyberPopup("Modifica XP", `XP dell'utente "${targetUser}" aggiornati a ${userData.xp}.`, "💎");
-                } else {
-                    showCyberPopup("Errore", `Utente "${targetUser}" non trovato su Firebase.`, "❌");
-                }
-            }
-        });
-    }
-}
-
-function adminBanUserAction(shouldBan) {
-    const targetUser = document.getElementById('adminBanUser').value.trim().toLowerCase();
-    if (!targetUser) {
-        showCyberPopup("⚠️ Attenzione", "Inserisci l'username da bannare o sbannare.", "⚠️");
-        return;
-    }
-
-    if (isFirebaseActive && db) {
-        db.ref('users').once('value').then(snapshot => {
-            if (snapshot.exists()) {
-                let foundKey = null;
-                snapshot.forEach(child => {
-                    if (child.val().username && child.val().username.toLowerCase() === targetUser) {
-                        foundKey = child.key;
-                    }
-                });
-
-                if (foundKey) {
-                    db.ref('users/' + foundKey).update({ banned: shouldBan }).then(() => {
-                        const stato = shouldBan ? "bannato" : "sbannato";
-                        showCyberPopup("Moderazione Utenti", `Utente "${targetUser}" ${stato} con successo su Firebase!`, shouldBan ? "🚫" : "✅");
-                        document.getElementById('adminBanUser').value = "";
-                    });
-                } else {
-                    showCyberPopup("Errore", `Utente "${targetUser}" non trovato nel database Firebase.`, "❌");
-                }
-            }
-        });
-    }
-}
-
-function adminSendBroadcast() {
-    const msgInput = document.getElementById('adminBroadcastMsg');
-    if (!msgInput) return;
-    const msg = msgInput.value.trim();
-    if (!msg) { 
-        showCyberPopup("⚠️ Attenzione", "Scrivi un messaggio per il broadcast prima di inviare.", "⚠️"); 
-        return; 
-    }
-    
-    if (isFirebaseActive && db) {
-        db.ref('broadcast').set({ 
-            title: "📢 Annuncio Admin",
-            message: msg, 
-            timestamp: Date.now() 
-        }).then(() => {
-            showCyberPopup("Broadcast Inviato", `Messaggio inviato a tutti i dispositivi connessi:\n"${msg}"`, "📢");
-            msgInput.value = "";
-        });
-    }
-}
-
-function getActiveTournamentGame() {
-    if (window.forcedTournamentGame) return window.forcedTournamentGame;
-    let forcedGame = localStorage.getItem('forced_tournament_game');
-    if (forcedGame) return forcedGame;
-    
-    if (typeof eligibleTournamentGames !== 'undefined' && eligibleTournamentGames.length > 0) {
-        const now = new Date();
-        const currentWeek = typeof getWeekNumber === 'function' ? getWeekNumber(now) : 0;
-        return eligibleTournamentGames[currentWeek % eligibleTournamentGames.length].name;
-    }
-    return "Free the Key";
-}
-
-function adminSetTournamentGame() {
-    const selector = document.getElementById('adminGameSelector');
-    if (!selector) return;
-    const selectedGame = selector.value;
-    
-    localStorage.setItem('forced_tournament_game', selectedGame);
-    window.forcedTournamentGame = selectedGame;
-
-    if (isFirebaseActive && db) {
-        db.ref('settings/forcedTournament').set(selectedGame).then(() => {
-            showCyberPopup("Torneo Aggiornato", `Torneo impostato e salvato su Firebase: ${selectedGame}`, "⚔️");
-        });
-    } else {
-        showCyberPopup("Torneo Aggiornato", `Torneo impostato in locale su: ${selectedGame}`, "⚔️");
-    }
-
-    const gameTitleEl = document.getElementById('weeklyTournamentGame');
-    if (gameTitleEl) gameTitleEl.textContent = selectedGame;
-    if (typeof buildLeaderboards === 'function') buildLeaderboards();
-}
-
-function adminResetLeaderboard() {
-    if (confirm("⚠️ SEI SICURO? Questo azzererà tutti i dati della classifica!")) {
-        if (typeof window.globalRivals !== 'undefined') window.globalRivals = {};
-        
-        if (isFirebaseActive && db) {
-            db.ref('users').once('value').then(snapshot => {
-                if (snapshot.exists()) {
-                    snapshot.forEach(child => {
-                        db.ref('users/' + child.key).update({ xp: 0, winsPerGame: {} });
-                    });
-                }
-            });
+            document.getElementById('cyberPopupIcon').textContent = icon;
+            document.getElementById('cyberPopupTitle').textContent = title;
+            document.getElementById('cyberPopupMessage').textContent = message;
+            modal.style.display = 'flex';
         }
-        
-        showCyberPopup("Classifiche Resettate", "Tutte le classifiche sono state svuotate con successo!", "🗑️");
-        if (typeof buildLeaderboards === 'function') buildLeaderboards();
-    }
-}
 
-/* =========================================================
-   LISTENERS FIREBASE IN TEMPO REALE (Aggiornato)
-   ========================================================= */
-document.addEventListener('DOMContentLoaded', () => {
-    startHubBoosterTimer();
-    startWeeklyTournamentTimer();
-    
-    if (isFirebaseActive && db) {
-        // 1. ASCOLTO BROADCAST (Mostra il popup solo UNA volta per sessione)
-        db.ref('broadcast').on('value', snapshot => {
-            if (snapshot.exists()) {
-                const data = snapshot.val();
-                const lastSeenBroadcast = sessionStorage.getItem('last_seen_broadcast');
-                
-                if (data.timestamp && String(data.timestamp) !== lastSeenBroadcast) {
-                    sessionStorage.setItem('last_seen_broadcast', String(data.timestamp));
-                    showCyberPopup("ANNUNCIO GLOBALE", data.message, "📢");
-                }
+        function loadAdminStats() {
+            if (isFirebaseActive && db) {
+                db.ref('users').once('value').then(snapshot => {
+                    let totalUsers = 0;
+                    let totalGames = 0;
+                    if (snapshot.exists()) {
+                        const usersObj = snapshot.val();
+                        totalUsers = Object.keys(usersObj).length;
+                        Object.values(usersObj).forEach(u => {
+                            totalGames += (u.gamesPlayed || 0);
+                        });
+                    }
+                    document.getElementById('adminTotalUsersCount').textContent = totalUsers;
+                    document.getElementById('adminTotalGamesCount').textContent = totalGames;
+                });
             }
-        });
+        }
 
-        // 2. ASCOLTO TORNEO FORZATO IN TEMPO REALE
-        db.ref('settings/forcedTournament').on('value', snapshot => {
-            if (snapshot.exists()) {
-                const forcedGame = snapshot.val();
-                const gameTitleEl = document.getElementById('weeklyTournamentGame');
-                if (gameTitleEl) gameTitleEl.textContent = forcedGame;
+        function adminModifyXP(action) {
+            const targetUser = document.getElementById('adminTargetUser').value.trim();
+            const amount = parseInt(document.getElementById('adminXpAmount').value) || 0;
+
+            if (!targetUser) {
+                showCyberPopup("⚠️ Attenzione", "Inserisci il nome utente target.", "⚠️");
+                return;
+            }
+
+            if (isFirebaseActive && db) {
+                db.ref('users').once('value').then(snapshot => {
+                    if (snapshot.exists()) {
+                        let foundKey = null;
+                        let userData = null;
+                        snapshot.forEach(child => {
+                            if (child.val().username && child.val().username.toLowerCase() === targetUser.toLowerCase()) {
+                                foundKey = child.key;
+                                userData = child.val();
+                            }
+                        });
+
+                        if (foundKey && userData) {
+                            if (action === 'add') userData.xp = (userData.xp || 0) + amount;
+                            else if (action === 'remove') userData.xp = Math.max(0, (userData.xp || 0) - amount);
+                            else if (action === 'reset') userData.xp = 0;
+
+                            db.ref('users/' + foundKey).update({ xp: userData.xp });
+                            showCyberPopup("Modifica XP", `XP dell'utente "${targetUser}" aggiornati a ${userData.xp}.`, "💎");
+                        } else {
+                            showCyberPopup("Errore", `Utente "${targetUser}" non trovato su Firebase.`, "❌");
+                        }
+                    }
+                });
+            }
+        }
+
+        function adminBanUserAction(shouldBan) {
+            const targetUser = document.getElementById('adminBanUser').value.trim().toLowerCase();
+            if (!targetUser) {
+                showCyberPopup("⚠️ Attenzione", "Inserisci l'username da bannare o sbannare.", "⚠️");
+                return;
+            }
+
+            if (isFirebaseActive && db) {
+                db.ref('users').once('value').then(snapshot => {
+                    if (snapshot.exists()) {
+                        let foundKey = null;
+                        snapshot.forEach(child => {
+                            if (child.val().username && child.val().username.toLowerCase() === targetUser) {
+                                foundKey = child.key;
+                            }
+                        });
+
+                        if (foundKey) {
+                            db.ref('users/' + foundKey).update({ banned: shouldBan }).then(() => {
+                                const stato = shouldBan ? "bannato" : "sbannato";
+                                showCyberPopup("Moderazione Utenti", `Utente "${targetUser}" ${stato} con successo su Firebase!`, shouldBan ? "🚫" : "✅");
+                                document.getElementById('adminBanUser').value = "";
+                            });
+                        } else {
+                            showCyberPopup("Errore", `Utente "${targetUser}" non trovato nel database Firebase.`, "❌");
+                        }
+                    }
+                });
+            }
+        }
+
+        // FUNZIONI DEL NUOVO CENTRO MESSAGGI ADMIN (A 3 CANALI)
+        function sendInAppOnly() {
+            const input = document.getElementById('adminMsgInApp');
+            const msg = input.value.trim();
+            if (!msg) { showCyberPopup("⚠️ Attenzione", "Scrivi un messaggio.", "⚠️"); return; }
+
+            if (isFirebaseActive && db) {
+                db.ref('broadcast').set({ 
+                    title: "📢 Annuncio Hub",
+                    message: msg, 
+                    timestamp: Date.now() 
+                }).then(() => {
+                    showCyberPopup("Inviato", "Messaggio inviato solo agli utenti nell'Hub!", "💬");
+                    input.value = "";
+                });
+            }
+        }
+
+        async function sendPushOnly() {
+            const input = document.getElementById('adminMsgPush');
+            const msg = input.value.trim();
+            if (!msg) { showCyberPopup("⚠️ Attenzione", "Scrivi un messaggio.", "⚠️"); return; }
+
+            await triggerPushNotification(msg);
+            showCyberPopup("Inviato", "Notifica Push inviata a chi ha l'app chiusa!", "🔔");
+            input.value = "";
+        }
+
+        async function sendBoth() {
+            const input = document.getElementById('adminMsgBoth');
+            const msg = input.value.trim();
+            if (!msg) { showCyberPopup("⚠️ Attenzione", "Scrivi un messaggio.", "⚠️"); return; }
+
+            await triggerPushNotification(msg);
+
+            if (isFirebaseActive && db) {
+                db.ref('broadcast').set({ 
+                    title: "⚡ Annuncio Globale",
+                    message: msg, 
+                    timestamp: Date.now() 
+                }).then(() => {
+                    showCyberPopup("Inviato", "Messaggio inviato SIA in Hub SIA via Push!", "⚡");
+                    input.value = "";
+                });
+            }
+        }
+
+        async function triggerPushNotification(messageText) {
+            if (!isFirebaseActive || !db) return;
+
+            try {
+                const snapshot = await db.ref('users').once('value');
+                if (!snapshot.exists()) return;
+
+                snapshot.forEach(child => {
+                    const userData = child.val();
+                    if (userData.fcmToken) {
+                        fetch('https://fcm.googleapis.com/fcm/send', {
+                            method: 'POST',
+                            headers: {
+                                'Authorization': 'key=LA_TUA_SERVER_KEY_FIREBASE',
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                "to": userData.fcmToken,
+                                "notification": {
+                                    "title": "MasterSabba Arcade",
+                                    "body": messageText
+                                },
+                                "webpush": {
+                                    "notification": {
+                                        "silent": true,
+                                        "vibrate": []
+                                    }
+                                }
+                            })
+                        }).catch(err => console.error("Errore Push utente:", err));
+                    }
+                });
+            } catch (e) {
+                console.error("Errore recupero token dal database:", e);
+            }
+        }
+
+        function getActiveTournamentGame() {
+            if (window.forcedTournamentGame) return window.forcedTournamentGame;
+            let forcedGame = localStorage.getItem('forced_tournament_game');
+            if (forcedGame) return forcedGame;
+            
+            if (typeof eligibleTournamentGames !== 'undefined' && eligibleTournamentGames.length > 0) {
+                const now = new Date();
+                const currentWeek = typeof getWeekNumber === 'function' ? getWeekNumber(now) : 0;
+                return eligibleTournamentGames[currentWeek % eligibleTournamentGames.length].name;
+            }
+            return "Free the Key";
+        }
+
+        function adminSetTournamentGame() {
+            const selector = document.getElementById('adminGameSelector');
+            if (!selector) return;
+            const selectedGame = selector.value;
+            
+            localStorage.setItem('forced_tournament_game', selectedGame);
+            window.forcedTournamentGame = selectedGame;
+
+            if (isFirebaseActive && db) {
+                db.ref('settings/forcedTournament').set(selectedGame).then(() => {
+                    showCyberPopup("Torneo Aggiornato", `Torneo impostato e salvato su Firebase: ${selectedGame}`, "⚔️");
+                });
+            } else {
+                showCyberPopup("Torneo Aggiornato", `Torneo impostato in locale su: ${selectedGame}`, "⚔️");
+            }
+
+            const gameTitleEl = document.getElementById('weeklyTournamentGame');
+            if (gameTitleEl) gameTitleEl.textContent = selectedGame;
+            if (typeof buildLeaderboards === 'function') buildLeaderboards();
+        }
+
+        function adminResetLeaderboard() {
+            if (confirm("⚠️ SEI SICURO? Questo azzererà tutti i dati della classifica!")) {
+                if (typeof window.globalRivals !== 'undefined') window.globalRivals = {};
+                
+                if (isFirebaseActive && db) {
+                    db.ref('users').once('value').then(snapshot => {
+                        if (snapshot.exists()) {
+                            snapshot.forEach(child => {
+                                db.ref('users/' + child.key).update({ xp: 0, winsPerGame: {} });
+                            });
+                        }
+                    });
+                }
+                
+                showCyberPopup("Classifiche Resettate", "Tutte le classifiche sono state svuotate con successo!", "🗑️");
                 if (typeof buildLeaderboards === 'function') buildLeaderboards();
             }
-        });
+        }
 
-        // 3. CONTROLLO BAN UTENTE IN TEMPO REALE
-        auth.onAuthStateChanged((user) => {
-            if (user) {
-                currentUser = user;
-                localStorage.setItem('masterhub_logged_user', user.uid);
-                
-                db.ref('users/' + user.uid + '/banned').on('value', snapshot => {
-                    if (snapshot.val() === true) {
-                        document.body.innerHTML = `
-                            <div style="background: #000; color: #ff0055; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: sans-serif; text-align: center; padding: 20px;">
-                                <h1 style="font-size: 2.5rem; margin-bottom: 10px;">🛑 ACCESSO NEGATO</h1>
-                                <p style="color: #fff; font-size: 1.2rem;">Il tuo account è stato permanentemente bannato dall'amministratore.</p>
-                            </div>
-                        `;
+        document.addEventListener('DOMContentLoaded', () => {
+            startHubBoosterTimer();
+            startWeeklyTournamentTimer();
+            
+            if (isFirebaseActive && db) {
+                db.ref('broadcast').on('value', snapshot => {
+                    if (snapshot.exists()) {
+                        const data = snapshot.val();
+                        const lastSeenBroadcast = sessionStorage.getItem('last_seen_broadcast');
+                        
+                        if (data.timestamp && String(data.timestamp) !== lastSeenBroadcast) {
+                            sessionStorage.setItem('last_seen_broadcast', String(data.timestamp));
+                            showCyberPopup(data.title || "📢 ANNUNCIO", data.message, "📢");
+                        }
                     }
                 });
 
-                loadUserData(user.uid);
-            } else { showAuthUI(false); }
+                db.ref('settings/forcedTournament').on('value', snapshot => {
+                    if (snapshot.exists()) {
+                        const forcedGame = snapshot.val();
+                        const gameTitleEl = document.getElementById('weeklyTournamentGame');
+                        if (gameTitleEl) gameTitleEl.textContent = forcedGame;
+                        if (typeof buildLeaderboards === 'function') buildLeaderboards();
+                    }
+                });
+
+                auth.onAuthStateChanged((user) => {
+                    if (user) {
+                        currentUser = user;
+                        localStorage.setItem('masterhub_logged_user', user.uid);
+                        
+                        db.ref('users/' + user.uid + '/banned').on('value', snapshot => {
+                            if (snapshot.val() === true) {
+                                document.body.innerHTML = `
+                                    <div style="background: #000; color: #ff0055; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: sans-serif; text-align: center; padding: 20px;">
+                                        <h1 style="font-size: 2.5rem; margin-bottom: 10px;">🛑 ACCESSO NEGATO</h1>
+                                        <p style="color: #fff; font-size: 1.2rem;">Il tuo account è stato permanentemente bannato dall'amministratore.</p>
+                                    </div>
+                                `;
+                            }
+                        });
+
+                        loadUserData(user.uid);
+                    } else { showAuthUI(false); }
+                });
+            } else { checkLocalSession(); }
         });
-    } else { checkLocalSession(); }
-});
 
         function generateProceduralQuests(currentState) {
             const lvl = Math.floor((currentState.xp || 0) / 300) + 1;
@@ -2458,85 +2556,83 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-// 1. Mostra la checkbox solo in "Registrati" e la nasconde in "Accedi"
-function toggleAuthMode() {
-    isRegistering = !isRegistering;
-    const usernameInput = document.getElementById('username');
-    const privacyContainer = document.getElementById('privacyContainer');
-    const privacyConsent = document.getElementById('privacyConsent');
+        function toggleAuthMode() {
+            isRegistering = !isRegistering;
+            const usernameInput = document.getElementById('username');
+            const privacyContainer = document.getElementById('privacyContainer');
+            const privacyConsent = document.getElementById('privacyConsent');
 
-    usernameInput.style.display = isRegistering ? 'block' : 'none';
-    privacyContainer.style.display = isRegistering ? 'flex' : 'none';
-    
-    if (privacyConsent) privacyConsent.checked = false; // Reset spunta
-    
-    document.getElementById('profileModalTitle').textContent = isRegistering ? "📝 Registrati" : "🔐 Accedi";
-    document.getElementById('btnSubmit').innerText = isRegistering ? "Registrati" : "Accedi";
-    document.getElementById('toggleText').textContent = isRegistering ? "Hai già un account?" : "Non hai un account?";
-    document.getElementById('toggleActionText').textContent = isRegistering ? "Accedi" : "Registrati";
-    document.getElementById('authError').innerText = "";
-}
-
-// 2. Blocca la registrazione se la spunta non è attiva
-function handleAuthAction() {
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value.trim();
-    const username = document.getElementById('username').value.trim();
-    const privacyConsent = document.getElementById('privacyConsent');
-    const errorDiv = document.getElementById('authError');
-
-    errorDiv.innerText = "";
-    
-    if (!email || !password) { errorDiv.innerText = "Inserisci email e password."; return; }
-    
-    if (isRegistering) {
-        if (!username) { errorDiv.innerText = "Inserisci un nome utente."; return; }
-        if (!privacyConsent || !privacyConsent.checked) {
-            errorDiv.innerText = "⚠️ Devi accettare la Privacy Policy per registrarti.";
-            return;
+            usernameInput.style.display = isRegistering ? 'block' : 'none';
+            privacyContainer.style.display = isRegistering ? 'flex' : 'none';
+            
+            if (privacyConsent) privacyConsent.checked = false;
+            
+            document.getElementById('profileModalTitle').textContent = isRegistering ? "📝 Registrati" : "🔐 Accedi";
+            document.getElementById('btnSubmit').innerText = isRegistering ? "Registrati" : "Accedi";
+            document.getElementById('toggleText').textContent = isRegistering ? "Hai già un account?" : "Non hai un account?";
+            document.getElementById('toggleActionText').textContent = isRegistering ? "Accedi" : "Registrati";
+            document.getElementById('authError').innerText = "";
         }
-    }
 
-    if (isFirebaseActive && auth) {
-        if (isRegistering) {
-            auth.createUserWithEmailAndPassword(email, password).then(cred => {
-                currentUser = cred.user;
-                userState.username = username;
-                window.hubCurrentUser = username;
-                localStorage.setItem('masterhub_logged_user', cred.user.uid);
-                db.ref('users/' + cred.user.uid).set(userState);
-                showAuthUI(true);
-                updateUI();
-                showCyberPopup("Benvenuto!", "Registrazione completata con successo!", "🎉");
-            }).catch(err => errorDiv.innerText = "Errore: " + err.message);
-        } else {
-            auth.signInWithEmailAndPassword(email, password).then(cred => {
-                currentUser = cred.user;
-                localStorage.setItem('masterhub_logged_user', cred.user.uid);
-                loadUserData(cred.user.uid);
-            }).catch(err => errorDiv.innerText = "Credenziali errate.");
-        }
-    } else {
-        // Gestione Locale di backup
-        let localAccounts = JSON.parse(localStorage.getItem('mockAccounts')) || {};
-        if (isRegistering) {
-            if (localAccounts[email]) {
-                errorDiv.innerText = "Account già esistente.";
-            } else {
-                localAccounts[email] = { password, username, xp: userState.xp, gamesPlayed: userState.gamesPlayed, winsPerGame: userState.winsPerGame };
-                localStorage.setItem('mockAccounts', JSON.stringify(localAccounts));
-                startLocalSession(email, localAccounts[email]);
+        function handleAuthAction() {
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const username = document.getElementById('username').value.trim();
+            const privacyConsent = document.getElementById('privacyConsent');
+            const errorDiv = document.getElementById('authError');
+
+            errorDiv.innerText = "";
+            
+            if (!email || !password) { errorDiv.innerText = "Inserisci email e password."; return; }
+            
+            if (isRegistering) {
+                if (!username) { errorDiv.innerText = "Inserisci un nome utente."; return; }
+                if (!privacyConsent || !privacyConsent.checked) {
+                    errorDiv.innerText = "⚠️ Devi accettare la Privacy Policy per registrarti.";
+                    return;
+                }
             }
-        } else {
-            const acc = localAccounts[email];
-            if (acc && acc.password === password) {
-                startLocalSession(email, acc);
+
+            if (isFirebaseActive && auth) {
+                if (isRegistering) {
+                    auth.createUserWithEmailAndPassword(email, password).then(cred => {
+                        currentUser = cred.user;
+                        userState.username = username;
+                        window.hubCurrentUser = username;
+                        localStorage.setItem('masterhub_logged_user', cred.user.uid);
+                        db.ref('users/' + cred.user.uid).set(userState);
+                        showAuthUI(true);
+                        updateUI();
+                        requestAndSaveFCMToken(cred.user.uid);
+                        showCyberPopup("Benvenuto!", "Registrazione completata con successo!", "🎉");
+                    }).catch(err => errorDiv.innerText = "Errore: " + err.message);
+                } else {
+                    auth.signInWithEmailAndPassword(email, password).then(cred => {
+                        currentUser = cred.user;
+                        localStorage.setItem('masterhub_logged_user', cred.user.uid);
+                        loadUserData(cred.user.uid);
+                    }).catch(err => errorDiv.innerText = "Credenziali errate.");
+                }
             } else {
-                errorDiv.innerText = "Credenziali non valide.";
+                let localAccounts = JSON.parse(localStorage.getItem('mockAccounts')) || {};
+                if (isRegistering) {
+                    if (localAccounts[email]) {
+                        errorDiv.innerText = "Account già esistente.";
+                    } else {
+                        localAccounts[email] = { password, username, xp: userState.xp, gamesPlayed: userState.gamesPlayed, winsPerGame: userState.winsPerGame };
+                        localStorage.setItem('mockAccounts', JSON.stringify(localAccounts));
+                        startLocalSession(email, localAccounts[email]);
+                    }
+                } else {
+                    const acc = localAccounts[email];
+                    if (acc && acc.password === password) {
+                        startLocalSession(email, acc);
+                    } else {
+                        errorDiv.innerText = "Credenziali non valide.";
+                    }
+                }
             }
         }
-    }
-}
 
         function handleLogout() {
             if (isFirebaseActive && auth) auth.signOut();
@@ -2554,6 +2650,9 @@ function handleAuthAction() {
         function loadUserData(uid) {
             if (!db) return;
             localStorage.setItem('masterhub_logged_user', uid);
+            
+            requestAndSaveFCMToken(uid);
+
             db.ref('users/' + uid).once('value').then((snapshot) => {
                 if (snapshot.exists()) {
                     let remoteData = snapshot.val();
@@ -3097,101 +3196,6 @@ function handleAuthAction() {
                 messages.scrollTop = messages.scrollHeight;
             }, 350);
         }
-
-document.addEventListener('DOMContentLoaded', () => {
-            startHubBoosterTimer();
-            startWeeklyTournamentTimer();
-            
-            // Ascolto in tempo reale dei messaggi di Broadcast dagli Admin
-            if (isFirebaseActive && db) {
-                db.ref('broadcast').on('value', snapshot => {
-                    const data = snapshot.val();
-                    if (!data || !data.message) return;
-
-                    const lastReadTimestamp = localStorage.getItem('last_seen_broadcast_timestamp');
-                    const currentBroadcastTimestamp = data.timestamp || data.message;
-
-                    if (lastReadTimestamp === String(currentBroadcastTimestamp)) {
-                        return;
-                    }
-
-                    localStorage.setItem('last_seen_broadcast_timestamp', String(currentBroadcastTimestamp));
-
-                    const titolo = data.title || "📢 Annuncio";
-                    
-                    showCyberPopup(titolo, data.message, icona);
-                });
-
-                auth.onAuthStateChanged((user) => {
-                    if (user) {
-                        currentUser = user;
-                        localStorage.setItem('masterhub_logged_user', user.uid);
-                        loadUserData(user.uid);
-                    } else { 
-                        showAuthUI(false); 
-                    }
-                });
-            } else { 
-                checkLocalSession(); 
-            }
-        });
-
-        function checkTournamentRewards() {
-    const now = new Date();
-    const currentWeek = getWeekNumber(now);
-    const lastProcessedWeek = localStorage.getItem('last_processed_tournament_week');
-
-    // Se siamo a fine settimana (es. domenica sera) e la settimana è cambiata
-    if (lastProcessedWeek && parseInt(lastProcessedWeek) !== currentWeek) {
-        // Assegna il premio al primo in classifica del torneo precedente
-        showToast("🏆 Il torneo settimanale è terminato! I punti bonus sono stati assegnati.");
-        userState.xp += 10000; // Premio per il vincitore
-        saveState();
-    }
-    localStorage.setItem('last_processed_tournament_week', currentWeek);
-}
-
-// Controlla gli aggiornamenti ogni volta che l'app viene aperta o riattivata
-window.addEventListener('focus', () => {
-    checkAppVersion();
-});
-
-async function checkAppVersion() {
-    // Verifica se l'app è aperta in modalità "standalone" (cioè da icona Homescreen / App)
-    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
-    
-    if (isStandalone && navigator.onLine) {
-        try {
-            // Rilegge il file HTML principale dal server senza usare la cache (aggiungendo un parametro casuale)
-            const response = await fetch(window.location.href.split('?')[0] + '?v=' + Date.now(), { cache: 'no-store' });
-            const htmlText = await response.text();
-            
-            // Estrae un identificatore o confronta la dimensione/hash (o un meta tag di versione se vuoi)
-            // Metodo semplice: controlla se la versione corrente in cache differisce da quella fresca del server
-            // Oppure ricarica semplicemente la prima volta che viene aperta nella sessione giornaliera:
-            
-            const lastCheckDate = sessionStorage.getItem('app_version_checked');
-            const today = new Date().toDateString();
-
-            if (lastCheckDate !== today) {
-                sessionStorage.setItem('app_version_checked', today);
-                // Forza un refresh pulito per prendere gli ultimi script
-                window.location.reload(true);
-            }
-        } catch (e) {
-            // Ignora eventuali errori di connessione offline
-        }
-    }
-}
-
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js')
-            .then(reg => console.log('Service Worker registrato con successo:', reg.scope))
-            .catch(err => console.log('Registrazione Service Worker fallita:', err));
-    });
-}
-
     </script>
 </body>
 </html>
