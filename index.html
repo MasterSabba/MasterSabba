@@ -820,19 +820,34 @@
         </div>
 
         <div class="category-tabs">
-            <button class="tab-btn active" onclick="filterCategory('all', this)">Tutti</button>
-            <button class="tab-btn" onclick="filterCategory('carte', this)">Carte</button>
-            <button class="tab-btn" onclick="filterCategory('puzzle', this)">Puzzle</button>
-            <button class="tab-btn" onclick="filterCategory('investigazione', this)">Investigazione </button>
-            <button class="tab-btn" onclick="filterCategory('riflessi', this)">Riflessi</button>
-            <button class="tab-btn" onclick="filterCategory('multiplayer', this)">Multiplayer</button>
-            <button class="tab-btn" onclick="filterCategory('lab', this)">Lab</button>
-        </div>
+    <button class="tab-btn active" onclick="filterCategory('all', this)">Tutti</button>
+    <button class="tab-btn" onclick="filterCategory('carte', this)">Carte</button>
+    <button class="tab-btn" onclick="filterCategory('puzzle', this)">Puzzle</button>
+    <button class="tab-btn" onclick="filterCategory('investigazione', this)">Investigazione </button>
+    <button class="tab-btn" onclick="filterCategory('riflessi', this)">Riflessi</button>
+    <button class="tab-btn" onclick="filterCategory('multiplayer', this)">Multiplayer</button>
+    <button class="tab-btn" onclick="filterCategory('fuori classifica', this)">Fuori Classifica</button>
+    <button class="tab-btn" onclick="filterCategory('lab', this)">Lab</button>
+</div>
     </section>
 
     <main class="main-container">
         <h2 class="section-title">🕹️ Arcade Collection</h2>
         <div class="games-grid" id="gameList">
+          <article class="game-card" data-id="fanta-classe" data-category="fuori classifica" data-name="fanta classe fantaclasse scuola studenti" onclick="openGamePreview('fanta-classe')">
+    <div class="card-media" style="background: linear-gradient(135deg, #059669, #10b981);">🎓</div>
+    <div class="card-content">
+        <h3>FantaClasse</h3>
+        <p>La piattaforma dove ogni impresa folle vale punti e solo il più fuori di testa conquista il podio.</p>
+        <div class="star-rating" onclick="rateGame(event, 'fanta-classe')">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
+        </div>
+        <div class="card-footer">
+            <span class="tag">Fuori Classifica</span>
+            <a href="https://mastersabba.github.io/FantaClasse/" target="_blank" class="btn-play" onclick="registerPlay(event, 'fanta-classe')">GIOCA</a>
+        </div>
+    </div>
+</article>
             <article class="game-card" data-id="non-fidarti" data-category="investigazione" data-name="non fidarti mastersabba investigazione thriller mistero" onclick="openGamePreview('non-fidarti')">
                 <div class="card-media nonfidarti-bg">🕵️‍♂️</div>
                 <div class="card-content">
@@ -1693,7 +1708,13 @@
             'master-chess': { title: 'Royal Chess', desc: 'Muovi i tuoi pezzi sulla scacchiera con strategia per dare scacco matto all’avversario.', controls: 'Trascina i pezzi sulla scacchiera.', url: 'https://mastersabba.github.io/MasterChess/' },
             'master-blackjack': { title: 'BlackJack', desc: 'Avvicinati a 21 con le tue carte senza superarlo per battere il dealer e vincere le fiches.', controls: 'Tasti Carta, Stai, Puntata.', url: 'https://mastersabba.github.io/MasterBlackJack/' }, 
             'snake': { title: 'Snake', desc: 'Guida il serpente, raccogli le mele e sblocca skin e temi di legno nello Shop!', controls: 'Frecce direzionali, WASD o Swipe sul touch screen.', url: 'https://mastersabba.github.io/MasterSnake/' },
-            'neural-glitch': { title: 'Neural Glitch', desc: 'Clicca rapidamente sui nodi dati che si accendono per stabilire il sistema prima del crash.', controls: 'Clicca rapidamente sui nodi energetici attivi.', url: '#' }
+            'neural-glitch': { title: 'Neural Glitch', desc: 'Clicca rapidamente sui nodi dati che si accendono per stabilire il sistema prima del crash.', controls: 'Clicca rapidamente sui nodi energetici attivi.', url: '#' },
+            'fanta-classe': { 
+            title: 'FantaClasse', 
+            desc: "Il portale collaborativo per la classe: gestisci dinamiche, contenuti e strumenti condivisi.", 
+            controls: 'Click ed elementi interattivi di navigazione.', 
+            url: 'https://mastersabba.github.io/FantaClasse/' 
+        }
         };
 
         window.globalRivals = {
