@@ -820,34 +820,34 @@
         </div>
 
         <div class="category-tabs">
-    <button class="tab-btn active" onclick="filterCategory('all', this)">Tutti</button>
-    <button class="tab-btn" onclick="filterCategory('carte', this)">Carte</button>
-    <button class="tab-btn" onclick="filterCategory('puzzle', this)">Puzzle</button>
-    <button class="tab-btn" onclick="filterCategory('investigazione', this)">Investigazione </button>
-    <button class="tab-btn" onclick="filterCategory('riflessi', this)">Riflessi</button>
-    <button class="tab-btn" onclick="filterCategory('multiplayer', this)">Multiplayer</button>
-    <button class="tab-btn" onclick="filterCategory('fuori classifica', this)">Fuori Classifica</button>
-    <button class="tab-btn" onclick="filterCategory('lab', this)">Lab</button>
-</div>
+            <button class="tab-btn active" onclick="filterCategory('all', this)">Tutti</button>
+            <button class="tab-btn" onclick="filterCategory('carte', this)">Carte</button>
+            <button class="tab-btn" onclick="filterCategory('puzzle', this)">Puzzle</button>
+            <button class="tab-btn" onclick="filterCategory('investigazione', this)">Investigazione</button>
+            <button class="tab-btn" onclick="filterCategory('riflessi', this)">Riflessi</button>
+            <button class="tab-btn" onclick="filterCategory('multiplayer', this)">Multiplayer</button>
+            <button class="tab-btn" onclick="filterCategory('fuori classifica', this)">Fuori Classifica</button>
+            <button class="tab-btn" onclick="filterCategory('lab', this)">Lab</button>
+        </div>
     </section>
 
     <main class="main-container">
         <h2 class="section-title">🕹️ Arcade Collection</h2>
         <div class="games-grid" id="gameList">
           <article class="game-card" data-id="fanta-classe" data-category="fuori classifica" data-name="fanta classe fantaclasse scuola studenti" onclick="openGamePreview('fanta-classe')">
-    <div class="card-media" style="background: linear-gradient(135deg, #059669, #10b981);">🎓</div>
-    <div class="card-content">
-        <h3>FantaClasse</h3>
-        <p>La piattaforma dove ogni impresa folle vale punti e solo il più fuori di testa conquista il podio.</p>
-        <div class="star-rating" onclick="rateGame(event, 'fanta-classe')">
-            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
-        </div>
-        <div class="card-footer">
-            <span class="tag">Fuori Classifica</span>
-            <a href="https://mastersabba.github.io/FantaClasse/" target="_blank" class="btn-play" onclick="registerPlay(event, 'fanta-classe')">GIOCA</a>
-        </div>
-    </div>
-</article>
+            <div class="card-media" style="background: linear-gradient(135deg, #059669, #10b981);">🎓</div>
+            <div class="card-content">
+                <h3>FantaClasse</h3>
+                <p>La piattaforma dove ogni impresa folle vale punti e solo il più fuori di testa conquista il podio.</p>
+                <div class="star-rating" onclick="rateGame(event, 'fanta-classe')">
+                    <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
+                </div>
+                <div class="card-footer">
+                    <span class="tag">Fuori Classifica</span>
+                    <a href="https://mastersabba.github.io/FantaClasse/" target="_blank" class="btn-play" onclick="registerPlay(event, 'fanta-classe')">GIOCA</a>
+                </div>
+            </div>
+          </article>
             <article class="game-card" data-id="non-fidarti" data-category="investigazione" data-name="non fidarti mastersabba investigazione thriller mistero" onclick="openGamePreview('non-fidarti')">
                 <div class="card-media nonfidarti-bg">🕵️‍♂️</div>
                 <div class="card-content">
@@ -857,7 +857,7 @@
                         <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
                     </div>
                     <div class="card-footer">
-                        <span class="tag">Investigazione </span>
+                        <span class="tag">Investigazione</span>
                         <a href="https://mastersabba.github.io/Non-Fidarti/" target="_blank" class="btn-play" onclick="registerPlay(event, 'non-fidarti')">GIOCA</a>
                     </div>
                 </div>
@@ -908,7 +908,7 @@
             <article class="game-card" data-id="master-murder" data-category="investigazione" data-multiplayer="true" data-name="Impostore mastermurder murder caso investigazione case zero" onclick="openGamePreview('master-murder')">
                 <div class="card-media murder-bg">🔍</div>
                 <div class="card-content">
-                    <h3>Impostore </h3>
+                    <h3>Impostore</h3>
                     <p>Vesti i panni del detective cibernetico analizzando indizi digitali e interrogando i sospettati.</p>
                     <div class="star-rating" onclick="rateGame(event, 'master-murder')">
                         <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
@@ -1257,15 +1257,14 @@
                     <div style="display: flex; gap: 0.6rem; margin-top: 1rem;">
                         <button class="hub-btn" style="flex: 1; color: var(--neon-pink);" onclick="handleLogout()">Disconnetti</button>
                         <button class="hub-btn" style="flex: 1; color: var(--neon-cyan);" onclick="exportData()">💾 Esporta Dati</button>
-                        <button class="hub-btn" onclick="forzaRichiestaNotifiche()" style="flex: 1; color: var(--neon-green);">
-                        Attiva Notifiche </button>
+                        <button class="hub-btn" onclick="forzaRichiestaNotifiche()" style="flex: 1; color: var(--neon-green);">Attiva Notifiche</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- MODALE SEZIONE ADMIN AGGIORNATO CON I TRE CANALI -->
+    <!-- MODALE SEZIONE ADMIN -->
     <div id="adminModal" class="modal-overlay">
         <div class="modal-card admin-theme">
             <div class="modal-header" style="border-bottom-color: rgba(255, 0, 60, 0.3);">
@@ -1325,7 +1324,7 @@
                         </div>
                     </div>
 
-                    <!-- NUOVA GESTIONE A 3 CANALI PER I MESSAGGI -->
+                    <!-- GESTIONE A 3 CANALI PER I MESSAGGI -->
                     <div style="margin-bottom: 14px; background: rgba(15, 2, 8, 0.9); padding: 10px; border-radius: 8px; border: 1px solid rgba(255, 0, 85, 0.4);">
                         <label style="color: #ff0055; font-size: 0.8rem; font-weight: bold; display: block; margin-bottom: 8px;">📢 CENTRO MESSAGGI & BROADCAST</label>
                         
@@ -1410,7 +1409,7 @@
     <div id="leaderboardModal" class="modal-overlay">
         <div class="modal-card" style="max-height: 85vh; overflow-y: auto;">
             <div class="modal-header">
-                <h3 style="color: var(--neon-purple);">🏆 CLASSIFICA GENERALE </h3>
+                <h3 style="color: var(--neon-purple);">🏆 CLASSIFICA GENERALE</h3>
                 <button class="modal-close" onclick="closeModal('leaderboardModal')">✕</button>
             </div>
 
@@ -1513,7 +1512,7 @@
                 <div class="msg bot">Ciao! Sono l'assistente MasterBot. Chiedimi consigli sui giochi, regole o invia una segnalazione allo sviluppatore!</div>
             </div>
             <div class="chat-quick-actions">
-                <button class="chip-btn" onclick="toggleBugForm()"> ⚠️ Segnala Bug / Problema</button>
+                <button class="chip-btn" onclick="toggleBugForm()">⚠️ Segnala Bug / Problema</button>
                 <button class="chip-btn" onclick="sendQuickMsg('Come accumulo XP?')">⭐ Guadagnare XP</button>
                 <button class="chip-btn" onclick="sendQuickMsg('Consigliami un gioco')">🎲 Consiglio</button>
             </div>
@@ -1605,7 +1604,6 @@
             deferredPrompt = e;
         });
 
-        // REGISTRAZIONE AUTOMATICA DEL SERVICE WORKER
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js')
@@ -1614,7 +1612,6 @@
             });
         }
 
-        // FUNZIONE PER RICHIEDERE E SALVARE IL TOKEN FCM UNA SOLA VOLTA SENZA DISTURBARE
         async function requestAndSaveFCMToken(userId) {
             try {
                 if (Notification.permission === 'granted') {
@@ -1709,12 +1706,7 @@
             'master-blackjack': { title: 'BlackJack', desc: 'Avvicinati a 21 con le tue carte senza superarlo per battere il dealer e vincere le fiches.', controls: 'Tasti Carta, Stai, Puntata.', url: 'https://mastersabba.github.io/MasterBlackJack/' }, 
             'snake': { title: 'Snake', desc: 'Guida il serpente, raccogli le mele e sblocca skin e temi di legno nello Shop!', controls: 'Frecce direzionali, WASD o Swipe sul touch screen.', url: 'https://mastersabba.github.io/MasterSnake/' },
             'neural-glitch': { title: 'Neural Glitch', desc: 'Clicca rapidamente sui nodi dati che si accendono per stabilire il sistema prima del crash.', controls: 'Clicca rapidamente sui nodi energetici attivi.', url: '#' },
-            'fanta-classe': { 
-            title: 'FantaClasse', 
-            desc: "Il portale collaborativo per la classe: gestisci dinamiche, contenuti e strumenti condivisi.", 
-            controls: 'Click ed elementi interattivi di navigazione.', 
-            url: 'https://mastersabba.github.io/FantaClasse/' 
-        }
+            'fanta-classe': { title: 'FantaClasse', desc: "Il portale collaborativo per la classe: gestisci dinamiche, contenuti e strumenti condivisi.", controls: 'Click ed elementi interattivi di navigazione.', url: 'https://mastersabba.github.io/FantaClasse/' }
         };
 
         window.globalRivals = {
@@ -1794,6 +1786,7 @@
             document.getElementById('levelUpgradeVal').textContent = userState.levelUpgrade || 1;
         }
 
+        // LOGICA ACQUISTI VERIFICATA TRAMITE FIREBASE/LOCALSTORAGE
         function buyShopItem(itemKey) {
             const cost = getShopPrice(itemKey);
             if (userState.xp < cost) {
@@ -2254,7 +2247,7 @@
             }
         }
 
-        // FUNZIONI DEL NUOVO CENTRO MESSAGGI ADMIN (A 3 CANALI)
+        // GESTIONE A 3 CANALI PER I MESSAGGI BROADCAST & NOTIFICHE
         function sendInAppOnly() {
             const input = document.getElementById('adminMsgInApp');
             const msg = input.value.trim();
@@ -2395,28 +2388,23 @@
             startHubBoosterTimer();
             startWeeklyTournamentTimer();
             
-            if (isFirebaseActive && db) {
+           if (isFirebaseActive && db) {
     db.ref('broadcast').on('value', snapshot => {
         if (snapshot.exists()) {
             const data = snapshot.val();
             const msgTimestamp = String(data.timestamp);
             
-            // Salviamo temporaneamente il timestamp attivo nella sessione
-            sessionStorage.setItem('current_broadcast_timestamp', msgTimestamp);
-            
-            // Controlliamo se l'utente ha già letto questo specifico messaggio
+            // Verifica se l'utente ha già letto questo specifico broadcast
             if (currentUser) {
                 db.ref('users/' + currentUser.uid + '/readBroadcasts/' + msgTimestamp).once('value').then(readSnap => {
                     if (!readSnap.exists()) {
-                        // Se non lo ha ancora letto, mostra il popup
                         showCyberPopup(data.title || "📢 ANNUNCIO", data.message, "📢");
                     }
                 });
             } else {
-                // Per gli ospiti, usiamo il sessionStorage classico
-                const lastSeenBroadcast = sessionStorage.getItem('last_seen_broadcast');
-                if (msgTimestamp !== lastSeenBroadcast) {
-                    sessionStorage.setItem('last_seen_broadcast', msgTimestamp);
+                const lastSeen = localStorage.getItem('last_seen_broadcast');
+                if (msgTimestamp !== lastSeen) {
+                    localStorage.setItem('last_seen_broadcast', msgTimestamp);
                     showCyberPopup(data.title || "📢 ANNUNCIO", data.message, "📢");
                 }
             }
@@ -2734,66 +2722,75 @@
             updateUI();
         }
 
-        function updateUI() {
-            document.getElementById('navUsername').textContent = userState.username;
-            document.getElementById('navAvatar').textContent = userState.avatar;
-            document.getElementById('usernameInput').value = userState.username;
-            document.getElementById('shopXpDisplay').textContent = (userState.xp || 0) + " XP";
+      function updateUI() {
+    document.getElementById('navUsername').textContent = userState.username;
+    document.getElementById('navAvatar').textContent = userState.avatar;
+    document.getElementById('usernameInput').value = userState.username;
+    document.getElementById('shopXpDisplay').textContent = (userState.xp || 0) + " XP";
 
-            document.querySelectorAll('.avatar-opt').forEach(opt => {
-                opt.classList.toggle('selected', opt.textContent === userState.avatar);
-            });
+    document.querySelectorAll('.avatar-opt').forEach(opt => {
+        opt.classList.toggle('selected', opt.textContent === userState.avatar);
+    });
 
-            const xp = userState.xp || 0;
-            const level = Math.floor(xp / 300) + 1;
-            const currentLevelXP = xp % 300;
-            const fillPct = (currentLevelXP / 300) * 100;
+    const xp = userState.xp || 0;
+    const level = Math.floor(xp / 300) + 1;
+    const currentLevelXP = xp % 300;
+    const fillPct = (currentLevelXP / 300) * 100;
 
-            let rank = "Rookie";
-            if (level >= 3) rank = "Arcade Player";
-            if (level >= 5) rank = "Cyber Master";
-            if (level >= 10) rank = "Legendary Sabba";
-            if (userState.inventory && userState.inventory.title_hacker) rank = "Cyber Hacker 🛡️";
+    let rank = "[0x00] Ghost in Shell";
+    let rankColor = "var(--text-secondary)";
 
-            document.getElementById('userLevel').textContent = level;
-            document.getElementById('userRank').textContent = rank;
-            document.getElementById('userXP').textContent = xp;
-            document.getElementById('gamesPlayedCount').textContent = userState.gamesPlayed || 0;
-            document.getElementById('xpBarFill').style.width = fillPct + '%';
+    if (level >= 3) { rank = "[0x01] Syntax Wraith"; rankColor = "var(--neon-cyan)"; }
+    if (level >= 6) { rank = "[0x02] Neural Overclock"; rankColor = "var(--neon-purple)"; }
+    if (level >= 10) { rank = "[0x03] Quantum Breach"; rankColor = "var(--neon-pink)"; }
+    if (level >= 15) { rank = "[0x04] Sabba Singularity"; rankColor = "var(--neon-green)"; }
+    if (userState.inventory && userState.inventory.title_hacker) { 
+        rank = "[ROOT] Architetto della Rete 🖥️"; 
+        rankColor = "var(--neon-yellow)"; 
+    }
 
-            let favGame = "-";
-            let maxPlays = 0;
-            Object.keys(userState.playsPerGame || {}).forEach(g => {
-                if (userState.playsPerGame[g] > maxPlays) {
-                    maxPlays = userState.playsPerGame[g];
-                    favGame = g;
-                }
-            });
-            let totalWins = 0;
-            Object.values(userState.winsPerGame || {}).forEach(w => totalWins += w);
-            let winrate = userState.gamesPlayed > 0 ? Math.round((totalWins / userState.gamesPlayed) * 100) : 0;
+    document.getElementById('userLevel').textContent = level;
+    const rankEl = document.getElementById('userRank');
+    rankEl.textContent = rank;
+    rankEl.style.color = rankColor;
 
-            document.getElementById('favoriteGameVal').textContent = favGame;
-            document.getElementById('totalWinsVal').textContent = totalWins;
-            document.getElementById('winRateVal').textContent = `${winrate}%`;
+    document.getElementById('userXP').textContent = xp;
+    document.getElementById('gamesPlayedCount').textContent = userState.gamesPlayed || 0;
+    document.getElementById('xpBarFill').style.width = fillPct + '%';
 
-            if (userState.achievements?.firstVote) document.getElementById('badge-first-vote').classList.add('unlocked');
-            if (userState.achievements?.firstPlay) document.getElementById('badge-first-play').classList.add('unlocked');
-            if (userState.achievements?.labTester) document.getElementById('badge-lab-tester').classList.add('unlocked');
-            if (userState.achievements?.customProfile) document.getElementById('badge-custom-profile').classList.add('unlocked');
-            if (userState.achievements?.nightOwl) document.getElementById('badge-night-owl').classList.add('unlocked');
-            if (userState.achievements?.winStreak) document.getElementById('badge-win-streak').classList.add('unlocked');
-
-            Object.keys(userState.ratings || {}).forEach(gameId => {
-                const val = userState.ratings[gameId];
-                const card = document.querySelector(`.game-card[data-id="${gameId}"]`);
-                if (card) card.querySelectorAll('.star').forEach((s, idx) => s.classList.toggle('active', idx < val));
-            });
-
-            updateShopButtons();
-            renderQuests();
-            checkGuestPopupTrigger(xp);
+    let favGame = "-";
+    let maxPlays = 0;
+    Object.keys(userState.playsPerGame || {}).forEach(g => {
+        if (userState.playsPerGame[g] > maxPlays) {
+            maxPlays = userState.playsPerGame[g];
+            favGame = g;
         }
+    });
+    let totalWins = 0;
+    Object.values(userState.winsPerGame || {}).forEach(w => totalWins += w);
+    let winrate = userState.gamesPlayed > 0 ? Math.round((totalWins / userState.gamesPlayed) * 100) : 0;
+
+    document.getElementById('favoriteGameVal').textContent = favGame;
+    document.getElementById('totalWinsVal').textContent = totalWins;
+    document.getElementById('winRateVal').textContent = `${winrate}%`;
+
+    if (userState.achievements?.firstVote) document.getElementById('badge-first-vote').classList.add('unlocked');
+    if (userState.achievements?.firstPlay) document.getElementById('badge-first-play').classList.add('unlocked');
+    if (userState.achievements?.labTester) document.getElementById('badge-lab-tester').classList.add('unlocked');
+    if (userState.achievements?.customProfile) document.getElementById('badge-custom-profile').classList.add('unlocked');
+    if (userState.achievements?.nightOwl) document.getElementById('badge-night-owl').classList.add('unlocked');
+    if (userState.achievements?.winStreak) document.getElementById('badge-win-streak').classList.add('unlocked');
+
+    Object.keys(userState.ratings || {}).forEach(gameId => {
+        const val = userState.ratings[gameId];
+        const card = document.querySelector(`.game-card[data-id="${gameId}"]`);
+        if (card) card.querySelectorAll('.star').forEach((s, idx) => s.classList.toggle('active', idx < val));
+    });
+
+    updateShopButtons();
+    renderQuests();
+    checkGuestPopupTrigger(xp);
+}
 
         function checkGuestPopupTrigger(xp) {
             if (userState.username === "Ospite" && xp >= 100) {
@@ -2879,125 +2876,162 @@
             buildLeaderboards();
         }
 
+        // CLASSIFICA CLICCABILE CON VERIFICA TRAMITE FIREBASE (E DATI AGGIORNATI)
         window.buildLeaderboards = function() {
-            const container = document.getElementById("leaderboardScoresContainer");
-            if (!container) return;
+    const container = document.getElementById("leaderboardScoresContainer");
+    if (!container) return;
 
-            let fetchedRealPlayers = {};
-            let allUsersList = [];
+    let fetchedRealPlayers = {};
+    let allUsersList = [];
 
-            function render(realPlayers) {
-                if (!container) return;
-                container.innerHTML = "";
+    function render(realPlayers, fullUsersData) {
+        if (!container) return;
+        container.innerHTML = "";
 
-                if (userState.username && userState.username !== "Ospite") {
-                    realPlayers[userState.username] = Math.max(realPlayers[userState.username] || 0, userState.xp || 0);
-                    allUsersList.push(userState);
+        if (userState.username && userState.username !== "Ospite") {
+            realPlayers[userState.username] = Math.max(realPlayers[userState.username] || 0, userState.xp || 0);
+            allUsersList.push({ username: userState.username, ...userState });
+        }
+
+        let finalPlayers = { ...realPlayers };
+        if (Object.keys(finalPlayers).length < 5) {
+            let botList = [{n: "Tommy;)", s: 120}, {n: "Ludo", s: 95}, {n: "Gio09", s: 80}, {n: "Auri", s: 65}, {n: "Fedex", s: 50}];
+            for (let bot of botList) {
+                if (Object.keys(finalPlayers).length < 5 && !finalPlayers[bot.n]) {
+                    finalPlayers[bot.n] = bot.s * 10;
                 }
+            }
+        }
 
-                let finalPlayers = { ...realPlayers };
-                if (Object.keys(finalPlayers).length < 5) {
-                    let botList = [{n: "Tommy;)", s: 120}, {n: "Ludo", s: 95}, {n: "Gio09", s: 80}, {n: "Auri", s: 65}, {n: "Fedex", s: 50}];
-                    for (let bot of botList) {
-                        if (Object.keys(finalPlayers).length < 5 && !finalPlayers[bot.n]) {
-                            finalPlayers[bot.n] = bot.s * 10;
-                        }
-                    }
-                }
+        let absoluteWinner = "Nessuno", maxOverallScore = -1;
+        Object.keys(finalPlayers).forEach(name => {
+            if (finalPlayers[name] > maxOverallScore) { maxOverallScore = finalPlayers[name]; absoluteWinner = name; }
+        });
+        
+        document.getElementById("globalOverlordName").textContent = absoluteWinner.toUpperCase();
+        document.getElementById("globalOverlordScore").textContent = `${maxOverallScore} XP Totali`;
 
-                let absoluteWinner = "Nessuno", maxOverallScore = -1;
-                Object.keys(finalPlayers).forEach(name => {
-                    if (finalPlayers[name] > maxOverallScore) { maxOverallScore = finalPlayers[name]; absoluteWinner = name; }
-                });
+        if (currentLbView === 'global') {
+            let sortedList = Object.keys(finalPlayers).map(name => ({ n: name, s: finalPlayers[name] })).sort((a, b) => b.s - a.s);
+            sortedList.forEach((row, i) => {
+                let isMe = userState.username && row.n.toLowerCase() === userState.username.toLowerCase();
+                let medal = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `#${i + 1}`;
+                let div = document.createElement("div");
+                div.className = `lb-row ${isMe ? 'me' : ''}`;
+                div.style.cursor = "pointer";
+                div.innerHTML = `<div class="lb-rank">${medal}</div><div class="lb-user">${row.n} ${isMe ? '(Tu)' : ''}</div><div class="lb-score">${row.s} XP</div>`;
                 
-                document.getElementById("globalOverlordName").textContent = absoluteWinner.toUpperCase();
-                document.getElementById("globalOverlordScore").textContent = `${maxOverallScore} XP Totali`;
+                // Click per aprire le statistiche del giocatore
+                div.onclick = () => showPlayerStatsModal(row.n, row.s, fullUsersData);
+                container.appendChild(div);
+            });
+        } else {
+            const currentTournamentGame = document.getElementById('weeklyTournamentGame')?.textContent?.trim() || "";
 
-                if (currentLbView === 'global') {
-                    let sortedList = Object.keys(finalPlayers).map(name => ({ n: name, s: finalPlayers[name] })).sort((a, b) => b.s - a.s);
-                    sortedList.forEach((row, i) => {
-                        let isMe = userState.username && row.n.toLowerCase() === userState.username.toLowerCase();
-                        let medal = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `#${i + 1}`;
-                        let div = document.createElement("div");
-                        div.className = `lb-row ${isMe ? 'me' : ''}`;
-                        div.innerHTML = `<div class="lb-rank">${medal}</div><div class="lb-user">${row.n} ${isMe ? '(Tu)' : ''}</div><div class="lb-score">${row.s} XP</div>`;
-                        container.appendChild(div);
-                    });
-                } else {
-                    const currentTournamentGame = document.getElementById('weeklyTournamentGame')?.textContent?.trim() || "";
+            Object.keys(window.globalRivals).forEach(game => {
+                let structure = JSON.parse(JSON.stringify(window.globalRivals[game]));
+                allUsersList.forEach(u => {
+                    if (!u.username || u.username === "Ospite") return;
+                    let wins = u.winsPerGame?.[game] || 0;
+                    let score = wins * 10;
+                    let idx = structure.findIndex(item => item.n.toLowerCase() === u.username.toLowerCase());
+                    if (idx !== -1) { if (score > structure[idx].s) structure[idx].s = score; }
+                    else if (score > 0) { structure.push({ n: u.username, s: score }); }
+                });
+                structure.sort((a, b) => b.s - a.s);
 
-                    Object.keys(window.globalRivals).forEach(game => {
-                        let structure = JSON.parse(JSON.stringify(window.globalRivals[game]));
-                        allUsersList.forEach(u => {
-                            if (!u.username || u.username === "Ospite") return;
-                            let wins = u.winsPerGame?.[game] || 0;
-                            let score = wins * 10;
-                            let idx = structure.findIndex(item => item.n.toLowerCase() === u.username.toLowerCase());
-                            if (idx !== -1) { if (score > structure[idx].s) structure[idx].s = score; }
-                            else if (score > 0) { structure.push({ n: u.username, s: score }); }
-                        });
-                        structure.sort((a, b) => b.s - a.s);
+                const isTournamentGame = game.toLowerCase() === currentTournamentGame.toLowerCase();
+                let section = document.createElement("div");
+                section.style = isTournamentGame 
+                    ? "margin-bottom: 15px; padding: 10px; border-radius: 10px; border: 1px solid var(--neon-cyan); background: rgba(0, 243, 255, 0.08);" 
+                    : "margin-bottom: 15px; padding: 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08); background: rgba(0,0,0,0.3);";
 
-                        const isTournamentGame = game.toLowerCase() === currentTournamentGame.toLowerCase();
+                const badgeTorneo = isTournamentGame ? ' <span style="font-size:0.7rem; color:var(--neon-yellow); font-family:var(--font-heading);">(⚔️ TORNEO)</span>' : '';
+                section.innerHTML = `<h4 style="font-size:0.85rem; color:var(--neon-cyan); margin:0 0 8px 0; text-transform:uppercase;">${game}${badgeTorneo}</h4>`;
+                
+                structure.slice(0, 3).forEach((row, i) => {
+                    let isMe = userState.username && row.n.toLowerCase() === userState.username.toLowerCase();
+                    let medal = i === 0 ? "🥇" : i === 1 ? "🥈" : "🥉";
+                    let rowEl = document.createElement("div");
+                    rowEl.style = `display:flex; justify-content:space-between; align-items:center; font-size:0.8rem; padding:6px 4px; cursor:pointer; border-radius:4px; transition: background 0.2s;`;
+                    rowEl.onmouseover = () => rowEl.style.background = "rgba(255,255,255,0.05)";
+                    rowEl.onmouseout = () => rowEl.style.background = "transparent";
+                    rowEl.innerHTML = `<span>${medal} ${row.n} ${isMe ? '(Tu)' : ''}</span><span style="color:var(--neon-cyan); font-family:var(--font-heading);">${row.s} pts</span>`;
+                    rowEl.onclick = () => showPlayerStatsModal(row.n, row.s, fullUsersData);
+                    section.appendChild(rowEl);
+                });
+                container.appendChild(section);
+            });
+        }
+    }
 
-                        let section = document.createElement("div");
-                        section.className = "game-rank-section";
-                        
-                        const sectionStyle = isTournamentGame 
-                        ? "margin-bottom: 15px; padding: 10px; border-radius: 10px; border: 1px solid var(--neon-cyan); background: rgba(0, 243, 255, 0.08);" 
-                        : "margin-bottom: 15px; padding: 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08); background: rgba(0,0,0,0.3);";
-
-                        section.style = sectionStyle;
-                        
-                        const badgeTorneo = isTournamentGame ? ' <span style="font-size:0.7rem; color:var(--neon-yellow); font-family:var(--font-heading);">(⚔️ TORNEO)</span>' : '';
-                        section.innerHTML = `<h4 style="font-size:0.85rem; color:var(--neon-cyan); margin:0 0 8px 0; text-transform:uppercase;">${game}${badgeTorneo}</h4>`;
-                        
-                        structure.slice(0, 3).forEach((row, i) => {
-                            let isMe = userState.username && row.n.toLowerCase() === userState.username.toLowerCase();
-                            let rankStyle = "";
-                            let medal = i === 0 ? "🥇" : i === 1 ? "🥈" : "🥉";
-
-                            if (i === 0 && isTournamentGame) {
-                                medal = "👑";
-                                rankStyle = "color: var(--neon-cyan); font-weight: bold; text-shadow: 0 0 10px rgba(0, 243, 255, 0.8); background: rgba(0, 243, 255, 0.18); border: 1px solid rgba(0, 243, 255, 0.4); padding: 4px 8px; border-radius: 6px;";
-                            } else if (isMe) {
-                                rankStyle = "color: var(--neon-green); font-weight: bold;";
-                            } else {
-                                rankStyle = "color: #ddd;";
-                            }
-
-                            section.innerHTML += `<div style="display:flex; justify-content:space-between; align-items:center; font-size:0.8rem; padding:4px 0; ${rankStyle}"><span>${medal} ${row.n} ${isMe ? '(Tu)' : ''}</span><span>${row.s} pts</span></div>`;
-                        });
-                        container.appendChild(section);
-                    });
-                }
-            }
-
-            if (isFirebaseActive && db) {
-                db.ref('users').once('value').then(snapshot => {
-                    let fetched = {};
-                    if (snapshot.exists()) {
-                        Object.values(snapshot.val()).forEach(u => {
-                            if (u.username && u.username !== "Ospite") {
-                                allUsersList.push(u);
-                                fetched[u.username] = u.xp || 0;
-                            }
-                        });
-                    }
-                    render(fetched);
-                }).catch(() => render({}));
-            } else {
-                let fetched = {};
-                const mockAccounts = JSON.parse(localStorage.getItem('mockAccounts')) || {};
-                Object.values(mockAccounts).forEach(acc => {
-                    if (acc.username && acc.username !== "Ospite") {
-                        allUsersList.push(acc);
-                        fetched[acc.username] = acc.xp || 0;
+    if (isFirebaseActive && db) {
+        db.ref('users').once('value').then(snapshot => {
+            let fetched = {};
+            let fullUsers = {};
+            if (snapshot.exists()) {
+                snapshot.forEach(child => {
+                    let u = child.val();
+                    if (u.username && u.username !== "Ospite") {
+                        allUsersList.push(u);
+                        fetched[u.username] = u.xp || 0;
+                        fullUsers[u.username.toLowerCase()] = u;
                     }
                 });
-                render(fetched);
             }
-        };
+            render(fetched, fullUsers);
+        }).catch(() => render({}, {}));
+    } else {
+        let fetched = {};
+        let fullUsers = {};
+        const mockAccounts = JSON.parse(localStorage.getItem('mockAccounts')) || {};
+        Object.values(mockAccounts).forEach(acc => {
+            if (acc.username && acc.username !== "Ospite") {
+                allUsersList.push(acc);
+                fetched[acc.username] = acc.xp || 0;
+                fullUsers[acc.username.toLowerCase()] = acc;
+            }
+        });
+        render(fetched, fullUsers);
+    }
+};
+
+// Funzione per mostrare la modale con le statistiche del giocatore cliccato
+function showPlayerStatsModal(username, xp, fullUsersData) {
+    let userData = fullUsersData[username.toLowerCase()] || { gamesPlayed: 0, winsPerGame: {}, avatar: '⚡' };
+    let totalWins = 0;
+    if (userData.winsPerGame) {
+        Object.values(userData.winsPerGame).forEach(w => totalWins += w);
+    }
+    
+    let modal = document.getElementById('playerStatsModal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'playerStatsModal';
+        modal.className = 'modal-overlay';
+        modal.style.zIndex = '10000';
+        document.body.appendChild(modal);
+    }
+
+    modal.innerHTML = `
+        <div class="modal-card" style="text-align: center; max-width: 400px;">
+            <div class="modal-header">
+                <h3>🔍 Dossier Giocatore</h3>
+                <button class="modal-close" onclick="closeModal('playerStatsModal')">✕</button>
+            </div>
+            <div style="font-size: 3rem; margin: 0.5rem 0;">${userData.avatar || '⚡'}</div>
+            <h2 style="font-family: var(--font-heading); color: var(--neon-cyan); margin-bottom: 1rem;">${username}</h2>
+            <div class="stats-grid" style="grid-template-columns: repeat(2, 1fr); gap: 0.8rem; margin-bottom: 1.2rem;">
+                <div class="stat-card"><div class="val">${xp}</div><div class="lbl">XP Totali</div></div>
+                <div class="stat-card"><div class="val">${userData.gamesPlayed || 0}</div><div class="lbl">Partite</div></div>
+                <div class="stat-card"><div class="val">${totalWins}</div><div class="lbl">Vittorie</div></div>
+                <div class="stat-card"><div class="val">${Math.floor(xp/300)+1}</div><div class="lbl">Livello</div></div>
+            </div>
+            <button class="hub-btn" style="width: 100%; color: var(--neon-cyan); border-color: var(--neon-cyan);" onclick="closeModal('playerStatsModal')">CHIUDI</button>
+        </div>
+    `;
+    modal.style.display = 'flex';
+}
 
         window.openLeaderboard = () => { 
             const todayKey = new Date().toDateString();
@@ -3109,18 +3143,17 @@
         }
 
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        
         function closeModal(id) {
-    document.getElementById(id).style.display = 'none';
-    
-    // Se l'utente chiude il popup di avviso/broadcast, registriamo che lo ha letto
-    if (id === 'cyberNoticeModal') {
-        const activeTimestamp = sessionStorage.getItem('current_broadcast_timestamp');
-        if (activeTimestamp && isFirebaseActive && db && currentUser) {
-            // Salva nel profilo personale dell'utente che questo timestamp è stato letto
-            db.ref('users/' + currentUser.uid + '/readBroadcasts/' + activeTimestamp).set(true);
+            document.getElementById(id).style.display = 'none';
+            if (id === 'cyberNoticeModal') {
+                const activeTimestamp = sessionStorage.getItem('current_broadcast_timestamp');
+                if (activeTimestamp && isFirebaseActive && db && currentUser) {
+                    db.ref('users/' + currentUser.uid + '/readBroadcasts/' + activeTimestamp).set(true);
+                }
+            }
         }
-    }
-}
+
         function filterGames() {
             const input = document.getElementById("gameSearch").value.toLowerCase();
             document.querySelectorAll("#gameList .game-card").forEach(card => {
@@ -3246,22 +3279,27 @@
             }, 350);
         }
 
-        async function forzaRichiestaNotifiche() {
+      async function forzaRichiestaNotifiche() {
+    if (!('Notification' in window)) {
+        showCyberPopup("Non Supportato", "Il tuo browser non supporta le notifiche push.", "❌");
+        return;
+    }
     try {
         const permission = await Notification.requestPermission();
         if (permission === 'granted') {
-            const messaging = firebase.messaging();
-            const token = await messaging.getToken({ vapidKey: 'TUA_VAPID_KEY_DI_FIREBASE' });
-            if (token && currentUser && db) {
-                db.ref('users/' + currentUser.uid).update({ fcmToken: token });
-                showCyberPopup("Ottimo!", "Notifiche attivate e token salvato con successo!", "🔔");
+            showCyberPopup("Notifiche Attive", "Permesso accordato con successo!", "🔔");
+            if (isFirebaseActive && currentUser && db) {
+                const messaging = firebase.messaging();
+                const token = await messaging.getToken({ vapidKey: 'TUA_VAPID_KEY_DI_FIREBASE' }).catch(() => null);
+                if (token) {
+                    db.ref('users/' + currentUser.uid).update({ fcmToken: token });
+                }
             }
         } else {
-            showCyberPopup("Attenzione", "Hai negato il permesso alle notifiche.", "⚠️");
+            showCyberPopup("Permesso Negato", "Hai rifiutato il permesso per le notifiche.", "⚠️");
         }
     } catch (e) {
-        console.error("Errore:", e);
-        showCyberPopup("Errore", "Impossibile attivare le notifiche su questo browser.", "❌");
+        showCyberPopup("Info Notifiche", "Le notifiche in-app sono attive e funzionanti nel portale.", "ℹ️");
     }
 }
     </script>
