@@ -3145,15 +3145,21 @@ function showPlayerStatsModal(username, xp, fullUsersData) {
 
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         
-        function closeModal(id) {
-            document.getElementById(id).style.display = 'none';
-            if (id === 'cyberNoticeModal') {
-                const activeTimestamp = sessionStorage.getItem('current_broadcast_timestamp');
-                if (activeTimestamp && isFirebaseActive && db && currentUser) {
-                    db.ref('users/' + currentUser.uid + '/readBroadcasts/' + activeTimestamp).set(true);
-                }
+       function closeModal(id) {
+    document.getElementById(id).style.display = 'none';
+    if (id === 'cyberNoticeModal') {
+        const activeTimestamp = sessionStorage.getItem('current_broadcast_timestamp');
+        if (activeTimestamp) {
+            if (currentUser && isFirebaseActive && db) {
+                // Registra su Firebase che l'utente ha letto/chiuso questo broadcast
+                db.ref('users/' + currentUser.uid + '/readBroadcasts/' + activeTimestamp).set(true);
+            } else {
+                // Registra in locale per gli ospiti
+                localStorage.setItem('last_seen_broadcast', activeTimestamp);
             }
         }
+    }
+}
 
         function filterGames() {
             const input = document.getElementById("gameSearch").value.toLowerCase();
