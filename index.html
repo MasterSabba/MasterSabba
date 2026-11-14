@@ -2390,26 +2390,27 @@
             
            if (isFirebaseActive && db) {
     db.ref('broadcast').on('value', snapshot => {
-        if (snapshot.exists()) {
-            const data = snapshot.val();
-            const msgTimestamp = String(data.timestamp);
-            
-            // Verifica se l'utente ha già letto questo specifico broadcast
-            if (currentUser) {
-                db.ref('users/' + currentUser.uid + '/readBroadcasts/' + msgTimestamp).once('value').then(readSnap => {
-                    if (!readSnap.exists()) {
-                        showCyberPopup(data.title || "📢 ANNUNCIO", data.message, "📢");
-                    }
-                });
-            } else {
-                const lastSeen = localStorage.getItem('last_seen_broadcast');
-                if (msgTimestamp !== lastSeen) {
-                    localStorage.setItem('last_seen_broadcast', msgTimestamp);
+    if (snapshot.exists()) {
+        const data = snapshot.val();
+        const msgTimestamp = String(data.timestamp);
+        
+        // Salviamo il timestamp attivo nella sessione per gestirne la chiusura
+        sessionStorage.setItem('current_broadcast_timestamp', msgTimestamp);
+
+        if (currentUser) {
+            db.ref('users/' + currentUser.uid + '/readBroadcasts/' + msgTimestamp).once('value').then(readSnap => {
+                if (!readSnap.exists()) {
                     showCyberPopup(data.title || "📢 ANNUNCIO", data.message, "📢");
                 }
+            });
+        } else {
+            const lastSeen = localStorage.getItem('last_seen_broadcast');
+            if (msgTimestamp !== lastSeen) {
+                showCyberPopup(data.title || "📢 ANNUNCIO", data.message, "📢");
             }
         }
-    });
+    }
+});
 
 
                 db.ref('settings/forcedTournament').on('value', snapshot => {
