@@ -3,8 +3,8 @@ self.addEventListener('push', function(event) {
 
     const options = {
         body: data.body || 'Nuova sfida disponibile!',
-        icon: 'MasterSabba Games.png',
-        badge: 'MasterSabba Games.png',
+        icon: 'IMG_0199.jpeg',
+        badge: 'IMG_0199.jpeg',
         silent: true,      // Disattiva il suono
         vibrate: [],       // Array vuoto per bloccare la vibrazione
         data: {
