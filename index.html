@@ -31,8 +31,8 @@
     <style>
         :root {
             --bg-dark: #06080e;
-            --bg-card: rgba(18, 24, 38, 0.75);
-            --bg-card-hover: rgba(26, 35, 56, 0.9);
+            --bg-card: rgba(18, 24, 38, 0.8);
+            --bg-card-hover: rgba(26, 35, 56, 0.95);
             --neon-cyan: #00f3ff;
             --neon-purple: #a811ff;
             --neon-pink: #ff0055;
@@ -40,7 +40,7 @@
             --neon-yellow: #ffb700;
             --text-primary: #f0f4f8;
             --text-secondary: #94a3b8;
-            --text-dim: #475569;
+            --text-dim: #64748b;
             --font-heading: 'Orbitron', sans-serif;
             --font-body: 'Rajdhani', sans-serif;
             --border-glass: 1px solid rgba(255, 255, 255, 0.1);
@@ -51,11 +51,20 @@
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(6, 8, 14, 0.85); }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--neon-purple), var(--neon-cyan));
+            border-radius: 3px;
+        }
+
         body {
             background-color: var(--bg-dark);
             background-image: 
-                radial-gradient(circle at 15% 15%, rgba(168, 17, 255, 0.15) 0%, transparent 45%),
-                radial-gradient(circle at 85% 85%, rgba(0, 243, 255, 0.15) 0%, transparent 45%);
+                radial-gradient(circle at 15% 15%, rgba(168, 17, 255, 0.12) 0%, transparent 45%),
+                radial-gradient(circle at 85% 85%, rgba(0, 243, 255, 0.12) 0%, transparent 45%),
+                radial-gradient(rgba(0, 243, 255, 0.05) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 28px 28px;
             background-attachment: fixed;
             color: var(--text-primary);
             font-family: var(--font-body);
@@ -69,8 +78,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.8rem 1.5rem;
-            background: rgba(6, 8, 14, 0.85);
+            padding: 0.75rem 1.5rem;
+            background: rgba(6, 8, 14, 0.88);
             backdrop-filter: blur(16px);
             border-bottom: var(--border-glass);
             position: sticky;
@@ -102,7 +111,7 @@
 
         .hub-actions { 
             display: flex; 
-            gap: 0.5rem; 
+            gap: 0.45rem; 
             align-items: center; 
             flex-wrap: wrap;
         }
@@ -113,7 +122,7 @@
             text-transform: uppercase;
             border: none;
             cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
             text-decoration: none;
             display: inline-flex;
             align-items: center;
@@ -122,25 +131,52 @@
             position: relative;
         }
 
-        .hub-btn {
-            background: var(--bg-card);
-            color: var(--text-primary);
-            border: var(--border-glass);
-            padding: 0.5rem 0.9rem;
-            border-radius: 8px;
-            font-size: 0.8rem;
+        .hub-btn:focus-visible,
+        .btn-play:focus-visible,
+        .tab-btn:focus-visible,
+        .search-box:focus-visible,
+        .btn-buy:focus-visible,
+        .btn-claim:focus-visible {
+            outline: 2px solid var(--neon-cyan);
+            outline-offset: 2px;
         }
 
-        .hub-btn:hover { border-color: var(--neon-cyan); color: var(--neon-cyan); box-shadow: 0 0 12px rgba(0, 243, 255, 0.3); }
+        .hub-btn {
+            background: rgba(18, 24, 38, 0.88);
+            color: var(--text-primary);
+            border: 1px solid rgba(0, 243, 255, 0.22);
+            padding: 0.48rem 0.85rem;
+            border-radius: 8px;
+            font-size: 0.78rem;
+        }
+
+        .hub-btn:hover {
+            border-color: var(--neon-cyan);
+            color: var(--neon-cyan);
+            box-shadow: 0 0 12px rgba(0, 243, 255, 0.3);
+        }
+
+        .btn-wheel {
+            background: linear-gradient(135deg, #ffb700, #ff8800);
+            color: #000;
+            border: none;
+            box-shadow: 0 0 10px rgba(255, 183, 0, 0.35);
+        }
+        .btn-wheel:hover {
+            color: #000;
+            box-shadow: 0 0 15px rgba(255, 183, 0, 0.65);
+            transform: translateY(-1px);
+        }
 
         .btn-install {
             background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan));
             color: #fff;
             border: none;
-            box-shadow: 0 0 10px rgba(168, 17, 255, 0.4);
+            box-shadow: 0 0 10px rgba(168, 17, 255, 0.35);
         }
         .btn-install:hover {
-            box-shadow: 0 0 15px rgba(0, 243, 255, 0.7);
+            color: #fff;
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.65);
             transform: translateY(-1px);
         }
 
@@ -152,10 +188,10 @@
             background: rgba(255, 183, 0, 0.15);
             border: 1px solid var(--neon-yellow);
             color: var(--neon-yellow);
-            padding: 0.3rem 0.7rem;
+            padding: 0.35rem 0.7rem;
             border-radius: 8px;
             font-family: var(--font-heading);
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             font-weight: bold;
             line-height: 1;
             animation: pulse-yellow 2s infinite;
@@ -206,25 +242,110 @@
             padding: 0.5rem 1.1rem;
             border-radius: 6px;
             font-size: 0.8rem;
-            box-shadow: 0 4px 15px rgba(0, 243, 255, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 243, 255, 0.28);
         }
-
         .btn-play:hover { transform: translateY(-2px); box-shadow: 0 0 20px rgba(0, 243, 255, 0.6); }
 
-        .hero-section { text-align: center; padding: 2.5rem 1.5rem 1rem; }
+        .hero-section { text-align: center; padding: 2.2rem 1.5rem 1rem; }
         .hero-title {
-          font-family: var(--font-heading);
-          font-size: 2.4rem;
-          font-weight: 900;
-          color: var(--text-primary);
-          text-transform: uppercase;
-          letter-spacing: 2px;
+            font-family: var(--font-heading);
+            font-size: 2.4rem;
+            font-weight: 900;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
         .hero-title .highlight {
-          color: var(--neon-cyan);
-          text-shadow: 0 0 12px rgba(0, 243, 255, 0.6);
+            color: var(--neon-cyan);
+            text-shadow: 0 0 12px rgba(0, 243, 255, 0.6);
         }
-        .hero-subtitle { color: var(--text-secondary); font-size: 1rem; margin-bottom: 1.5rem; }
+        .hero-subtitle { color: var(--text-secondary); font-size: 1rem; margin-bottom: 1.1rem; }
+
+        .hero-xp-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(18, 24, 38, 0.85);
+            border: 1px solid rgba(0, 243, 255, 0.28);
+            border-radius: 20px;
+            padding: 0.35rem 0.95rem;
+            margin-bottom: 1rem;
+            font-family: var(--font-heading);
+            font-size: 0.78rem;
+            cursor: pointer;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .hero-xp-pill:hover {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 12px rgba(0, 243, 255, 0.25);
+        }
+        .hero-mini-bar {
+            width: 80px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .hero-mini-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--neon-purple), var(--neon-cyan));
+            transition: width 0.4s ease;
+        }
+
+        .tournament-banner-wrap {
+            max-width: 720px;
+            margin: 0 auto 1.2rem;
+            text-align: center;
+        }
+        .tournament-pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            background: rgba(0, 243, 255, 0.1);
+            border: 1px solid rgba(0, 243, 255, 0.4);
+            padding: 0.45rem 1rem;
+            border-radius: 20px;
+            font-size: 0.92rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.15);
+        }
+        .tournament-pill-label {
+            font-family: var(--font-heading);
+            color: var(--neon-yellow);
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .tournament-pill-game {
+            color: #fff;
+            font-family: var(--font-heading);
+            font-weight: bold;
+        }
+        .tournament-pill-sep {
+            color: rgba(255, 255, 255, 0.22);
+        }
+        .tournament-pill-prize {
+            color: var(--neon-cyan);
+            font-weight: bold;
+        }
+        .tournament-pill-time {
+            color: var(--text-secondary);
+        }
+        .tournament-pill-time strong {
+            color: var(--neon-cyan);
+        }
+        .tournament-status-tag {
+            font-family: var(--font-heading);
+            font-size: 0.72rem;
+            padding: 2px 7px;
+            border-radius: 10px;
+            background: rgba(0, 255, 102, 0.15);
+            border: 1px solid var(--neon-green);
+            color: var(--neon-green);
+            display: none;
+        }
 
         .search-container { max-width: 500px; margin: 0 auto 1.2rem; }
         .search-box {
@@ -273,6 +394,19 @@
             gap: 0.5rem;
         }
 
+        .empty-filter-msg {
+            display: none;
+            text-align: center;
+            padding: 2.5rem 1rem;
+            color: var(--text-secondary);
+            background: var(--bg-card);
+            border: var(--border-glass);
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            font-family: var(--font-heading);
+            font-size: 0.95rem;
+        }
+
         .modal-overlay {
             display: none;
             position: fixed;
@@ -286,7 +420,7 @@
         }
 
         .modal-card {
-            background: rgba(16, 22, 36, 0.95);
+            background: rgba(16, 22, 36, 0.96);
             border: var(--border-glass);
             padding: 1.8rem;
             border-radius: 16px;
@@ -429,6 +563,9 @@
             border-radius: 8px;
             font-size: 0.85rem;
         }
+        .lb-row.podium-1 { border-color: rgba(255, 183, 0, 0.45); background: rgba(255, 183, 0, 0.07); }
+        .lb-row.podium-2 { border-color: rgba(203, 213, 225, 0.35); background: rgba(203, 213, 225, 0.05); }
+        .lb-row.podium-3 { border-color: rgba(217, 119, 6, 0.35); background: rgba(217, 119, 6, 0.05); }
         .lb-row.me {
             border-color: var(--neon-green);
             background: rgba(0, 255, 102, 0.1);
@@ -436,7 +573,7 @@
         .lb-rank {
             font-family: var(--font-heading);
             font-weight: bold;
-            width: 30px;
+            width: 34px;
             color: var(--neon-yellow);
         }
         .lb-user {
@@ -526,40 +663,106 @@
             display: flex;
             flex-direction: column;
             backdrop-filter: blur(12px);
-            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
             cursor: pointer;
+            position: relative;
         }
 
         .game-card:hover {
-            transform: translateY(-6px) scale(1.02);
+            transform: translateY(-4px);
             border-color: var(--neon-cyan);
-            box-shadow: 0 12px 30px rgba(0, 243, 255, 0.25);
+            box-shadow: 0 10px 26px rgba(0, 243, 255, 0.22);
             background: var(--bg-card-hover);
         }
 
-        .card-media { height: 110px; display: flex; align-items: center; justify-content: center; font-size: 2.4rem; }
+        .game-card.tournament-active {
+            border: 1px solid var(--neon-yellow);
+            box-shadow: 0 0 22px rgba(255, 183, 0, 0.25);
+        }
+        .game-card.tournament-active::after {
+            content: "⚔️ TORNEO +10K XP";
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: linear-gradient(135deg, var(--neon-yellow), #ff6a00);
+            color: #000;
+            font-family: var(--font-heading);
+            font-size: 0.65rem;
+            font-weight: 900;
+            padding: 4px 8px;
+            border-radius: 6px;
+            z-index: 5;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .played-badge {
+            display: none;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(6, 8, 14, 0.82);
+            border: 1px solid rgba(0, 255, 102, 0.45);
+            color: var(--neon-green);
+            font-family: var(--font-heading);
+            font-size: 0.62rem;
+            padding: 3px 7px;
+            border-radius: 6px;
+            z-index: 5;
+        }
+        .game-card.played .played-badge {
+            display: inline-block;
+        }
+
+        .card-media {
+            height: 110px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        .card-media::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(6, 8, 14, 0.12), rgba(6, 8, 14, 0.45));
+            pointer-events: none;
+        }
+        .game-card:hover .card-media {
+            transform: scale(1.04);
+        }
         
         .uno-bg { background: linear-gradient(135deg, #ff0055, #7a00ff); }
         .kittens-bg { background: linear-gradient(135deg, #ff9900, #ff0055); }
         .wordle-bg { background: linear-gradient(135deg, #00f3ff, #0051ff); }
         .murder-bg { background: linear-gradient(135deg, #2a0845, #ff0055); }
-        .verbum-bg { background: linear-gradient(135deg, #f0932b, #ffbe76); }
-        .sudoku-bg { background: linear-gradient(135deg, #ffb700, #ff8800); }
+        .verbum-bg { background: linear-gradient(135deg, #d97706, #92400e); }
+        .sudoku-bg { background: linear-gradient(135deg, #ffb700, #b45309); }
         .key-bg { background: linear-gradient(135deg, #0d3200, #00ff66); }
-        .block-bg { background: linear-gradient(135deg, #e056fd, #686de0); }
+        .block-bg { background: linear-gradient(135deg, #a811ff, #3b82f6); }
         .tris-bg { background: linear-gradient(135deg, #00ff66, #00a2ff); }
         .password-bg { background: linear-gradient(135deg, #485563, #29323c); }
-        .chess-bg { background: linear-gradient(135deg, #8e9eab, #eef2f3); }
-        .blackjack-bg { background: linear-gradient(135deg, #11998e, #38ef7d); }
+        .chess-bg { background: linear-gradient(135deg, #334155, #64748b); }
+        .blackjack-bg { background: linear-gradient(135deg, #11998e, #15803d); }
         .nonfidarti-bg { background: linear-gradient(135deg, #ff416c, #ff4b2b); }
         .glitch-bg { background: linear-gradient(135deg, #050515, #1f005c, #00f3ff); border-bottom: 2px solid var(--neon-cyan); }
 
         .card-content { padding: 1.2rem; display: flex; flex-direction: column; flex: 1; }
-        .card-content h3 { font-family: var(--font-heading); font-size: 1.15rem; margin-bottom: 0.2rem; }
-        .card-content p { color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 0.8rem; flex: 1; line-height: 1.3; }
+        .card-content h3 { font-family: var(--font-heading); font-size: 1.15rem; margin-bottom: 0.25rem; }
+        .card-content p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-bottom: 0.8rem;
+            flex: 1;
+            min-height: 2.6rem;
+            line-height: 1.3;
+        }
 
-        .star-rating { display: flex; gap: 4px; margin-bottom: 0.8rem; cursor: pointer; }
-        .star { font-size: 1.1rem; color: var(--text-dim); }
+        .star-rating { display: flex; align-items: center; gap: 4px; margin-bottom: 0.8rem; cursor: pointer; }
+        .star { font-size: 1.1rem; color: var(--text-dim); transition: transform 0.15s ease, color 0.15s ease; }
+        .star:hover { transform: scale(1.2); }
         .star.active { color: var(--neon-yellow); text-shadow: 0 0 8px rgba(255, 183, 0, 0.5); }
 
         .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
@@ -568,15 +771,15 @@
         .chatbot-container { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
         .chatbot-toggle {
             background: linear-gradient(135deg, #7a00ff, #00f3ff);
-            color: #fff; border: none; width: 60px; height: 60px; border-radius: 50%;
-            font-size: 1.6rem; cursor: pointer; box-shadow: 0 0 25px rgba(0, 243, 255, 0.5);
+            color: #fff; border: none; width: 58px; height: 58px; border-radius: 50%;
+            font-size: 1.5rem; cursor: pointer; box-shadow: 0 0 25px rgba(0, 243, 255, 0.5);
             display: flex; align-items: center; justify-content: center;
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .chatbot-toggle:hover { transform: scale(1.1) rotate(5deg); box-shadow: 0 0 35px rgba(0, 243, 255, 0.8); }
         .chatbot-window {
-            display: none; position: absolute; bottom: 75px; right: 0; width: 370px; height: 500px;
-            background: rgba(8, 12, 22, 0.95); border: 1px solid rgba(0, 243, 255, 0.3); border-radius: 20px;
+            display: none; position: absolute; bottom: 72px; right: 0; width: 370px; height: 500px;
+            background: rgba(8, 12, 22, 0.96); border: 1px solid rgba(0, 243, 255, 0.3); border-radius: 20px;
             flex-direction: column; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.9), 0 0 30px rgba(0, 243, 255, 0.2);
             backdrop-filter: blur(25px); animation: chatPop 0.3s ease;
         }
@@ -611,7 +814,7 @@
             width: 100%; padding: 0.5rem; background: rgba(0,0,0,0.6); border: var(--border-glass); border-radius: 6px; color: #fff; font-size: 0.8rem; outline: none;
         }
 
-        .footer { text-align: center; padding: 2rem; border-top: var(--border-glass); color: var(--text-dim); font-size: 0.85rem; margin-top: auto; }
+        .footer { text-align: center; padding: 2rem 1.5rem 4.5rem; border-top: var(--border-glass); color: var(--text-dim); font-size: 0.85rem; margin-top: auto; }
 
         .ios-install-guide { text-align: center; padding: 1rem 0; }
         .ios-step {
@@ -627,8 +830,18 @@
             .navbar { padding: 0.5rem 0.8rem; }
             .logo-container { font-size: 0.95rem; }
             .hub-actions { gap: 0.3rem; }
-            .hub-btn { padding: 0.35rem 0.6rem; font-size: 0.8rem; }
+            .hub-btn { padding: 0.38rem 0.62rem; font-size: 0.82rem; }
             .btn-text { display: none; }
+            .hero-title { font-size: 1.85rem; }
+        }
+
+        @media (max-width: 480px) {
+            .chatbot-container { bottom: 14px; right: 14px; }
+            .chatbot-window {
+                width: calc(100vw - 28px);
+                height: 68vh;
+                right: 0;
+            }
         }
 
         #toastNotification {
@@ -651,6 +864,8 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            max-width: 92vw;
+            text-align: center;
         }
         #toastNotification.show {
             transform: translateX(-50%) translateY(0);
@@ -710,6 +925,19 @@
             transition: transform 3.5s cubic-bezier(0.15, 0.95, 0.2, 1);
         }
 
+        .wheel-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            font-family: var(--font-heading);
+            font-size: 0.72rem;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+            transform-origin: 0 0;
+            pointer-events: none;
+        }
+
         .wheel-center-cap {
             width: 50px;
             height: 50px;
@@ -725,45 +953,6 @@
             color: #fff;
             box-shadow: 0 0 10px rgba(0,0,0,0.8);
         }
-
-        .tournament-card {
-            max-width: 500px;
-            margin: 0 auto 1.5rem;
-            background: rgba(168, 17, 255, 0.08);
-            border: 1px solid rgba(168, 17, 255, 0.4);
-            border-radius: 12px;
-            padding: 0.7rem 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 0 15px rgba(168, 17, 255, 0.15);
-        }
-        .tournament-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .tournament-icon {
-            font-size: 1.5rem;
-        }
-        .tournament-game-name {
-            font-family: var(--font-heading);
-            font-size: 1rem;
-            font-weight: bold;
-            color: #fff;
-            text-transform: uppercase;
-        }
-        .tournament-right {
-            text-align: right;
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-        }
-        .tournament-timer {
-            font-family: var(--font-heading);
-            font-weight: bold;
-            color: var(--neon-cyan);
-        }  
     </style>
 </head>
 <body>
@@ -777,22 +966,22 @@
             <div id="hubBoosterTimer" class="hub-timer-badge" style="display: none;">
                 <span id="hubTimerLabel">⚡ Booster</span>: <span id="hubTimerVal">00:00</span>
             </div>
-            <button class="hub-btn" style="background: linear-gradient(135deg, #ffb700, #ff8800); color:#000;" onclick="openModal('gachaModal')">
+            <button class="hub-btn btn-wheel" title="Ruota della Fortuna" aria-label="Ruota della Fortuna" onclick="openModal('gachaModal')">
                 <span>🎰</span> <span class="btn-text">Ruota</span>
             </button>
-            <button class="hub-btn btn-install" onclick="triggerAppInstall()">
+            <button class="hub-btn btn-install" title="Scarica App" aria-label="Scarica App" onclick="triggerAppInstall()">
                 <span>📲</span> <span class="btn-text">SCARICA APP</span>
             </button>
-            <button class="hub-btn" onclick="openModal('shopModal')">
+            <button class="hub-btn" title="Cyber Shop" aria-label="Cyber Shop" onclick="openModal('shopModal')">
                 <span>🛍️</span> <span class="btn-text">Shop</span>
             </button>
-            <button class="hub-btn" onclick="openModal('profileModal')">
+            <button class="hub-btn" title="Profilo Utente" aria-label="Profilo Utente" onclick="openModal('profileModal')">
                 <span id="navAvatar">⚡</span> <span id="navUsername" class="btn-text">Profilo</span>
             </button>
-            <button class="hub-btn" onclick="openLeaderboard()">
+            <button class="hub-btn" title="Classifica Generale" aria-label="Classifica Generale" onclick="openLeaderboard()">
                 <span>🏆</span> <span class="btn-text">Classifica</span>
             </button>
-            <button class="hub-btn" onclick="openModal('questModal')">
+            <button class="hub-btn" title="Sfide Giornaliere" aria-label="Sfide Giornaliere" onclick="openModal('questModal')">
                 <span>🎯</span> <span class="btn-text">Sfide</span>
                 <span id="questNotificationDot" class="notification-badge"></span>
             </button>
@@ -802,16 +991,27 @@
     <section class="hero-section">
         <h1 class="hero-title">MASTER<span class="highlight">SABBA</span> ARCADE</h1>
         <p class="hero-subtitle">Seleziona un titolo, accumula XP e scala la classifica globale.</p>
+
+        <div>
+            <div class="hero-xp-pill" onclick="openModal('profileModal')" title="Apri il tuo profilo">
+                <span style="color: var(--neon-cyan);">LV. <strong id="heroLevelVal">1</strong></span>
+                <div class="hero-mini-bar">
+                    <div class="hero-mini-fill" id="heroXpFill"></div>
+                </div>
+                <span style="color: var(--text-primary);"><strong id="heroXpVal">0</strong> XP</span>
+            </div>
+        </div>
         
-        <div style="max-width: 500px; margin: 0 auto 1.2rem; text-align: center;">
-            <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(0, 243, 255, 0.12); border: 1px solid rgba(0, 243, 255, 0.4); padding: 0.4rem 1rem; border-radius: 20px; font-size: 1rem; backdrop-filter: blur(10px); box-shadow: 0 0 15px rgba(0, 243, 255, 0.15);">
-                <span style="font-size: 1rem;" id="weeklyIcon">⚔️</span>
-                <span style="font-family: var(--font-heading); color: var(--neon-yellow); font-size: 1rem; font-weight: bold; text-transform: uppercase;"><b>Torneo:</b></span>
-                <strong id="weeklyTournamentGame" style="color: #fff; font-family: var(--font-heading); font-size: 1rem;">--</strong>
-                <span style="color: rgba(255,255,255,0.2);">|</span>
-                <span style="color: var(--neon-cyan); font-size: 1rem;"><b>🏆 +10k XP</b></span>
-                <span style="color: rgba(255,255,255,0.2);">|</span>
-                <span style="color: var(--text-secondary); font-size: 1rem;">🕒 <strong><span id="weeklyTournamentTimer" style="color: var(--neon-cyan); font-size: 1rem;">--:--:--</span></strong></span>
+        <div class="tournament-banner-wrap">
+            <div class="tournament-pill">
+                <span id="weeklyIcon">⚔️</span>
+                <span class="tournament-pill-label">Torneo:</span>
+                <strong id="weeklyTournamentGame" class="tournament-pill-game">--</strong>
+                <span class="tournament-pill-sep">|</span>
+                <span class="tournament-pill-prize">🏆 +10k XP</span>
+                <span class="tournament-pill-sep">|</span>
+                <span class="tournament-pill-time">🕒 <strong id="weeklyTournamentTimer">--:--:--</strong></span>
+                <span id="tournamentClaimedBadge" class="tournament-status-tag">✓ Riscattato</span>
             </div>
         </div>
 
@@ -833,22 +1033,25 @@
 
     <main class="main-container">
         <h2 class="section-title">🕹️ Arcade Collection</h2>
+        <div id="emptyFilterMsg" class="empty-filter-msg">🔍 Nessun gioco trovato con questi filtri.</div>
         <div class="games-grid" id="gameList">
-          <article class="game-card" data-id="fanta-classe" data-category="fuori classifica" data-name="fanta classe fantaclasse scuola studenti" onclick="openGamePreview('fanta-classe')">
-            <div class="card-media" style="background: linear-gradient(135deg, #059669, #10b981);">🎓</div>
-            <div class="card-content">
-                <h3>FantaClasse</h3>
-                <p>La piattaforma dove ogni impresa folle vale punti e solo il più fuori di testa conquista il podio.</p>
-                <div class="star-rating" onclick="rateGame(event, 'fanta-classe')">
-                    <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
+            <article class="game-card" data-id="fanta-classe" data-title="FantaClasse" data-category="fuori classifica" data-name="fanta classe fantaclasse scuola studenti" onclick="openGamePreview('fanta-classe')">
+                
+                <div class="card-media" style="background: linear-gradient(135deg, #059669, #065f46);">🎓</div>
+                <div class="card-content">
+                    <h3>FantaClasse</h3>
+                    <p>La piattaforma dove ogni impresa folle vale punti e solo il più fuori di testa conquista il podio.</p>
+                    <div class="star-rating" onclick="rateGame(event, 'fanta-classe')">
+                        <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
+                    </div>
+                    <div class="card-footer">
+                        <span class="tag">Fuori Classifica</span>
+                        <a href="https://mastersabba.github.io/FantaClasse/" target="_blank" rel="noopener" class="btn-play" onclick="registerPlay(event, 'fanta-classe')">GIOCA</a>
+                    </div>
                 </div>
-                <div class="card-footer">
-                    <span class="tag">Fuori Classifica</span>
-                    <a href="https://mastersabba.github.io/FantaClasse/" target="_blank" class="btn-play" onclick="registerPlay(event, 'fanta-classe')">GIOCA</a>
-                </div>
-            </div>
-          </article>
-            <article class="game-card" data-id="non-fidarti" data-category="investigazione" data-name="non fidarti mastersabba investigazione thriller mistero" onclick="openGamePreview('non-fidarti')">
+            </article>
+            <article class="game-card" data-id="non-fidarti" data-title="Non Fidarti" data-category="investigazione" data-name="non fidarti mastersabba investigazione thriller mistero" onclick="openGamePreview('non-fidarti')">
+                
                 <div class="card-media nonfidarti-bg">🕵️‍♂️</div>
                 <div class="card-content">
                     <h3>Non Fidarti</h3>
@@ -858,12 +1061,12 @@
                     </div>
                     <div class="card-footer">
                         <span class="tag">Investigazione</span>
-                        <a href="https://mastersabba.github.io/Non-Fidarti/" target="_blank" class="btn-play" onclick="registerPlay(event, 'non-fidarti')">GIOCA</a>
+                        <a href="https://mastersabba.github.io/Non-Fidarti/" target="_blank" rel="noopener" class="btn-play" onclick="registerPlay(event, 'non-fidarti')">GIOCA</a>
                     </div>
                 </div>
             </article>
-
-            <article class="game-card" data-id="color-clash" data-category="carte" data-multiplayer="true" data-name="Unos Due masteruno uno carte multiplayer" onclick="openGamePreview('color-clash')">
+            <article class="game-card" data-id="color-clash" data-title="Unos" data-category="carte" data-multiplayer="true" data-name="Unos Due masteruno uno carte multiplayer" onclick="openGamePreview('color-clash')">
+              
                 <div class="card-media uno-bg">🎴</div>
                 <div class="card-content">
                     <h3>Unos</h3>
@@ -873,11 +1076,12 @@
                     </div>
                     <div class="card-footer">
                         <span class="tag">Carte / 1VS1</span>
-                        <a href="https://mastersabba.github.io/MasterUno/" target="_blank" class="btn-play" onclick="registerPlay(event, 'color-clash')">GIOCA</a>
+                        <a href="https://mastersabba.github.io/MasterUno/" target="_blank" rel="noopener" class="btn-play" onclick="registerPlay(event, 'color-clash')">GIOCA</a>
                     </div>
                 </div>
             </article>
-            <article class="game-card" data-id="last-spark" data-category="puzzle" data-multiplayer="false" data-name="Exploding Bomb last spark masterkittens exploding kittens" onclick="openGamePreview('last-spark')">
+            <article class="game-card" data-id="last-spark" data-title="Exploding Bomb" data-category="puzzle" data-multiplayer="false" data-name="Exploding Bomb last spark masterkittens exploding kittens" onclick="openGamePreview('last-spark')">
+              
                 <div class="card-media kittens-bg">💥</div>
                 <div class="card-content">
                     <h3>Exploding Bomb</h3>
@@ -887,11 +1091,12 @@
                     </div>
                     <div class="card-footer">
                         <span class="tag">Party</span>
-                        <a href="https://mastersabba.github.io/MasterKittens/" target="_blank" class="btn-play" onclick="registerPlay(event, 'last-spark')">GIOCA</a>
+                        <a href="https://mastersabba.github.io/MasterKittens/" target="_blank" rel="noopener" class="btn-play" onclick="registerPlay(event, 'last-spark')">GIOCA</a>
                     </div>
                 </div>
             </article>
-            <article class="game-card" data-id="WORD-RUSH" data-category="puzzle" data-name="word rush WordRush wordle parole wordrush" onclick="openGamePreview('WORD-RUSH')">
+            <article class="game-card" data-id="WORD-RUSH" data-title="Word Rush" data-category="puzzle" data-name="word rush WordRush wordle parole wordrush" onclick="openGamePreview('WORD-RUSH')">
+                
                 <div class="card-media wordle-bg">🔤</div>
                 <div class="card-content">
                     <h3>Word Rush</h3>
@@ -901,11 +1106,12 @@
                     </div>
                     <div class="card-footer">
                         <span class="tag">Parole</span>
-                        <a href="https://mastersabba.github.io/MasterWordle/" target="_blank" class="btn-play" onclick="registerPlay(event, 'WORD-RUSH')">GIOCA</a>
+                        <a href="https://mastersabba.github.io/MasterWordle/" target="_blank" rel="noopener" class="btn-play" onclick="registerPlay(event, 'WORD-RUSH')">GIOCA</a>
                     </div>
                 </div>
             </article>
-            <article class="game-card" data-id="master-murder" data-category="investigazione" data-multiplayer="true" data-name="Impostore mastermurder murder caso investigazione case zero" onclick="openGamePreview('master-murder')">
+            <article class="game-card" data-id="master-murder" data-title="Impostore" data-category="investigazione" data-multiplayer="true" data-name="Impostore mastermurder murder caso investigazione case zero" onclick="openGamePreview('master-murder')">
+                
                 <div class="card-media murder-bg">🔍</div>
                 <div class="card-content">
                     <h3>Impostore</h3>
@@ -915,11 +1121,12 @@
                     </div>
                     <div class="card-footer">
                         <span class="tag">Investigazione ∞VS∞</span>
-                        <a href="https://mastersabba.github.io/MasterMurder/" target="_blank" class="btn-play" onclick="registerPlay(event, 'master-murder')">GIOCA</a>
+                        <a href="https://mastersabba.github.io/MasterMurder/" target="_blank" rel="noopener" class="btn-play" onclick="registerPlay(event, 'master-murder')">GIOCA</a>
                     </div>
                 </div>
             </article>
-            <article class="game-card" data-id="master-verbum" data-category="puzzle" data-multiplayer="true" data-name="word duel masterverbum verbum dizionario parole velocità multiplayer" onclick="openGamePreview('master-verbum')">
+            <article class="game-card" data-id="master-verbum" data-title="Word Duel" data-category="puzzle" data-multiplayer="true" data-name="word duel masterverbum verbum dizionario parole velocità multiplayer" onclick="openGamePreview('master-verbum')">
+                
                 <div class="card-media verbum-bg">📚</div>
                 <div class="card-content">
                     <h3>Word Duel</h3>
@@ -929,11 +1136,12 @@
                     </div>
                     <div class="card-footer">
                         <span class="tag">Parole / 1vs1</span>
-                        <a href="https://mastersabba.github.io/MasterVerbum/" target="_blank" class="btn-play" onclick="registerPlay(event, 'master-verbum')">GIOCA</a>
+                        <a href="https://mastersabba.github.io/MasterVerbum/" target="_blank" rel="noopener" class="btn-play" onclick="registerPlay(event, 'master-verbum')">GIOCA</a>
                     </div>
                 </div>
             </article>
-            <article class="game-card" data-id="master-sudoku" data-category="puzzle" data-name="Sudoku mastersudoku sudoku numeri precisione rush" onclick="openGamePreview('master-sudoku')">
+            <article class="game-card" data-id="master-sudoku" data-title="Sudoku" data-category="puzzle" data-name="Sudoku mastersudoku sudoku numeri precisione rush" onclick="openGamePreview('master-sudoku')">
+                
                 <div class="card-media sudoku-bg">🔢</div>
                 <div class="card-content">
                     <h3>Sudoku</h3>
@@ -943,11 +1151,12 @@
                     </div>
                     <div class="card-footer">
                         <span class="tag">Puzzle</span>
-                        <a href="https://mastersabba.github.io/MasterSudoku/" target="_blank" class="btn-play" onclick="registerPlay(event, 'master-sudoku')">GIOCA</a>
+                        <a href="https://mastersabba.github.io/MasterSudoku/" target="_blank" rel="noopener" class="btn-play" onclick="registerPlay(event, 'master-sudoku')">GIOCA</a>
                     </div>
                 </div>
             </article>
-            <article class="game-card" data-id="master-key" data-category="riflessi" data-name="Free the Key masterkey key logica codici segreti cyberkey" onclick="openGamePreview('master-key')">
+            <article class="game-card" data-id="master-key" data-title="Free the Key" data-category="riflessi" data-name="Free the Key masterkey key logica codici segreti cyberkey" onclick="openGamePreview('master-key')">
+                
                 <div class="card-media key-bg">⌨️</div>
                 <div class="card-content">
                     <h3>Free the Key</h3>
@@ -956,12 +1165,13 @@
                         <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
                     </div>
                     <div class="card-footer">
-                    <span class="tag">Riflessi</span>
-                    <a href="https://mastersabba.github.io/MasterKey/" target="_blank" class="btn-play" onclick="launchMasterKey(event)">GIOCA</a>
-                </div>
+                        <span class="tag">Riflessi</span>
+                        <a href="https://mastersabba.github.io/MasterKey/" target="_blank" rel="noopener" class="btn-play" onclick="launchMasterKey(event)">GIOCA</a>
+                    </div>
                 </div>
             </article>
-            <article class="game-card" data-id="master-block" data-category="puzzle" data-name="tetra block masterblock block blocchi matrix tetris" onclick="openGamePreview('master-block')">
+            <article class="game-card" data-id="master-block" data-title="Tetra Block" data-category="puzzle" data-name="tetra block masterblock block blocchi matrix tetris" onclick="openGamePreview('master-block')">
+                
                 <div class="card-media block-bg">🧩</div>
                 <div class="card-content">
                     <h3>Tetra Block</h3>
@@ -971,11 +1181,12 @@
                     </div>
                     <div class="card-footer">
                         <span class="tag">Puzzle</span>
-                        <a href="https://mastersabba.github.io/MasterBlock/" target="_blank" class="btn-play" onclick="registerPlay(event, 'master-block')">GIOCA</a>
+                        <a href="https://mastersabba.github.io/MasterBlock/" target="_blank" rel="noopener" class="btn-play" onclick="registerPlay(event, 'master-block')">GIOCA</a>
                     </div>
                 </div>
             </article>
-            <article class="game-card" data-id="master-tris" data-category="puzzle" data-multiplayer="true" data-name="tris battle mastertris tris strategia 1vs1 gridfall multiplayer" onclick="openGamePreview('master-tris')">
+            <article class="game-card" data-id="master-tris" data-title="Tris Battle" data-category="puzzle" data-multiplayer="true" data-name="tris battle mastertris tris strategia 1vs1 gridfall multiplayer" onclick="openGamePreview('master-tris')">
+                
                 <div class="card-media tris-bg">📐</div>
                 <div class="card-content">
                     <h3>Tris Battle</h3>
@@ -985,11 +1196,12 @@
                     </div>
                     <div class="card-footer">
                         <span class="tag">Strategia / 1vs1</span>
-                        <a href="https://mastersabba.github.io/MasterTris/" target="_blank" class="btn-play" onclick="registerPlay(event, 'master-tris')">GIOCA</a>
+                        <a href="https://mastersabba.github.io/MasterTris/" target="_blank" rel="noopener" class="btn-play" onclick="registerPlay(event, 'master-tris')">GIOCA</a>
                     </div>
                 </div>
             </article>
-            <article class="game-card" data-id="master-password" data-category="investigazione" data-name="code breaker masterpassword password segurança crittografia codebreaker" onclick="openGamePreview('master-password')">
+            <article class="game-card" data-id="master-password" data-title="Code Breaker" data-category="investigazione" data-name="code breaker masterpassword password segurança crittografia codebreaker" onclick="openGamePreview('master-password')">
+                
                 <div class="card-media password-bg">🔐</div>
                 <div class="card-content">
                     <h3>Code Breaker</h3>
@@ -999,11 +1211,12 @@
                     </div>
                     <div class="card-footer">
                         <span class="tag">Cyber</span>
-                        <a href="https://mastersabba.github.io/MasterPassword/" target="_blank" class="btn-play" onclick="registerPlay(event, 'master-password')">GIOCA</a>
+                        <a href="https://mastersabba.github.io/MasterPassword/" target="_blank" rel="noopener" class="btn-play" onclick="registerPlay(event, 'master-password')">GIOCA</a>
                     </div>
                 </div>
             </article>
-            <article class="game-card" data-id="master-chess" data-category="puzzle" data-multiplayer="true" data-name="royal chess masterchess chess scacchi strategia multiplayer" onclick="openGamePreview('master-chess')">
+            <article class="game-card" data-id="master-chess" data-title="Royal Chess" data-category="puzzle" data-multiplayer="true" data-name="royal chess masterchess chess scacchi strategia multiplayer" onclick="openGamePreview('master-chess')">
+                
                 <div class="card-media chess-bg">♟️</div>
                 <div class="card-content">
                     <h3>Royal Chess</h3>
@@ -1013,11 +1226,12 @@
                     </div>
                     <div class="card-footer">
                         <span class="tag">Scacchi / 1VS1</span>
-                        <a href="https://mastersabba.github.io/MasterChess/" target="_blank" class="btn-play" onclick="registerPlay(event, 'master-chess')">GIOCA</a>
+                        <a href="https://mastersabba.github.io/MasterChess/" target="_blank" rel="noopener" class="btn-play" onclick="registerPlay(event, 'master-chess')">GIOCA</a>
                     </div>
                 </div>
             </article>
-            <article class="game-card" data-id="master-blackjack" data-category="carte" data-name="blackjack carte casino dealer 21 ventuno" onclick="openGamePreview('master-blackjack')">
+            <article class="game-card" data-id="master-blackjack" data-title="BlackJack" data-category="carte" data-name="blackjack carte casino dealer 21 ventuno" onclick="openGamePreview('master-blackjack')">
+                
                 <div class="card-media blackjack-bg">♠️</div>
                 <div class="card-content">
                     <h3>BlackJack</h3>
@@ -1027,12 +1241,12 @@
                     </div>
                     <div class="card-footer">
                         <span class="tag">Carte</span>
-                        <a href="https://mastersabba.github.io/MasterBlackJack/" target="_blank" class="btn-play" onclick="registerPlay(event, 'master-blackjack')">GIOCA</a>
+                        <a href="https://mastersabba.github.io/MasterBlackJack/" target="_blank" rel="noopener" class="btn-play" onclick="registerPlay(event, 'master-blackjack')">GIOCA</a>
                     </div>
                 </div>
             </article>
-
-            <article class="game-card" data-id="snake" data-category="riflessi" data-name="snake snake serpente arcade retro mastersnake" onclick="openGamePreview('snake')">
+            <article class="game-card" data-id="snake" data-title="Snake" data-category="riflessi" data-name="snake snake serpente arcade retro mastersnake" onclick="openGamePreview('snake')">
+                
                 <div class="card-media" style="background: linear-gradient(135deg, #15803d, #032010);">🐍</div>
                 <div class="card-content">
                     <h3>Snake</h3>
@@ -1042,28 +1256,29 @@
                     </div>
                     <div class="card-footer">
                         <span class="tag">Riflessi</span>
-                        <a href="https://mastersabba.github.io/MasterSnake/" target="_blank" class="btn-play" onclick="registerPlay(event, 'snake')">GIOCA</a>
+                        <a href="https://mastersabba.github.io/MasterSnake/" target="_blank" rel="noopener" class="btn-play" onclick="registerPlay(event, 'snake')">GIOCA</a>
                     </div>
                 </div>
             </article>
         </div>
 
         <h2 class="section-title" style="margin-top: 2rem;">🚧 MasterLab (Sperimentale)</h2>
-        <div class="games-grid">
-          <article class="game-card" data-id="neural-glitch" data-category="lab" data-name="neural glitch lab sperimentale" onclick="openGamePreview('neural-glitch')">
-            <div class="card-media glitch-bg">⚡🔮</div>
-            <div class="card-content">
-                <h3>Neural Glitch</h3>
-                <p>Un esperimento cibernetico instabile: hackera il flusso di dati prima del sovraccarico.</p>
-                <div class="star-rating" onclick="rateGame(event, 'neural-glitch')">
-                    <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
+        <div class="games-grid" id="labGameList">
+            <article class="game-card" data-id="neural-glitch" data-title="Neural Glitch" data-category="lab" data-name="neural glitch lab sperimentale" onclick="openGamePreview('neural-glitch')">
+                
+                <div class="card-media glitch-bg">⚡🔮</div>
+                <div class="card-content">
+                    <h3>Neural Glitch</h3>
+                    <p>Un esperimento cibernetico instabile: hackera il flusso di dati prima del sovraccarico.</p>
+                    <div class="star-rating" onclick="rateGame(event, 'neural-glitch')">
+                        <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
+                    </div>
+                    <div class="card-footer">
+                        <span class="tag">MasterLab</span>
+                        <button type="button" class="btn-play" onclick="registerPlay(event, 'neural-glitch')">TEST</button>
+                    </div>
                 </div>
-                <div class="card-footer">
-                    <span class="tag">MasterLab</span>
-                    <a href="#" class="btn-play" onclick="registerPlay(event, 'neural-glitch')">TEST</a>
-                </div>
-            </div>
-          </article>
+            </article>
         </div>
     </main>
 
@@ -1079,6 +1294,11 @@
             <div class="wheel-container">
                 <div class="wheel-pointer" id="wheelPointer"></div>
                 <div class="wheel-box" id="wheelBox">
+                    <span class="wheel-label" style="transform: rotate(-54deg) translate(52px, -8px);">500</span>
+                    <span class="wheel-label" style="transform: rotate(18deg) translate(50px, -8px);">1.0K</span>
+                    <span class="wheel-label" style="transform: rotate(90deg) translate(50px, -8px);">1.5K</span>
+                    <span class="wheel-label" style="transform: rotate(162deg) translate(50px, -8px);">2.5K</span>
+                    <span class="wheel-label" style="transform: rotate(234deg) translate(50px, -8px);">5.0K</span>
                     <div class="wheel-center-cap">SPIN</div>
                 </div>
             </div>
@@ -1254,10 +1474,10 @@
                         <span class="badge" id="badge-win-streak">🔥 Dominatore (5 Win)</span>
                     </div>
 
-                    <div style="display: flex; gap: 0.6rem; margin-top: 1rem;">
+                    <div style="display: flex; gap: 0.6rem; margin-top: 1rem; flex-wrap: wrap;">
                         <button class="hub-btn" style="flex: 1; color: var(--neon-pink);" onclick="handleLogout()">Disconnetti</button>
                         <button class="hub-btn" style="flex: 1; color: var(--neon-cyan);" onclick="exportData()">💾 Esporta Dati</button>
-                        <button class="hub-btn" onclick="forzaRichiestaNotifiche()" style="flex: 1; color: var(--neon-green);">Attiva Notifiche</button>
+                        <button class="hub-btn" style="flex: 1; color: var(--neon-green);" onclick="forzaRichiestaNotifiche()">Attiva Notifiche</button>
                     </div>
                 </div>
             </div>
@@ -1324,11 +1544,9 @@
                         </div>
                     </div>
 
-                    <!-- GESTIONE A 3 CANALI PER I MESSAGGI -->
                     <div style="margin-bottom: 14px; background: rgba(15, 2, 8, 0.9); padding: 10px; border-radius: 8px; border: 1px solid rgba(255, 0, 85, 0.4);">
                         <label style="color: #ff0055; font-size: 0.8rem; font-weight: bold; display: block; margin-bottom: 8px;">📢 CENTRO MESSAGGI & BROADCAST</label>
                         
-                        <!-- 1. Solo In-App -->
                         <div style="margin-bottom: 8px; background: rgba(0,0,0,0.5); padding: 6px; border-radius: 6px; border: 1px solid rgba(0, 243, 255, 0.2);">
                             <span style="color: var(--neon-cyan); font-size: 0.7rem; font-weight: bold; display: block; margin-bottom: 2px;">💬 Solo in Hub (Compagni Online)</span>
                             <div style="display: flex; gap: 4px;">
@@ -1337,7 +1555,6 @@
                             </div>
                         </div>
 
-                        <!-- 2. Solo Push Esterna -->
                         <div style="margin-bottom: 8px; background: rgba(0,0,0,0.5); padding: 6px; border-radius: 6px; border: 1px solid rgba(255, 0, 85, 0.3);">
                             <span style="color: #ff0055; font-size: 0.7rem; font-weight: bold; display: block; margin-bottom: 2px;">🔔 Solo Push (App Chiusa - Silenzioso)</span>
                             <div style="display: flex; gap: 4px;">
@@ -1346,7 +1563,6 @@
                             </div>
                         </div>
 
-                        <!-- 3. Entrambi -->
                         <div style="background: rgba(0,0,0,0.5); padding: 6px; border-radius: 6px; border: 1px solid rgba(168, 17, 255, 0.4);">
                             <span style="color: #a811ff; font-size: 0.7rem; font-weight: bold; display: block; margin-bottom: 2px;">⚡ Entrambi (Hub + Push)</span>
                             <div style="display: flex; gap: 4px;">
@@ -1367,6 +1583,12 @@
                                 <option value="Free the Key">Free the Key</option>
                                 <option value="Unos">Unos</option>
                                 <option value="Word Rush">Word Rush</option>
+                                <option value="Non Fidarti">Non Fidarti</option>
+                                <option value="Exploding Bomb">Exploding Bomb</option>
+                                <option value="Word Duel">Word Duel</option>
+                                <option value="Tris Battle">Tris Battle</option>
+                                <option value="Code Breaker">Code Breaker</option>
+                                <option value="Royal Chess">Royal Chess</option>
                             </select>
                             <button onclick="adminSetTournamentGame()" style="background: #ff0055; color: #fff; border: none; padding: 6px 10px; border-radius: 6px; font-weight: bold; font-size: 0.7rem; cursor: pointer;">Imposta</button>
                         </div>
@@ -1452,7 +1674,7 @@
             </p>
             <div style="display: flex; gap: 0.8rem;">
                 <button class="hub-btn" style="flex:1;" onclick="closeModal('registerReminderModal')">Più tardi</button>
-                <button class="btn-play" style="flex:1; border:none; cursor:pointer;" onclick="closeModal('registerReminderModal'); openModal('profileModal'); toggleAuthMode();">Registrati Ora</button>
+                <button class="btn-play" style="flex:1;" onclick="closeModal('registerReminderModal'); openModal('profileModal'); if (!isRegistering) toggleAuthMode();">Registrati Ora</button>
             </div>
         </div>
     </div>
@@ -1471,7 +1693,7 @@
             </div>
             <div style="display: flex; gap: 0.8rem; justify-content: flex-end;">
                 <button class="hub-btn" onclick="closeModal('previewModal')">Chiudi</button>
-                <a id="prevPlayBtn" href="#" target="_blank" class="btn-play">AVVIA ORA</a>
+                <a id="prevPlayBtn" href="#" target="_blank" rel="noopener" class="btn-play">AVVIA ORA</a>
             </div>
         </div>
     </div>
@@ -1502,7 +1724,7 @@
 
     <!-- CHATBOT -->
     <div class="chatbot-container">
-        <button class="chatbot-toggle" onclick="toggleChat()">💬</button>
+        <button class="chatbot-toggle" title="Assistente MasterBot" aria-label="Apri chat MasterBot" onclick="toggleChat()">💬</button>
         <div class="chatbot-window" id="chatWindow">
             <div class="chat-header">
                 <span>💬 MasterBot</span>
@@ -1520,7 +1742,7 @@
             <form id="bugReportForm" class="bug-form-container" onsubmit="sendBugReport(event)">
                 <input type="email" name="email" id="bugEmail" required placeholder="La tua Email per la risposta...">
                 <textarea name="message" id="bugMessage" required rows="3" placeholder="Descrivi il bug o problema trovato..."></textarea>
-                <button type="submit" id="bugSubmitBtn" class="btn-play" style="width:100%; border:none; padding:0.4rem; font-size:0.8rem; cursor:pointer;">INVIA SEGNALAZIONE</button>
+                <button type="submit" id="bugSubmitBtn" class="btn-play" style="width:100%; padding:0.45rem; font-size:0.8rem;">INVIA SEGNALAZIONE</button>
             </form>
 
             <div class="chat-input-area" id="chatInputGroup">
@@ -1591,6 +1813,11 @@
             appId: "1:254141019232:web:29702c03b91f8a76677f05",
         };
 
+        const ALLOWED_ORIGINS = new Set([
+            'https://mastersabba.github.io',
+            window.location.origin
+        ]);
+
         let db = null;
         let auth = null;
         let currentUser = null;
@@ -1607,8 +1834,8 @@
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js')
-                    .then(reg => console.log('Service Worker registrato con successo:', reg.scope))
-                    .catch(err => console.log('Errore registrazione Service Worker:', err));
+                    .then(reg => console.log('Service Worker registrato:', reg.scope))
+                    .catch(err => console.log('Service Worker non disponibile:', err));
             });
         }
 
@@ -1645,13 +1872,13 @@
             const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
 
             if (isStandalone) {
-                alert("L'applicazione è già installata sul tuo dispositivo!");
+                showCyberPopup("App Installata", "L'applicazione è già installata sul tuo dispositivo!", "✅");
                 return;
             }
 
             if (deferredPrompt) {
                 deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((choiceResult) => { deferredPrompt = null; });
+                deferredPrompt.userChoice.then(() => { deferredPrompt = null; });
             } else if (isIOS) {
                 const content = document.getElementById('installModalContent');
                 content.innerHTML = `
@@ -1665,9 +1892,9 @@
                 const content = document.getElementById('installModalContent');
                 content.innerHTML = `
                     <p style="color: var(--text-secondary); margin-bottom: 1rem;">Per installare l'app da telefono o tablet:</p>
-                    <div class="ios-step"><div class="ios-step-num">1</div><div>Apri il menu e clicca su <strong>Condividi</strong>.</div></div>
-                    <div class="ios-step"><div class="ios-step-num">2</div><div>Seleziona <strong>Visualizza</strong> o scorri le opzioni.</div></div>
-                    <div class="ios-step"><div class="ios-step-num">3</div><div>Clicca su <strong>"Aggiungi alla schermata Home"</strong> ➕.</div></div>
+                    <div class="ios-step"><div class="ios-step-num">1</div><div>Apri il menu e clicca su <strong>Condividi</strong> o sul menu del browser.</div></div>
+                    <div class="ios-step"><div class="ios-step-num">2</div><div>Scorri le opzioni disponibili.</div></div>
+                    <div class="ios-step"><div class="ios-step-num">3</div><div>Clicca su <strong>"Aggiungi alla schermata Home"</strong> o <strong>"Installa app"</strong> ➕.</div></div>
                 `;
                 openModal('installAppModal');
             } else {
@@ -1682,7 +1909,7 @@
         }
 
         try {
-            if (firebaseConfig.apiKey && firebaseConfig.apiKey !== "AIzaSy_YOUR_API_KEY") {
+            if (firebaseConfig.apiKey) {
                 if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
                 db = firebase.database();
                 auth = firebase.auth();
@@ -1700,12 +1927,12 @@
             'master-sudoku': { title: 'Sudoku', desc: 'Riempi la griglia inserendo i numeri da 1 a 9 senza ripeterli nelle righe o nei blocchi.', controls: 'Selezione casella e tasti 1-9.', url: 'https://mastersabba.github.io/MasterSudoku/' },
             'master-key': { title: 'Free the Key', desc: 'Digita velocemente i codici che compaiono sullo schermo per superare i blocchi di sicurezza.', controls: 'Digita i tasti visualizzati.', url: 'https://mastersabba.github.io/MasterKey/' },
             'master-block': { title: 'Tetra Block', desc: 'Incastra i blocchi geometrici in caduta per completare le righe e liberare spazio.', controls: 'Trascina e rilascia nella griglia.', url: 'https://mastersabba.github.io/MasterBlock/' },
-            'master-tris': { title: 'Tris Battle', desc: 'Allinea tre simboli uguali in verticale, orizzontale o diagonale per vincere la partida.', controls: 'Click per posizionare il simbolo.', url: 'https://mastersabba.github.io/MasterTris/' },
+            'master-tris': { title: 'Tris Battle', desc: 'Allinea tre simboli uguali in verticale, orizzontale o diagonale per vincere la partita.', controls: 'Click per posizionare il simbolo.', url: 'https://mastersabba.github.io/MasterTris/' },
             'master-password': { title: 'Code Breaker', desc: 'Crea una password che rispetti contemporaneamente decine di bizzarre regole logiche.', controls: 'Inserimento cifre e verifica feedback.', url: 'https://mastersabba.github.io/MasterPassword/' },
             'master-chess': { title: 'Royal Chess', desc: 'Muovi i tuoi pezzi sulla scacchiera con strategia per dare scacco matto all’avversario.', controls: 'Trascina i pezzi sulla scacchiera.', url: 'https://mastersabba.github.io/MasterChess/' },
             'master-blackjack': { title: 'BlackJack', desc: 'Avvicinati a 21 con le tue carte senza superarlo per battere il dealer e vincere le fiches.', controls: 'Tasti Carta, Stai, Puntata.', url: 'https://mastersabba.github.io/MasterBlackJack/' }, 
             'snake': { title: 'Snake', desc: 'Guida il serpente, raccogli le mele e sblocca skin e temi di legno nello Shop!', controls: 'Frecce direzionali, WASD o Swipe sul touch screen.', url: 'https://mastersabba.github.io/MasterSnake/' },
-            'neural-glitch': { title: 'Neural Glitch', desc: 'Clicca rapidamente sui nodi dati che si accendono per stabilire il sistema prima del crash.', controls: 'Clicca rapidamente sui nodi energetici attivi.', url: '#' },
+            'neural-glitch': { title: 'Neural Glitch', desc: 'Clicca rapidamente sui nodi dati che si accendono per stabilizzare il sistema prima del crash.', controls: 'Clicca rapidamente sui nodi energetici attivi.', url: '#' },
             'fanta-classe': { title: 'FantaClasse', desc: "Il portale collaborativo per la classe: gestisci dinamiche, contenuti e strumenti condivisi.", controls: 'Click ed elementi interattivi di navigazione.', url: 'https://mastersabba.github.io/FantaClasse/' }
         };
 
@@ -1736,6 +1963,8 @@
             ratings: {},
             achievements: { firstVote: false, firstPlay: false, labTester: false, customProfile: false, nightOwl: false, winStreak: false },
             claimedQuests: {},
+            claimedTournaments: {},
+            tournamentScores: {},
             winsPerGame: {},
             playsPerGame: {},
             inventory: {},
@@ -1746,25 +1975,24 @@
             lastGachaClaim: 0
         };
 
-        let userState = JSON.parse(localStorage.getItem('mastersabba_arcade_v2')) || defaultState;
+        let userState = JSON.parse(localStorage.getItem('mastersabba_arcade_v2')) || { ...defaultState };
         if (!userState.purchaseCounts) userState.purchaseCounts = { booster_2x: 0, booster_3x: 0 };
         if (!userState.levelUpgrade) userState.levelUpgrade = 1;
         if (!userState.playsPerGame) userState.playsPerGame = {};
-        if (!userState.achievements) userState.achievements = defaultState.achievements;
+        if (!userState.winsPerGame) userState.winsPerGame = {};
+        if (!userState.claimedTournaments) userState.claimedTournaments = {};
+        if (!userState.tournamentScores) userState.tournamentScores = {};
+        if (!userState.achievements) userState.achievements = { ...defaultState.achievements };
+
+        function applyLevelMultiplier(basePoints) {
+            const lvlBonus = 1 + (((userState.levelUpgrade || 1) - 1) * 0.05);
+            return Math.round(basePoints * lvlBonus);
+        }
 
         function getShopPrice(itemKey) {
-            if (itemKey === 'booster_2x') {
-                const count = userState.purchaseCounts.booster_2x || 0;
-                return 5000 + (count * 2500);
-            }
-            if (itemKey === 'booster_3x') {
-                const count = userState.purchaseCounts.booster_3x || 0;
-                return 10000 + (count * 5000);
-            }
-            if (itemKey === 'level_upgrade') {
-                const lvl = userState.levelUpgrade || 1;
-                return 3000 * lvl;
-            }
+            if (itemKey === 'booster_2x') return 5000 + ((userState.purchaseCounts.booster_2x || 0) * 2500);
+            if (itemKey === 'booster_3x') return 10000 + ((userState.purchaseCounts.booster_3x || 0) * 5000);
+            if (itemKey === 'level_upgrade') return 3000 * (userState.levelUpgrade || 1);
             if (itemKey === 'reroll') return 2500;
             if (itemKey === 'title_hacker') return 3000;
             if (itemKey === 'avatar_robot') return 2500;
@@ -1773,20 +2001,15 @@
         }
 
         function updateShopButtons() {
-            const p2x = getShopPrice('booster_2x');
-            const p3x = getShopPrice('booster_3x');
-            const pLvl = getShopPrice('level_upgrade');
-
-            document.getElementById('btn_shop_2x').textContent = p2x + " XP";
-            document.getElementById('btn_shop_3x').textContent = p3x + " XP";
-            document.getElementById('btn_shop_lvl').textContent = pLvl + " XP";
+            document.getElementById('btn_shop_2x').textContent = getShopPrice('booster_2x') + " XP";
+            document.getElementById('btn_shop_3x').textContent = getShopPrice('booster_3x') + " XP";
+            document.getElementById('btn_shop_lvl').textContent = getShopPrice('level_upgrade') + " XP";
 
             document.getElementById('count_2x').textContent = userState.purchaseCounts.booster_2x || 0;
             document.getElementById('count_3x').textContent = userState.purchaseCounts.booster_3x || 0;
             document.getElementById('levelUpgradeVal').textContent = userState.levelUpgrade || 1;
         }
 
-        // LOGICA ACQUISTI VERIFICATA TRAMITE FIREBASE/LOCALSTORAGE
         function buyShopItem(itemKey) {
             const cost = getShopPrice(itemKey);
             if (userState.xp < cost) {
@@ -1812,10 +2035,10 @@
                 showToast(`⭐ Potenziatore passato al Livello ${userState.levelUpgrade}! Bonus XP aumentato.`);
             } else if (itemKey === 'reroll') {
                 userState.xp -= cost;
-                localStorage.removeItem(STORAGE_KEY_QUESTS);
+                localStorage.removeItem(getScopedKey(STORAGE_KEY_QUESTS));
                 const todayStr = new Date().toDateString();
                 const freshActivity = { date: todayStr, playedGames: [], wonGames: [], wins: 0, checkedLb: false, testedLab: false };
-                localStorage.setItem('arcade_daily_activity', JSON.stringify(freshActivity));
+                localStorage.setItem(getScopedKey('arcade_daily_activity'), JSON.stringify(freshActivity));
                 userState.claimedQuests = {};
                 showToast("🎯 Sfide giornaliere rigenerate da zero!");
                 renderQuests();
@@ -1902,10 +2125,11 @@
 
             setTimeout(() => {
                 isSpinning = false;
+                const finalReward = applyLevelMultiplier(winningSegment.xp);
                 userState.lastGachaClaim = Date.now();
-                userState.xp += winningSegment.xp;
+                userState.xp += finalReward;
                 saveState();
-                showToast(`🎉 COMPLIMENTI! Hai vinto +${winningSegment.xp} XP dalla Ruota!`);
+                showToast(`🎉 COMPLIMENTI! Hai vinto +${finalReward} XP dalla Ruota!`);
                 closeModal('gachaModal');
             }, 3600);
         }
@@ -1924,12 +2148,7 @@
                     const mins = Math.floor(remainingMs / (1000 * 60)).toString().padStart(2, '0');
                     const secs = Math.floor((remainingMs % (1000 * 60)) / 1000).toString().padStart(2, '0');
                     
-                    if (userState.boosterMultiplier === 3) {
-                        timerLabel.textContent = "🔥 3x XP";
-                    } else {
-                        timerLabel.textContent = "⚡ 2x XP";
-                    }
-                    
+                    timerLabel.textContent = userState.boosterMultiplier === 3 ? "🔥 3x XP" : "⚡ 2x XP";
                     timerVal.textContent = `${mins}:${secs}`;
                     timerContainer.style.display = 'inline-flex';
                 }
@@ -1937,51 +2156,141 @@
         }
 
         const eligibleTournamentGames = [
-            { name: "Non Fidarti"},
-            { name: "Unos"},
-            { name: "Exploding Bomb"},
-            { name: "Word Rush"},
-            { name: "Word Duel"},
-            { name: "Sudoku"},
-            { name: "Free the Key"},
-            { name: "Tetra Block"},
-            { name: "Tris Battle"},
-            { name: "Code Breaker"},
-            { name: "Royal Chess"},
-            { name: "BlackJack"},
-            { name: "Snake"}
+            { name: "Non Fidarti" },
+            { name: "Unos" },
+            { name: "Exploding Bomb" },
+            { name: "Word Rush" },
+            { name: "Word Duel" },
+            { name: "Sudoku" },
+            { name: "Free the Key" },
+            { name: "Tetra Block" },
+            { name: "Tris Battle" },
+            { name: "Code Breaker" },
+            { name: "Royal Chess" },
+            { name: "BlackJack" },
+            { name: "Snake" }
         ];
 
         function getWeekNumber(d) {
             d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
             d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
-            var yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
-            var weekNo = Math.ceil(( ( (d - yearStart) / 86400000) + 1)/7);
-            return weekNo;
+            const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+            return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+        }
+
+        function getWeekKey(date = new Date()) {
+            const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+            const dayNum = d.getUTCDay() || 7;
+            d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+            const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+            const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+            return `week_${d.getUTCFullYear()}_${weekNo}`;
+        }
+
+        function addTournamentScore(gameName, points) {
+            const activeGame = getActiveTournamentGame();
+            if (!activeGame || gameName.toLowerCase() !== activeGame.toLowerCase()) return;
+
+            const weekKey = getWeekKey();
+            const pts = Number(points) || 0;
+            if (pts <= 0) return;
+
+            if (!userState.tournamentScores) userState.tournamentScores = {};
+            userState.tournamentScores[weekKey] = (userState.tournamentScores[weekKey] || 0) + pts;
+
+            if (isFirebaseActive && db && currentUser) {
+                db.ref(`tournaments/${weekKey}/${currentUser.uid}`).set({
+                    username: userState.username,
+                    score: userState.tournamentScores[weekKey]
+                });
+            }
+            saveState();
+        }
+
+        function payoutWinnerForWeek(weekKey, scoresByUser) {
+            if (!userState.claimedTournaments) userState.claimedTournaments = {};
+            if (userState.claimedTournaments[weekKey]) {
+                updateTournamentClaimedBadge();
+                return;
+            }
+
+            let topScore = -1;
+            let winners = [];
+
+            Object.entries(scoresByUser || {}).forEach(([uidOrName, entry]) => {
+                const score = typeof entry === 'number' ? entry : (entry?.score || 0);
+                if (score > topScore) {
+                    topScore = score;
+                    winners = [uidOrName];
+                } else if (score === topScore && score > 0) {
+                    winners.push(uidOrName);
+                }
+            });
+
+            const myId = (currentUser && currentUser.uid) || userState.username;
+            if (topScore > 0 && winners.includes(myId)) {
+                userState.xp = (userState.xp || 0) + 10000;
+                userState.claimedTournaments[weekKey] = true;
+                saveState();
+                showToast("👑 Sei stato il campione del torneo settimanale! +10.000 XP!");
+            } else {
+                userState.claimedTournaments[weekKey] = true;
+                saveState();
+            }
+            updateTournamentClaimedBadge();
+        }
+
+        function checkPreviousWeekTournament() {
+            const prevDate = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+            const prevWeekKey = getWeekKey(prevDate);
+
+            if (userState.claimedTournaments && userState.claimedTournaments[prevWeekKey]) {
+                updateTournamentClaimedBadge();
+                return;
+            }
+
+            if (isFirebaseActive && db) {
+                db.ref(`tournaments/${prevWeekKey}`).once('value').then((snap) => {
+                    payoutWinnerForWeek(prevWeekKey, snap.exists() ? snap.val() : {});
+                }).catch(() => {});
+            } else {
+                const localScores = {};
+                if (userState.tournamentScores && userState.tournamentScores[prevWeekKey]) {
+                    localScores[userState.username] = userState.tournamentScores[prevWeekKey];
+                }
+                payoutWinnerForWeek(prevWeekKey, localScores);
+            }
+        }
+
+        function updateTournamentClaimedBadge() {
+            const badge = document.getElementById('tournamentClaimedBadge');
+            if (!badge) return;
+            const prevWeekKey = getWeekKey(new Date(Date.now() - 7 * 24 * 60 * 60 * 1000));
+            const isClaimed = !!(userState.claimedTournaments && userState.claimedTournaments[prevWeekKey]);
+            badge.style.display = isClaimed ? 'inline-flex' : 'none';
+        }
+
+        function highlightTournamentCard(activeGameName) {
+            document.querySelectorAll('#gameList .game-card').forEach(card => {
+                const title = card.getAttribute('data-title') || '';
+                card.classList.toggle('tournament-active', title.toLowerCase() === activeGameName.toLowerCase());
+            });
         }
         
         function launchMasterKey(event) {
             if (event) event.preventDefault();
-            
-            let currentUid = (currentUser && currentUser.uid) ? currentUser.uid : localStorage.getItem('masterhub_logged_user') || 'guest';
-            let currentName = (userState && userState.username) ? userState.username : 'Ospite';
-
-            if (typeof registerPlay === 'function') {
-                registerPlay(event, 'master-key');
-            }
-
-            let targetUrl = `https://mastersabba.github.io/MasterKey/?player=${encodeURIComponent(currentName)}&userId=${encodeURIComponent(currentUid)}`;
-            window.open(targetUrl, '_blank');
+            registerPlay(event, 'master-key');
         }
 
         function startWeeklyTournamentTimer() {
             function updateTournament() {
                 const now = new Date();
-                const currentWeek = getWeekNumber(now);
-                const selectedGame = eligibleTournamentGames[currentWeek % eligibleTournamentGames.length];
+                const currentGameName = getActiveTournamentGame();
 
                 const gameTitleEl = document.getElementById('weeklyTournamentGame');
-                if (gameTitleEl) gameTitleEl.textContent = selectedGame.name;
+                if (gameTitleEl) gameTitleEl.textContent = currentGameName;
+                highlightTournamentCard(currentGameName);
+                updateTournamentClaimedBadge();
 
                 const dayOfWeek = now.getDay();
                 const daysUntilSunday = (7 - dayOfWeek) % 7;
@@ -2009,10 +2318,13 @@
             let customCodes = JSON.parse(localStorage.getItem('arcade_promo_codes')) || { "SABBA2026": 2000, "CYBERBONUS": 5000 };
             
             if (customCodes[code]) {
-                const reward = customCodes[code];
+                const reward = applyLevelMultiplier(customCodes[code]);
                 userState.xp += reward;
                 delete customCodes[code];
                 localStorage.setItem('arcade_promo_codes', JSON.stringify(customCodes));
+                if (isFirebaseActive && db) {
+                    db.ref('promoCodes/' + code).remove();
+                }
                 input.value = '';
                 saveState();
                 showToast(`🎉 Codice valido! Riscatto: +${reward} XP!`);
@@ -2086,14 +2398,13 @@
         async function loginAdmin() {
             const passInput = document.getElementById('adminPass').value.trim();
             const pinInput = document.getElementById('adminPin').value.trim();
-            
             const ADMIN_PASSWORD_CORRETTA = "ciabattinaio01";
 
             if (passInput === ADMIN_PASSWORD_CORRETTA && pinInput === "5319") {
                 adminFailedAttempts = 0;
                 document.getElementById('adminAuthSection').style.display = 'none';
                 document.getElementById('adminSecondAuthSection').style.display = 'block';
-                if (typeof showToast === 'function') showToast("⚠️ Inserisci il PIN definitivo...");
+                showToast("⚠️ Inserisci il PIN definitivo...");
             } else {
                 handleAdminFailedAttempt();
             }
@@ -2106,8 +2417,8 @@
                 adminFailedAttempts = 0;
                 document.getElementById('adminSecondAuthSection').style.display = 'none';
                 document.getElementById('adminPanelSection').style.display = 'block';
-                if (typeof loadAdminStats === 'function') loadAdminStats();
-                if (typeof showToast === 'function') showToast("🔴 Accesso Admin Autorizzato.");
+                loadAdminStats();
+                showToast("🔴 Accesso Admin Autorizzato.");
             } else {
                 adminFailedAttempts++;
                 checkSecurityProtocol();
@@ -2121,19 +2432,61 @@
 
         function checkSecurityProtocol() {
             if (adminFailedAttempts === 1) {
-                alert("⚠️ ATTENZIONE: Tentativo di accesso non autorizzato registrato!");
+                showCyberPopup("⚠️ Attenzione", "Tentativo di accesso non autorizzato registrato!", "⚠️");
                 if (isFirebaseActive && db) {
                     db.ref('security_alerts').push({ timestamp: Date.now(), alert: "Tentativo fallito Admin" });
                 }
-            } 
-            else if (adminFailedAttempts === 2) {
-                alert("🚨 ATTENZIONE CRITICA (2/3): Credenziali errate per la seconda volta.");
-            } 
-            else if (adminFailedAttempts >= 3) {
-                alert("🛑 SICUREZZA INTERVENUTA (3/3): Troppi tentativi falliti. Cancellazione dati e ban in corso...");
+            } else if (adminFailedAttempts === 2) {
+                showCyberPopup("🚨 Attenzione Critica (2/3)", "Credenziali errate per la seconda volta.", "🚨");
+            } else if (adminFailedAttempts >= 3) {
                 localStorage.clear();
                 localStorage.setItem("masterSabba_banned", "true");
                 location.reload();
+            }
+        }
+
+        function adminAddXP(amount) {
+            const pts = Number(amount) || 0;
+            if (pts <= 0) return;
+            userState.xp = (userState.xp || 0) + pts;
+            saveState();
+            showToast(`⚡ Iniettati +${pts.toLocaleString('it-IT')} XP!`);
+        }
+
+        function adminCreateCode() {
+            const codeEl = document.getElementById('newPromoCode');
+            const valEl = document.getElementById('newPromoVal');
+            const code = (codeEl?.value || '').trim().toUpperCase();
+            const xpVal = parseInt(valEl?.value, 10);
+
+            if (!code || !xpVal || xpVal <= 0) {
+                showCyberPopup("⚠️ Errore", "Inserisci un codice valido e un valore XP positivo.", "⚠️");
+                return;
+            }
+
+            const codes = JSON.parse(localStorage.getItem('arcade_promo_codes')) || {};
+            codes[code] = xpVal;
+            localStorage.setItem('arcade_promo_codes', JSON.stringify(codes));
+
+            if (isFirebaseActive && db) {
+                db.ref('promoCodes/' + code).set(xpVal);
+            }
+
+            codeEl.value = '';
+            valEl.value = '';
+            showCyberPopup("Codice Creato", `Codice ${code} (+${xpVal} XP) attivo!`, "🔑");
+        }
+
+        async function adminClearAppCache() {
+            try {
+                if ('caches' in window) {
+                    const keys = await caches.keys();
+                    await Promise.all(keys.map(k => caches.delete(k)));
+                }
+                showCyberPopup("Cache Svuotata", "Cache applicativa pulita. Riavvio in corso...", "🧹");
+                setTimeout(() => location.reload(), 700);
+            } catch (e) {
+                showCyberPopup("Errore", "Impossibile svuotare la cache.", "❌");
             }
         }
 
@@ -2247,7 +2600,6 @@
             }
         }
 
-        // GESTIONE A 3 CANALI PER I MESSAGGI BROADCAST & NOTIFICHE
         function sendInAppOnly() {
             const input = document.getElementById('adminMsgInApp');
             const msg = input.value.trim();
@@ -2271,7 +2623,7 @@
             if (!msg) { showCyberPopup("⚠️ Attenzione", "Scrivi un messaggio.", "⚠️"); return; }
 
             await triggerPushNotification(msg);
-            showCyberPopup("Inviato", "Notifica Push inviata a chi ha l'app chiusa!", "🔔");
+            showCyberPopup("Accodato", "Richiesta notifica Push salvata su Firebase per l'invio backend!", "🔔");
             input.value = "";
         }
 
@@ -2288,7 +2640,7 @@
                     message: msg, 
                     timestamp: Date.now() 
                 }).then(() => {
-                    showCyberPopup("Inviato", "Messaggio inviato SIA in Hub SIA via Push!", "⚡");
+                    showCyberPopup("Inviato", "Messaggio inviato in Hub e accodato per Push!", "⚡");
                     input.value = "";
                 });
             }
@@ -2296,49 +2648,25 @@
 
         async function triggerPushNotification(messageText) {
             if (!isFirebaseActive || !db) return;
-
             try {
-                const snapshot = await db.ref('users').once('value');
-                if (!snapshot.exists()) return;
-
-                snapshot.forEach(child => {
-                    const userData = child.val();
-                    if (userData.fcmToken) {
-                        fetch('https://fcm.googleapis.com/fcm/send', {
-                            method: 'POST',
-                            headers: {
-                                'Authorization': 'key=LA_TUA_SERVER_KEY_FIREBASE',
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                "to": userData.fcmToken,
-                                "notification": {
-                                    "title": "MasterSabba Arcade",
-                                    "body": messageText
-                                },
-                                "webpush": {
-                                    "notification": {
-                                        "silent": true,
-                                        "vibrate": []
-                                    }
-                                }
-                            })
-                        }).catch(err => console.error("Errore Push utente:", err));
-                    }
+                await db.ref('pushQueue').push({
+                    title: "MasterSabba Arcade",
+                    body: messageText,
+                    timestamp: Date.now()
                 });
             } catch (e) {
-                console.error("Errore recupero token dal database:", e);
+                console.error("Errore accodamento Push:", e);
             }
         }
 
         function getActiveTournamentGame() {
             if (window.forcedTournamentGame) return window.forcedTournamentGame;
-            let forcedGame = localStorage.getItem('forced_tournament_game');
+            const forcedGame = localStorage.getItem('forced_tournament_game');
             if (forcedGame) return forcedGame;
             
             if (typeof eligibleTournamentGames !== 'undefined' && eligibleTournamentGames.length > 0) {
                 const now = new Date();
-                const currentWeek = typeof getWeekNumber === 'function' ? getWeekNumber(now) : 0;
+                const currentWeek = getWeekNumber(now);
                 return eligibleTournamentGames[currentWeek % eligibleTournamentGames.length].name;
             }
             return "Free the Key";
@@ -2351,6 +2679,7 @@
             
             localStorage.setItem('forced_tournament_game', selectedGame);
             window.forcedTournamentGame = selectedGame;
+            highlightTournamentCard(selectedGame);
 
             if (isFirebaseActive && db) {
                 db.ref('settings/forcedTournament').set(selectedGame).then(() => {
@@ -2384,41 +2713,65 @@
             }
         }
 
+        function getScopedKey(baseKey) {
+            const uid = (currentUser && currentUser.uid) || localStorage.getItem('masterhub_logged_user') || 'guest';
+            return `${baseKey}_${uid}`;
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             startHubBoosterTimer();
             startWeeklyTournamentTimer();
             
-           if (isFirebaseActive && db) {
-    db.ref('broadcast').on('value', snapshot => {
-    if (snapshot.exists()) {
-        const data = snapshot.val();
-        const msgTimestamp = String(data.timestamp);
-        
-        // Salviamo il timestamp attivo nella sessione per gestirne la chiusura
-        sessionStorage.setItem('current_broadcast_timestamp', msgTimestamp);
-
-        if (currentUser) {
-            db.ref('users/' + currentUser.uid + '/readBroadcasts/' + msgTimestamp).once('value').then(readSnap => {
-                if (!readSnap.exists()) {
-                    showCyberPopup(data.title || "📢 ANNUNCIO", data.message, "📢");
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    document.querySelectorAll('.modal-overlay').forEach(modal => {
+                        if (modal.style.display === 'flex') closeModal(modal.id);
+                    });
                 }
             });
-        } else {
-            const lastSeen = localStorage.getItem('last_seen_broadcast');
-            if (msgTimestamp !== lastSeen) {
-                showCyberPopup(data.title || "📢 ANNUNCIO", data.message, "📢");
-            }
-        }
-    }
-});
 
+            document.addEventListener('click', (e) => {
+                if (e.target && e.target.classList && e.target.classList.contains('modal-overlay')) {
+                    closeModal(e.target.id);
+                }
+            });
+
+            if (isFirebaseActive && db) {
+                db.ref('broadcast').on('value', snapshot => {
+                    if (snapshot.exists()) {
+                        const data = snapshot.val();
+                        const msgTimestamp = String(data.timestamp);
+                        sessionStorage.setItem('current_broadcast_timestamp', msgTimestamp);
+
+                        if (currentUser) {
+                            db.ref('users/' + currentUser.uid + '/readBroadcasts/' + msgTimestamp).once('value').then(readSnap => {
+                                if (!readSnap.exists()) {
+                                    showCyberPopup(data.title || "📢 ANNUNCIO", data.message, "📢");
+                                }
+                            });
+                        } else {
+                            const lastSeen = localStorage.getItem('last_seen_broadcast');
+                            if (msgTimestamp !== lastSeen) {
+                                showCyberPopup(data.title || "📢 ANNUNCIO", data.message, "📢");
+                            }
+                        }
+                    }
+                });
 
                 db.ref('settings/forcedTournament').on('value', snapshot => {
                     if (snapshot.exists()) {
                         const forcedGame = snapshot.val();
+                        window.forcedTournamentGame = forcedGame;
                         const gameTitleEl = document.getElementById('weeklyTournamentGame');
                         if (gameTitleEl) gameTitleEl.textContent = forcedGame;
+                        highlightTournamentCard(forcedGame);
                         if (typeof buildLeaderboards === 'function') buildLeaderboards();
+                    }
+                });
+
+                db.ref('promoCodes').on('value', snapshot => {
+                    if (snapshot.exists()) {
+                        localStorage.setItem('arcade_promo_codes', JSON.stringify(snapshot.val()));
                     }
                 });
 
@@ -2439,9 +2792,17 @@
                         });
 
                         loadUserData(user.uid);
-                    } else { showAuthUI(false); }
+                    } else {
+                        showAuthUI(false);
+                        checkPreviousWeekTournament();
+                        updateUI();
+                    }
                 });
-            } else { checkLocalSession(); }
+            } else {
+                checkLocalSession();
+                checkPreviousWeekTournament();
+                updateUI();
+            }
         });
 
         function generateProceduralQuests(currentState) {
@@ -2467,6 +2828,8 @@
         }
 
         function registerWin(gameKey, pointsAwarded = 50) {
+            const basePts = Number(pointsAwarded) || 50;
+
             if (!userState.winsPerGame) userState.winsPerGame = {};
             userState.winsPerGame[gameKey] = (userState.winsPerGame[gameKey] || 0) + 1;
             
@@ -2481,24 +2844,24 @@
                 userState.achievements.winStreak = true;
             }
 
-            const lvlBonus = 1 + ((userState.levelUpgrade - 1) * 0.05);
-            pointsAwarded = Math.round(pointsAwarded * lvlBonus);
-
+            let finalXp = applyLevelMultiplier(basePts);
             if (userState.boosterUntil && Date.now() < userState.boosterUntil) {
-                pointsAwarded *= (userState.boosterMultiplier || 2);
+                finalXp *= (userState.boosterMultiplier || 2);
             }
 
-            userState.xp += pointsAwarded;
+            userState.xp += finalXp;
 
             const todayKey = new Date().toDateString();
-            let dailyActivity = JSON.parse(localStorage.getItem('arcade_daily_activity')) || { date: todayKey, playedGames: [], wonGames: [], wins: 0, checkedLb: false, testedLab: false };
+            const dailyKey = getScopedKey('arcade_daily_activity');
+            let dailyActivity = JSON.parse(localStorage.getItem(dailyKey)) || { date: todayKey, playedGames: [], wonGames: [], wins: 0, checkedLb: false, testedLab: false };
             dailyActivity.wins = (dailyActivity.wins || 0) + 1;
             
             if (!dailyActivity.wonGames) dailyActivity.wonGames = [];
             if (!dailyActivity.wonGames.includes(gameKey)) dailyActivity.wonGames.push(gameKey);
 
-            localStorage.setItem('arcade_daily_activity', JSON.stringify(dailyActivity));
+            localStorage.setItem(dailyKey, JSON.stringify(dailyActivity));
 
+            addTournamentScore(gameKey, basePts);
             saveState();
             buildLeaderboards();
         }
@@ -2508,7 +2871,8 @@
         function getOrUpdateDailyQuests(currentState) {
             const now = Date.now();
             const ONE_DAY_MS = 24 * 60 * 60 * 1000;
-            let savedData = JSON.parse(localStorage.getItem(STORAGE_KEY_QUESTS)) || null;
+            const scopedQuestKey = getScopedKey(STORAGE_KEY_QUESTS);
+            let savedData = JSON.parse(localStorage.getItem(scopedQuestKey)) || null;
             const todayStr = new Date().toDateString();
 
             if (!savedData || (now - savedData.lastResetTimestamp) >= ONE_DAY_MS || savedData.dateKey !== todayStr) {
@@ -2518,7 +2882,7 @@
                     quests: generateProceduralQuests(currentState),
                     completedIds: []
                 };
-                localStorage.setItem(STORAGE_KEY_QUESTS, JSON.stringify(savedData));
+                localStorage.setItem(scopedQuestKey, JSON.stringify(savedData));
                 currentState.claimedQuests = {}; 
                 saveState(); 
             }
@@ -2547,7 +2911,7 @@
                 if (display) display.innerText = `Nuove sfide tra: ${timeRemaining}`;
                 if (timeRemaining === "00:00:00") {
                     clearInterval(resetTimerInterval);
-                    localStorage.removeItem(STORAGE_KEY_QUESTS);
+                    localStorage.removeItem(getScopedKey(STORAGE_KEY_QUESTS));
                     updateUI();
                 }
             };
@@ -2556,19 +2920,22 @@
         }
 
         function claimQuestReward(questId) {
-            let savedData = JSON.parse(localStorage.getItem(STORAGE_KEY_QUESTS));
+            const scopedQuestKey = getScopedKey(STORAGE_KEY_QUESTS);
+            let savedData = JSON.parse(localStorage.getItem(scopedQuestKey));
             if (!savedData) return;
 
             const quest = savedData.quests.find(q => q.id === questId);
             if (quest && !savedData.completedIds.includes(questId)) {
-                userState.xp += quest.reward;
+                const reward = applyLevelMultiplier(quest.reward);
+                userState.xp += reward;
                 savedData.completedIds.push(questId);
-                localStorage.setItem(STORAGE_KEY_QUESTS, JSON.stringify(savedData));
+                localStorage.setItem(scopedQuestKey, JSON.stringify(savedData));
                 
                 if (!userState.claimedQuests) userState.claimedQuests = {};
                 userState.claimedQuests[questId] = true;
                 saveState();
                 renderQuests();
+                showToast(`🎯 Sfida riscattata! +${reward} XP!`);
             }
         }
 
@@ -2630,6 +2997,7 @@
                         localStorage.setItem('masterhub_logged_user', cred.user.uid);
                         db.ref('users/' + cred.user.uid).set(userState);
                         showAuthUI(true);
+                        checkPreviousWeekTournament();
                         updateUI();
                         requestAndSaveFCMToken(cred.user.uid);
                         showCyberPopup("Benvenuto!", "Registrazione completata con successo!", "🎉");
@@ -2639,7 +3007,7 @@
                         currentUser = cred.user;
                         localStorage.setItem('masterhub_logged_user', cred.user.uid);
                         loadUserData(cred.user.uid);
-                    }).catch(err => errorDiv.innerText = "Credenziali errate.");
+                    }).catch(() => errorDiv.innerText = "Credenziali errate.");
                 }
             } else {
                 let localAccounts = JSON.parse(localStorage.getItem('mockAccounts')) || {};
@@ -2668,9 +3036,8 @@
             window.hubCurrentUser = null;
             localStorage.removeItem('currentSession');
             localStorage.removeItem('masterhub_logged_user');
-            userState = {...defaultState};
+            userState = JSON.parse(JSON.stringify(defaultState));
             localStorage.removeItem('mastersabba_arcade_v2');
-            localStorage.removeItem(STORAGE_KEY_QUESTS);
             showAuthUI(false);
             updateUI();
         }
@@ -2678,19 +3045,33 @@
         function loadUserData(uid) {
             if (!db) return;
             localStorage.setItem('masterhub_logged_user', uid);
-            
             requestAndSaveFCMToken(uid);
 
             db.ref('users/' + uid).once('value').then((snapshot) => {
                 if (snapshot.exists()) {
-                    let remoteData = snapshot.val();
-                    userState = { ...defaultState, ...remoteData };
-                    if (!userState.purchaseCounts) userState.purchaseCounts = { booster_2x: 0, booster_3x: 0 };
-                    if (!userState.levelUpgrade) userState.levelUpgrade = 1;
-                    if (!userState.playsPerGame) userState.playsPerGame = {};
+                    const remoteData = snapshot.val();
+                    const localGuestXp = (userState.username === "Ospite") ? (userState.xp || 0) : 0;
+
+                    userState = {
+                        ...defaultState,
+                        ...remoteData,
+                        achievements: { ...defaultState.achievements, ...(remoteData.achievements || {}) },
+                        purchaseCounts: { booster_2x: 0, booster_3x: 0, ...(remoteData.purchaseCounts || {}) },
+                        levelUpgrade: remoteData.levelUpgrade || 1,
+                        playsPerGame: remoteData.playsPerGame || {},
+                        winsPerGame: remoteData.winsPerGame || {},
+                        claimedTournaments: remoteData.claimedTournaments || {},
+                        tournamentScores: remoteData.tournamentScores || {}
+                    };
+
+                    if (localGuestXp > 0) {
+                        userState.xp = (userState.xp || 0) + localGuestXp;
+                        db.ref('users/' + uid).update({ xp: userState.xp });
+                    }
                     window.hubCurrentUser = userState.username;
                 }
                 showAuthUI(true);
+                checkPreviousWeekTournament();
                 updateUI();
             });
         }
@@ -2718,80 +3099,95 @@
         }
 
         function saveState() {
+            userState.xp = Number(userState.xp) || 0;
             localStorage.setItem('mastersabba_arcade_v2', JSON.stringify(userState));
-            if (isFirebaseActive && currentUser && db) db.ref('users/' + currentUser.uid).set(userState);
+            if (isFirebaseActive && currentUser && db) {
+                db.ref('users/' + currentUser.uid).update(userState);
+            }
             updateUI();
         }
 
-      function updateUI() {
-    document.getElementById('navUsername').textContent = userState.username;
-    document.getElementById('navAvatar').textContent = userState.avatar;
-    document.getElementById('usernameInput').value = userState.username;
-    document.getElementById('shopXpDisplay').textContent = (userState.xp || 0) + " XP";
+        function updateUI() {
+            document.getElementById('navUsername').textContent = userState.username;
+            document.getElementById('navAvatar').textContent = userState.avatar;
+            document.getElementById('usernameInput').value = userState.username;
+            document.getElementById('shopXpDisplay').textContent = (userState.xp || 0) + " XP";
 
-    document.querySelectorAll('.avatar-opt').forEach(opt => {
-        opt.classList.toggle('selected', opt.textContent === userState.avatar);
-    });
+            document.querySelectorAll('.avatar-opt').forEach(opt => {
+                opt.classList.toggle('selected', opt.textContent === userState.avatar);
+            });
 
-    const xp = userState.xp || 0;
-    const level = Math.floor(xp / 300) + 1;
-    const currentLevelXP = xp % 300;
-    const fillPct = (currentLevelXP / 300) * 100;
+            const xp = userState.xp || 0;
+            const level = Math.floor(xp / 300) + 1;
+            const currentLevelXP = xp % 300;
+            const fillPct = (currentLevelXP / 300) * 100;
 
-    let rank = "[0x00] Ghost in Shell";
-    let rankColor = "var(--text-secondary)";
+            const heroLevelEl = document.getElementById('heroLevelVal');
+            const heroXpEl = document.getElementById('heroXpVal');
+            const heroFillEl = document.getElementById('heroXpFill');
+            if (heroLevelEl) heroLevelEl.textContent = level;
+            if (heroXpEl) heroXpEl.textContent = xp.toLocaleString('it-IT');
+            if (heroFillEl) heroFillEl.style.width = fillPct + '%';
 
-    if (level >= 3) { rank = "[0x01] Syntax Wraith"; rankColor = "var(--neon-cyan)"; }
-    if (level >= 6) { rank = "[0x02] Neural Overclock"; rankColor = "var(--neon-purple)"; }
-    if (level >= 10) { rank = "[0x03] Quantum Breach"; rankColor = "var(--neon-pink)"; }
-    if (level >= 15) { rank = "[0x04] Sabba Singularity"; rankColor = "var(--neon-green)"; }
-    if (userState.inventory && userState.inventory.title_hacker) { 
-        rank = "[ROOT] Architetto della Rete 🖥️"; 
-        rankColor = "var(--neon-yellow)"; 
-    }
+            let rank = "[0x00] Ghost in Shell";
+            let rankColor = "var(--text-secondary)";
 
-    document.getElementById('userLevel').textContent = level;
-    const rankEl = document.getElementById('userRank');
-    rankEl.textContent = rank;
-    rankEl.style.color = rankColor;
+            if (level >= 3) { rank = "[0x01] Syntax Wraith"; rankColor = "var(--neon-cyan)"; }
+            if (level >= 6) { rank = "[0x02] Neural Overclock"; rankColor = "var(--neon-purple)"; }
+            if (level >= 10) { rank = "[0x03] Quantum Breach"; rankColor = "var(--neon-pink)"; }
+            if (level >= 15) { rank = "[0x04] Sabba Singularity"; rankColor = "var(--neon-green)"; }
+            if (userState.inventory && userState.inventory.title_hacker) { 
+                rank = "[ROOT] Architetto della Rete 🖥️"; 
+                rankColor = "var(--neon-yellow)"; 
+            }
 
-    document.getElementById('userXP').textContent = xp;
-    document.getElementById('gamesPlayedCount').textContent = userState.gamesPlayed || 0;
-    document.getElementById('xpBarFill').style.width = fillPct + '%';
+            document.getElementById('userLevel').textContent = level;
+            const rankEl = document.getElementById('userRank');
+            rankEl.textContent = rank;
+            rankEl.style.color = rankColor;
 
-    let favGame = "-";
-    let maxPlays = 0;
-    Object.keys(userState.playsPerGame || {}).forEach(g => {
-        if (userState.playsPerGame[g] > maxPlays) {
-            maxPlays = userState.playsPerGame[g];
-            favGame = g;
+            document.getElementById('userXP').textContent = xp;
+            document.getElementById('gamesPlayedCount').textContent = userState.gamesPlayed || 0;
+            document.getElementById('xpBarFill').style.width = fillPct + '%';
+
+            let favGame = "-";
+            let maxPlays = 0;
+            Object.keys(userState.playsPerGame || {}).forEach(g => {
+                if (userState.playsPerGame[g] > maxPlays) {
+                    maxPlays = userState.playsPerGame[g];
+                    favGame = g;
+                }
+            });
+            let totalWins = 0;
+            Object.values(userState.winsPerGame || {}).forEach(w => totalWins += w);
+            let winrate = userState.gamesPlayed > 0 ? Math.round((totalWins / userState.gamesPlayed) * 100) : 0;
+
+            document.getElementById('favoriteGameVal').textContent = favGame;
+            document.getElementById('totalWinsVal').textContent = totalWins;
+            document.getElementById('winRateVal').textContent = `${winrate}%`;
+
+            document.getElementById('badge-first-vote').classList.toggle('unlocked', !!userState.achievements?.firstVote);
+            document.getElementById('badge-first-play').classList.toggle('unlocked', !!userState.achievements?.firstPlay);
+            document.getElementById('badge-lab-tester').classList.toggle('unlocked', !!userState.achievements?.labTester);
+            document.getElementById('badge-custom-profile').classList.toggle('unlocked', !!userState.achievements?.customProfile);
+            document.getElementById('badge-night-owl').classList.toggle('unlocked', !!userState.achievements?.nightOwl);
+            document.getElementById('badge-win-streak').classList.toggle('unlocked', !!userState.achievements?.winStreak);
+
+            document.querySelectorAll('.game-card').forEach(card => {
+                const gameId = card.getAttribute('data-id');
+                const title = card.getAttribute('data-title') || gameId;
+                const val = (userState.ratings && userState.ratings[gameId]) || 0;
+                card.querySelectorAll('.star').forEach((s, idx) => s.classList.toggle('active', idx < val));
+
+                const playedCount = (userState.playsPerGame && userState.playsPerGame[title]) || 0;
+                card.classList.toggle('played', playedCount > 0);
+            });
+
+            updateShopButtons();
+            updateTournamentClaimedBadge();
+            renderQuests();
+            checkGuestPopupTrigger(xp);
         }
-    });
-    let totalWins = 0;
-    Object.values(userState.winsPerGame || {}).forEach(w => totalWins += w);
-    let winrate = userState.gamesPlayed > 0 ? Math.round((totalWins / userState.gamesPlayed) * 100) : 0;
-
-    document.getElementById('favoriteGameVal').textContent = favGame;
-    document.getElementById('totalWinsVal').textContent = totalWins;
-    document.getElementById('winRateVal').textContent = `${winrate}%`;
-
-    if (userState.achievements?.firstVote) document.getElementById('badge-first-vote').classList.add('unlocked');
-    if (userState.achievements?.firstPlay) document.getElementById('badge-first-play').classList.add('unlocked');
-    if (userState.achievements?.labTester) document.getElementById('badge-lab-tester').classList.add('unlocked');
-    if (userState.achievements?.customProfile) document.getElementById('badge-custom-profile').classList.add('unlocked');
-    if (userState.achievements?.nightOwl) document.getElementById('badge-night-owl').classList.add('unlocked');
-    if (userState.achievements?.winStreak) document.getElementById('badge-win-streak').classList.add('unlocked');
-
-    Object.keys(userState.ratings || {}).forEach(gameId => {
-        const val = userState.ratings[gameId];
-        const card = document.querySelector(`.game-card[data-id="${gameId}"]`);
-        if (card) card.querySelectorAll('.star').forEach((s, idx) => s.classList.toggle('active', idx < val));
-    });
-
-    updateShopButtons();
-    renderQuests();
-    checkGuestPopupTrigger(xp);
-}
 
         function checkGuestPopupTrigger(xp) {
             if (userState.username === "Ospite" && xp >= 100) {
@@ -2823,10 +3219,11 @@
             startResetCountdown(lastResetTimestamp);
 
             const todayKey = new Date().toDateString();
-            let dailyActivity = JSON.parse(localStorage.getItem('arcade_daily_activity')) || { date: todayKey, playedGames: [], wins: 0, checkedLb: false, testedLab: false };
+            const dailyKey = getScopedKey('arcade_daily_activity');
+            let dailyActivity = JSON.parse(localStorage.getItem(dailyKey)) || { date: todayKey, playedGames: [], wins: 0, checkedLb: false, testedLab: false };
             if (dailyActivity.date !== todayKey) {
                 dailyActivity = { date: todayKey, playedGames: [], wins: 0, checkedLb: false, testedLab: false };
-                localStorage.setItem('arcade_daily_activity', JSON.stringify(dailyActivity));
+                localStorage.setItem(dailyKey, JSON.stringify(dailyActivity));
             }
 
             let hasClaimableQuests = false;
@@ -2857,7 +3254,7 @@
                 div.innerHTML = `
                     <div class="quest-info">
                         <h4>${q.title}</h4>
-                        <p>Progresso: <strong>${progText}</strong> | Premio: <strong style="color:var(--neon-cyan)">+${q.reward} XP</strong></p>
+                        <p>Progresso: <strong>${progText}</strong> | Premio: <strong style="color:var(--neon-cyan)">+${applyLevelMultiplier(q.reward)} XP</strong></p>
                     </div>
                     <button class="btn-claim" ${!canClaim ? 'disabled' : ''} onclick="claimQuestReward('${q.id}')">
                         ${isCompleted ? 'Completata' : (canClaim ? 'RISCATTA' : 'In corso')}
@@ -2877,168 +3274,201 @@
             buildLeaderboards();
         }
 
-        // CLASSIFICA CLICCABILE CON VERIFICA TRAMITE FIREBASE (E DATI AGGIORNATI)
         window.buildLeaderboards = function() {
-    const container = document.getElementById("leaderboardScoresContainer");
-    if (!container) return;
+            const container = document.getElementById("leaderboardScoresContainer");
+            if (!container) return;
 
-    let fetchedRealPlayers = {};
-    let allUsersList = [];
+            let allUsersList = [];
 
-    function render(realPlayers, fullUsersData) {
-        if (!container) return;
-        container.innerHTML = "";
+            function render(realPlayers, fullUsersData) {
+                if (!container) return;
+                container.innerHTML = "";
 
-        if (userState.username && userState.username !== "Ospite") {
-            realPlayers[userState.username] = Math.max(realPlayers[userState.username] || 0, userState.xp || 0);
-            allUsersList.push({ username: userState.username, ...userState });
-        }
+                if (userState.username && userState.username !== "Ospite") {
+                    realPlayers[userState.username] = Math.max(realPlayers[userState.username] || 0, userState.xp || 0);
+                    allUsersList.push({ username: userState.username, ...userState });
+                    fullUsersData[userState.username.toLowerCase()] = { ...fullUsersData[userState.username.toLowerCase()], ...userState };
+                }
 
-        let finalPlayers = { ...realPlayers };
-        if (Object.keys(finalPlayers).length < 5) {
-            let botList = [{n: "Tommy;)", s: 120}, {n: "Ludo", s: 95}, {n: "Gio09", s: 80}, {n: "Auri", s: 65}, {n: "Fedex", s: 50}];
-            for (let bot of botList) {
-                if (Object.keys(finalPlayers).length < 5 && !finalPlayers[bot.n]) {
-                    finalPlayers[bot.n] = bot.s * 10;
+                let finalPlayers = { ...realPlayers };
+                if (Object.keys(finalPlayers).length < 5) {
+                    const botList = [{n: "Tommy;)", s: 120}, {n: "Ludo", s: 95}, {n: "Gio09", s: 80}, {n: "Auri", s: 65}, {n: "Fedex", s: 50}];
+                    for (const bot of botList) {
+                        if (Object.keys(finalPlayers).length < 5 && !finalPlayers[bot.n]) {
+                            finalPlayers[bot.n] = bot.s * 10;
+                        }
+                    }
+                }
+
+                let absoluteWinner = "Nessuno", maxOverallScore = -1;
+                Object.keys(finalPlayers).forEach(name => {
+                    if (finalPlayers[name] > maxOverallScore) { maxOverallScore = finalPlayers[name]; absoluteWinner = name; }
+                });
+                
+                document.getElementById("globalOverlordName").textContent = absoluteWinner.toUpperCase();
+                document.getElementById("globalOverlordScore").textContent = `${maxOverallScore} XP Totali`;
+
+                if (currentLbView === 'global') {
+                    const sortedList = Object.keys(finalPlayers).map(name => ({ n: name, s: finalPlayers[name] })).sort((a, b) => b.s - a.s);
+                    sortedList.forEach((row, i) => {
+                        const isMe = userState.username && row.n.toLowerCase() === userState.username.toLowerCase();
+                        const medal = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `#${i + 1}`;
+                        const podiumClass = i === 0 ? "podium-1" : i === 1 ? "podium-2" : i === 2 ? "podium-3" : "";
+                        const div = document.createElement("div");
+                        div.className = `lb-row ${podiumClass} ${isMe ? 'me' : ''}`;
+                        div.style.cursor = "pointer";
+
+                        const rankEl = document.createElement("div");
+                        rankEl.className = "lb-rank";
+                        rankEl.textContent = medal;
+
+                        const userEl = document.createElement("div");
+                        userEl.className = "lb-user";
+                        userEl.textContent = `${row.n}${isMe ? ' (Tu)' : ''}`;
+
+                        const scoreEl = document.createElement("div");
+                        scoreEl.className = "lb-score";
+                        scoreEl.textContent = `${row.s} XP`;
+
+                        div.append(rankEl, userEl, scoreEl);
+                        div.onclick = () => showPlayerStatsModal(row.n, row.s, fullUsersData);
+                        container.appendChild(div);
+                    });
+                } else {
+                    const currentTournamentGame = document.getElementById('weeklyTournamentGame')?.textContent?.trim() || "";
+
+                    Object.keys(window.globalRivals).forEach(game => {
+                        let structure = JSON.parse(JSON.stringify(window.globalRivals[game]));
+                        allUsersList.forEach(u => {
+                            if (!u.username || u.username === "Ospite") return;
+                            const wins = u.winsPerGame?.[game] || 0;
+                            const score = wins * 10;
+                            const idx = structure.findIndex(item => item.n.toLowerCase() === u.username.toLowerCase());
+                            if (idx !== -1) { if (score > structure[idx].s) structure[idx].s = score; }
+                            else if (score > 0) { structure.push({ n: u.username, s: score }); }
+                        });
+                        structure.sort((a, b) => b.s - a.s);
+
+                        const isTournamentGame = game.toLowerCase() === currentTournamentGame.toLowerCase();
+                        const section = document.createElement("div");
+                        section.style.cssText = isTournamentGame 
+                            ? "margin-bottom: 15px; padding: 10px; border-radius: 10px; border: 1px solid var(--neon-yellow); background: rgba(255, 183, 0, 0.08);" 
+                            : "margin-bottom: 15px; padding: 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08); background: rgba(0,0,0,0.3);";
+
+                        const header = document.createElement("h4");
+                        header.style.cssText = "font-size:0.85rem; color:var(--neon-cyan); margin:0 0 8px 0; text-transform:uppercase;";
+                        header.textContent = game;
+                        if (isTournamentGame) {
+                            const badge = document.createElement("span");
+                            badge.style.cssText = "font-size:0.7rem; color:var(--neon-yellow); font-family:var(--font-heading); margin-left:6px;";
+                            badge.textContent = "(⚔️ TORNEO)";
+                            header.appendChild(badge);
+                        }
+                        section.appendChild(header);
+                        
+                        structure.slice(0, 3).forEach((row, i) => {
+                            const isMe = userState.username && row.n.toLowerCase() === userState.username.toLowerCase();
+                            const medal = i === 0 ? "🥇" : i === 1 ? "🥈" : "🥉";
+                            const rowEl = document.createElement("div");
+                            rowEl.style.cssText = "display:flex; justify-content:space-between; align-items:center; font-size:0.8rem; padding:6px 4px; cursor:pointer; border-radius:4px; transition: background 0.2s;";
+                            rowEl.onmouseover = () => rowEl.style.background = "rgba(255,255,255,0.05)";
+                            rowEl.onmouseout = () => rowEl.style.background = "transparent";
+
+                            const leftSpan = document.createElement("span");
+                            leftSpan.textContent = `${medal} ${row.n}${isMe ? ' (Tu)' : ''}`;
+
+                            const rightSpan = document.createElement("span");
+                            rightSpan.style.cssText = "color:var(--neon-cyan); font-family:var(--font-heading);";
+                            rightSpan.textContent = `${row.s} pts`;
+
+                            rowEl.append(leftSpan, rightSpan);
+                            rowEl.onclick = () => showPlayerStatsModal(row.n, row.s, fullUsersData);
+                            section.appendChild(rowEl);
+                        });
+                        container.appendChild(section);
+                    });
                 }
             }
-        }
 
-        let absoluteWinner = "Nessuno", maxOverallScore = -1;
-        Object.keys(finalPlayers).forEach(name => {
-            if (finalPlayers[name] > maxOverallScore) { maxOverallScore = finalPlayers[name]; absoluteWinner = name; }
-        });
-        
-        document.getElementById("globalOverlordName").textContent = absoluteWinner.toUpperCase();
-        document.getElementById("globalOverlordScore").textContent = `${maxOverallScore} XP Totali`;
-
-        if (currentLbView === 'global') {
-            let sortedList = Object.keys(finalPlayers).map(name => ({ n: name, s: finalPlayers[name] })).sort((a, b) => b.s - a.s);
-            sortedList.forEach((row, i) => {
-                let isMe = userState.username && row.n.toLowerCase() === userState.username.toLowerCase();
-                let medal = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `#${i + 1}`;
-                let div = document.createElement("div");
-                div.className = `lb-row ${isMe ? 'me' : ''}`;
-                div.style.cursor = "pointer";
-                div.innerHTML = `<div class="lb-rank">${medal}</div><div class="lb-user">${row.n} ${isMe ? '(Tu)' : ''}</div><div class="lb-score">${row.s} XP</div>`;
-                
-                // Click per aprire le statistiche del giocatore
-                div.onclick = () => showPlayerStatsModal(row.n, row.s, fullUsersData);
-                container.appendChild(div);
-            });
-        } else {
-            const currentTournamentGame = document.getElementById('weeklyTournamentGame')?.textContent?.trim() || "";
-
-            Object.keys(window.globalRivals).forEach(game => {
-                let structure = JSON.parse(JSON.stringify(window.globalRivals[game]));
-                allUsersList.forEach(u => {
-                    if (!u.username || u.username === "Ospite") return;
-                    let wins = u.winsPerGame?.[game] || 0;
-                    let score = wins * 10;
-                    let idx = structure.findIndex(item => item.n.toLowerCase() === u.username.toLowerCase());
-                    if (idx !== -1) { if (score > structure[idx].s) structure[idx].s = score; }
-                    else if (score > 0) { structure.push({ n: u.username, s: score }); }
-                });
-                structure.sort((a, b) => b.s - a.s);
-
-                const isTournamentGame = game.toLowerCase() === currentTournamentGame.toLowerCase();
-                let section = document.createElement("div");
-                section.style = isTournamentGame 
-                    ? "margin-bottom: 15px; padding: 10px; border-radius: 10px; border: 1px solid var(--neon-cyan); background: rgba(0, 243, 255, 0.08);" 
-                    : "margin-bottom: 15px; padding: 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08); background: rgba(0,0,0,0.3);";
-
-                const badgeTorneo = isTournamentGame ? ' <span style="font-size:0.7rem; color:var(--neon-yellow); font-family:var(--font-heading);">(⚔️ TORNEO)</span>' : '';
-                section.innerHTML = `<h4 style="font-size:0.85rem; color:var(--neon-cyan); margin:0 0 8px 0; text-transform:uppercase;">${game}${badgeTorneo}</h4>`;
-                
-                structure.slice(0, 3).forEach((row, i) => {
-                    let isMe = userState.username && row.n.toLowerCase() === userState.username.toLowerCase();
-                    let medal = i === 0 ? "🥇" : i === 1 ? "🥈" : "🥉";
-                    let rowEl = document.createElement("div");
-                    rowEl.style = `display:flex; justify-content:space-between; align-items:center; font-size:0.8rem; padding:6px 4px; cursor:pointer; border-radius:4px; transition: background 0.2s;`;
-                    rowEl.onmouseover = () => rowEl.style.background = "rgba(255,255,255,0.05)";
-                    rowEl.onmouseout = () => rowEl.style.background = "transparent";
-                    rowEl.innerHTML = `<span>${medal} ${row.n} ${isMe ? '(Tu)' : ''}</span><span style="color:var(--neon-cyan); font-family:var(--font-heading);">${row.s} pts</span>`;
-                    rowEl.onclick = () => showPlayerStatsModal(row.n, row.s, fullUsersData);
-                    section.appendChild(rowEl);
-                });
-                container.appendChild(section);
-            });
-        }
-    }
-
-    if (isFirebaseActive && db) {
-        db.ref('users').once('value').then(snapshot => {
-            let fetched = {};
-            let fullUsers = {};
-            if (snapshot.exists()) {
-                snapshot.forEach(child => {
-                    let u = child.val();
-                    if (u.username && u.username !== "Ospite") {
-                        allUsersList.push(u);
-                        fetched[u.username] = u.xp || 0;
-                        fullUsers[u.username.toLowerCase()] = u;
+            if (isFirebaseActive && db) {
+                db.ref('users').once('value').then(snapshot => {
+                    const fetched = {};
+                    const fullUsers = {};
+                    if (snapshot.exists()) {
+                        snapshot.forEach(child => {
+                            const u = child.val();
+                            if (u.username && u.username !== "Ospite") {
+                                allUsersList.push(u);
+                                fetched[u.username] = u.xp || 0;
+                                fullUsers[u.username.toLowerCase()] = u;
+                            }
+                        });
+                    }
+                    render(fetched, fullUsers);
+                }).catch(() => render({}, {}));
+            } else {
+                const fetched = {};
+                const fullUsers = {};
+                const mockAccounts = JSON.parse(localStorage.getItem('mockAccounts')) || {};
+                Object.values(mockAccounts).forEach(acc => {
+                    if (acc.username && acc.username !== "Ospite") {
+                        allUsersList.push(acc);
+                        fetched[acc.username] = acc.xp || 0;
+                        fullUsers[acc.username.toLowerCase()] = acc;
                     }
                 });
+                render(fetched, fullUsers);
             }
-            render(fetched, fullUsers);
-        }).catch(() => render({}, {}));
-    } else {
-        let fetched = {};
-        let fullUsers = {};
-        const mockAccounts = JSON.parse(localStorage.getItem('mockAccounts')) || {};
-        Object.values(mockAccounts).forEach(acc => {
-            if (acc.username && acc.username !== "Ospite") {
-                allUsersList.push(acc);
-                fetched[acc.username] = acc.xp || 0;
-                fullUsers[acc.username.toLowerCase()] = acc;
+        };
+
+        function showPlayerStatsModal(username, xp, fullUsersData) {
+            const userData = fullUsersData[username.toLowerCase()] || { gamesPlayed: 0, winsPerGame: {}, avatar: '⚡' };
+            let totalWins = 0;
+            if (userData.winsPerGame) {
+                Object.values(userData.winsPerGame).forEach(w => totalWins += w);
             }
-        });
-        render(fetched, fullUsers);
-    }
-};
+            
+            let modal = document.getElementById('playerStatsModal');
+            if (!modal) {
+                modal = document.createElement('div');
+                modal.id = 'playerStatsModal';
+                modal.className = 'modal-overlay';
+                modal.style.zIndex = '10000';
+                modal.innerHTML = `
+                    <div class="modal-card" style="text-align: center; max-width: 400px;">
+                        <div class="modal-header">
+                            <h3>🔍 Dossier Giocatore</h3>
+                            <button class="modal-close" onclick="closeModal('playerStatsModal')">✕</button>
+                        </div>
+                        <div id="dossierAvatar" style="font-size: 3rem; margin: 0.5rem 0;"></div>
+                        <h2 id="dossierUsername" style="font-family: var(--font-heading); color: var(--neon-cyan); margin-bottom: 1rem;"></h2>
+                        <div class="stats-grid" style="grid-template-columns: repeat(2, 1fr); gap: 0.8rem; margin-bottom: 1.2rem;">
+                            <div class="stat-card"><div class="val" id="dossierXp">0</div><div class="lbl">XP Totali</div></div>
+                            <div class="stat-card"><div class="val" id="dossierGames">0</div><div class="lbl">Partite</div></div>
+                            <div class="stat-card"><div class="val" id="dossierWins">0</div><div class="lbl">Vittorie</div></div>
+                            <div class="stat-card"><div class="val" id="dossierLevel">1</div><div class="lbl">Livello</div></div>
+                        </div>
+                        <button class="hub-btn" style="width: 100%; color: var(--neon-cyan); border-color: var(--neon-cyan);" onclick="closeModal('playerStatsModal')">CHIUDI</button>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+            }
 
-// Funzione per mostrare la modale con le statistiche del giocatore cliccato
-function showPlayerStatsModal(username, xp, fullUsersData) {
-    let userData = fullUsersData[username.toLowerCase()] || { gamesPlayed: 0, winsPerGame: {}, avatar: '⚡' };
-    let totalWins = 0;
-    if (userData.winsPerGame) {
-        Object.values(userData.winsPerGame).forEach(w => totalWins += w);
-    }
-    
-    let modal = document.getElementById('playerStatsModal');
-    if (!modal) {
-        modal = document.createElement('div');
-        modal.id = 'playerStatsModal';
-        modal.className = 'modal-overlay';
-        modal.style.zIndex = '10000';
-        document.body.appendChild(modal);
-    }
-
-    modal.innerHTML = `
-        <div class="modal-card" style="text-align: center; max-width: 400px;">
-            <div class="modal-header">
-                <h3>🔍 Dossier Giocatore</h3>
-                <button class="modal-close" onclick="closeModal('playerStatsModal')">✕</button>
-            </div>
-            <div style="font-size: 3rem; margin: 0.5rem 0;">${userData.avatar || '⚡'}</div>
-            <h2 style="font-family: var(--font-heading); color: var(--neon-cyan); margin-bottom: 1rem;">${username}</h2>
-            <div class="stats-grid" style="grid-template-columns: repeat(2, 1fr); gap: 0.8rem; margin-bottom: 1.2rem;">
-                <div class="stat-card"><div class="val">${xp}</div><div class="lbl">XP Totali</div></div>
-                <div class="stat-card"><div class="val">${userData.gamesPlayed || 0}</div><div class="lbl">Partite</div></div>
-                <div class="stat-card"><div class="val">${totalWins}</div><div class="lbl">Vittorie</div></div>
-                <div class="stat-card"><div class="val">${Math.floor(xp/300)+1}</div><div class="lbl">Livello</div></div>
-            </div>
-            <button class="hub-btn" style="width: 100%; color: var(--neon-cyan); border-color: var(--neon-cyan);" onclick="closeModal('playerStatsModal')">CHIUDI</button>
-        </div>
-    `;
-    modal.style.display = 'flex';
-}
+            document.getElementById('dossierAvatar').textContent = userData.avatar || '⚡';
+            document.getElementById('dossierUsername').textContent = username;
+            document.getElementById('dossierXp').textContent = xp;
+            document.getElementById('dossierGames').textContent = userData.gamesPlayed || 0;
+            document.getElementById('dossierWins').textContent = totalWins;
+            document.getElementById('dossierLevel').textContent = Math.floor(xp / 300) + 1;
+            modal.style.display = 'flex';
+        }
 
         window.openLeaderboard = () => { 
             const todayKey = new Date().toDateString();
-            let dailyActivity = JSON.parse(localStorage.getItem('arcade_daily_activity')) || { date: todayKey, playedGames: [], wins: 0, checkedLb: false, testedLab: false };
+            const dailyKey = getScopedKey('arcade_daily_activity');
+            let dailyActivity = JSON.parse(localStorage.getItem(dailyKey)) || { date: todayKey, playedGames: [], wins: 0, checkedLb: false, testedLab: false };
             dailyActivity.checkedLb = true;
-            localStorage.setItem('arcade_daily_activity', JSON.stringify(dailyActivity));
+            localStorage.setItem(dailyKey, JSON.stringify(dailyActivity));
 
             buildLeaderboards();
             openModal('leaderboardModal'); 
@@ -3060,6 +3490,15 @@ function showPlayerStatsModal(username, xp, fullUsersData) {
             }
         }
 
+        function buildLaunchUrl(baseUrl) {
+            if (!baseUrl || baseUrl === '#') return '#';
+            const currentUid = (currentUser && currentUser.uid) ? currentUser.uid : localStorage.getItem('masterhub_logged_user') || 'guest';
+            let finalUrl = baseUrl;
+            const separator = finalUrl.includes('?') ? '&' : '?';
+            finalUrl += `${separator}player=${encodeURIComponent(userState.username || 'Ospite')}&userId=${encodeURIComponent(currentUid)}`;
+            return finalUrl;
+        }
+
         function openGamePreview(gameId) {
             const data = gameDataMap[gameId];
             if (!data) return;
@@ -3068,22 +3507,18 @@ function showPlayerStatsModal(username, xp, fullUsersData) {
             document.getElementById('prevControls').textContent = data.controls;
             
             const playBtn = document.getElementById('prevPlayBtn');
-            const currentUid = currentUser ? currentUser.uid : 'guest';
-            localStorage.setItem('masterhub_logged_user', currentUid);
-
-            let finalUrl = data.url;
-            if (userState.username && userState.username !== "Ospite") {
-                const separator = finalUrl.includes('?') ? '&' : '?';
-                finalUrl += `${separator}player=${encodeURIComponent(userState.username)}&userId=${encodeURIComponent(currentUid)}`;
-            }
-            playBtn.href = finalUrl;
+            const isExperimental = !data.url || data.url === '#';
+            playBtn.href = buildLaunchUrl(data.url);
+            playBtn.textContent = isExperimental ? 'AVVIA TEST' : 'AVVIA ORA';
             playBtn.onclick = (e) => registerPlay(e, gameId);
             openModal('previewModal');
         }
 
         function registerPlay(event, gameId) {
-            if (event) event.preventDefault();
-            event.stopPropagation();
+            if (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
             userState.gamesPlayed = (userState.gamesPlayed || 0) + 1;
             userState.achievements.firstPlay = true;
             if (gameId === 'neural-glitch') userState.achievements.labTester = true;
@@ -3092,34 +3527,31 @@ function showPlayerStatsModal(username, xp, fullUsersData) {
             userState.playsPerGame[titleName] = (userState.playsPerGame[titleName] || 0) + 1;
 
             const todayKey = new Date().toDateString();
-            let dailyActivity = JSON.parse(localStorage.getItem('arcade_daily_activity')) || { date: todayKey, playedGames: [], wins: 0, checkedLb: false, testedLab: false };
+            const dailyKey = getScopedKey('arcade_daily_activity');
+            let dailyActivity = JSON.parse(localStorage.getItem(dailyKey)) || { date: todayKey, playedGames: [], wins: 0, checkedLb: false, testedLab: false };
             if (!dailyActivity.playedGames.includes(gameId)) dailyActivity.playedGames.push(gameId);
             if (gameId === 'neural-glitch') dailyActivity.testedLab = true;
-            localStorage.setItem('arcade_daily_activity', JSON.stringify(dailyActivity));
+            localStorage.setItem(dailyKey, JSON.stringify(dailyActivity));
 
             saveState();
 
             const cardData = gameDataMap[gameId];
             if (cardData && cardData.url && cardData.url !== '#') {
-                const currentUid = currentUser ? currentUser.uid : 'guest';
-                let launchUrl = cardData.url;
-                if (userState.username && userState.username !== "Ospite") {
-                    const separator = launchUrl.includes('?') ? '&' : '?';
-                    launchUrl += `${separator}player=${encodeURIComponent(userState.username)}&userId=${encodeURIComponent(currentUid)}`;
-                }
-                window.open(launchUrl, '_blank');
+                window.open(buildLaunchUrl(cardData.url), '_blank', 'noopener');
             } else {
                 showToast("🧪 Test MasterLab completato! +XP Tester registrato.");
             }
         }
 
         window.addEventListener('message', (event) => {
-            const { gameKey, points, gameId, score } = event.data || {};
-            const finalPoints = points || score || 50;
-            const targetKey = gameKey || gameId;
-            if (!targetKey) return;
+            if (!ALLOWED_ORIGINS.has(event.origin)) return;
 
-            let gameNameMap = {
+            const { gameKey, points, gameId, score } = event.data || {};
+            const finalPoints = Number(points || score || 50);
+            const targetKey = gameKey || gameId;
+            if (!targetKey || finalPoints <= 0) return;
+
+            const gameNameMap = {
                 'non-fidarti': 'Non Fidarti', 'color-clash': 'Unos', 'master-uno': 'Unos',
                 'last-spark': 'Exploding Bomb', 'WORD-RUSH': 'Word Rush', 'master-murder': 'Impostore',
                 'master-verbum': 'Word Duel', 'master-sudoku': 'Sudoku', 'master-key': 'Free the Key',
@@ -3134,53 +3566,73 @@ function showPlayerStatsModal(username, xp, fullUsersData) {
             if (event.target.classList.contains('star')) {
                 const val = parseInt(event.target.getAttribute('data-value'));
                 if (!userState.ratings[gameId]) {
-                    userState.xp += 50;
+                    const voteBonus = applyLevelMultiplier(50);
+                    userState.xp += voteBonus;
+                    showToast(`⭐ Voto registrato! +${voteBonus} XP bonus.`);
+                } else {
+                    showToast(`⭐ Valutazione aggiornata a ${val}/5!`);
                 }
                 userState.ratings[gameId] = val;
                 userState.achievements.firstVote = true;
                 saveState();
-                showToast("⭐ Voto registrato! +50 XP bonus.");
             }
         }
 
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         
-       function closeModal(id) {
-    document.getElementById(id).style.display = 'none';
-    if (id === 'cyberNoticeModal') {
-        const activeTimestamp = sessionStorage.getItem('current_broadcast_timestamp');
-        if (activeTimestamp) {
-            if (currentUser && isFirebaseActive && db) {
-                // Registra su Firebase che l'utente ha letto/chiuso questo broadcast
-                db.ref('users/' + currentUser.uid + '/readBroadcasts/' + activeTimestamp).set(true);
-            } else {
-                // Registra in locale per gli ospiti
-                localStorage.setItem('last_seen_broadcast', activeTimestamp);
+        function closeModal(id) {
+            const el = document.getElementById(id);
+            if (el) el.style.display = 'none';
+            if (id === 'cyberNoticeModal') {
+                const activeTimestamp = sessionStorage.getItem('current_broadcast_timestamp');
+                if (activeTimestamp) {
+                    if (currentUser && isFirebaseActive && db) {
+                        db.ref('users/' + currentUser.uid + '/readBroadcasts/' + activeTimestamp).set(true);
+                    } else {
+                        localStorage.setItem('last_seen_broadcast', activeTimestamp);
+                    }
+                }
             }
         }
-    }
-}
+
+        let currentCategory = 'all';
+
+        function applyGameFilters() {
+            const input = (document.getElementById("gameSearch")?.value || '').toLowerCase().trim();
+            const allCards = document.querySelectorAll("#gameList .game-card, #labGameList .game-card");
+            let visibleCount = 0;
+
+            allCards.forEach(card => {
+                const text = (card.getAttribute("data-name") || card.textContent).toLowerCase();
+                const matchesSearch = !input || text.includes(input);
+
+                let matchesCategory = true;
+                if (currentCategory === 'multiplayer') {
+                    matchesCategory = card.getAttribute("data-multiplayer") === "true";
+                } else if (currentCategory !== 'all') {
+                    matchesCategory = card.getAttribute("data-category") === currentCategory;
+                }
+
+                const show = matchesSearch && matchesCategory;
+                card.style.display = show ? "flex" : "none";
+                if (show) visibleCount++;
+            });
+
+            const emptyMsg = document.getElementById("emptyFilterMsg");
+            if (emptyMsg) {
+                emptyMsg.style.display = visibleCount === 0 ? "block" : "none";
+            }
+        }
 
         function filterGames() {
-            const input = document.getElementById("gameSearch").value.toLowerCase();
-            document.querySelectorAll("#gameList .game-card").forEach(card => {
-                const text = card.getAttribute("data-name") || card.textContent.toLowerCase();
-                card.style.display = text.includes(input) ? "flex" : "none";
-            });
+            applyGameFilters();
         }
 
         function filterCategory(cat, btn) {
+            currentCategory = cat;
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             if (btn) btn.classList.add('active');
-            document.querySelectorAll("#gameList .game-card").forEach(card => {
-                if (cat === 'all') {
-                    card.style.display = "flex";
-                } else if (cat === 'multiplayer') {
-                    card.style.display = card.getAttribute("data-multiplayer") === "true" ? "flex" : "none";
-                } else {
-                    card.style.display = card.getAttribute("data-category") === cat ? "flex" : "none";
-                }
-            });
+            applyGameFilters();
         }
 
         function toggleChat() {
@@ -3253,6 +3705,16 @@ function showPlayerStatsModal(username, xp, fullUsersData) {
             setTimeout(() => { toast.classList.remove('show'); }, 3000);
         }
 
+        function appendChatMessage(text, sender = 'bot') {
+            const messages = document.getElementById('chatMessages');
+            if (!messages) return;
+            const div = document.createElement('div');
+            div.className = `msg ${sender}`;
+            div.textContent = text;
+            messages.appendChild(div);
+            messages.scrollTop = messages.scrollHeight;
+        }
+
         function handleChatKey(e) { if (e.key === 'Enter') sendChatMessage(); }
 
         function sendChatMessage() {
@@ -3260,10 +3722,8 @@ function showPlayerStatsModal(username, xp, fullUsersData) {
             const text = input.value.trim();
             if (!text) return;
 
-            const messages = document.getElementById('chatMessages');
-            messages.innerHTML += `<div class="msg user">${text}</div>`;
+            appendChatMessage(text, 'user');
             input.value = '';
-            messages.scrollTop = messages.scrollHeight;
 
             setTimeout(() => {
                 let reply = "Non ho capito la domanda. Chiedimi come guadagnare XP o seleziona l'opzione 'Segnala Bug' per contattare lo sviluppatore!";
@@ -3272,43 +3732,42 @@ function showPlayerStatsModal(username, xp, fullUsersData) {
                 if (lower.includes('progressi') || lower.includes('livello') || lower.includes('statistiche')) {
                     reply = `📊 Statistiche attuali: Livello ${Math.floor(userState.xp/300)+1} (${userState.xp} XP totali) e ${userState.gamesPlayed} partite giocate!`;
                 } else if (lower.includes('xp') || lower.includes('accumulo') || lower.includes('punti')) {
-                    reply = "⭐ Guadagni XP vincendo partite nei vari giochi, votando con le stelle ⭐, completando le sfide e acquistando booster dallo Shop!";
+                    reply = "⭐ Guadagni XP vincendo partite nei vari giochi, votando con le stelle ⭐, completando le sfide, partecipando al Torneo (+10k XP) e acquistando booster dallo Shop!";
                 } else if (lower.includes('consiglio') || lower.includes('gioco')) {
                     const games = ['Non Fidarti', 'Unos', 'Exploding Bomb', 'Word Rush', 'Impostore', 'Royal Chess', 'Sudoku', 'BlackJack', 'Free the Key'];
                     const picked = games[Math.floor(Math.random()*games.length)];
-                    reply = `🎲 Ti consiglio di provare subito **${picked}** e scalare la classifica!`;
+                    reply = `🎲 Ti consiglio di provare subito ${picked} e scalare la classifica!`;
                 } else if (lower.includes('ciao') || lower.includes('salve')) {
                     reply = `Ciao ${userState.username}! Sono il MasterBot Cyber AI. Come posso aiutarti oggi?`;
                 }
 
-                messages.innerHTML += `<div class="msg bot">${reply}</div>`;
-                messages.scrollTop = messages.scrollHeight;
+                appendChatMessage(reply, 'bot');
             }, 350);
         }
 
-      async function forzaRichiestaNotifiche() {
-    if (!('Notification' in window)) {
-        showCyberPopup("Non Supportato", "Il tuo browser non supporta le notifiche push.", "❌");
-        return;
-    }
-    try {
-        const permission = await Notification.requestPermission();
-        if (permission === 'granted') {
-            showCyberPopup("Notifiche Attive", "Permesso accordato con successo!", "🔔");
-            if (isFirebaseActive && currentUser && db) {
-                const messaging = firebase.messaging();
-                const token = await messaging.getToken({ vapidKey: 'BGMHpglDpMEF04QohnSyhLHXiDRGlyXcvafOjL2UePvQFfrCTELw4wGszUykipzMPFRKZEoZeMrYPRANKx2BF2k' }).catch(() => null);
-                if (token) {
-                    db.ref('users/' + currentUser.uid).update({ fcmToken: token });
-                }
+        async function forzaRichiestaNotifiche() {
+            if (!('Notification' in window)) {
+                showCyberPopup("Non Supportato", "Il tuo browser non supporta le notifiche push.", "❌");
+                return;
             }
-        } else {
-            showCyberPopup("Permesso Negato", "Hai rifiutato il permesso per le notifiche.", "⚠️");
+            try {
+                const permission = await Notification.requestPermission();
+                if (permission === 'granted') {
+                    showCyberPopup("Notifiche Attive", "Permesso accordato con successo!", "🔔");
+                    if (isFirebaseActive && currentUser && db) {
+                        const messaging = firebase.messaging();
+                        const token = await messaging.getToken({ vapidKey: 'BGMHpglDpMEF04QohnSyhLHXiDRGlyXcvafOjL2UePvQFfrCTELw4wGszUykipzMPFRKZEoZeMrYPRANKx2BF2k' }).catch(() => null);
+                        if (token) {
+                            db.ref('users/' + currentUser.uid).update({ fcmToken: token });
+                        }
+                    }
+                } else {
+                    showCyberPopup("Permesso Negato", "Hai rifiutato il permesso per le notifiche.", "⚠️");
+                }
+            } catch (e) {
+                showCyberPopup("Info Notifiche", "Le notifiche in-app sono attive e funzionanti nel portale.", "ℹ️");
+            }
         }
-    } catch (e) {
-        showCyberPopup("Info Notifiche", "Le notifiche in-app sono attive e funzionanti nel portale.", "ℹ️");
-    }
-}
     </script>
 </body>
 </html>
