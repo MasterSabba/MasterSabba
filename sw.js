@@ -3,8 +3,8 @@ self.addEventListener('push', function(event) {
 
     const options = {
         body: data.body || 'Nuova sfida disponibile!',
-        icon: 'Image/IMG_0199.jpg',
-        badge: 'Image/IMG_0199.jpg',
+        icon: 'Image/OriginalArcade.jpeg',
+        badge: 'Image/OriginalArcade.jpeg',
         silent: true,      // Disattiva il suono
         vibrate: [],       // Array vuoto per bloccare la vibrazione
         data: {
